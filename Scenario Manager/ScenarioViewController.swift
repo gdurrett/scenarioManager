@@ -184,11 +184,11 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
         //Make sure to draw from proper dataModel filter for our indexPath based on segment selection
         switch(scenarioFilterOutlet.selectedSegmentIndex) {
         case 0:
-            scenario = dataModel.availableScenarios[indexPath.row]
+            scenario = dataModel.allScenarios[indexPath.row]
         case 1:
             scenario = dataModel.completedScenarios[indexPath.row]
         case 2:
-            scenario = dataModel.allScenarios[indexPath.row]
+            scenario = dataModel.availableScenarios[indexPath.row]
         default:
             break
         }

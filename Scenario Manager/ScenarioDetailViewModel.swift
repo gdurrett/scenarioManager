@@ -31,10 +31,12 @@ class ScenarioDetailViewModel: NSObject {
     var items = [ScenarioDetailViewModelItem]()
     var dataModel = DataModel.sharedInstance
     var unlocks = [ScenarioNumberAndTitle]()
+    //var unlockLabel = String()
     var unlockedBys = [ScenarioNumberAndTitle]()
     var requirements = [SeparatedStrings]()
     var requirementLabel = String()
     var orPresent = false
+    var oneofPresent = false
     var rewards = [SeparatedStrings]()
     var achieves = [SeparatedStrings]()
     var cellBGColor = UIColor()
@@ -58,9 +60,13 @@ class ScenarioDetailViewModel: NSObject {
             items.append(titleItem)
             // Create array of ScenarioNumberAndTitle objects to store unlock info as objects
             for unlock in scenario.unlocks {
+                if unlock == "ONEOF" {
+                    oneofPresent = true
+                    continue
+                }
                 unlocks.append(ScenarioNumberAndTitle(number: unlock))
             }
-            let unlocksItem = ScenarioDetailViewModelUnlocksInfoItem(unlocks: unlocks)
+            let unlocksItem = ScenarioDetailViewModelUnlocksInfoItem(unlocks: unlocks, oneofPresent: oneofPresent)
             items.append(unlocksItem)
             
             for unlockedBy in scenario.unlockedBy {
@@ -208,7 +214,11 @@ class ScenarioDetailViewModelUnlocksInfoItem: ScenarioDetailViewModelItem {
     }
     
     var sectionTitle: String {
-        return "Unlocks"
+        if oneofPresent {
+            return "Unlocks one of"
+        } else {
+            return "Unlocks"
+        }
     }
     
     var rowCount: Int {
@@ -216,9 +226,11 @@ class ScenarioDetailViewModelUnlocksInfoItem: ScenarioDetailViewModelItem {
     }
     
     var unlocks: [ScenarioNumberAndTitle]
-    
-    init(unlocks: [ScenarioNumberAndTitle]) {
+    var oneofPresent: Bool
+
+    init(unlocks: [ScenarioNumberAndTitle], oneofPresent: Bool) {
         self.unlocks = unlocks
+        self.oneofPresent = oneofPresent
     }
 }
 
