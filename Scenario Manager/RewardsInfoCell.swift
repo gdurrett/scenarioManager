@@ -1,24 +1,24 @@
 //
-//  UnlocksInfoCell.swift
+//  RewardsInfoCell.swift
 //  Scenario Manager
 //
-//  Created by Greg Durrett on 7/26/17.
+//  Created by Greg Durrett on 7/30/17.
 //  Copyright © 2017 AppHazard Productions. All rights reserved.
 //
 
 import UIKit
 
-class UnlocksInfoCell: UITableViewCell {
-
-    @IBOutlet weak var unlocksInfoLabel: UILabel?
+class RewardsInfoCell: UITableViewCell {
     
-    var item: ScenarioNumberAndTitle? {
+    @IBOutlet weak var rewardsInfoLabel: UILabel!
+    
+    var item: SeparatedStrings? {
         didSet {
             guard let item = item else {
                 return
             }
             
-            unlocksInfoLabel?.text = "\(item.number!) - \(item.title!)"
+            rewardsInfoLabel?.text = "\(item.rowString!)"
         }
     }
     
@@ -29,7 +29,6 @@ class UnlocksInfoCell: UITableViewCell {
     static var identifier: String {
         return String(describing: self)
     }
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

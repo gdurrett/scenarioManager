@@ -21,8 +21,8 @@ class DataModel {
     var myAchieves = [String]()
     var or = false
     var unlocksLabel = String()
-    
     var selectedScenario: Scenario?
+
     
     let defaultUnlocks = [ "13" : ["ONEOF", "15", "17", "20"] ]
     
@@ -440,5 +440,33 @@ class DataModel {
         return false
     }
     
+}
 
+class ScenarioNumberAndTitle {
+    
+    var number: String?
+    var title: String?
+    
+    func returnTitle (number: String) -> String {
+        // Need to address "None" case (e.g. first scenario has no unlocker)
+        if let title = DataModel.sharedInstance.getScenario(scenarioNumber: number)?.title {
+            return title
+        } else {
+            title = "None"
+            return title!
+        }
+    }
+    init(number: String) {
+        self.number = number
+        self.title = returnTitle(number: number)
+    }
+}
+
+class SeparatedStrings {
+    
+    var rowString: String?
+    
+    init(rowString: String) {
+        self.rowString = rowString
+    }
 }

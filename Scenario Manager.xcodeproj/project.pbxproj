@@ -14,6 +14,10 @@
 		FB23B6F41F044CFC00CAA684 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB23B6F21F044CFC00CAA684 /* LaunchScreen.storyboard */; };
 		FB23B6FC1F04C40D00CAA684 /* Scenario.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB23B6FB1F04C40D00CAA684 /* Scenario.swift */; };
 		FB23B7021F0AB5ED00CAA684 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB23B7011F0AB5EC00CAA684 /* DataModel.swift */; };
+		FB4665851F2E5C0700CAA684 /* RewardsInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB4665841F2E5C0700CAA684 /* RewardsInfoCell.swift */; };
+		FB4665871F2E5C5900CAA684 /* RewardsInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB4665861F2E5C5900CAA684 /* RewardsInfoCell.xib */; };
+		FB4665891F2E667F00CAA684 /* RequirementsInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB4665881F2E667F00CAA684 /* RequirementsInfoCell.swift */; };
+		FB46658B1F2E66C000CAA684 /* RequirementsInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB46658A1F2E66C000CAA684 /* RequirementsInfoCell.xib */; };
 		FB482D991F27C51C00CAA684 /* ScenarioDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB482D981F27C51C00CAA684 /* ScenarioDetailViewController.swift */; };
 		FB482D9B1F27DBA400CAA684 /* ScenarioDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB482D9A1F27DBA400CAA684 /* ScenarioDetailViewModel.swift */; };
 		FB482D9D1F2934BA00CAA684 /* ScenarioTitleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB482D9C1F2934B900CAA684 /* ScenarioTitleCell.xib */; };
@@ -37,6 +41,10 @@
 		FB23B6F51F044CFC00CAA684 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FB23B6FB1F04C40D00CAA684 /* Scenario.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scenario.swift; sourceTree = "<group>"; };
 		FB23B7011F0AB5EC00CAA684 /* DataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
+		FB4665841F2E5C0700CAA684 /* RewardsInfoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RewardsInfoCell.swift; sourceTree = "<group>"; };
+		FB4665861F2E5C5900CAA684 /* RewardsInfoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RewardsInfoCell.xib; sourceTree = "<group>"; };
+		FB4665881F2E667F00CAA684 /* RequirementsInfoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequirementsInfoCell.swift; sourceTree = "<group>"; };
+		FB46658A1F2E66C000CAA684 /* RequirementsInfoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RequirementsInfoCell.xib; sourceTree = "<group>"; };
 		FB482D981F27C51C00CAA684 /* ScenarioDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScenarioDetailViewController.swift; sourceTree = "<group>"; };
 		FB482D9A1F27DBA400CAA684 /* ScenarioDetailViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScenarioDetailViewModel.swift; sourceTree = "<group>"; };
 		FB482D9C1F2934B900CAA684 /* ScenarioTitleCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScenarioTitleCell.xib; sourceTree = "<group>"; };
@@ -107,6 +115,10 @@
 				FB482DA71F293B2300CAA684 /* UnlockedByInfoCell.swift */,
 				FB482DA91F293C6600CAA684 /* AchievesInfoCell.xib */,
 				FB482DAB1F293C9500CAA684 /* AchievesInfoCell.swift */,
+				FB4665841F2E5C0700CAA684 /* RewardsInfoCell.swift */,
+				FB4665861F2E5C5900CAA684 /* RewardsInfoCell.xib */,
+				FB4665881F2E667F00CAA684 /* RequirementsInfoCell.swift */,
+				FB46658A1F2E66C000CAA684 /* RequirementsInfoCell.xib */,
 			);
 			name = "TableView Cells";
 			sourceTree = "<group>";
@@ -171,10 +183,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FB4665871F2E5C5900CAA684 /* RewardsInfoCell.xib in Resources */,
 				FB482D9D1F2934BA00CAA684 /* ScenarioTitleCell.xib in Resources */,
 				FB482DA11F2937B200CAA684 /* UnlocksInfoCell.xib in Resources */,
 				FB23B6F41F044CFC00CAA684 /* LaunchScreen.storyboard in Resources */,
 				FB482DAA1F293C6600CAA684 /* AchievesInfoCell.xib in Resources */,
+				FB46658B1F2E66C000CAA684 /* RequirementsInfoCell.xib in Resources */,
 				FB23B6F11F044CFC00CAA684 /* Assets.xcassets in Resources */,
 				FB23B6EF1F044CFC00CAA684 /* Main.storyboard in Resources */,
 				FB482DA61F293ABA00CAA684 /* UnlockedByInfoCell.xib in Resources */,
@@ -189,6 +203,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FB482DA41F29385B00CAA684 /* UnlocksInfoCell.swift in Sources */,
+				FB4665891F2E667F00CAA684 /* RequirementsInfoCell.swift in Sources */,
 				FB482D9F1F29359000CAA684 /* ScenarioTitleCell.swift in Sources */,
 				FB23B6FC1F04C40D00CAA684 /* Scenario.swift in Sources */,
 				FB7521A41F207A2F00CAA684 /* ScenarioPickerViewController.swift in Sources */,
@@ -196,6 +211,7 @@
 				FB23B6EC1F044CFC00CAA684 /* ScenarioViewController.swift in Sources */,
 				FB482D991F27C51C00CAA684 /* ScenarioDetailViewController.swift in Sources */,
 				FB482DAC1F293C9500CAA684 /* AchievesInfoCell.swift in Sources */,
+				FB4665851F2E5C0700CAA684 /* RewardsInfoCell.swift in Sources */,
 				FB23B6EA1F044CFC00CAA684 /* AppDelegate.swift in Sources */,
 				FB23B7021F0AB5ED00CAA684 /* DataModel.swift in Sources */,
 				FB482DA81F293B2300CAA684 /* UnlockedByInfoCell.swift in Sources */,

@@ -12,13 +12,13 @@ class AchievesInfoCell: UITableViewCell {
 
     @IBOutlet weak var achievesInfoLabel: UILabel?
     
-    var item: ScenarioDetailViewModelItem? {
+    var item: SeparatedStrings? {
         didSet {
-            guard let item = item as? ScenarioDetailViewModelAchievesInfoItem else {
+            guard let item = item else {
                 return
             }
             
-            achievesInfoLabel?.text = item.achieves.minimalDescription
+            achievesInfoLabel?.text = "\(item.rowString!)"
         }
     }
     

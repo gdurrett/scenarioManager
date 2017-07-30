@@ -13,6 +13,8 @@ enum ScenarioDetailViewModelItemType {
     case scenarioTitle
     case unlocksInfo
     case unlockedByInfo
+    case requirementsInfo
+    case rewardsInfo
     case achievesInfo
     //case scenarioSummary
 }
@@ -27,20 +29,78 @@ class ScenarioDetailViewModel: NSObject {
     
     var scenario: Scenario!
     var items = [ScenarioDetailViewModelItem]()
-
     var dataModel = DataModel.sharedInstance
+    var unlocks = [ScenarioNumberAndTitle]()
+    var unlockedBys = [ScenarioNumberAndTitle]()
+    var requirements = [SeparatedStrings]()
+    var requirementLabel = String()
+    var orPresent = false
+    var rewards = [SeparatedStrings]()
+    var achieves = [SeparatedStrings]()
+    var cellBGColor = UIColor()
+    
+    let completedBGColor = UIColor(hue: 9/360, saturation: 59/100, brightness: 100/100, alpha: 1.0)
+    let availableBGColor = UIColor(hue: 48/360, saturation: 100/100, brightness: 100/100, alpha: 1.0)
+    let unavailableBGColor = UIColor(hue: 99/360, saturation: 2/100, brightness: 75/100, alpha: 1.0)
     
     override init() {
         super.init()
         
         if let scenario = dataModel.selectedScenario {
+            if scenario.completed {
+                cellBGColor = completedBGColor
+            } else if scenario.isUnlocked && scenario.requirementsMet {
+                cellBGColor = availableBGColor
+            } else {
+                cellBGColor = unavailableBGColor
+            }
             let titleItem = ScenarioDetailViewModelScenarioTitleItem(title: scenario.title)
             items.append(titleItem)
-            let unlocksItem = ScenarioDetailViewModelUnlocksInfoItem(unlocks: scenario.unlocks)
+            // Create array of ScenarioNumberAndTitle objects to store unlock info as objects
+            for unlock in scenario.unlocks {
+                unlocks.append(ScenarioNumberAndTitle(number: unlock))
+            }
+            let unlocksItem = ScenarioDetailViewModelUnlocksInfoItem(unlocks: unlocks)
             items.append(unlocksItem)
-            let unlockedByItem = ScenarioDetailViewModelUnlockedByInfoItem(unlockedBys: scenario.unlockedBy)
+            
+            for unlockedBy in scenario.unlockedBy {
+                unlockedBys.append(ScenarioNumberAndTitle(number: unlockedBy))
+            }
+            let unlockedByItem = ScenarioDetailViewModelUnlockedByInfoItem(unlockedBys: unlockedBys)
             items.append(unlockedByItem)
-            let achievesItem = ScenarioDetailViewModelAchievesInfoItem(achieves: scenario.achieves)
+            
+            for requirement in scenario.requirements {
+                
+                if requirement.key == "OR" {
+                    orPresent = true
+                    continue
+                }
+                if requirement.key != "None" && requirement.value == true {
+                    requirementLabel = "COMPLETE"
+                } else if requirement.key != "None" && requirement.value == false {
+                    requirementLabel = "INCOMPLETE"
+                } else {
+                    requirementLabel = ""
+                }
+                if requirement.key != "None" {
+                    requirements.append(SeparatedStrings(rowString:"\(requirement.key)" + ": " + "\(requirementLabel)"))
+                } else {
+                    requirements.append(SeparatedStrings(rowString:requirement.key))
+                }
+            }
+            let requirementsItem = ScenarioDetailViewModelRequirementsInfoItem(requirements: requirements, orPresent: orPresent)
+            items.append(requirementsItem)
+            
+            for reward in scenario.rewards {
+                rewards.append(SeparatedStrings(rowString:reward))
+            }
+            let rewardsItem = ScenarioDetailViewModelRewardsInfoItem(rewards: rewards)
+            items.append(rewardsItem)
+            
+            for achieve in scenario.achieves {
+                achieves.append(SeparatedStrings(rowString:achieve))
+            }
+            let achievesItem = ScenarioDetailViewModelAchievesInfoItem(achieves: achieves)
             items.append(achievesItem)
         }
     }
@@ -67,22 +127,44 @@ extension ScenarioDetailViewModel: UITableViewDataSource {
         switch item.type {
         case .scenarioTitle:
             if let cell = tableView.dequeueReusableCell(withIdentifier: ScenarioTitleCell.identifier, for: indexPath) as? ScenarioTitleCell {
+                cell.backgroundColor = cellBGColor
                 cell.item = item
                 return cell
             }
         case .unlocksInfo:
-            if let cell = tableView.dequeueReusableCell(withIdentifier: UnlocksInfoCell.identifier, for: indexPath) as? UnlocksInfoCell {
-                cell.item = item
+            if let item = item as? ScenarioDetailViewModelUnlocksInfoItem, let cell = tableView.dequeueReusableCell(withIdentifier: UnlocksInfoCell.identifier, for: indexPath) as? UnlocksInfoCell {
+                cell.backgroundColor = cellBGColor
+                let unlock = item.unlocks[indexPath.row]
+                cell.item = unlock
                 return cell
             }
         case .unlockedByInfo:
-            if let cell = tableView.dequeueReusableCell(withIdentifier: UnlockedByInfoCell.identifier, for: indexPath) as? UnlockedByInfoCell {
-                cell.item = item
+            if let item = item as? ScenarioDetailViewModelUnlockedByInfoItem, let cell = tableView.dequeueReusableCell(withIdentifier: UnlockedByInfoCell.identifier, for: indexPath) as? UnlockedByInfoCell {
+                cell.backgroundColor = cellBGColor
+                let unlockedBy = item.unlockedBys[indexPath.row]
+                cell.item = unlockedBy
+                return cell
+            }
+        case .requirementsInfo:
+            if let item = item as? ScenarioDetailViewModelRequirementsInfoItem, let cell = tableView.dequeueReusableCell(withIdentifier: RequirementsInfoCell.identifier, for: indexPath) as? RequirementsInfoCell {
+                cell.backgroundColor = cellBGColor
+                let requirement = item.requirements[indexPath.row]
+                cell.item = requirement
+                return cell
+            }
+        case .rewardsInfo:
+            if let item = item as? ScenarioDetailViewModelRewardsInfoItem, let cell = tableView.dequeueReusableCell(withIdentifier: RewardsInfoCell.identifier, for: indexPath) as? RewardsInfoCell {
+                cell.backgroundColor = cellBGColor
+                let reward = item.rewards[indexPath.row]
+                cell.item = reward
                 return cell
             }
         case .achievesInfo:
-            if let cell = tableView.dequeueReusableCell(withIdentifier: AchievesInfoCell.identifier, for: indexPath) as? AchievesInfoCell {
-                cell.item = item
+            if let item = item as? ScenarioDetailViewModelAchievesInfoItem,
+            let cell = tableView.dequeueReusableCell(withIdentifier: AchievesInfoCell.identifier, for: indexPath) as? AchievesInfoCell {
+                cell.backgroundColor = cellBGColor
+                let achieve = item.achieves[indexPath.row]
+                cell.item = achieve
                 return cell
             }
 //        case .scenarioSummary:
@@ -105,7 +187,7 @@ class ScenarioDetailViewModelScenarioTitleItem: ScenarioDetailViewModelItem {
     }
     
     var sectionTitle: String {
-        return "Scenario Info"
+        return "Scenario Title"
     }
     
     var rowCount: Int {
@@ -133,9 +215,9 @@ class ScenarioDetailViewModelUnlocksInfoItem: ScenarioDetailViewModelItem {
         return unlocks.count
     }
     
-    var unlocks: [String]
+    var unlocks: [ScenarioNumberAndTitle]
     
-    init(unlocks: [String]) {
+    init(unlocks: [ScenarioNumberAndTitle]) {
         self.unlocks = unlocks
     }
 }
@@ -154,10 +236,58 @@ class ScenarioDetailViewModelUnlockedByInfoItem: ScenarioDetailViewModelItem {
         return unlockedBys.count
     }
     
-    var unlockedBys: [String]
+    var unlockedBys: [ScenarioNumberAndTitle]
     
-    init(unlockedBys: [String]) {
+    init(unlockedBys: [ScenarioNumberAndTitle]) {
         self.unlockedBys = unlockedBys
+    }
+}
+
+class ScenarioDetailViewModelRequirementsInfoItem: ScenarioDetailViewModelItem {
+    
+    var type: ScenarioDetailViewModelItemType {
+        return .requirementsInfo
+    }
+    
+    var sectionTitle: String {
+        if orPresent {
+            return "Requirements (one of)"
+        } else {
+            return "Requirements"
+        }
+    }
+    
+    var rowCount: Int {
+        return requirements.count
+    }
+    
+    var requirements: [SeparatedStrings]
+    var orPresent: Bool
+    
+    init(requirements: [SeparatedStrings], orPresent: Bool) {
+        self.requirements = requirements
+        self.orPresent = orPresent
+    }
+}
+
+class ScenarioDetailViewModelRewardsInfoItem: ScenarioDetailViewModelItem {
+    
+    var type: ScenarioDetailViewModelItemType {
+        return .rewardsInfo
+    }
+    
+    var sectionTitle: String {
+        return "Rewards"
+    }
+    
+    var rowCount: Int {
+        return rewards.count
+    }
+    
+    var rewards: [SeparatedStrings]
+    
+    init(rewards: [SeparatedStrings]) {
+        self.rewards = rewards
     }
 }
 
@@ -175,9 +305,9 @@ class ScenarioDetailViewModelAchievesInfoItem: ScenarioDetailViewModelItem {
         return achieves.count
     }
     
-    var achieves: [String]
+    var achieves: [SeparatedStrings]
     
-    init(achieves: [String]) {
+    init(achieves: [SeparatedStrings]) {
         self.achieves = achieves
     }
 }

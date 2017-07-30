@@ -12,12 +12,12 @@ class UnlockedByInfoCell: UITableViewCell {
 
     @IBOutlet weak var unlockedByInfoLabel: UILabel?
     
-    var item: ScenarioDetailViewModelItem? {
+    var item: ScenarioNumberAndTitle? {
         didSet {
-            guard let item = item as? ScenarioDetailViewModelUnlockedByInfoItem else {
+            guard let item = item else {
                 return
             }
-            unlockedByInfoLabel?.text = item.unlockedBys.minimalDescription
+            unlockedByInfoLabel?.text = "\(item.number!) - \(item.title!)"
         }
     }
     

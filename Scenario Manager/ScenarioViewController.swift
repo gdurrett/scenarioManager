@@ -39,8 +39,9 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
     var pickerData = [String]()
     var chosenScenario: Scenario?
     var scenario: Scenario!
-    
-    //let selectedScenario = "Umpqua"
+    let completedBGColor = UIColor(hue: 9/360, saturation: 59/100, brightness: 100/100, alpha: 1.0)
+    let availableBGColor = UIColor(hue: 48/360, saturation: 100/100, brightness: 100/100, alpha: 1.0)
+    let unavailableBGColor = UIColor(hue: 99/360, saturation: 2/100, brightness: 75/100, alpha: 1.0)
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         var returnValue = 0
@@ -79,14 +80,15 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
         return cell
         
     }
-    override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-        let scenario = dataModel.allScenarios[indexPath.row]
-        if (scenario.isUnlocked && scenario.requirementsMet) || scenario.completed {
-            return indexPath
-        } else {
-            return nil
-        }
-    }
+// May use in the future to disallow row selection!
+//    override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+//        let scenario = dataModel.allScenarios[indexPath.row]
+//        if (scenario.isUnlocked && scenario.requirementsMet) || scenario.completed {
+//            return indexPath
+//        } else {
+//            return nil
+//        }
+//    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -166,6 +168,7 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
     // Prepare for segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ShowScenarioDetail" {
+            //let destinationVC = segue.destination as! UITableViewController
             
         } else if segue.identifier == "ShowScenarioPicker" {
             let navigationController = segue.destination as! UINavigationController
@@ -209,12 +212,12 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
         label.text = "\(scenario.number)) " + scenario.title
     }
     func configureBGColor(for cell: UITableViewCell, with scenario: Scenario) -> UIColor {
-        if scenario.completed {
-            return UIColor.green.withAlphaComponent(0.2)
-        } else if scenario.isUnlocked && scenario.requirementsMet {
-            return UIColor.red.withAlphaComponent(0.2)
-        } else {
-            return UIColor.gray.withAlphaComponent(0.2)
+        if scenario.completed { // If completed, set color to salmon
+            return completedBGColor
+        } else if scenario.isUnlocked && scenario.requirementsMet { // If available, set color to bright yellow
+            return availableBGColor
+        } else { // If unavailable, set color to gray
+            return unavailableBGColor
         }
     }
     func configureUnlockText(for cell: UITableViewCell, with unlocks: [String]) {
