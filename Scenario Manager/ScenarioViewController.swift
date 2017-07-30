@@ -11,7 +11,7 @@ import UIKit
 // Test out an extension
 extension Sequence {
     var minimalDescription: String {
-        return map { "\($0)" }.joined(separator: " ")
+        return map { "\($0)" }.joined(separator: ", ")
     }
 }
 
@@ -47,11 +47,11 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
         var returnValue = 0
         switch(scenarioFilterOutlet.selectedSegmentIndex) {
         case 0:
-            returnValue = dataModel.availableScenarios.count
+            returnValue = dataModel.allScenarios.count
         case 1:
             returnValue = dataModel.completedScenarios.count
         case 2:
-            returnValue = dataModel.allScenarios.count
+            returnValue = dataModel.availableScenarios.count
         default:
             break
         }
@@ -63,18 +63,17 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
         
         switch(scenarioFilterOutlet.selectedSegmentIndex) {
         case 0:
-            scenario = dataModel.availableScenarios[indexPath.row]
+            scenario = dataModel.allScenarios[indexPath.row]
         case 1:
             scenario = dataModel.completedScenarios[indexPath.row]
         case 2:
-            scenario = dataModel.allScenarios[indexPath.row]
+            scenario = dataModel.availableScenarios[indexPath.row]
         default:
             break
         }
         configureTitle(for: cell, with: scenario)
         cell.backgroundColor = configureBGColor(for: cell, with: scenario)
-        configureUnlockText(for: cell, with: dataModel.getUnlocks(for: scenario))
-        configureUnlockedByText(for: cell, with: dataModel.getUnlockedBys(for: scenario))
+        configureRewardText(for: cell, with: scenario.rewards)
         configureAchievesText(for: cell, with: dataModel.getAchieves(for: scenario))
         
         return cell
@@ -106,11 +105,11 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
         
         switch(scenarioFilterOutlet.selectedSegmentIndex) {
         case 0:
-            scenario = dataModel.availableScenarios[editActionsForRowAt.row]
+            scenario = dataModel.allScenarios[editActionsForRowAt.row]
         case 1:
             scenario = dataModel.completedScenarios[editActionsForRowAt.row]
         case 2:
-            scenario = dataModel.allScenarios[editActionsForRowAt.row]
+            scenario = dataModel.availableScenarios[editActionsForRowAt.row]
         default:
             break
         }
@@ -220,10 +219,10 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
             return unavailableBGColor
         }
     }
-    func configureUnlockText(for cell: UITableViewCell, with unlocks: [String]) {
+    func configureRewardText(for cell: UITableViewCell, with rewards: [String]) {
         let label = cell.viewWithTag(1100) as! UILabel
         // Use extension to Sequence as defined before this class declaration
-            label.text = ("Unlocks: \(unlocks.minimalDescription)")
+            label.text = ("Rewards: \(rewards.minimalDescription)")
     }
     func configureUnlockedByText(for cell: UITableViewCell, with unlockedBys: [String]) {
         let label = cell.viewWithTag(1500) as! UILabel

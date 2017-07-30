@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="n7o-oj-l1s">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="n7o-oj-l1s">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -22,9 +22,9 @@
                             <rect key="frame" x="0.0" y="0.0" width="320" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>
-                                <segment title="Available"/>
-                                <segment title="Completed"/>
                                 <segment title="All"/>
+                                <segment title="Completed"/>
+                                <segment title="Available"/>
                             </segments>
                             <color key="tintColor" name="textColor" catalog="System" colorSpace="catalog"/>
                             <connections>
@@ -36,22 +36,16 @@
                                 <rect key="frame" x="0.0" y="58" width="320" height="100"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="t1s-S5-1Df" id="35i-Pn-zZX">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="99.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="100"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" tag="1200" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Achieves" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sGd-mP-sMU">
-                                            <rect key="frame" x="8" y="81" width="304" height="14"/>
-                                            <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" tag="1100" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Unlocks" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0hn-ML-Guq">
+                                        <label opaque="NO" userInteractionEnabled="NO" tag="1100" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rewards" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0hn-ML-Guq">
                                             <rect key="frame" x="8" y="49" width="304" height="15"/>
                                             <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" tag="1500" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Unlocked By" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="By0-ir-1P3">
+                                        <label opaque="NO" userInteractionEnabled="NO" tag="1200" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Achievements" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="By0-ir-1P3">
                                             <rect key="frame" x="8" y="65" width="304" height="15"/>
                                             <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                                             <nil key="textColor"/>
@@ -65,19 +59,15 @@
                                         </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="bottomMargin" secondItem="sGd-mP-sMU" secondAttribute="bottom" constant="-3" id="2DR-KA-17I"/>
+                                        <constraint firstItem="By0-ir-1P3" firstAttribute="leading" secondItem="0hn-ML-Guq" secondAttribute="leading" id="4Ye-7g-W4b"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="By0-ir-1P3" secondAttribute="bottom" constant="11.5" id="7KN-IW-PNF"/>
+                                        <constraint firstAttribute="leadingMargin" secondItem="0hn-ML-Guq" secondAttribute="leading" id="7hM-Bp-veP"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="7xM-Zh-2KA" secondAttribute="trailing" id="8PM-tR-ys2"/>
-                                        <constraint firstAttribute="trailingMargin" secondItem="sGd-mP-sMU" secondAttribute="trailing" id="9sv-h8-OC5"/>
-                                        <constraint firstAttribute="leadingMargin" secondItem="0hn-ML-Guq" secondAttribute="leading" id="Cb4-yq-DkL"/>
                                         <constraint firstItem="7xM-Zh-2KA" firstAttribute="top" secondItem="35i-Pn-zZX" secondAttribute="topMargin" constant="3" id="Dd9-QP-MnZ"/>
-                                        <constraint firstItem="0hn-ML-Guq" firstAttribute="top" secondItem="7xM-Zh-2KA" secondAttribute="bottom" constant="8" id="O3i-oM-biP"/>
-                                        <constraint firstAttribute="trailingMargin" secondItem="By0-ir-1P3" secondAttribute="trailing" id="SDb-Fm-HgT"/>
-                                        <constraint firstAttribute="trailingMargin" secondItem="0hn-ML-Guq" secondAttribute="trailing" id="Vpj-BS-JnL"/>
-                                        <constraint firstItem="By0-ir-1P3" firstAttribute="top" secondItem="0hn-ML-Guq" secondAttribute="bottom" constant="1" id="aUu-Yu-37I"/>
-                                        <constraint firstItem="sGd-mP-sMU" firstAttribute="top" secondItem="By0-ir-1P3" secondAttribute="bottom" constant="1" id="dU4-Zn-Zet"/>
-                                        <constraint firstAttribute="leadingMargin" secondItem="sGd-mP-sMU" secondAttribute="leading" id="jdk-Ru-YKx"/>
-                                        <constraint firstAttribute="leadingMargin" secondItem="By0-ir-1P3" secondAttribute="leading" id="lc6-Jb-tvh"/>
-                                        <constraint firstItem="sGd-mP-sMU" firstAttribute="top" secondItem="By0-ir-1P3" secondAttribute="bottom" constant="1" id="qCy-FH-xyR"/>
+                                        <constraint firstItem="0hn-ML-Guq" firstAttribute="top" secondItem="7xM-Zh-2KA" secondAttribute="bottom" constant="8" id="GL4-os-bFR"/>
+                                        <constraint firstItem="By0-ir-1P3" firstAttribute="top" secondItem="0hn-ML-Guq" secondAttribute="bottom" constant="1" id="gLY-KX-wEX"/>
+                                        <constraint firstItem="By0-ir-1P3" firstAttribute="trailing" secondItem="0hn-ML-Guq" secondAttribute="trailing" id="gmJ-wT-H5c"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="0hn-ML-Guq" secondAttribute="trailing" id="p3J-fF-fbw"/>
                                         <constraint firstAttribute="leadingMargin" secondItem="7xM-Zh-2KA" secondAttribute="leading" id="z5V-dh-6dY"/>
                                     </constraints>
                                 </tableViewCellContentView>

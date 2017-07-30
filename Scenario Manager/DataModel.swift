@@ -355,6 +355,7 @@ class DataModel {
             }
             for scen in scenario.unlocks {
                 if scen != "ONEOF" {
+                    print("Locking \(scenario.title)")
                     getScenario(scenarioNumber: scen)?.isUnlocked = false
                 }
             }
