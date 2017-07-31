@@ -65,9 +65,10 @@ class ScenarioDetailViewModel: NSObject {
             for unlockedBy in scenario.unlockedBy {
                 unlockedBys.append(ScenarioNumberAndTitle(number: unlockedBy))
             }
-            let unlockedByItem = ScenarioDetailViewModelUnlockedByInfoItem(unlockedBys: unlockedBys)
-            items.append(unlockedByItem)
-
+            if !scenario.unlockedBy.contains("None") {
+                let unlockedByItem = ScenarioDetailViewModelUnlockedByInfoItem(unlockedBys: unlockedBys)
+                items.append(unlockedByItem)
+            }
             // Create array of ScenarioNumberAndTitle objects to store unlock info as objects
             for unlock in scenario.unlocks {
                 if unlock == "ONEOF" {
