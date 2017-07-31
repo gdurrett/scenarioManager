@@ -17,10 +17,11 @@ extension Sequence {
 
 class ScenarioViewController: UITableViewController, ScenarioPickerViewControllerDelegate {
 
+
     @IBOutlet weak var scenarioFilterOutlet: UISegmentedControl!
     
     @IBAction func scenarioFilterAction(_ sender: Any) {
-        tableView.reloadData()
+//        tableView.reloadData()
         switch scenarioFilterOutlet.selectedSegmentIndex {
         case 0:
             self.navigationItem.title = ("\(scenarioFilterOutlet.titleForSegment(at: 0)!) Scenarios")
@@ -31,6 +32,7 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
         default:
             break
         }
+        tableView.reloadData()
     }
     
     var dataModel: DataModel!
@@ -39,10 +41,9 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
     var pickerData = [String]()
     var chosenScenario: Scenario?
     var scenario: Scenario!
-    let completedBGColor = UIColor(hue: 9/360, saturation: 59/100, brightness: 100/100, alpha: 1.0)
-    let availableBGColor = UIColor(hue: 48/360, saturation: 100/100, brightness: 100/100, alpha: 1.0)
-    let unavailableBGColor = UIColor(hue: 99/360, saturation: 2/100, brightness: 75/100, alpha: 1.0)
-    
+
+    // See if we can set proper segment title for All segment tab
+
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         var returnValue = 0
         switch(scenarioFilterOutlet.selectedSegmentIndex) {
@@ -58,7 +59,7 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
         return returnValue
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> ScenarioMainCell {
         let cell = makeCell(for: tableView)
         
         switch(scenarioFilterOutlet.selectedSegmentIndex) {
@@ -75,8 +76,8 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
         cell.backgroundColor = configureBGColor(for: cell, with: scenario)
         configureRewardText(for: cell, with: scenario.rewards)
         configureAchievesText(for: cell, with: dataModel.getAchieves(for: scenario))
-        
-        return cell
+        configureRowIcon(for: cell as! ScenarioMainCell, with: scenario)
+        return cell as! ScenarioMainCell
         
     }
 // May use in the future to disallow row selection!
@@ -93,6 +94,7 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
         super.viewDidLoad()
         self.tableView.estimatedRowHeight = 100
         self.tableView.rowHeight = UITableViewAutomaticDimension
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -113,52 +115,54 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
         default:
             break
         }
+        bgColor = UIColor(hue: 213/360, saturation: 0/100, brightness: 64/100, alpha: 1.0)
         if scenario.completed {
             myCompletedTitle = "Uncompleted"
-            bgColor = .red
         } else if scenario.isUnlocked && scenario.requirementsMet  {
             myCompletedTitle = "Completed"
-            bgColor = UIColor(displayP3Red: 0.3, green: 0.9, blue: 0.3, alpha: 0.8)
         } else {
             myCompletedTitle = "Unavailable"
-            bgColor = .gray
         }
         let swipeToggleComplete = UITableViewRowAction(style: .normal, title: myCompletedTitle) { action, index in
-            if self.scenario.completed {
-                if self.dataModel.areAnyUnlocksCompleted(scenario: self.scenario) {
-                    if self.dataModel.didAnotherCompletedScenarioUnlockMe(scenario: self.scenario) {
-                        //Okay to mark uncompleted, but don't trigger lock
-                        self.scenario.completed = false
-                        self.dataModel.updateAvailableScenarios(scenario: self.scenario, isCompleted: false)
-                        tableView.reloadData()
-                    } else {
-                        //NOT okay to mark uncompleted
-                        self.showSelectionAlert()
-                    }
-                } else if !self.dataModel.areAnyUnlocksCompleted(scenario: self.scenario) {
-                    print("None of my unlocks completed!")
-                    if self.dataModel.didAnotherCompletedScenarioUnlockMe(scenario: self.scenario) {
-                        //Okay to mark uncompleted, but don't trigger lock of uncompleted lock
-                        self.scenario.completed = false
-                        self.dataModel.updateAvailableScenarios(scenario: self.scenario, isCompleted: false)
-                        tableView.reloadData()
-                    } else {
-                        //Okay to mark uncompleted AND trigger lock
-                        print("Do I ever get here?")
-                        self.scenario.completed = false
-                        self.dataModel.updateAvailableScenarios(scenario: self.scenario, isCompleted: false)
-                        tableView.reloadData()
-                    }
-                }
+            if self.myCompletedTitle == "Unavailable" {
+                self.showSelectionAlert(status: "disallowCompletion")
             } else {
-                self.scenario.completed = true
-                if self.scenario.unlocks[0] == "ONEOF" {
-                    self.performSegue(withIdentifier: "ShowScenarioPicker", sender: self.scenario)
+                if self.scenario.completed {
+                    if self.dataModel.areAnyUnlocksCompleted(scenario: self.scenario) {
+                        if self.dataModel.didAnotherCompletedScenarioUnlockMe(scenario: self.scenario) {
+                            //Okay to mark uncompleted, but don't trigger lock
+                            self.scenario.completed = false
+                            self.dataModel.updateAvailableScenarios(scenario: self.scenario, isCompleted: false)
+                            tableView.reloadData()
+                        } else {
+                            //NOT okay to mark uncompleted
+                            self.showSelectionAlert(status: "")
+                        }
+                    } else if !self.dataModel.areAnyUnlocksCompleted(scenario: self.scenario) {
+                        print("None of my unlocks completed!")
+                        if self.dataModel.didAnotherCompletedScenarioUnlockMe(scenario: self.scenario) {
+                            //Okay to mark uncompleted, but don't trigger lock of uncompleted lock
+                            self.scenario.completed = false
+                            self.dataModel.updateAvailableScenarios(scenario: self.scenario, isCompleted: false)
+                            tableView.reloadData()
+                        } else {
+                            //Okay to mark uncompleted AND trigger lock
+                            print("Do I ever get here?")
+                            self.scenario.completed = false
+                            self.dataModel.updateAvailableScenarios(scenario: self.scenario, isCompleted: false)
+                            tableView.reloadData()
+                        }
+                    }
                 } else {
-                    self.dataModel.updateAvailableScenarios(scenario: self.scenario, isCompleted: true)
-                    tableView.reloadData()
+                    self.scenario.completed = true
+                    if self.scenario.unlocks[0] == "ONEOF" {
+                        self.performSegue(withIdentifier: "ShowScenarioPicker", sender: self.scenario)
+                    } else {
+                        self.dataModel.updateAvailableScenarios(scenario: self.scenario, isCompleted: true)
+                        tableView.reloadData()
+                    }
                 }
-            }
+            } // Can't complete
         }
         swipeToggleComplete.backgroundColor = bgColor
         return [swipeToggleComplete]
@@ -206,17 +210,27 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
             return UITableViewCell(style: .subtitle,reuseIdentifier: cellIdentifier)
         }
     }
+    func configureRowIcon(for tableView: ScenarioMainCell, with scenario: Scenario) {
+        if scenario.completed == true {
+            tableView.scenarioRowIcon.image = #imageLiteral(resourceName: "scenarioCompletedIcon")
+        } else if scenario.requirementsMet == true && scenario.isUnlocked == true {
+            tableView.scenarioRowIcon.image = #imageLiteral(resourceName: "scenarioAvailableIcon")
+        } else {
+            tableView.scenarioRowIcon.image = #imageLiteral(resourceName: "scenarioLockedIcon")
+        }
+        
+    }
     func configureTitle(for cell: UITableViewCell, with scenario: Scenario) {
         let label = cell.viewWithTag(1000) as! UILabel
         label.text = "\(scenario.number)) " + scenario.title
     }
     func configureBGColor(for cell: UITableViewCell, with scenario: Scenario) -> UIColor {
-        if scenario.completed { // If completed, set color to salmon
-            return completedBGColor
+        if scenario.completed { // If completed
+            return DataModel.sharedInstance.completedBGColor
         } else if scenario.isUnlocked && scenario.requirementsMet { // If available, set color to bright yellow
-            return availableBGColor
+            return DataModel.sharedInstance.availableBGColor
         } else { // If unavailable, set color to gray
-            return unavailableBGColor
+            return DataModel.sharedInstance.unavailableBGColor
         }
     }
     func configureRewardText(for cell: UITableViewCell, with rewards: [String]) {
@@ -253,9 +267,14 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
             pickerData.append(myTitle)
         }
     }
-    func showSelectionAlert() {
+    func showSelectionAlert(status: String) {
+        if status == "disallowCompletion" {
+            title = "Cannot set to Completed!"
+        } else {
+            title = "Cannot set to Uncompleted!"
+        }
         let alertView = UIAlertController(
-            title: "Cannot set to Uncompleted!",
+            title: title,
             message: nil,
             preferredStyle: .alert)
         

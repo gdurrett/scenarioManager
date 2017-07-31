@@ -18,7 +18,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <segmentedControl key="tableHeaderView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="TDM-Fv-5Xe">
+                        <segmentedControl key="tableHeaderView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="TDM-Fv-5Xe">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>
@@ -26,13 +26,13 @@
                                 <segment title="Completed"/>
                                 <segment title="Available"/>
                             </segments>
-                            <color key="tintColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="scenarioFilterAction:" destination="qpW-Bp-kIS" eventType="valueChanged" id="E03-Uw-fme"/>
                             </connections>
                         </segmentedControl>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Scenario" id="t1s-S5-1Df">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Scenario" id="t1s-S5-1Df" customClass="ScenarioMainCell" customModule="Scenario_Manager" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="58" width="320" height="100"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="t1s-S5-1Df" id="35i-Pn-zZX">
@@ -40,37 +40,53 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" tag="1100" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rewards" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0hn-ML-Guq">
-                                            <rect key="frame" x="8" y="49" width="304" height="15"/>
+                                            <rect key="frame" x="8" y="49" width="266" height="15"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="266" id="y4f-Hm-WOT"/>
+                                            </constraints>
                                             <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" tag="1200" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Achievements" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="By0-ir-1P3">
-                                            <rect key="frame" x="8" y="65" width="304" height="15"/>
+                                            <rect key="frame" x="8" y="65" width="266" height="15"/>
                                             <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" tag="1000" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Scenario" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7xM-Zh-2KA">
-                                            <rect key="frame" x="8" y="11" width="304" height="30"/>
+                                            <rect key="frame" x="8" y="11" width="281" height="30"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <imageView userInteractionEnabled="NO" tag="2000" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="jtW-wB-YNS">
+                                            <rect key="frame" x="292" y="16" width="20" height="20"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="20" id="bUh-yE-ome"/>
+                                                <constraint firstAttribute="height" constant="20" id="eno-9y-pLb"/>
+                                            </constraints>
+                                        </imageView>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="By0-ir-1P3" firstAttribute="leading" secondItem="0hn-ML-Guq" secondAttribute="leading" id="4Ye-7g-W4b"/>
+                                        <constraint firstItem="0hn-ML-Guq" firstAttribute="trailing" secondItem="By0-ir-1P3" secondAttribute="trailing" id="2lW-oz-FaB"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="By0-ir-1P3" secondAttribute="bottom" constant="11.5" id="7KN-IW-PNF"/>
-                                        <constraint firstAttribute="leadingMargin" secondItem="0hn-ML-Guq" secondAttribute="leading" id="7hM-Bp-veP"/>
-                                        <constraint firstAttribute="trailingMargin" secondItem="7xM-Zh-2KA" secondAttribute="trailing" id="8PM-tR-ys2"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="7xM-Zh-2KA" secondAttribute="trailing" constant="23" id="8PM-tR-ys2"/>
+                                        <constraint firstItem="0hn-ML-Guq" firstAttribute="top" secondItem="7xM-Zh-2KA" secondAttribute="bottom" constant="8" symbolic="YES" id="CUh-47-a0V"/>
                                         <constraint firstItem="7xM-Zh-2KA" firstAttribute="top" secondItem="35i-Pn-zZX" secondAttribute="topMargin" constant="3" id="Dd9-QP-MnZ"/>
-                                        <constraint firstItem="0hn-ML-Guq" firstAttribute="top" secondItem="7xM-Zh-2KA" secondAttribute="bottom" constant="8" id="GL4-os-bFR"/>
-                                        <constraint firstItem="By0-ir-1P3" firstAttribute="top" secondItem="0hn-ML-Guq" secondAttribute="bottom" constant="1" id="gLY-KX-wEX"/>
-                                        <constraint firstItem="By0-ir-1P3" firstAttribute="trailing" secondItem="0hn-ML-Guq" secondAttribute="trailing" id="gmJ-wT-H5c"/>
-                                        <constraint firstAttribute="trailingMargin" secondItem="0hn-ML-Guq" secondAttribute="trailing" id="p3J-fF-fbw"/>
+                                        <constraint firstItem="By0-ir-1P3" firstAttribute="top" secondItem="0hn-ML-Guq" secondAttribute="bottom" constant="1" id="IoY-LB-dY8"/>
+                                        <constraint firstItem="jtW-wB-YNS" firstAttribute="leading" secondItem="7xM-Zh-2KA" secondAttribute="trailing" constant="3" id="VfG-cY-byM"/>
+                                        <constraint firstItem="jtW-wB-YNS" firstAttribute="top" secondItem="35i-Pn-zZX" secondAttribute="topMargin" constant="8" id="aQ6-GW-JHV"/>
+                                        <constraint firstItem="0hn-ML-Guq" firstAttribute="leading" secondItem="By0-ir-1P3" secondAttribute="leading" id="du7-AU-TFi"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="jtW-wB-YNS" secondAttribute="trailing" id="nLx-av-pr6"/>
+                                        <constraint firstItem="0hn-ML-Guq" firstAttribute="leading" secondItem="7xM-Zh-2KA" secondAttribute="leading" id="nXf-lw-sUg"/>
                                         <constraint firstAttribute="leadingMargin" secondItem="7xM-Zh-2KA" secondAttribute="leading" id="z5V-dh-6dY"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="scenarioRowIcon" destination="jtW-wB-YNS" id="x49-1q-OPz"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>

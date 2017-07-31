@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let navigationController = window!.rootViewController as! UINavigationController
         let controller = navigationController.viewControllers[0] as! ScenarioViewController
         controller.dataModel = dataModel
-        
+        controller.navigationItem.title = "All Scenarios"
         return true
     }
 

@@ -18,6 +18,11 @@
 		FB4665871F2E5C5900CAA684 /* RewardsInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB4665861F2E5C5900CAA684 /* RewardsInfoCell.xib */; };
 		FB4665891F2E667F00CAA684 /* RequirementsInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB4665881F2E667F00CAA684 /* RequirementsInfoCell.swift */; };
 		FB46658B1F2E66C000CAA684 /* RequirementsInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB46658A1F2E66C000CAA684 /* RequirementsInfoCell.xib */; };
+		FB46658D1F2F964C00CAA684 /* SummaryInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB46658C1F2F964C00CAA684 /* SummaryInfoCell.xib */; };
+		FB46658F1F2F96B500CAA684 /* SummaryInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB46658E1F2F96B500CAA684 /* SummaryInfoCell.swift */; };
+		FB4665911F2FA98C00CAA684 /* LocationInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB4665901F2FA98C00CAA684 /* LocationInfoCell.swift */; };
+		FB4665931F2FA9FA00CAA684 /* LocationInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB4665921F2FA9FA00CAA684 /* LocationInfoCell.xib */; };
+		FB4665951F2FDCEE00CAA684 /* ScenarioMainCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB4665941F2FDCEE00CAA684 /* ScenarioMainCell.swift */; };
 		FB482D991F27C51C00CAA684 /* ScenarioDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB482D981F27C51C00CAA684 /* ScenarioDetailViewController.swift */; };
 		FB482D9B1F27DBA400CAA684 /* ScenarioDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB482D9A1F27DBA400CAA684 /* ScenarioDetailViewModel.swift */; };
 		FB482D9D1F2934BA00CAA684 /* ScenarioTitleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB482D9C1F2934B900CAA684 /* ScenarioTitleCell.xib */; };
@@ -45,6 +50,11 @@
 		FB4665861F2E5C5900CAA684 /* RewardsInfoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RewardsInfoCell.xib; sourceTree = "<group>"; };
 		FB4665881F2E667F00CAA684 /* RequirementsInfoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequirementsInfoCell.swift; sourceTree = "<group>"; };
 		FB46658A1F2E66C000CAA684 /* RequirementsInfoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RequirementsInfoCell.xib; sourceTree = "<group>"; };
+		FB46658C1F2F964C00CAA684 /* SummaryInfoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SummaryInfoCell.xib; sourceTree = "<group>"; };
+		FB46658E1F2F96B500CAA684 /* SummaryInfoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SummaryInfoCell.swift; sourceTree = "<group>"; };
+		FB4665901F2FA98C00CAA684 /* LocationInfoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationInfoCell.swift; sourceTree = "<group>"; };
+		FB4665921F2FA9FA00CAA684 /* LocationInfoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LocationInfoCell.xib; sourceTree = "<group>"; };
+		FB4665941F2FDCEE00CAA684 /* ScenarioMainCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScenarioMainCell.swift; sourceTree = "<group>"; };
 		FB482D981F27C51C00CAA684 /* ScenarioDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScenarioDetailViewController.swift; sourceTree = "<group>"; };
 		FB482D9A1F27DBA400CAA684 /* ScenarioDetailViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScenarioDetailViewModel.swift; sourceTree = "<group>"; };
 		FB482D9C1F2934B900CAA684 /* ScenarioTitleCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScenarioTitleCell.xib; sourceTree = "<group>"; };
@@ -119,6 +129,11 @@
 				FB4665861F2E5C5900CAA684 /* RewardsInfoCell.xib */,
 				FB4665881F2E667F00CAA684 /* RequirementsInfoCell.swift */,
 				FB46658A1F2E66C000CAA684 /* RequirementsInfoCell.xib */,
+				FB46658C1F2F964C00CAA684 /* SummaryInfoCell.xib */,
+				FB46658E1F2F96B500CAA684 /* SummaryInfoCell.swift */,
+				FB4665901F2FA98C00CAA684 /* LocationInfoCell.swift */,
+				FB4665921F2FA9FA00CAA684 /* LocationInfoCell.xib */,
+				FB4665941F2FDCEE00CAA684 /* ScenarioMainCell.swift */,
 			);
 			name = "TableView Cells";
 			sourceTree = "<group>";
@@ -183,6 +198,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FB46658D1F2F964C00CAA684 /* SummaryInfoCell.xib in Resources */,
 				FB4665871F2E5C5900CAA684 /* RewardsInfoCell.xib in Resources */,
 				FB482D9D1F2934BA00CAA684 /* ScenarioTitleCell.xib in Resources */,
 				FB482DA11F2937B200CAA684 /* UnlocksInfoCell.xib in Resources */,
@@ -192,6 +208,7 @@
 				FB23B6F11F044CFC00CAA684 /* Assets.xcassets in Resources */,
 				FB23B6EF1F044CFC00CAA684 /* Main.storyboard in Resources */,
 				FB482DA61F293ABA00CAA684 /* UnlockedByInfoCell.xib in Resources */,
+				FB4665931F2FA9FA00CAA684 /* LocationInfoCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -208,11 +225,14 @@
 				FB23B6FC1F04C40D00CAA684 /* Scenario.swift in Sources */,
 				FB7521A41F207A2F00CAA684 /* ScenarioPickerViewController.swift in Sources */,
 				FB482D9B1F27DBA400CAA684 /* ScenarioDetailViewModel.swift in Sources */,
+				FB46658F1F2F96B500CAA684 /* SummaryInfoCell.swift in Sources */,
 				FB23B6EC1F044CFC00CAA684 /* ScenarioViewController.swift in Sources */,
 				FB482D991F27C51C00CAA684 /* ScenarioDetailViewController.swift in Sources */,
 				FB482DAC1F293C9500CAA684 /* AchievesInfoCell.swift in Sources */,
+				FB4665951F2FDCEE00CAA684 /* ScenarioMainCell.swift in Sources */,
 				FB4665851F2E5C0700CAA684 /* RewardsInfoCell.swift in Sources */,
 				FB23B6EA1F044CFC00CAA684 /* AppDelegate.swift in Sources */,
+				FB4665911F2FA98C00CAA684 /* LocationInfoCell.swift in Sources */,
 				FB23B7021F0AB5ED00CAA684 /* DataModel.swift in Sources */,
 				FB482DA81F293B2300CAA684 /* UnlockedByInfoCell.swift in Sources */,
 			);
