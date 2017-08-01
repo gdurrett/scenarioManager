@@ -278,13 +278,14 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
         let alertView = UIAlertController(
             title: title,
             message: nil,
-            preferredStyle: .alert)
+            preferredStyle: .actionSheet)
         
         let action = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil)
         
         alertView.addAction(action)
         present(alertView, animated: true, completion: { _ in
         })
+        navigationItem.title = "All Scenarios"
     }
     // Implement delegate methods for ScenarioDetailViewController
     func scenarioDetailViewControllerDidCancel(_ controller: ScenarioDetailViewController) {
