@@ -238,7 +238,8 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
     func configureRewardText(for cell: UITableViewCell, with rewards: [String]) {
         let label = cell.viewWithTag(1100) as! UILabel
         // Use extension to Sequence as defined before this class declaration
-            label.text = ("Rewards: \(rewards.minimalDescription)")
+        label.text = ("Rewards: \(rewards.minimalDescription)")
+        label.sizeToFit()
     }
     func configureUnlockedByText(for cell: UITableViewCell, with unlockedBys: [String]) {
         let label = cell.viewWithTag(1500) as! UILabel

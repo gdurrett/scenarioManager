@@ -23,12 +23,13 @@ class Scenario: NSObject, NSCoding {
     var unlocks = [String]()
     var summary = String()
     var location = String()
+    var isManuallyUnlockable = false
  
 //    override init() {
 //        super.init()
 //    }
 
-    init(number: String, title: String, completed: Bool, requirementsMet: Bool, requirements: [String: Bool], isUnlocked: Bool, unlockedBy: [String], unlocks: [String], achieves: [String], rewards: [String], summary: String, location: String) {
+    init(number: String, title: String, completed: Bool, requirementsMet: Bool, requirements: [String: Bool], isUnlocked: Bool, unlockedBy: [String], unlocks: [String], achieves: [String], rewards: [String], summary: String, location: String, isManuallyUnlockable: Bool) {
 //    override init() {
         self.number = number
         self.title = title
@@ -42,6 +43,7 @@ class Scenario: NSObject, NSCoding {
         self.rewards = rewards
         self.summary = summary
         self.location = location
+        self.isManuallyUnlockable = isManuallyUnlockable
     }
     
     // Must implement in order to allow Scenarios to be loaded
@@ -59,6 +61,7 @@ class Scenario: NSObject, NSCoding {
         rewards = aDecoder.decodeObject(forKey: "Rewards") as! [String]
         summary = aDecoder.decodeObject(forKey: "Summary") as! String
         location = aDecoder.decodeObject(forKey: "Location") as! String
+        isManuallyUnlockable = aDecoder.decodeBool(forKey: "IsManuallyUnlockable")
         super.init()
     }
     
@@ -77,5 +80,6 @@ class Scenario: NSObject, NSCoding {
         aCoder.encode(rewards, forKey: "Rewards")
         aCoder.encode(summary, forKey: "Summary")
         aCoder.encode(location, forKey: "Location")
+        aCoder.encode(isManuallyUnlockable, forKey: "IsManuallyUnlockable")
     }
 }
