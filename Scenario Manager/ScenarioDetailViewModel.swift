@@ -136,7 +136,6 @@ extension ScenarioDetailViewModelItem {
 }
 
 extension ScenarioDetailViewModel: UITableViewDataSource {
-    
     func numberOfSections(in tableView: UITableView) -> Int {
         return items.count
     }
@@ -210,6 +209,7 @@ extension ScenarioDetailViewModel: UITableViewDataSource {
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return items[section].sectionTitle
     }
+    
 }
 
 class ScenarioDetailViewModelScenarioTitleItem: ScenarioDetailViewModelItem {

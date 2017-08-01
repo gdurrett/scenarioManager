@@ -24,9 +24,9 @@ class DataModel {
     var unlocksLabel = String()
     var selectedScenario: Scenario?
 
-    let completedBGColor = UIColor(hue: 48/360, saturation: 30/100, brightness: 100/100, alpha: 1.0)
-    let availableBGColor = UIColor(hue: 48/360, saturation: 100/100, brightness: 100/100, alpha: 1.0)
-    let unavailableBGColor = UIColor(hue: 48/360, saturation: 9/100, brightness: 100/100, alpha: 1.0)
+    let unavailableBGColor = UIColor(hue: 54/360, saturation: 31/100, brightness: 84/100, alpha: 1.0)
+    let availableBGColor = UIColor(hue: 54/360, saturation: 13/100, brightness: 100/100, alpha: 1.0)
+    let completedBGColor = UIColor(hue: 54/360, saturation: 31/100, brightness: 65/100, alpha: 1.0)
     
     let defaultUnlocks = [ "13" : ["ONEOF", "15", "17", "20"] ]
     

@@ -42,6 +42,7 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
     var chosenScenario: Scenario?
     var scenario: Scenario!
 
+    
     // See if we can set proper segment title for All segment tab
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -94,7 +95,8 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
         super.viewDidLoad()
         self.tableView.estimatedRowHeight = 100
         self.tableView.rowHeight = UITableViewAutomaticDimension
-
+        self.navigationController?.navigationBar.tintColor = UIColor.black
+        self.navigationController?.navigationBar.barTintColor = DataModel.sharedInstance.availableBGColor
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -172,7 +174,6 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ShowScenarioDetail" {
             //let destinationVC = segue.destination as! UITableViewController
-            
         } else if segue.identifier == "ShowScenarioPicker" {
             let navigationController = segue.destination as! UINavigationController
             let destinationVC = navigationController.topViewController as! ScenarioPickerViewController
@@ -223,6 +224,7 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
     func configureTitle(for cell: UITableViewCell, with scenario: Scenario) {
         let label = cell.viewWithTag(1000) as! UILabel
         label.text = "\(scenario.number)) " + scenario.title
+        label.sizeToFit()
     }
     func configureBGColor(for cell: UITableViewCell, with scenario: Scenario) -> UIColor {
         if scenario.completed { // If completed
