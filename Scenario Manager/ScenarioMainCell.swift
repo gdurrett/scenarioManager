@@ -12,6 +12,33 @@ class ScenarioMainCell: UITableViewCell {
 
     @IBOutlet weak var scenarioRowIcon: UIImageView!
     
+    // Test custom text color for SwipeAction buttons
+    override func layoutSubviews() {
+        
+        super.layoutSubviews()
+        
+        for subview in self.subviews {
+            
+            for subview2 in subview.subviews {
+                
+                if (String(describing: subview2).range(of: "UITableViewCellActionButton") != nil) {
+                    
+                    for view in subview2.subviews {
+                        
+                        if (String(describing: view).range(of: "UIButtonLabel") != nil) {
+                            
+                            if let label = view as? UILabel {
+                                
+                                label.textColor = UIColor.black
+                            }
+                            
+                        }
+                    }
+                }
+            }
+        }
+        
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()

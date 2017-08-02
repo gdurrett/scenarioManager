@@ -118,16 +118,19 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
         default:
             break
         }
-        bgColor = UIColor(hue: 213/360, saturation: 0/100, brightness: 64/100, alpha: 1.0)
+        //bgColor = UIColor(hue: 213/360, saturation: 0/100, brightness: 64/100, alpha: 1.0)
         if scenario.completed {
+            bgColor = dataModel.availableBGColor
+            
             myCompletedTitle = "Uncompleted"
         } else if scenario.isUnlocked && scenario.requirementsMet  {
+            bgColor = dataModel.completedBGColor
             myCompletedTitle = "Completed"
         } else {
+            bgColor = UIColor(hue: 213/360, saturation: 0/100, brightness: 64/100, alpha: 1.0)
             myCompletedTitle = "Unavailable"
         }
         if scenario.isManuallyUnlockable && scenario.isUnlocked && !scenario.completed {
-            print("Got here")
             myLockedTitle = "Lock"
         } else if scenario.isManuallyUnlockable && !scenario.completed {
             myLockedTitle = "Unlock"
@@ -187,7 +190,7 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
             } // Can't complete
         }
         swipeToggleComplete.backgroundColor = bgColor
-        swipeToggleLocked.backgroundColor = bgColor
+        swipeToggleLocked.backgroundColor = UIColor.darkGray
         if myLockedTitle == "Unlock" {
             return [swipeToggleLocked]
         } else if myLockedTitle == "NoShow" {
