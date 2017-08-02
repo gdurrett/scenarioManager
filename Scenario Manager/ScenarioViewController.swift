@@ -37,6 +37,7 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
     
     var dataModel: DataModel!
     var myCompletedTitle: String?
+    var myLockedTitle: String?
     var bgColor: UIColor?
     var pickerData = [String]()
     var chosenScenario: Scenario?
@@ -125,7 +126,26 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
         } else {
             myCompletedTitle = "Unavailable"
         }
-        let swipeToggleComplete = UITableViewRowAction(style: .normal, title: myCompletedTitle) { action, index in
+        if scenario.isManuallyUnlockable && scenario.isUnlocked && !scenario.completed {
+            print("Got here")
+            myLockedTitle = "Lock"
+        } else if scenario.isManuallyUnlockable && !scenario.completed {
+            myLockedTitle = "Unlock"
+        } else {
+            myLockedTitle = "NoShow"
+        }
+        let swipeToggleLocked = UITableViewRowAction(style: .normal, title: self.myLockedTitle) { action, index in
+        if self.myLockedTitle == "Unlock" {
+            self.scenario.isUnlocked = true
+            self.dataModel.updateAvailableScenarios(scenario: self.scenario, isCompleted: false)
+            tableView.reloadData()
+        } else if self.myLockedTitle == "Lock" {
+            self.scenario.isUnlocked = false
+            self.dataModel.updateAvailableScenarios(scenario: self.scenario, isCompleted: false)
+            tableView.reloadData()
+            }
+        }
+        let swipeToggleComplete = UITableViewRowAction(style: .normal, title: self.myCompletedTitle) { action, index in
             if self.myCompletedTitle == "Unavailable" {
                 self.showSelectionAlert(status: "disallowCompletion")
             } else {
@@ -167,7 +187,14 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
             } // Can't complete
         }
         swipeToggleComplete.backgroundColor = bgColor
-        return [swipeToggleComplete]
+        swipeToggleLocked.backgroundColor = bgColor
+        if myLockedTitle == "Unlock" {
+            return [swipeToggleLocked]
+        } else if myLockedTitle == "NoShow" {
+            return [swipeToggleComplete]
+        } else {
+            return [swipeToggleLocked, swipeToggleComplete]
+        }
     }
     
     // Prepare for segue

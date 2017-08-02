@@ -116,9 +116,20 @@ class ScenarioDetailViewModel: NSObject {
                 let rewardsItem = ScenarioDetailViewModelRewardsInfoItem(rewards: rewards)
                 items.append(rewardsItem)
             }
+            var remove = false
             for achieve in scenario.achieves {
-                achieves.append(SeparatedStrings(rowString:achieve))
+                if achieve == "REMOVE" {
+                    remove = true
+                    continue
+                }
+                if remove {
+                    achieves.append(SeparatedStrings(rowString: "REMOVE: " + achieve))
+                    remove = false
+                } else {
+                    achieves.append(SeparatedStrings(rowString: achieve))
+                }
             }
+
             if !scenario.achieves.contains("None") {
                 let achievesItem = ScenarioDetailViewModelAchievesInfoItem(achieves: achieves)
                 items.append(achievesItem)
