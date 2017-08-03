@@ -252,7 +252,7 @@ class ScenarioDetailViewModelUnlocksInfoItem: ScenarioDetailViewModelItem {
     
     var sectionTitle: String {
         if oneofPresent {
-            return "Unlocks one of"
+            return "Unlocks ONE OF"
         } else {
             return "Unlocks"
         }
@@ -300,7 +300,7 @@ class ScenarioDetailViewModelRequirementsInfoItem: ScenarioDetailViewModelItem {
     
     var sectionTitle: String {
         if orPresent {
-            return "Requirements (one of)"
+            return "Requirements (ONE OF)"
         } else {
             return "Requirements"
         }
