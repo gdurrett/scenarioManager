@@ -12,7 +12,7 @@
 		FB23B6EF1F044CFC00CAA684 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB23B6ED1F044CFC00CAA684 /* Main.storyboard */; };
 		FB23B6F11F044CFC00CAA684 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB23B6F01F044CFC00CAA684 /* Assets.xcassets */; };
 		FB23B6F41F044CFC00CAA684 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB23B6F21F044CFC00CAA684 /* LaunchScreen.storyboard */; };
-		FB23B6FC1F04C40D00CAA684 /* Scenario.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB23B6FB1F04C40D00CAA684 /* Scenario.swift */; };
+		FB23B6FC1F04C40D00CAA684 /*  .swift in Sources */ = {isa = PBXBuildFile; fileRef = FB23B6FB1F04C40D00CAA684 /*  .swift */; };
 		FB23B7021F0AB5ED00CAA684 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB23B7011F0AB5EC00CAA684 /* DataModel.swift */; };
 		FB4665851F2E5C0700CAA684 /* RewardsInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB4665841F2E5C0700CAA684 /* RewardsInfoCell.swift */; };
 		FB4665871F2E5C5900CAA684 /* RewardsInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB4665861F2E5C5900CAA684 /* RewardsInfoCell.xib */; };
@@ -44,7 +44,7 @@
 		FB23B6F01F044CFC00CAA684 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FB23B6F31F044CFC00CAA684 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FB23B6F51F044CFC00CAA684 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FB23B6FB1F04C40D00CAA684 /* Scenario.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scenario.swift; sourceTree = "<group>"; };
+		FB23B6FB1F04C40D00CAA684 /*  .swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = " .swift"; sourceTree = "<group>"; };
 		FB23B7011F0AB5EC00CAA684 /* DataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
 		FB4665841F2E5C0700CAA684 /* RewardsInfoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RewardsInfoCell.swift; sourceTree = "<group>"; };
 		FB4665861F2E5C5900CAA684 /* RewardsInfoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RewardsInfoCell.xib; sourceTree = "<group>"; };
@@ -105,7 +105,7 @@
 				FB23B6F51F044CFC00CAA684 /* Info.plist */,
 				FB23B6F21F044CFC00CAA684 /* LaunchScreen.storyboard */,
 				FB23B6ED1F044CFC00CAA684 /* Main.storyboard */,
-				FB23B6FB1F04C40D00CAA684 /* Scenario.swift */,
+				FB23B6FB1F04C40D00CAA684 /*  .swift */,
 				FB7521A31F207A2F00CAA684 /* ScenarioPickerViewController.swift */,
 				FB23B6EB1F044CFC00CAA684 /* ScenarioViewController.swift */,
 				FB482D981F27C51C00CAA684 /* ScenarioDetailViewController.swift */,
@@ -222,7 +222,7 @@
 				FB482DA41F29385B00CAA684 /* UnlocksInfoCell.swift in Sources */,
 				FB4665891F2E667F00CAA684 /* RequirementsInfoCell.swift in Sources */,
 				FB482D9F1F29359000CAA684 /* ScenarioTitleCell.swift in Sources */,
-				FB23B6FC1F04C40D00CAA684 /* Scenario.swift in Sources */,
+				FB23B6FC1F04C40D00CAA684 /*  .swift in Sources */,
 				FB7521A41F207A2F00CAA684 /* ScenarioPickerViewController.swift in Sources */,
 				FB482D9B1F27DBA400CAA684 /* ScenarioDetailViewModel.swift in Sources */,
 				FB46658F1F2F96B500CAA684 /* SummaryInfoCell.swift in Sources */,

@@ -12,6 +12,7 @@ import UIKit
 class ScenarioDetailViewController: UIViewController {
     
     fileprivate let viewModel = ScenarioDetailViewModel()
+    fileprivate let mainVC = ScenarioViewController()
     
     @IBOutlet weak var tableView: UITableView?
     
@@ -21,6 +22,7 @@ class ScenarioDetailViewController: UIViewController {
         self.tableView?.backgroundColor = UIColor.clear
         
         tableView?.dataSource = viewModel
+        tableView?.delegate = viewModel
         tableView?.estimatedRowHeight = 100
         tableView?.rowHeight = UITableViewAutomaticDimension
         tableView?.register(ScenarioTitleCell.nib, forCellReuseIdentifier: ScenarioTitleCell.identifier)
@@ -32,5 +34,5 @@ class ScenarioDetailViewController: UIViewController {
         tableView?.register(RewardsInfoCell.nib, forCellReuseIdentifier: RewardsInfoCell.identifier)
         tableView?.register(AchievesInfoCell.nib, forCellReuseIdentifier: AchievesInfoCell.identifier)
     }
-    
+
 }

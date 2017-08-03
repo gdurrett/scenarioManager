@@ -98,6 +98,8 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.navigationController?.navigationBar.tintColor = UIColor.black
         self.navigationController?.navigationBar.barTintColor = DataModel.sharedInstance.availableBGColor
+        //Try notification for tapped rows in ScenarioDetailViewController
+        NotificationCenter.default.addObserver(self, selector: #selector(segueToDetailViewController), name: NSNotification.Name(rawValue: "segue"), object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -318,14 +320,6 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
         })
         navigationItem.title = "All Scenarios"
     }
-    // Implement delegate methods for ScenarioDetailViewController
-    func scenarioDetailViewControllerDidCancel(_ controller: ScenarioDetailViewController) {
-        dismiss(animated: true, completion: nil)
-    }
-
-    func scenarioDetailViewController(_ controller: ScenarioDetailViewController, didFinishEditing scenario: Scenario) {
-        dismiss(animated: true, completion: nil)
-    }
     
     // Implement delegate methods for ScenarioPickerViewController
     func scenarioPickerViewControllerDidCancel(_ controller: ScenarioPickerViewController) {
@@ -342,6 +336,16 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
         dataModel.updateAvailableScenarios(scenario: scenario, isCompleted: true)
         tableView.reloadData()
         dismiss(animated: true, completion: nil)
+    }
+    
+    func segueToDetailViewController(_ notification: NSNotification) {
+        //print(notification.userInfo ?? "Nothing")
+        if let dict = notification.userInfo as NSDictionary? {
+            let scenarioTapped = dict["Scenario"] as! Scenario
+            print(scenarioTapped.title)
+            dataModel.selectedScenario = scenarioTapped
+            self.performSegue(withIdentifier: "ShowScenarioDetail", sender: scenarioTapped)
+        }
     }
 }
 

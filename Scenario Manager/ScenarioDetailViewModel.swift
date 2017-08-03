@@ -146,7 +146,7 @@ extension ScenarioDetailViewModelItem {
     }
 }
 
-extension ScenarioDetailViewModel: UITableViewDataSource {
+extension ScenarioDetailViewModel: UITableViewDataSource, UITableViewDelegate {
     func numberOfSections(in tableView: UITableView) -> Int {
         return items.count
     }
@@ -220,7 +220,19 @@ extension ScenarioDetailViewModel: UITableViewDataSource {
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return items[section].sectionTitle
     }
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let indexPath = tableView.indexPathForSelectedRow
+        if let currentCell = tableView.cellForRow(at: indexPath!) as? UnlocksInfoCell {
+            let tappedScenario = dataModel.getScenario(scenarioNumber: (currentCell.item?.number)!)
+            //post notification back to ScenarioViewController, passing scenario back to our segueToDetailViewController function
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "segue"), object: nil, userInfo: ["Scenario": tappedScenario!])
+        } else if let currentCell = tableView.cellForRow(at: indexPath!) as? UnlockedByInfoCell {
+            let tappedScenario = dataModel.getScenario(scenarioNumber: (currentCell.item?.number)!)
+            //post notification back to ScenarioViewController, passing scenario back to our segueToDetailViewController function
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "segue"), object: nil, userInfo: ["Scenario": tappedScenario!])
+        }
+        
+    }
 }
 
 class ScenarioDetailViewModelScenarioTitleItem: ScenarioDetailViewModelItem {
