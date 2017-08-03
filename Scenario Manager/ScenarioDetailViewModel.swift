@@ -25,14 +25,16 @@ protocol ScenarioDetailViewModelItem {
     var sectionTitle: String { get }
     var rowCount: Int { get }
 }
-
+//Have unlock and lock tableViewCells conform to this so we can combine didSelectRow at stuff
+protocol LockOrUnlockCellType {
+    var item: ScenarioNumberAndTitle? { get set }
+}
 class ScenarioDetailViewModel: NSObject {
     
     var scenario: Scenario!
     var items = [ScenarioDetailViewModelItem]()
     var dataModel = DataModel.sharedInstance
     var unlocks = [ScenarioNumberAndTitle]()
-    //var unlockLabel = String()
     var unlockedBys = [ScenarioNumberAndTitle]()
     var requirements = [SeparatedStrings]()
     var requirementLabel = String()
@@ -185,8 +187,6 @@ extension ScenarioDetailViewModel: UITableViewDataSource, UITableViewDelegate {
                 cell.backgroundColor = cellBGColor
                 let requirement = item.requirements[indexPath.row]
                 cell.item = requirement
-                //Need to figure out how to skip section creation of None. This works, but we still get a section title, which creates a section.
-                //if requirement.rowString != "None" {
                     return cell
                 //}
 
@@ -209,6 +209,7 @@ extension ScenarioDetailViewModel: UITableViewDataSource, UITableViewDelegate {
         case .scenarioSummary:
             if let cell = tableView.dequeueReusableCell(withIdentifier: SummaryInfoCell.identifier, for: indexPath) as? SummaryInfoCell {
                 cell.backgroundColor = cellBGColor
+                cell.selectionStyle = UITableViewCellSelectionStyle.none
                 cell.item = item
                 return cell
             }
@@ -224,22 +225,16 @@ extension ScenarioDetailViewModel: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return items[section].sectionTitle
     }
-    //Clean up redundancy
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let indexPath = tableView.indexPathForSelectedRow
-        if let currentCell = tableView.cellForRow(at: indexPath!) as? UnlocksInfoCell {
+        if let currentCell = tableView.cellForRow(at: indexPath!) as? LockOrUnlockCellType {
             let tappedScenario = dataModel.getScenario(scenarioNumber: (currentCell.item?.number)!)
             //post notification back to ScenarioViewController, passing scenario back to our segueToDetailViewController function
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "segue"), object: nil, userInfo: ["Scenario": tappedScenario!])
-        } else if let currentCell = tableView.cellForRow(at: indexPath!) as? UnlockedByInfoCell {
-            let tappedScenario = dataModel.getScenario(scenarioNumber: (currentCell.item?.number)!)
-            //post notification back to ScenarioViewController, passing scenario back to our segueToDetailViewController function
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "segue"), object: nil, userInfo: ["Scenario": tappedScenario!])
+            tableView.deselectRow(at: indexPath!, animated: true)
         }
-        tableView.deselectRow(at: indexPath!, animated: true)
     }
 }
-
 class ScenarioDetailViewModelScenarioTitleItem: ScenarioDetailViewModelItem {
     
     var type: ScenarioDetailViewModelItemType {

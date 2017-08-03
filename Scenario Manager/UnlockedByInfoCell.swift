@@ -8,7 +8,7 @@
 
 import UIKit
 
-class UnlockedByInfoCell: UITableViewCell {
+class UnlockedByInfoCell: UITableViewCell, LockOrUnlockCellType {
 
     @IBOutlet weak var unlockedByInfoLabel: UILabel?
     

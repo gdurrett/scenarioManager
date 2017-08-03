@@ -11,7 +11,7 @@ import UIKit
 class SummaryInfoCell: UITableViewCell {
 
     @IBOutlet weak var summaryInfoLabel: UILabel!
-    
+        
     var item: ScenarioDetailViewModelItem? {
         didSet {
             guard let item = item as? ScenarioDetailViewModelScenarioSummaryItem else {

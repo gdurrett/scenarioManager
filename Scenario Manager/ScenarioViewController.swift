@@ -166,7 +166,6 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
                             self.showSelectionAlert(status: "")
                         }
                     } else if !self.dataModel.areAnyUnlocksCompleted(scenario: self.scenario) {
-                        print("None of my unlocks completed!")
                         if self.dataModel.didAnotherCompletedScenarioUnlockMe(scenario: self.scenario) {
                             //Okay to mark uncompleted, but don't trigger lock of uncompleted lock
                             self.scenario.completed = false
@@ -174,7 +173,6 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
                             tableView.reloadData()
                         } else {
                             //Okay to mark uncompleted AND trigger lock
-                            print("Do I ever get here?")
                             self.scenario.completed = false
                             self.dataModel.updateAvailableScenarios(scenario: self.scenario, isCompleted: false)
                             tableView.reloadData()
@@ -339,10 +337,8 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
     }
     
     func segueToDetailViewController(_ notification: NSNotification) {
-        //print(notification.userInfo ?? "Nothing")
         if let dict = notification.userInfo as NSDictionary? {
             let scenarioTapped = dict["Scenario"] as! Scenario
-            print(scenarioTapped.title)
             dataModel.selectedScenario = scenarioTapped
             self.performSegue(withIdentifier: "ShowScenarioDetail", sender: scenarioTapped)
         }

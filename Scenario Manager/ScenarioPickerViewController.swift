@@ -34,7 +34,6 @@ class ScenarioPickerViewController: UIViewController, UIPickerViewDataSource, UI
             scenarioPicker.selectRow(0, inComponent: 0, animated: true)
             let row = scenarioPicker.selectedRow(inComponent: 0)
             chosenScenario = pickerData[row]
-            print("Setting chosenScenario by inaction to \(pickerData[row])")
         }
         delegate?.scenarioPickerViewController(self, didFinishPicking: scenario)
     }
@@ -82,6 +81,5 @@ class ScenarioPickerViewController: UIViewController, UIPickerViewDataSource, UI
     {
         didPick = true
         chosenScenario = pickerData[row]
-        print("Setting chosenScenario by action to \(pickerData[row])")
     }
 }

@@ -24,9 +24,10 @@ class DataModel {
     var unlocksLabel = String()
     var selectedScenario: Scenario?
 
-    let unavailableBGColor = UIColor(hue: 35/360, saturation: 31/100, brightness: 84/100, alpha: 1.0)
-    let availableBGColor = UIColor(hue: 35/360, saturation: 13/100, brightness: 100/100, alpha: 1.0)
-    let completedBGColor = UIColor(hue: 35/360, saturation: 31/100, brightness: 65/100, alpha: 1.0)
+    // Used by all VCs that color rows
+    let unavailableBGColor = UIColor(hue: 35/360, saturation: 75/100, brightness: 90/100, alpha: 1.0)
+    let availableBGColor = UIColor(hue: 35/360, saturation: 30/100, brightness: 100/100, alpha: 1.0)
+    let completedBGColor = UIColor(hue: 35/360, saturation: 75/100, brightness: 70/100, alpha: 1.0)
     
     let defaultUnlocks = [ "13" : ["ONEOF", "15", "17", "20"] ]
     
@@ -348,7 +349,6 @@ class DataModel {
                     scenario.requirementsMet = false
                     break
                 } else {
-                    //print("setting requirements met to true for \(scenario.title)")
                     scenario.requirementsMet = true
                 }
             }
@@ -363,7 +363,6 @@ class DataModel {
             }
             for scen in scenario.unlocks {
                 if scen != "ONEOF" {
-                    print("Locking \(scenario.title)")
                     getScenario(scenarioNumber: scen)?.isUnlocked = false
                 }
             }
