@@ -12,13 +12,16 @@ class ScenarioTitleCell: UITableViewCell {
 
     @IBOutlet weak var scenarioTitleLabel: UILabel?
     
+    @IBOutlet weak var scenarioStatusIcon: UIImageView!
+    
     var item: ScenarioDetailViewModelItem? {
         didSet {
             guard let item = item as? ScenarioDetailViewModelScenarioTitleItem else {
                 return
             }
-            
+            scenarioTitleLabel?.sizeToFit()
             scenarioTitleLabel?.text = item.title
+            scenarioStatusIcon.image = item.statusIcon
         }
     }
     

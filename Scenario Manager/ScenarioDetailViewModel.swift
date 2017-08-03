@@ -41,6 +41,7 @@ class ScenarioDetailViewModel: NSObject {
     var rewards = [SeparatedStrings]()
     var achieves = [SeparatedStrings]()
     var cellBGColor = UIColor()
+    var statusIcon = UIImage()
     
     override init() {
         super.init()
@@ -48,12 +49,15 @@ class ScenarioDetailViewModel: NSObject {
         if let scenario = dataModel.selectedScenario {
             if scenario.completed {
                 cellBGColor = DataModel.sharedInstance.completedBGColor
+                statusIcon = #imageLiteral(resourceName: "scenarioCompletedIcon")
             } else if scenario.isUnlocked && scenario.requirementsMet {
                 cellBGColor = DataModel.sharedInstance.availableBGColor
+                statusIcon = #imageLiteral(resourceName: "scenarioAvailableIcon")
             } else {
                 cellBGColor = DataModel.sharedInstance.unavailableBGColor
+                statusIcon = #imageLiteral(resourceName: "scenarioLockedIcon")
             }
-            let titleItem = ScenarioDetailViewModelScenarioTitleItem(title: scenario.title)
+            let titleItem = ScenarioDetailViewModelScenarioTitleItem(title: scenario.title, statusIcon: statusIcon)
             items.append(titleItem)
             
             let locationItem = ScenarioDetailViewModelScenarioLocationItem(location: scenario.location)
@@ -220,6 +224,7 @@ extension ScenarioDetailViewModel: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return items[section].sectionTitle
     }
+    //Clean up redundancy
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let indexPath = tableView.indexPathForSelectedRow
         if let currentCell = tableView.cellForRow(at: indexPath!) as? UnlocksInfoCell {
@@ -231,7 +236,7 @@ extension ScenarioDetailViewModel: UITableViewDataSource, UITableViewDelegate {
             //post notification back to ScenarioViewController, passing scenario back to our segueToDetailViewController function
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "segue"), object: nil, userInfo: ["Scenario": tappedScenario!])
         }
-        
+        tableView.deselectRow(at: indexPath!, animated: true)
     }
 }
 
@@ -250,9 +255,12 @@ class ScenarioDetailViewModelScenarioTitleItem: ScenarioDetailViewModelItem {
     }
     
     var title: String
+    // Try passing in availability status
+    var statusIcon: UIImage
     
-    init(title: String) {
+    init(title: String, statusIcon: UIImage) {
         self.title = title
+        self.statusIcon = statusIcon
     }
 }
 
