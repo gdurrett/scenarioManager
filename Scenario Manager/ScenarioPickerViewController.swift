@@ -18,7 +18,7 @@ class ScenarioPickerViewController: UIViewController, UIPickerViewDataSource, UI
     weak var delegate: ScenarioPickerViewControllerDelegate?
     var scenarioPicker = UIPickerView()
     var pickerData = [String]()
-    var chosenScenario: String?
+    var pickedScenario: String?
     var disableToggle: Bool?
     let scenarioComponent = 0
     var scenario: Scenario!
@@ -33,7 +33,7 @@ class ScenarioPickerViewController: UIViewController, UIPickerViewDataSource, UI
         if !didPick {
             scenarioPicker.selectRow(0, inComponent: 0, animated: true)
             let row = scenarioPicker.selectedRow(inComponent: 0)
-            chosenScenario = pickerData[row]
+            pickedScenario = pickerData[row]
         }
         delegate?.scenarioPickerViewController(self, didFinishPicking: scenario)
     }
@@ -80,6 +80,6 @@ class ScenarioPickerViewController: UIViewController, UIPickerViewDataSource, UI
         inComponent component: Int)
     {
         didPick = true
-        chosenScenario = pickerData[row]
+        pickedScenario = pickerData[row]
     }
 }

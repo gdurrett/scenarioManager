@@ -14,6 +14,12 @@ extension Sequence {
         return map { "\($0)" }.joined(separator: ", ")
     }
 }
+// Implement search bar stuff via extension
+extension ScenarioViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        filterContentForSearchText(searchText: searchController.searchBar.text!)
+    }
+}
 
 class ScenarioViewController: UITableViewController, ScenarioPickerViewControllerDelegate {
 
@@ -40,40 +46,52 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
     var myLockedTitle: String?
     var bgColor: UIColor?
     var pickerData = [String]()
-    var chosenScenario: Scenario?
+    var pickedScenario: Scenario?
     var scenario: Scenario!
-
+    
+    var filteredScenarios = [Scenario]()
+    let searchController = UISearchController(searchResultsController: nil)
     
     // See if we can set proper segment title for All segment tab
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         var returnValue = 0
-        switch(scenarioFilterOutlet.selectedSegmentIndex) {
-        case 0:
+        if searchController.isActive && searchController.searchBar.text != "" {
+            returnValue = filteredScenarios.count
+        } else {
             returnValue = dataModel.allScenarios.count
-        case 1:
-            returnValue = dataModel.completedScenarios.count
-        case 2:
-            returnValue = dataModel.availableScenarios.count
-        default:
-            break
         }
+//        switch(scenarioFilterOutlet.selectedSegmentIndex) {
+//        case 0:
+//            returnValue = dataModel.allScenarios.count
+//        case 1:
+//            returnValue = dataModel.completedScenarios.count
+//        case 2:
+//            returnValue = dataModel.availableScenarios.count
+//        default:
+//            break
+//        }
         return returnValue
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> ScenarioMainCell {
         let cell = makeCell(for: tableView)
-        
-        switch(scenarioFilterOutlet.selectedSegmentIndex) {
-        case 0:
+        if searchController.isActive && searchController.searchBar.text != "" {
+            scenario = filteredScenarios[indexPath.row]
+        } else {
             scenario = dataModel.allScenarios[indexPath.row]
-        case 1:
-            scenario = dataModel.completedScenarios[indexPath.row]
-        case 2:
-            scenario = dataModel.availableScenarios[indexPath.row]
-        default:
-            break
         }
+//        scenario = dataModel.allScenarios[indexPath.row]
+//        switch(scenarioFilterOutlet.selectedSegmentIndex) {
+//        case 0:
+//            scenario = dataModel.allScenarios[indexPath.row]
+//        case 1:
+//            scenario = dataModel.completedScenarios[indexPath.row]
+//        case 2:
+//            scenario = dataModel.availableScenarios[indexPath.row]
+//        default:
+//            break
+//        }
         configureTitle(for: cell, with: scenario)
         cell.backgroundColor = configureBGColor(for: cell, with: scenario)
         configureRewardText(for: cell, with: scenario.rewards)
@@ -100,6 +118,15 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
         self.navigationController?.navigationBar.barTintColor = DataModel.sharedInstance.availableBGColor
         //Try notification for tapped rows in ScenarioDetailViewController
         NotificationCenter.default.addObserver(self, selector: #selector(segueToDetailViewController), name: NSNotification.Name(rawValue: "segue"), object: nil)
+        
+        //Set up searchController stuff
+        searchController.searchBar.barTintColor = dataModel.availableBGColor
+        searchController.searchBar.placeholder = "Search Scenarios"
+        searchController.searchBar.tintColor = UIColor.black
+        searchController.searchResultsUpdater = self
+        searchController.dimsBackgroundDuringPresentation = false
+        definesPresentationContext = true
+        tableView.tableHeaderView = searchController.searchBar
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -109,17 +136,21 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
     
     // Set up swipe functionality
     override func tableView(_ tableView: UITableView, editActionsForRowAt: IndexPath) -> [UITableViewRowAction]? {
-        
-        switch(scenarioFilterOutlet.selectedSegmentIndex) {
-        case 0:
+        if searchController.isActive && searchController.searchBar.text != "" {
+            scenario = filteredScenarios[editActionsForRowAt.row]
+        } else {
             scenario = dataModel.allScenarios[editActionsForRowAt.row]
-        case 1:
-            scenario = dataModel.completedScenarios[editActionsForRowAt.row]
-        case 2:
-            scenario = dataModel.availableScenarios[editActionsForRowAt.row]
-        default:
-            break
         }
+//        switch(scenarioFilterOutlet.selectedSegmentIndex) {
+//        case 0:
+//            scenario = dataModel.allScenarios[editActionsForRowAt.row]
+//        case 1:
+//            scenario = dataModel.completedScenarios[editActionsForRowAt.row]
+//        case 2:
+//            scenario = dataModel.availableScenarios[editActionsForRowAt.row]
+//        default:
+//            break
+//        }
         //bgColor = UIColor(hue: 213/360, saturation: 0/100, brightness: 64/100, alpha: 1.0)
         if scenario.completed {
             bgColor = dataModel.availableBGColor
@@ -216,17 +247,22 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
     // Perform segue (Show Scenario Detail when cell is tapped)
     override func tableView(_ tableView: UITableView,
                             didSelectRowAt indexPath: IndexPath) {
-        //Make sure to draw from proper dataModel filter for our indexPath based on segment selection
-        switch(scenarioFilterOutlet.selectedSegmentIndex) {
-        case 0:
+        if searchController.isActive && searchController.searchBar.text != "" {
+            scenario = filteredScenarios[indexPath.row]
+        } else {
             scenario = dataModel.allScenarios[indexPath.row]
-        case 1:
-            scenario = dataModel.completedScenarios[indexPath.row]
-        case 2:
-            scenario = dataModel.availableScenarios[indexPath.row]
-        default:
-            break
         }
+        //Make sure to draw from proper dataModel filter for our indexPath based on segment selection
+//        switch(scenarioFilterOutlet.selectedSegmentIndex) {
+//        case 0:
+//            scenario = dataModel.allScenarios[indexPath.row]
+//        case 1:
+//            scenario = dataModel.completedScenarios[indexPath.row]
+//        case 2:
+//            scenario = dataModel.availableScenarios[indexPath.row]
+//        default:
+//            break
+//        }
         dataModel.selectedScenario = scenario
         performSegue(withIdentifier: "ShowScenarioDetail", sender: scenario)
         tableView.deselectRow(at: indexPath, animated: true)
@@ -318,6 +354,11 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
         })
         navigationItem.title = "All Scenarios"
     }
+    // Search helper functions
+    func filterContentForSearchText(searchText: String, scope: String = "All") {
+        filteredScenarios = dataModel.allScenarios.filter { scenario in return scenario.title.lowercased().contains(searchText.lowercased()) }
+        tableView.reloadData()
+    }
     
     // Implement delegate methods for ScenarioPickerViewController
     func scenarioPickerViewControllerDidCancel(_ controller: ScenarioPickerViewController) {
@@ -328,8 +369,8 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
     }
     
     func scenarioPickerViewController(_ controller: ScenarioPickerViewController, didFinishPicking scenario: Scenario) {
-        if let chosenScenario = controller.chosenScenario?.components(separatedBy: " - ") {
-            scenario.unlocks = ["ONEOF", "\(chosenScenario[0])"]
+        if let pickedScenario = controller.pickedScenario?.components(separatedBy: " - ") {
+            scenario.unlocks = ["ONEOF", "\(pickedScenario[0])"]
         }
         dataModel.updateAvailableScenarios(scenario: scenario, isCompleted: true)
         tableView.reloadData()
@@ -343,5 +384,6 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
             self.performSegue(withIdentifier: "ShowScenarioDetail", sender: scenarioTapped)
         }
     }
+
 }
 

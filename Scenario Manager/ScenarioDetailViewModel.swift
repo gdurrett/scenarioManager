@@ -49,16 +49,8 @@ class ScenarioDetailViewModel: NSObject {
         super.init()
         
         if let scenario = dataModel.selectedScenario {
-            if scenario.completed {
-                cellBGColor = DataModel.sharedInstance.completedBGColor
-                statusIcon = #imageLiteral(resourceName: "scenarioCompletedIcon")
-            } else if scenario.isUnlocked && scenario.requirementsMet {
-                cellBGColor = DataModel.sharedInstance.availableBGColor
-                statusIcon = #imageLiteral(resourceName: "scenarioAvailableIcon")
-            } else {
-                cellBGColor = DataModel.sharedInstance.unavailableBGColor
-                statusIcon = #imageLiteral(resourceName: "scenarioLockedIcon")
-            }
+            getStatusIcon(scenario: scenario)
+
             let titleItem = ScenarioDetailViewModelScenarioTitleItem(title: scenario.title, statusIcon: statusIcon)
             items.append(titleItem)
             
@@ -140,6 +132,20 @@ class ScenarioDetailViewModel: NSObject {
                 let achievesItem = ScenarioDetailViewModelAchievesInfoItem(achieves: achieves)
                 items.append(achievesItem)
             }
+        }
+    }
+    //MARK: Helper Functions
+    
+    func getStatusIcon(scenario: Scenario) {
+        if scenario.completed {
+            cellBGColor = DataModel.sharedInstance.completedBGColor
+            statusIcon = #imageLiteral(resourceName: "scenarioCompletedIcon")
+        } else if scenario.isUnlocked && scenario.requirementsMet {
+            cellBGColor = DataModel.sharedInstance.availableBGColor
+            statusIcon = #imageLiteral(resourceName: "scenarioAvailableIcon")
+        } else {
+            cellBGColor = DataModel.sharedInstance.unavailableBGColor
+            statusIcon = #imageLiteral(resourceName: "scenarioLockedIcon")
         }
     }
     
