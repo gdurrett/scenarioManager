@@ -18,22 +18,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <segmentedControl key="tableHeaderView" opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" id="TDM-Fv-5Xe">
-                            <rect key="frame" x="0.0" y="0.0" width="320" height="30"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <segments>
-                                <segment title="All" enabled="NO"/>
-                                <segment title="Completed"/>
-                                <segment title="Available"/>
-                            </segments>
-                            <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                            <connections>
-                                <action selector="scenarioFilterAction:" destination="qpW-Bp-kIS" eventType="valueChanged" id="E03-Uw-fme"/>
-                            </connections>
-                        </segmentedControl>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Scenario" id="t1s-S5-1Df" customClass="ScenarioMainCell" customModule="Scenario_Manager" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="58" width="320" height="100"/>
+                                <rect key="frame" x="0.0" y="28" width="320" height="100"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="t1s-S5-1Df" id="35i-Pn-zZX">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="99.5"/>
@@ -98,7 +85,6 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Available Scenarios" id="sTP-Jw-SmO"/>
                     <connections>
-                        <outlet property="scenarioFilterOutlet" destination="TDM-Fv-5Xe" id="Xr1-k9-x3G"/>
                         <segue destination="A4A-u0-5C5" kind="show" identifier="ShowScenarioPicker" id="N3e-ID-9hX"/>
                         <segue destination="Jhb-22-zHK" kind="show" identifier="ShowScenarioDetail" id="1Qz-Hs-JBV"/>
                     </connections>

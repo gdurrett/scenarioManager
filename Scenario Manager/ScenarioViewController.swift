@@ -121,10 +121,12 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
         
         //Set up searchController stuff
         searchController.searchBar.barTintColor = dataModel.availableBGColor
-        searchController.searchBar.placeholder = "Search Scenarios"
+        searchController.searchBar.placeholder = "Search Scenarios, Rewards, Achievements"
         searchController.searchBar.tintColor = UIColor.black
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
+        searchController.searchBar.sizeToFit()
+        searchController.searchBar.searchBarStyle = .minimal
         definesPresentationContext = true
         tableView.tableHeaderView = searchController.searchBar
     }
@@ -356,7 +358,8 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
     }
     // Search helper functions
     func filterContentForSearchText(searchText: String, scope: String = "All") {
-        filteredScenarios = dataModel.allScenarios.filter { scenario in return scenario.title.lowercased().contains(searchText.lowercased()) }
+        //filteredScenarios = dataModel.allScenarios.filter { scenario in return scenario.title.lowercased().contains(searchText.lowercased()) }
+        filteredScenarios = dataModel.allScenarios.filter { scenario in return scenario.title.lowercased().contains(searchText.lowercased()) || scenario.achieves.minimalDescription.lowercased().contains(searchText.lowercased()) || scenario.rewards.minimalDescription.lowercased().contains(searchText.lowercased())}
         tableView.reloadData()
     }
     
