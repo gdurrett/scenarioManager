@@ -59,39 +59,40 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
         if searchController.isActive && searchController.searchBar.text != "" {
             returnValue = filteredScenarios.count
         } else {
-            returnValue = dataModel.allScenarios.count
+            //            returnValue = dataModel.allScenarios.count
+            //        }
+            switch(scenarioFilterOutlet.selectedSegmentIndex) {
+            case 0:
+                returnValue = dataModel.allScenarios.count
+            case 1:
+                returnValue = dataModel.availableScenarios.count
+            case 2:
+                returnValue = dataModel.completedScenarios.count
+            default:
+                break
+            }
         }
-//        switch(scenarioFilterOutlet.selectedSegmentIndex) {
-//        case 0:
-//            returnValue = dataModel.allScenarios.count
-//        case 1:
-//            returnValue = dataModel.completedScenarios.count
-//        case 2:
-//            returnValue = dataModel.availableScenarios.count
-//        default:
-//            break
-//        }
         return returnValue
     }
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> ScenarioMainCell {
         let cell = makeCell(for: tableView)
         if searchController.isActive && searchController.searchBar.text != "" {
             scenario = filteredScenarios[indexPath.row]
         } else {
-            scenario = dataModel.allScenarios[indexPath.row]
+            //            scenario = dataModel.allScenarios[indexPath.row]
+            //        }
+            //scenario = dataModel.allScenarios[indexPath.row]
+            switch(scenarioFilterOutlet.selectedSegmentIndex) {
+            case 0:
+                scenario = dataModel.allScenarios[indexPath.row]
+            case 1:
+                scenario = dataModel.availableScenarios[indexPath.row]
+            case 2:
+                scenario = dataModel.completedScenarios[indexPath.row]
+            default:
+                break
+            }
         }
-//        scenario = dataModel.allScenarios[indexPath.row]
-//        switch(scenarioFilterOutlet.selectedSegmentIndex) {
-//        case 0:
-//            scenario = dataModel.allScenarios[indexPath.row]
-//        case 1:
-//            scenario = dataModel.completedScenarios[indexPath.row]
-//        case 2:
-//            scenario = dataModel.availableScenarios[indexPath.row]
-//        default:
-//            break
-//        }
         configureTitle(for: cell, with: scenario)
         cell.backgroundColor = configureBGColor(for: cell, with: scenario)
         configureRewardText(for: cell, with: scenario.rewards)
@@ -141,18 +142,19 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
         if searchController.isActive && searchController.searchBar.text != "" {
             scenario = filteredScenarios[editActionsForRowAt.row]
         } else {
-            scenario = dataModel.allScenarios[editActionsForRowAt.row]
+            //            scenario = dataModel.allScenarios[editActionsForRowAt.row]
+            //        }
+            switch(scenarioFilterOutlet.selectedSegmentIndex) {
+            case 0:
+                scenario = dataModel.allScenarios[editActionsForRowAt.row]
+            case 1:
+                scenario = dataModel.availableScenarios[editActionsForRowAt.row]
+            case 2:
+                scenario = dataModel.completedScenarios[editActionsForRowAt.row]
+            default:
+                break
+            }
         }
-//        switch(scenarioFilterOutlet.selectedSegmentIndex) {
-//        case 0:
-//            scenario = dataModel.allScenarios[editActionsForRowAt.row]
-//        case 1:
-//            scenario = dataModel.completedScenarios[editActionsForRowAt.row]
-//        case 2:
-//            scenario = dataModel.availableScenarios[editActionsForRowAt.row]
-//        default:
-//            break
-//        }
         //bgColor = UIColor(hue: 213/360, saturation: 0/100, brightness: 64/100, alpha: 1.0)
         if scenario.completed {
             bgColor = dataModel.availableBGColor
@@ -252,19 +254,20 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
         if searchController.isActive && searchController.searchBar.text != "" {
             scenario = filteredScenarios[indexPath.row]
         } else {
-            scenario = dataModel.allScenarios[indexPath.row]
+            //            scenario = dataModel.allScenarios[indexPath.row]
+            //        }
+            //Make sure to draw from proper dataModel filter for our indexPath based on segment selection
+            switch(scenarioFilterOutlet.selectedSegmentIndex) {
+            case 0:
+                scenario = dataModel.allScenarios[indexPath.row]
+            case 1:
+                scenario = dataModel.availableScenarios[indexPath.row]
+            case 2:
+                scenario = dataModel.completedScenarios[indexPath.row]
+            default:
+                break
+            }
         }
-        //Make sure to draw from proper dataModel filter for our indexPath based on segment selection
-//        switch(scenarioFilterOutlet.selectedSegmentIndex) {
-//        case 0:
-//            scenario = dataModel.allScenarios[indexPath.row]
-//        case 1:
-//            scenario = dataModel.completedScenarios[indexPath.row]
-//        case 2:
-//            scenario = dataModel.availableScenarios[indexPath.row]
-//        default:
-//            break
-//        }
         dataModel.selectedScenario = scenario
         performSegue(withIdentifier: "ShowScenarioDetail", sender: scenario)
         tableView.deselectRow(at: indexPath, animated: true)
@@ -283,7 +286,7 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
         if scenario.completed == true {
             tableView.scenarioRowIcon.image = #imageLiteral(resourceName: "scenarioCompletedIcon")
         } else if scenario.requirementsMet == true && scenario.isUnlocked == true {
-            tableView.scenarioRowIcon.image = #imageLiteral(resourceName: "scenarioAvailableIcon")
+            //tableView.scenarioRowIcon.image = #imageLiteral(resourceName: "scenarioAvailableIcon")
         } else {
             tableView.scenarioRowIcon.image = #imageLiteral(resourceName: "scenarioLockedIcon")
         }
@@ -358,8 +361,18 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
     }
     // Search helper functions
     func filterContentForSearchText(searchText: String, scope: String = "All") {
-        //filteredScenarios = dataModel.allScenarios.filter { scenario in return scenario.title.lowercased().contains(searchText.lowercased()) }
-        filteredScenarios = dataModel.allScenarios.filter { scenario in return scenario.title.lowercased().contains(searchText.lowercased()) || scenario.achieves.minimalDescription.lowercased().contains(searchText.lowercased()) || scenario.rewards.minimalDescription.lowercased().contains(searchText.lowercased())}
+        var scenarioSubset = [Scenario]()
+        switch(scenarioFilterOutlet.selectedSegmentIndex) {
+        case 0:
+            scenarioSubset = dataModel.allScenarios
+        case 1:
+            scenarioSubset = dataModel.availableScenarios
+        case 2:
+            scenarioSubset = dataModel.completedScenarios
+        default:
+            break
+        }
+        filteredScenarios = scenarioSubset.filter { scenario in return scenario.title.lowercased().contains(searchText.lowercased()) || scenario.achieves.minimalDescription.lowercased().contains(searchText.lowercased()) || scenario.rewards.minimalDescription.lowercased().contains(searchText.lowercased())}
         tableView.reloadData()
     }
     

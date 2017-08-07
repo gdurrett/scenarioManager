@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Available Scenarios-->
+        <!--Scenario View Controller-->
         <scene sceneID="sGp-FP-ocQ">
             <objects>
                 <tableViewController storyboardIdentifier="ScenarioViewController" id="qpW-Bp-kIS" customClass="ScenarioViewController" customModule="Scenario_Manager" customModuleProvider="target" sceneMemberID="viewController">
@@ -83,8 +83,23 @@
                             <outlet property="delegate" destination="qpW-Bp-kIS" id="A2i-i2-NuQ"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Available Scenarios" id="sTP-Jw-SmO"/>
+                    <navigationItem key="navigationItem" id="sTP-Jw-SmO">
+                        <nil key="title"/>
+                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="ftH-BA-IjZ">
+                            <rect key="frame" x="8" y="7" width="304" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segments>
+                                <segment title="All"/>
+                                <segment title="Available"/>
+                                <segment title="Completed"/>
+                            </segments>
+                            <connections>
+                                <action selector="scenarioFilterAction:" destination="qpW-Bp-kIS" eventType="valueChanged" id="ZEF-Ho-N5s"/>
+                            </connections>
+                        </segmentedControl>
+                    </navigationItem>
                     <connections>
+                        <outlet property="scenarioFilterOutlet" destination="ftH-BA-IjZ" id="nMy-dA-GOE"/>
                         <segue destination="A4A-u0-5C5" kind="show" identifier="ShowScenarioPicker" id="N3e-ID-9hX"/>
                         <segue destination="Jhb-22-zHK" kind="show" identifier="ShowScenarioDetail" id="1Qz-Hs-JBV"/>
                     </connections>

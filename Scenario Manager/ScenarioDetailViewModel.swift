@@ -142,7 +142,7 @@ class ScenarioDetailViewModel: NSObject {
             statusIcon = #imageLiteral(resourceName: "scenarioCompletedIcon")
         } else if scenario.isUnlocked && scenario.requirementsMet {
             cellBGColor = DataModel.sharedInstance.availableBGColor
-            statusIcon = #imageLiteral(resourceName: "scenarioAvailableIcon")
+            //statusIcon = #imageLiteral(resourceName: "scenarioAvailableIcon")
         } else {
             cellBGColor = DataModel.sharedInstance.unavailableBGColor
             statusIcon = #imageLiteral(resourceName: "scenarioLockedIcon")
