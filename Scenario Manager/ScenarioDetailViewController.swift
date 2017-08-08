@@ -19,7 +19,7 @@ class ScenarioDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.tableView?.backgroundColor = UIColor.clear
+        self.tableView?.backgroundColor = UIColor(hue: 30/360, saturation: 14/100, brightness: 87/100, alpha: 1.0)
         
         tableView?.dataSource = viewModel
         tableView?.delegate = viewModel

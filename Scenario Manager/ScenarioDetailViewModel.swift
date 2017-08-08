@@ -226,6 +226,7 @@ extension ScenarioDetailViewModel: UITableViewDataSource, UITableViewDelegate {
             return cell
         }
     }
+//        tableView.backgroundView = UIImageView(image: UIImage(named: "scenarioMgrDetailBG"))
         return UITableViewCell()
     }
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {

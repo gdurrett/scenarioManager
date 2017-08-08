@@ -48,6 +48,7 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
     var pickerData = [String]()
     var pickedScenario: Scenario?
     var scenario: Scenario!
+    var imageForMainCell: UIImage!
     
     var filteredScenarios = [Scenario]()
     let searchController = UISearchController(searchResultsController: nil)
@@ -91,13 +92,29 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
             }
         }
         configureTitle(for: cell, with: scenario)
-        cell.backgroundColor = configureBGColor(for: cell, with: scenario)
+        //cell.backgroundColor = configureBGColor(for: cell, with: scenario)
+        
         configureRewardText(for: cell, with: scenario.rewards)
         configureAchievesText(for: cell, with: dataModel.getAchieves(for: scenario))
         configureRowIcon(for: ((cell as? ScenarioMainCell)!), with: scenario)
+        
+        // Test!
+        cell.backgroundView = UIImageView(image: UIImage(named: scenario.mainCellBGImage))
+        cell.backgroundView?.alpha = 0.25
+        cell.selectedBackgroundView = UIImageView(image: UIImage(named: scenario.mainCellBGImage))
+        cell.selectedBackgroundView?.alpha = 0.65
         return cell as! ScenarioMainCell
         
     }
+//    func tableView(tableView: UITableView, willDisplayCell cell: ScenarioMainCell, forRowAtIndexPath indexPath: NSIndexPath){
+//        
+//        cell.backgroundColor = tableView.backgroundColor
+//        cell.contentView.backgroundColor = tableView.backgroundColor
+//        imageForMainCell = setImageFromURl(imageUrl: scenario.mainCellBGImage)
+//        cell.backgroundView = UIImageView(image: imageForMainCell)
+//        //cell.backgroundView?.isOpaque = false
+//        
+//    }
 // May use in the future to disallow row selection!
 //    override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
 //        let scenario = dataModel.allScenarios[indexPath.row]
@@ -129,12 +146,11 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
         tableView.tableHeaderView = searchController.searchBar
         
         // Change titles on segmented controller
-        scenarioFilterOutlet.setTitle("All (\(dataModel.allScenarios.count))", forSegmentAt: 0)
-        scenarioFilterOutlet.setTitle("Available (\(dataModel.availableScenarios.count))", forSegmentAt: 1)
-        scenarioFilterOutlet.setTitle("Completed (\(dataModel.completedScenarios.count))", forSegmentAt: 2)
+        setSegmentTitles()
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        setSegmentTitles()
         super.viewWillAppear(animated)
         self.tableView.reloadData()
     }
@@ -196,6 +212,7 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
                             //Okay to mark uncompleted, but don't trigger lock
                             self.scenario.completed = false
                             self.dataModel.updateAvailableScenarios(scenario: self.scenario, isCompleted: false)
+                            self.setSegmentTitles()
                             tableView.reloadData()
                         } else {
                             //NOT okay to mark uncompleted
@@ -206,11 +223,13 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
                             //Okay to mark uncompleted, but don't trigger lock of uncompleted lock
                             self.scenario.completed = false
                             self.dataModel.updateAvailableScenarios(scenario: self.scenario, isCompleted: false)
+                            self.setSegmentTitles()
                             tableView.reloadData()
                         } else {
                             //Okay to mark uncompleted AND trigger lock
                             self.scenario.completed = false
                             self.dataModel.updateAvailableScenarios(scenario: self.scenario, isCompleted: false)
+                            self.setSegmentTitles()
                             tableView.reloadData()
                         }
                     }
@@ -220,6 +239,7 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
                         self.performSegue(withIdentifier: "ShowScenarioPicker", sender: self.scenario)
                     } else {
                         self.dataModel.updateAvailableScenarios(scenario: self.scenario, isCompleted: true)
+                        self.setSegmentTitles()
                         tableView.reloadData()
                     }
                 }
@@ -306,6 +326,7 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
         } else { // If unavailable, set color to gray
             return DataModel.sharedInstance.unavailableBGColor
         }
+        //return UIColor(hue: 30/360, saturation: 0/100, brightness: 97/100, alpha: 0.6)
     }
     func configureRewardText(for cell: UITableViewCell, with rewards: [String]) {
         let label = cell.viewWithTag(1100) as! UILabel
@@ -330,6 +351,21 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
             }
         }
         return additionalTitles
+    }
+    func setImageFromURl(imageUrl url: NSURL) -> UIImage {
+        var image = UIImage()
+//        if let url = NSURL(string: url) {
+            if let data = NSData(contentsOf: url as URL) {
+                image = UIImage(data: data as Data)!
+            }
+//        }
+        return image
+    }
+    func setSegmentTitles() {
+        scenarioFilterOutlet.setTitle("All (\(dataModel.allScenarios.count))", forSegmentAt: 0)
+        scenarioFilterOutlet.setTitle("Available (\(dataModel.availableScenarios.count))", forSegmentAt: 1)
+        scenarioFilterOutlet.setTitle("Completed (\(dataModel.completedScenarios.count))", forSegmentAt: 2)
+        tableView.reloadData()
     }
     func setPickerData(for scenario: Scenario) {
         pickerData = []
@@ -390,6 +426,7 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
             scenario.unlocks = ["ONEOF", "\(pickedScenario[0])"]
         }
         dataModel.updateAvailableScenarios(scenario: scenario, isCompleted: true)
+        self.setSegmentTitles()
         tableView.reloadData()
         dismiss(animated: true, completion: nil)
     }

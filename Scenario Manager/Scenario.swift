@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 class Scenario: NSObject, NSCoding {
     
@@ -24,12 +25,13 @@ class Scenario: NSObject, NSCoding {
     var summary = String()
     var location = String()
     var isManuallyUnlockable = false
+    var mainCellBGImage = String()
  
 //    override init() {
 //        super.init()
 //    }
 
-    init(number: String, title: String, completed: Bool, requirementsMet: Bool, requirements: [String: Bool], isUnlocked: Bool, unlockedBy: [String], unlocks: [String], achieves: [String], rewards: [String], summary: String, location: String, isManuallyUnlockable: Bool) {
+    init(number: String, title: String, completed: Bool, requirementsMet: Bool, requirements: [String: Bool], isUnlocked: Bool, unlockedBy: [String], unlocks: [String], achieves: [String], rewards: [String], summary: String, location: String, isManuallyUnlockable: Bool, mainCellBGImage: String) {
 //    override init() {
         self.number = number
         self.title = title
@@ -44,6 +46,7 @@ class Scenario: NSObject, NSCoding {
         self.summary = summary
         self.location = location
         self.isManuallyUnlockable = isManuallyUnlockable
+        self.mainCellBGImage = mainCellBGImage
     }
     
     // Must implement in order to allow Scenarios to be loaded
@@ -54,7 +57,7 @@ class Scenario: NSObject, NSCoding {
         completed = aDecoder.decodeBool(forKey: "Completed")
         isUnlocked = aDecoder.decodeBool(forKey: "IsUnlocked")
         requirementsMet = aDecoder.decodeBool(forKey: "RequirementsMet")
-        requirements = aDecoder.decodeObject(forKey: "Requirements") as! [String: Bool  ]
+        requirements = aDecoder.decodeObject(forKey: "Requirements") as! [String: Bool]
         unlockedBy = aDecoder.decodeObject(forKey: "UnlockedBy") as! [String]
         unlocks = aDecoder.decodeObject(forKey: "Unlocks") as! [String]
         achieves = aDecoder.decodeObject(forKey: "Achieves") as! [String]
@@ -62,7 +65,9 @@ class Scenario: NSObject, NSCoding {
         summary = aDecoder.decodeObject(forKey: "Summary") as! String
         location = aDecoder.decodeObject(forKey: "Location") as! String
         isManuallyUnlockable = aDecoder.decodeBool(forKey: "IsManuallyUnlockable")
+        mainCellBGImage = aDecoder.decodeObject(forKey: "MainCellBGImage") as! String
         super.init()
+
     }
     
     // Must implement in order to allow Scenarios to be saved
@@ -81,5 +86,6 @@ class Scenario: NSObject, NSCoding {
         aCoder.encode(summary, forKey: "Summary")
         aCoder.encode(location, forKey: "Location")
         aCoder.encode(isManuallyUnlockable, forKey: "IsManuallyUnlockable")
+        aCoder.encode(mainCellBGImage, forKey: "MainCellBGImage")
     }
 }
