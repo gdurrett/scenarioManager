@@ -25,9 +25,9 @@ class DataModel {
     var selectedScenario: Scenario?
 
     // Used by all VCs that color rows
-    let unavailableBGColor = UIColor(hue: 35/360, saturation: 75/100, brightness: 90/100, alpha: 1.0)
-    let availableBGColor = UIColor(hue: 35/360, saturation: 30/100, brightness: 100/100, alpha: 1.0)
-    let completedBGColor = UIColor(hue: 35/360, saturation: 75/100, brightness: 70/100, alpha: 1.0)
+    let unavailableBGColor = UIColor(hue: 30/360, saturation: 0/100, brightness: 95/100, alpha: 1.0)
+    let availableBGColor = UIColor.white
+    let completedBGColor = UIColor(hue: 30/360, saturation: 0/100, brightness: 90/100, alpha: 1.0)
     
     let defaultUnlocks = [ "13" : ["ONEOF", "15", "17", "20"] ]
     
@@ -59,7 +59,7 @@ class DataModel {
             let row4Scenario = Scenario(number: "5", title: "Ruinous Crypt", completed: false, requirementsMet: false, requirements: ["None": true], isUnlocked: false, unlockedBy: ["4"], unlocks: ["10", "14", "19"], achieves: ["None"], rewards: ["None"], summary: "Goal: Kill all enemies.\n\nThe script you found in the Crypt of the Damned led you here, where it seems the Cultists are channeling Demons through an infernal portal. You can disrupt their plans by closing the rift.", location: "D-6, Stone Road", isManuallyUnlockable: false)
             allScenarios.append(row4Scenario)
 
-            let row5Scenario = Scenario(number: "6", title: "Decaying Crypt", completed: false, requirementsMet: false, requirements: ["None": true], isUnlocked: false, unlockedBy: ["4"], unlocks: ["8"], achieves: ["Jekserah's Plans", "Dark Bounty"], rewards: ["5 Gold Each"], summary: "Goal: Reveal the M tile and kill all revealed enemies.\n\nYou decide to lend the Cultists a hand and clear out some undead that have taken up residence at an important area of power.", location: "F10, Still River", isManuallyUnlockable: false)
+            let row5Scenario = Scenario(number: "6", title: "Decaying Crypt", completed: false, requirementsMet: false, requirements: ["None": true], isUnlocked: false, unlockedBy: ["4"], unlocks: ["8"], achieves: ["Jekserah's Plans", "Dark Bounty"], rewards: ["5 Gold Each"], summary: "Goal: Reveal the M tile and kill all revealed enemies\n\nYou decide to lend the Cultists a hand and clear out some undead that have taken up residence at an important area of power.", location: "F10, Still River", isManuallyUnlockable: false)
             allScenarios.append(row5Scenario)
 
             let row6Scenario = Scenario(number: "7", title: "Vibrant Grotto", completed: false, requirementsMet: false, requirements: ["The Power of Enhancement": true, "The Merchant Flees": true], isUnlocked: false, unlockedBy: ["8"], unlocks: ["20"], achieves: ["None"], rewards: ["None"], summary: "Goal: Loot all treasure tiles.\n\nJekserah's gotten away, unfortunately, but the City Guard Argeise told you about an Aesther Enchanter named Hail who might be able to help. You'll have to fetch her some Biteroot first, however.", location: "C12, Copperneck Mountains", isManuallyUnlockable: false)
@@ -134,7 +134,7 @@ class DataModel {
             let row29Scenario = Scenario(number: "30", title: "Shrine of the Depths", completed: false, requirementsMet: false, requirements: ["The Voice's Command" : true], isUnlocked: false, unlockedBy: ["24"], unlocks: ["42"], achieves: ["The Scepter and the Voice"], rewards: ["10 Gold Each"], summary: "Goal: Loot the treasure tile.\n\nAfter consulting with a bookish Quatryl, you discover that the Voice you've been hearing is a Demon of terrible power. You now understand it's been attempting to trick you into freeing it from its plane of imprisonment. The Quatryl points you to a sunken shrine which contains a scepter that could strengthen the binding of the Demon to its plane. Retrieve the scepter.", location: "", isManuallyUnlockable: false)
             allScenarios.append(row29Scenario)
             
-            let row30Scenario = Scenario(number: "31", title: "Plane of Night", completed: false, requirementsMet: false, requirements: ["The Power of Enhancement" : true, "Artifact: Recovered" : true], isUnlocked: false, unlockedBy: ["22"], unlocks: ["37", "38", "39", "43"], achieves: ["Artifact: Cleansed"], rewards: ["None"], summary: "Goal: Destroy the rock column:\n\nThe corrupted artifact you found back in the Temple of the Elements needs the attention of an Enchanter. Alas, the only one you know is Hail. She knows what needs to be done to rebalance it, but that will involve the destruction of a towering column.", location: "A-16, Gloomhaven", isManuallyUnlockable: false)
+            let row30Scenario = Scenario(number: "31", title: "Plane of Night", completed: false, requirementsMet: false, requirements: ["The Power of Enhancement" : true, "Artifact: Recovered" : true], isUnlocked: false, unlockedBy: ["22"], unlocks: ["37", "38", "39", "43"], achieves: ["Artifact: Cleansed"], rewards: ["None"], summary: "Goal: Destroy the rock column\n\nThe corrupted artifact you found back in the Temple of the Elements needs the attention of an Enchanter. Alas, the only one you know is Hail. She knows what needs to be done to rebalance it, but that will involve the destruction of a towering column.", location: "A-16, Gloomhaven", isManuallyUnlockable: false)
             allScenarios.append(row30Scenario)
             
             let row31Scenario = Scenario(number: "32", title: "Decrepit Wood", completed: false, requirementsMet: false, requirements: ["The Voice's Command" : true], isUnlocked: false, unlockedBy: ["24"], unlocks: ["33", "40"], achieves: ["None"], rewards: ["None"], summary: "Goal: Reveal the G tile, kill all revealed enemies, and loot the treasure tile.\n\nThe Voice has directed you to retrieve his so-called 'Vessel of Power' from some place deep in the Lingering Swamp. Get ready to face a horde of Militaristic Harrowers.", location: "L-11, Lingering Swamp", isManuallyUnlockable: false)

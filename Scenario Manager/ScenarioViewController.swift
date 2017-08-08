@@ -79,9 +79,6 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
         if searchController.isActive && searchController.searchBar.text != "" {
             scenario = filteredScenarios[indexPath.row]
         } else {
-            //            scenario = dataModel.allScenarios[indexPath.row]
-            //        }
-            //scenario = dataModel.allScenarios[indexPath.row]
             switch(scenarioFilterOutlet.selectedSegmentIndex) {
             case 0:
                 scenario = dataModel.allScenarios[indexPath.row]
@@ -97,7 +94,7 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
         cell.backgroundColor = configureBGColor(for: cell, with: scenario)
         configureRewardText(for: cell, with: scenario.rewards)
         configureAchievesText(for: cell, with: dataModel.getAchieves(for: scenario))
-        configureRowIcon(for: cell as! ScenarioMainCell, with: scenario)
+        configureRowIcon(for: ((cell as? ScenarioMainCell)!), with: scenario)
         return cell as! ScenarioMainCell
         
     }
@@ -130,6 +127,11 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
         searchController.searchBar.searchBarStyle = .minimal
         definesPresentationContext = true
         tableView.tableHeaderView = searchController.searchBar
+        
+        // Change titles on segmented controller
+        scenarioFilterOutlet.setTitle("All (\(dataModel.allScenarios.count))", forSegmentAt: 0)
+        scenarioFilterOutlet.setTitle("Available (\(dataModel.availableScenarios.count))", forSegmentAt: 1)
+        scenarioFilterOutlet.setTitle("Completed (\(dataModel.completedScenarios.count))", forSegmentAt: 2)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -158,7 +160,6 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
         //bgColor = UIColor(hue: 213/360, saturation: 0/100, brightness: 64/100, alpha: 1.0)
         if scenario.completed {
             bgColor = dataModel.availableBGColor
-            
             myCompletedTitle = "Uncompleted"
         } else if scenario.isUnlocked && scenario.requirementsMet  {
             bgColor = dataModel.completedBGColor
@@ -286,7 +287,7 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
         if scenario.completed == true {
             tableView.scenarioRowIcon.image = #imageLiteral(resourceName: "scenarioCompletedIcon")
         } else if scenario.requirementsMet == true && scenario.isUnlocked == true {
-            //tableView.scenarioRowIcon.image = #imageLiteral(resourceName: "scenarioAvailableIcon")
+            tableView.scenarioRowIcon.image = nil
         } else {
             tableView.scenarioRowIcon.image = #imageLiteral(resourceName: "scenarioLockedIcon")
         }
