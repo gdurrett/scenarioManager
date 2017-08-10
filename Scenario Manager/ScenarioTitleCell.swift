@@ -20,7 +20,7 @@ class ScenarioTitleCell: UITableViewCell {
                 return
             }
             scenarioTitleLabel?.sizeToFit()
-            scenarioTitleLabel?.text = item.title
+            scenarioTitleLabel?.text = "\(item.number)) \(item.title)"
             scenarioStatusIcon.image = item.statusIcon
         }
     }

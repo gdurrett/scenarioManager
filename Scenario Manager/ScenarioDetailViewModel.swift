@@ -51,7 +51,7 @@ class ScenarioDetailViewModel: NSObject {
         if let scenario = dataModel.selectedScenario {
             getStatusIcon(scenario: scenario)
 
-            let titleItem = ScenarioDetailViewModelScenarioTitleItem(title: scenario.title, statusIcon: statusIcon)
+            let titleItem = ScenarioDetailViewModelScenarioTitleItem(number: scenario.number, title: scenario.title, statusIcon: statusIcon)
             items.append(titleItem)
             
             let locationItem = ScenarioDetailViewModelScenarioLocationItem(location: scenario.location)
@@ -226,7 +226,6 @@ extension ScenarioDetailViewModel: UITableViewDataSource, UITableViewDelegate {
             return cell
         }
     }
-//        tableView.backgroundView = UIImageView(image: UIImage(named: "scenarioMgrDetailBG"))
         return UITableViewCell()
     }
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -256,11 +255,13 @@ class ScenarioDetailViewModelScenarioTitleItem: ScenarioDetailViewModelItem {
         return 1
     }
     
+    var number: String
     var title: String
     // Try passing in availability status
     var statusIcon: UIImage
     
-    init(title: String, statusIcon: UIImage) {
+    init(number: String, title: String, statusIcon: UIImage) {
+        self.number = number
         self.title = title
         self.statusIcon = statusIcon
     }

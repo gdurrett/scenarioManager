@@ -95,7 +95,7 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
         //cell.backgroundColor = configureBGColor(for: cell, with: scenario)
         
         configureRewardText(for: cell, with: scenario.rewards)
-        configureAchievesText(for: cell, with: dataModel.getAchieves(for: scenario))
+        configureAchievesText(for: cell, with: scenario.summary)
         configureRowIcon(for: ((cell as? ScenarioMainCell)!), with: scenario)
         
         // Test!
@@ -106,24 +106,6 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
         return cell as! ScenarioMainCell
         
     }
-//    func tableView(tableView: UITableView, willDisplayCell cell: ScenarioMainCell, forRowAtIndexPath indexPath: NSIndexPath){
-//        
-//        cell.backgroundColor = tableView.backgroundColor
-//        cell.contentView.backgroundColor = tableView.backgroundColor
-//        imageForMainCell = setImageFromURl(imageUrl: scenario.mainCellBGImage)
-//        cell.backgroundView = UIImageView(image: imageForMainCell)
-//        //cell.backgroundView?.isOpaque = false
-//        
-//    }
-// May use in the future to disallow row selection!
-//    override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-//        let scenario = dataModel.allScenarios[indexPath.row]
-//        if (scenario.isUnlocked && scenario.requirementsMet) || scenario.completed {
-//            return indexPath
-//        } else {
-//            return nil
-//        }
-//    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -148,7 +130,10 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
         // Change titles on segmented controller
         setSegmentTitles()
     }
-    
+    // Fix deallocation bug when returning here from detailView
+    deinit {
+        self.searchController.view.removeFromSuperview()
+    }
     override func viewWillAppear(_ animated: Bool) {
         setSegmentTitles()
         super.viewWillAppear(animated)
@@ -173,24 +158,9 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
                 break
             }
         }
-        //bgColor = UIColor(hue: 213/360, saturation: 0/100, brightness: 64/100, alpha: 1.0)
-        if scenario.completed {
-            bgColor = dataModel.availableBGColor
-            myCompletedTitle = "Uncompleted"
-        } else if scenario.isUnlocked && scenario.requirementsMet  {
-            bgColor = dataModel.completedBGColor
-            myCompletedTitle = "Completed"
-        } else {
-            bgColor = UIColor(hue: 213/360, saturation: 0/100, brightness: 64/100, alpha: 1.0)
-            myCompletedTitle = "Unavailable"
-        }
-        if scenario.isManuallyUnlockable && scenario.isUnlocked && !scenario.completed {
-            myLockedTitle = "Lock"
-        } else if scenario.isManuallyUnlockable && !scenario.completed {
-            myLockedTitle = "Unlock"
-        } else {
-            myLockedTitle = "NoShow"
-        }
+
+        configureSwipeButton(for: scenario)
+
         let swipeToggleLocked = UITableViewRowAction(style: .normal, title: self.myLockedTitle) { action, index in
         if self.myLockedTitle == "Unlock" {
             self.scenario.isUnlocked = true
@@ -313,6 +283,25 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
         }
         
     }
+    func configureSwipeButton(for scenario: Scenario) {
+        if scenario.completed {
+            bgColor = dataModel.availableBGColor
+            myCompletedTitle = "Set Uncompleted"
+        } else if scenario.isUnlocked && scenario.requirementsMet  {
+            bgColor = dataModel.completedBGColor
+            myCompletedTitle = "Set Completed"
+        } else {
+            bgColor = UIColor(hue: 213/360, saturation: 0/100, brightness: 64/100, alpha: 1.0)
+            myCompletedTitle = "Unavailable"
+        }
+        if scenario.isManuallyUnlockable && scenario.isUnlocked && !scenario.completed {
+            myLockedTitle = "Lock"
+        } else if scenario.isManuallyUnlockable && !scenario.completed {
+            myLockedTitle = "Unlock"
+        } else {
+            myLockedTitle = "NoShow"
+        }
+    }
     func configureTitle(for cell: UITableViewCell, with scenario: Scenario) {
         let label = cell.viewWithTag(1000) as! UILabel
         label.text = "\(scenario.number)) " + scenario.title
@@ -329,7 +318,7 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
         //return UIColor(hue: 30/360, saturation: 0/100, brightness: 97/100, alpha: 0.6)
     }
     func configureRewardText(for cell: UITableViewCell, with rewards: [String]) {
-        let label = cell.viewWithTag(1100) as! UILabel
+        let label = cell.viewWithTag(1200) as! UILabel
         // Use extension to Sequence as defined before this class declaration
         label.text = ("Rewards: \(rewards.minimalDescription)")
         label.sizeToFit()
@@ -338,9 +327,11 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
         let label = cell.viewWithTag(1500) as! UILabel
         label.text = ("Unlocked By: \(unlockedBys.minimalDescription)")
     }
-    func configureAchievesText(for cell: UITableViewCell, with achieves: [String]) {
-        let label = cell.viewWithTag(1200) as! UILabel
-        label.text = ("Achieves: \(achieves.minimalDescription)")
+    func configureAchievesText(for cell: UITableViewCell, with text: String) {
+        let label = cell.viewWithTag(1100) as! UILabel
+        var lines = [String]()
+        text.enumerateLines { line, _ in lines.append(line) }
+        label.text = (lines[0])
     }
     func getAdditionalTitles(for scenario: Scenario) -> [(number: String, title: String)] {
         var additionalTitles = [(_:String, _:String)]()

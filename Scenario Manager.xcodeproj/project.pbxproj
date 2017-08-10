@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FB11F04A1F3A5CA600CAA684 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB11F0491F3A5CA600CAA684 /* Assets.xcassets */; };
 		FB23B6EA1F044CFC00CAA684 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB23B6E91F044CFC00CAA684 /* AppDelegate.swift */; };
 		FB23B6EC1F044CFC00CAA684 /* ScenarioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB23B6EB1F044CFC00CAA684 /* ScenarioViewController.swift */; };
 		FB23B6EF1F044CFC00CAA684 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB23B6ED1F044CFC00CAA684 /* Main.storyboard */; };
-		FB23B6F11F044CFC00CAA684 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB23B6F01F044CFC00CAA684 /* Assets.xcassets */; };
 		FB23B6F41F044CFC00CAA684 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB23B6F21F044CFC00CAA684 /* LaunchScreen.storyboard */; };
 		FB23B6FC1F04C40D00CAA684 /* Scenario.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB23B6FB1F04C40D00CAA684 /* Scenario.swift */; };
 		FB23B7021F0AB5ED00CAA684 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB23B7011F0AB5EC00CAA684 /* DataModel.swift */; };
@@ -37,11 +37,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		FB11F0491F3A5CA600CAA684 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FB23B6E61F044CFC00CAA684 /* Scenario Manager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Scenario Manager.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB23B6E91F044CFC00CAA684 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FB23B6EB1F044CFC00CAA684 /* ScenarioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScenarioViewController.swift; sourceTree = "<group>"; };
 		FB23B6EE1F044CFC00CAA684 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		FB23B6F01F044CFC00CAA684 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FB23B6F31F044CFC00CAA684 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FB23B6F51F044CFC00CAA684 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FB23B6FB1F04C40D00CAA684 /* Scenario.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scenario.swift; sourceTree = "<group>"; };
@@ -99,8 +99,8 @@
 			isa = PBXGroup;
 			children = (
 				FB482DA21F29380B00CAA684 /* TableView Cells */,
+				FB11F0491F3A5CA600CAA684 /* Assets.xcassets */,
 				FB23B6E91F044CFC00CAA684 /* AppDelegate.swift */,
-				FB23B6F01F044CFC00CAA684 /* Assets.xcassets */,
 				FB23B7011F0AB5EC00CAA684 /* DataModel.swift */,
 				FB23B6F51F044CFC00CAA684 /* Info.plist */,
 				FB23B6F21F044CFC00CAA684 /* LaunchScreen.storyboard */,
@@ -200,12 +200,12 @@
 			files = (
 				FB46658D1F2F964C00CAA684 /* SummaryInfoCell.xib in Resources */,
 				FB4665871F2E5C5900CAA684 /* RewardsInfoCell.xib in Resources */,
+				FB11F04A1F3A5CA600CAA684 /* Assets.xcassets in Resources */,
 				FB482D9D1F2934BA00CAA684 /* ScenarioTitleCell.xib in Resources */,
 				FB482DA11F2937B200CAA684 /* UnlocksInfoCell.xib in Resources */,
 				FB23B6F41F044CFC00CAA684 /* LaunchScreen.storyboard in Resources */,
 				FB482DAA1F293C6600CAA684 /* AchievesInfoCell.xib in Resources */,
 				FB46658B1F2E66C000CAA684 /* RequirementsInfoCell.xib in Resources */,
-				FB23B6F11F044CFC00CAA684 /* Assets.xcassets in Resources */,
 				FB23B6EF1F044CFC00CAA684 /* Main.storyboard in Resources */,
 				FB482DA61F293ABA00CAA684 /* UnlockedByInfoCell.xib in Resources */,
 				FB4665931F2FA9FA00CAA684 /* LocationInfoCell.xib in Resources */,
