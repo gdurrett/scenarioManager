@@ -44,6 +44,9 @@ class ScenarioDetailViewModel: NSObject {
     var achieves = [SeparatedStrings]()
     var cellBGColor = UIColor()
     var statusIcon = UIImage()
+    var myLockedTitle: String?
+    var myCompletedTitle: String?
+    var bgColor: UIColor?
     
     override init() {
         super.init()
@@ -172,6 +175,7 @@ extension ScenarioDetailViewModel: UITableViewDataSource, UITableViewDelegate {
             if let cell = tableView.dequeueReusableCell(withIdentifier: ScenarioTitleCell.identifier, for: indexPath) as? ScenarioTitleCell {
                 cell.backgroundColor = cellBGColor
                 cell.item = item
+                configureRowIcon(for: (cell), with: dataModel.selectedScenario!)
                 return cell
             }
         case .unlocksInfo:
@@ -193,9 +197,9 @@ extension ScenarioDetailViewModel: UITableViewDataSource, UITableViewDelegate {
                 cell.backgroundColor = cellBGColor
                 let requirement = item.requirements[indexPath.row]
                 cell.item = requirement
-                    return cell
+                return cell
                 //}
-
+                
             }
         case .rewardsInfo:
             if let item = item as? ScenarioDetailViewModelRewardsInfoItem, let cell = tableView.dequeueReusableCell(withIdentifier: RewardsInfoCell.identifier, for: indexPath) as? RewardsInfoCell {
@@ -206,7 +210,7 @@ extension ScenarioDetailViewModel: UITableViewDataSource, UITableViewDelegate {
             }
         case .achievesInfo:
             if let item = item as? ScenarioDetailViewModelAchievesInfoItem,
-            let cell = tableView.dequeueReusableCell(withIdentifier: AchievesInfoCell.identifier, for: indexPath) as? AchievesInfoCell {
+                let cell = tableView.dequeueReusableCell(withIdentifier: AchievesInfoCell.identifier, for: indexPath) as? AchievesInfoCell {
                 cell.backgroundColor = cellBGColor
                 let achieve = item.achieves[indexPath.row]
                 cell.item = achieve
@@ -220,12 +224,12 @@ extension ScenarioDetailViewModel: UITableViewDataSource, UITableViewDelegate {
                 return cell
             }
         case .scenarioLocation:
-        if let cell = tableView.dequeueReusableCell(withIdentifier: LocationInfoCell.identifier, for: indexPath) as? LocationInfoCell {
-            cell.backgroundColor = cellBGColor
-            cell.item = item
-            return cell
+            if let cell = tableView.dequeueReusableCell(withIdentifier: LocationInfoCell.identifier, for: indexPath) as? LocationInfoCell {
+                cell.backgroundColor = cellBGColor
+                cell.item = item
+                return cell
+            }
         }
-    }
         return UITableViewCell()
     }
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -236,9 +240,112 @@ extension ScenarioDetailViewModel: UITableViewDataSource, UITableViewDelegate {
         if let currentCell = tableView.cellForRow(at: indexPath!) as? LockOrUnlockCellType {
             let tappedScenario = dataModel.getScenario(scenarioNumber: (currentCell.item?.number)!)
             //post notification back to ScenarioViewController, passing scenario back to our segueToDetailViewController function
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "segue"), object: nil, userInfo: ["Scenario": tappedScenario!])
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "segueToDetail"), object: nil, userInfo: ["Scenario": tappedScenario!])
             tableView.deselectRow(at: indexPath!, animated: true)
         }
+    }
+    // Set up swipe functionality
+    func tableView(_ tableView: UITableView, editActionsForRowAt: IndexPath) -> [UITableViewRowAction]? {
+        scenario = dataModel.selectedScenario
+        
+        print("We have scenario: \(scenario.title)!")
+        
+        configureSwipeButton(for: scenario)
+        
+        let swipeToggleLocked = UITableViewRowAction(style: .normal, title: self.myLockedTitle) { action, index in
+            if self.myLockedTitle == "Unlock" {
+                self.scenario.isUnlocked = true
+                self.dataModel.updateAvailableScenarios(scenario: self.scenario, isCompleted: false)
+                tableView.reloadData()
+            } else if self.myLockedTitle == "Lock" {
+                self.scenario.isUnlocked = false
+                self.dataModel.updateAvailableScenarios(scenario: self.scenario, isCompleted: false)
+                tableView.reloadData()
+            }
+        }
+        let swipeToggleComplete = UITableViewRowAction(style: .normal, title: self.myCompletedTitle) { action, index in
+            //let indexPath = tableView.indexPathForSelectedRow
+            if self.myCompletedTitle == "Unavailable" {
+                //self.showSelectionAlert(status: "disallowCompletion")
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "showSelectionAlert"), object: nil, userInfo: ["status": "disallowCompletion"])
+                //tableView.deselectRow(at: indexPath!, animated: true)
+            } else {
+                if self.scenario.completed {
+                    if self.dataModel.areAnyUnlocksCompleted(scenario: self.scenario) {
+                        if self.dataModel.didAnotherCompletedScenarioUnlockMe(scenario: self.scenario) {
+                            //Okay to mark uncompleted, but don't trigger lock
+                            self.scenario.completed = false
+                            self.dataModel.updateAvailableScenarios(scenario: self.scenario, isCompleted: false)
+                            tableView.reloadData()
+                        } else {
+                            //NOT okay to mark uncompleted
+                            //self.showSelectionAlert(status: "")
+                            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "showSelectionAlert"), object: nil, userInfo: ["status": ""])
+                        }
+                    } else if !self.dataModel.areAnyUnlocksCompleted(scenario: self.scenario) {
+                        if self.dataModel.didAnotherCompletedScenarioUnlockMe(scenario: self.scenario) {
+                            //Okay to mark uncompleted, but don't trigger lock of uncompleted lock
+                            self.scenario.completed = false
+                            self.dataModel.updateAvailableScenarios(scenario: self.scenario, isCompleted: false)
+                            tableView.reloadData()
+                        } else {
+                            //Okay to mark uncompleted AND trigger lock
+                            self.scenario.completed = false
+                            self.dataModel.updateAvailableScenarios(scenario: self.scenario, isCompleted: false)
+                            tableView.reloadData()
+                        }
+                    }
+                } else {
+                    self.scenario.completed = true
+                    if self.scenario.unlocks[0] == "ONEOF" {
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "segueToPicker"), object: nil, userInfo: ["Scenario": self.scenario!])
+                    } else {
+                        self.dataModel.updateAvailableScenarios(scenario: self.scenario, isCompleted: true)
+                        tableView.reloadData()
+                    }
+                }
+            } // Can't complete
+        }
+        swipeToggleComplete.backgroundColor = bgColor
+        swipeToggleLocked.backgroundColor = UIColor.darkGray
+        if myLockedTitle == "Unlock" {
+            return [swipeToggleLocked]
+        } else if myLockedTitle == "NoShow" {
+            return [swipeToggleComplete]
+        } else {
+            return [swipeToggleLocked, swipeToggleComplete]
+        }
+    }
+
+    // Helpers - can these be centralized so both VCs share?
+    func configureSwipeButton(for scenario: Scenario) {
+        if scenario.completed {
+            bgColor = UIColor.gray
+            myCompletedTitle = "Set Uncompleted"
+        } else if scenario.isUnlocked && scenario.requirementsMet  {
+            bgColor = dataModel.completedBGColor
+            myCompletedTitle = "Set Completed"
+        } else {
+            bgColor = UIColor(hue: 213/360, saturation: 0/100, brightness: 64/100, alpha: 1.0)
+            myCompletedTitle = "Unavailable"
+        }
+        if scenario.isManuallyUnlockable && scenario.isUnlocked && !scenario.completed {
+            myLockedTitle = "Lock"
+        } else if scenario.isManuallyUnlockable && !scenario.completed {
+            myLockedTitle = "Unlock"
+        } else {
+            myLockedTitle = "NoShow"
+        }
+    }
+    func configureRowIcon(for tableViewCell: ScenarioTitleCell, with scenario: Scenario) {
+        if scenario.completed == true {
+            tableViewCell.scenarioStatusIcon.image = #imageLiteral(resourceName: "scenarioCompletedIcon")
+        } else if scenario.requirementsMet == true && scenario.isUnlocked == true {
+            tableViewCell.scenarioStatusIcon.image = #imageLiteral(resourceName: "scenarioBlankIcon")
+        } else {
+            tableViewCell.scenarioStatusIcon.image = #imageLiteral(resourceName: "scenarioLockedIcon")
+        }
+        
     }
 }
 class ScenarioDetailViewModelScenarioTitleItem: ScenarioDetailViewModelItem {

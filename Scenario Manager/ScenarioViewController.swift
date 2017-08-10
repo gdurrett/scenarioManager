@@ -114,7 +114,9 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
         self.navigationController?.navigationBar.tintColor = UIColor.black
         self.navigationController?.navigationBar.barTintColor = DataModel.sharedInstance.availableBGColor
         //Try notification for tapped rows in ScenarioDetailViewController
-        NotificationCenter.default.addObserver(self, selector: #selector(segueToDetailViewController), name: NSNotification.Name(rawValue: "segue"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(segueToDetailViewController), name: NSNotification.Name(rawValue: "segueToDetail"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(segueToScenarioPickerViewController), name: NSNotification.Name(rawValue: "segueToPicker"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(showSelectionAlertViaNotify), name: NSNotification.Name(rawValue: "showSelectionAlert"), object: nil)
         
         //Set up searchController stuff
         searchController.searchBar.barTintColor = dataModel.availableBGColor
@@ -273,13 +275,13 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
             return UITableViewCell(style: .subtitle,reuseIdentifier: cellIdentifier)
         }
     }
-    func configureRowIcon(for tableView: ScenarioMainCell, with scenario: Scenario) {
+    func configureRowIcon(for tableViewCell: ScenarioMainCell, with scenario: Scenario) {
         if scenario.completed == true {
-            tableView.scenarioRowIcon.image = #imageLiteral(resourceName: "scenarioCompletedIcon")
+            tableViewCell.scenarioRowIcon.image = #imageLiteral(resourceName: "scenarioCompletedIcon")
         } else if scenario.requirementsMet == true && scenario.isUnlocked == true {
-            tableView.scenarioRowIcon.image = nil
+            tableViewCell.scenarioRowIcon.image = nil
         } else {
-            tableView.scenarioRowIcon.image = #imageLiteral(resourceName: "scenarioLockedIcon")
+            tableViewCell.scenarioRowIcon.image = #imageLiteral(resourceName: "scenarioLockedIcon")
         }
         
     }
@@ -427,6 +429,33 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
             let scenarioTapped = dict["Scenario"] as! Scenario
             dataModel.selectedScenario = scenarioTapped
             self.performSegue(withIdentifier: "ShowScenarioDetail", sender: scenarioTapped)
+        }
+    }
+    func segueToScenarioPickerViewController(_ notification: NSNotification) {
+        if let dict = notification.userInfo as NSDictionary? {
+            let scenarioTapped = dict["Scenario"] as! Scenario
+            dataModel.selectedScenario = scenarioTapped
+            self.performSegue(withIdentifier: "ShowScenarioPicker", sender: scenarioTapped)
+        }
+    }
+    func showSelectionAlertViaNotify(_ notification: NSNotification) {
+        if let dict = notification.userInfo as NSDictionary? {
+            let status = dict["status"] as! String
+            if status == "disallowCompletion" {
+                title = "Cannot set to Completed!"
+            } else {
+                title = "Cannot set to Uncompleted!"
+            }
+            let alertView = UIAlertController(
+                title: title,
+                message: nil,
+                preferredStyle: .actionSheet)
+            
+            let action = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil)
+            
+            alertView.addAction(action)
+            present(alertView, animated: true, completion: { _ in
+            })
         }
     }
 
