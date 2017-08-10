@@ -23,6 +23,23 @@ extension ScenarioViewController: UISearchResultsUpdating {
 
 class ScenarioViewController: UITableViewController, ScenarioPickerViewControllerDelegate {
 
+    @IBAction func searchButtonTapped(_ sender: Any) {
+        //Set up searchController stuff
+        searchController.searchBar.barTintColor = dataModel.availableBGColor
+        searchController.searchBar.placeholder = "Search Scenarios, Rewards, Achievements"
+        searchController.searchBar.tintColor = UIColor.black
+        searchController.searchResultsUpdater = self
+        searchController.dimsBackgroundDuringPresentation = false
+        searchController.searchBar.sizeToFit()
+        searchController.searchBar.searchBarStyle = .default
+        definesPresentationContext = false
+        
+        searchController.hidesNavigationBarDuringPresentation = false
+        searchController.searchBar.delegate = self as? UISearchBarDelegate
+        present(searchController, animated: true, completion: nil)
+        searchController.searchBar.resignFirstResponder()
+
+    }
 
     @IBOutlet weak var scenarioFilterOutlet: UISegmentedControl!
     
@@ -117,17 +134,6 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
         NotificationCenter.default.addObserver(self, selector: #selector(segueToDetailViewController), name: NSNotification.Name(rawValue: "segueToDetail"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(segueToScenarioPickerViewController), name: NSNotification.Name(rawValue: "segueToPicker"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(showSelectionAlertViaNotify), name: NSNotification.Name(rawValue: "showSelectionAlert"), object: nil)
-        
-        //Set up searchController stuff
-        searchController.searchBar.barTintColor = dataModel.availableBGColor
-        searchController.searchBar.placeholder = "Search Scenarios, Rewards, Achievements"
-        searchController.searchBar.tintColor = UIColor.black
-        searchController.searchResultsUpdater = self
-        searchController.dimsBackgroundDuringPresentation = false
-        searchController.searchBar.sizeToFit()
-        searchController.searchBar.searchBarStyle = .minimal
-        definesPresentationContext = true
-        tableView.tableHeaderView = searchController.searchBar
         
         // Change titles on segmented controller
         setSegmentTitles()
@@ -231,6 +237,7 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
     // Prepare for segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ShowScenarioDetail" {
+            searchController.isActive = false
             //let destinationVC = segue.destination as! UITableViewController
         } else if segue.identifier == "ShowScenarioPicker" {
             let navigationController = segue.destination as! UINavigationController
@@ -383,7 +390,7 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
             preferredStyle: .actionSheet)
         
         let action = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil)
-        
+        alertView.view.tintColor = UIColor.black
         alertView.addAction(action)
         present(alertView, animated: true, completion: { _ in
         })
