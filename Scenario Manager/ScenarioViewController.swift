@@ -238,7 +238,9 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ShowScenarioDetail" {
             searchController.isActive = false
-            //let destinationVC = segue.destination as! UITableViewController
+            let destinationVC = segue.destination as! ScenarioDetailViewController
+            let viewModel = ScenarioDetailViewModel(withScenario: scenario)
+            destinationVC.viewModel = viewModel
         } else if segue.identifier == "ShowScenarioPicker" {
             let navigationController = segue.destination as! UINavigationController
             let destinationVC = navigationController.topViewController as! ScenarioPickerViewController
