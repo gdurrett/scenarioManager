@@ -12,7 +12,7 @@ class ScenarioMainCell: UITableViewCell {
 
     @IBOutlet weak var scenarioRowIcon: UIImageView!
     
-
+    
     // Test custom text color for SwipeAction buttons
     override func layoutSubviews() {
         

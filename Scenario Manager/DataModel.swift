@@ -16,8 +16,16 @@ class DataModel {
     
     var allScenarios = [Scenario]()
     var achievements = [ String : Bool ]()
-    var availableScenarios = [Scenario]()
-    var completedScenarios = [Scenario]()
+    var availableScenarios: [Scenario] {
+        get {
+            return allScenarios.filter { $0.isUnlocked == true && $0.requirementsMet == true && $0.completed == false }
+        }
+    }
+    var completedScenarios: [Scenario] {
+        get {
+            return allScenarios.filter { $0.completed == true }
+        }
+    }
     var requirementsMet = false
     var myAchieves = [String]()
     var or = false
@@ -40,8 +48,6 @@ class DataModel {
         let fileManager = FileManager.default
         if fileManager.fileExists(atPath: filePath!){
             loadScenarios()
-            availableScenarios = allScenarios.filter { $0.isUnlocked == true && $0.requirementsMet == true && $0.completed == false }
-            completedScenarios = allScenarios.filter { $0.completed == true }
             
         } else {
             
@@ -207,8 +213,8 @@ class DataModel {
             let row53Scenario = Scenario(number: "54", title: "Palace of Ice", completed: false, requirementsMet: false, requirements: ["Seeker of Xorn personal quest" : true, "Staff of Xorn item equipped" : true], isUnlocked: false, unlockedBy: ["53"], unlocks: ["None"], achieves: ["None"], rewards: ["Add City and Road Events 59 instead of normal events", "Open envelope Cthulhu Face"], summary: "Goal: Place the fully-charged Staff of Xorn on the altar.\n\nThe ethereal warden in the Crypt Basement prepared the staff for you, and told you to bring it to the Palace of Ice. Your job is to charge it and lay it upon the altar.", location: "D-8, Copperneck mountains", isManuallyUnlockable: false, mainCellBGImage: "scenarioMgrMap54")
             allScenarios.append(row53Scenario)
             
-            availableScenarios = allScenarios.filter { $0.isUnlocked == true && $0.requirementsMet == true && $0.completed == false }
-            completedScenarios = allScenarios.filter { $0.completed == true }
+            //availableScenarios = allScenarios.filter { $0.isUnlocked == true && $0.requirementsMet == true && $0.completed == false }
+            //completedScenarios = allScenarios.filter { $0.completed == true }
             
             achievements = [
                 "None"                      :true,
@@ -307,10 +313,6 @@ class DataModel {
         
         setAchievements(atches: scenario.achieves, toggle: isCompleted)
         setRequirementsMet()
-        
-        //availableScenarios = allScenarios.filter { $0.isUnlocked == true && $0.requirementsMet == true }
-        availableScenarios = allScenarios.filter { $0.isUnlocked == true && $0.requirementsMet == true && $0.completed == false }
-        completedScenarios = allScenarios.filter { $0.completed }
         
         saveScenarios()
         

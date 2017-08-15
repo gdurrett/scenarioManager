@@ -109,7 +109,6 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
             }
         }
         configureTitle(for: cell, with: scenario)
-        //cell.backgroundColor = configureBGColor(for: cell, with: scenario)
         
         configureRewardText(for: cell, with: scenario.rewards)
         configureAchievesText(for: cell, with: scenario.summary)
@@ -183,6 +182,7 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
         let swipeToggleComplete = UITableViewRowAction(style: .normal, title: self.myCompletedTitle) { action, index in
             if self.myCompletedTitle == "Unavailable" {
                 self.showSelectionAlert(status: "disallowCompletion")
+                tableView.reloadRows(at: [index], with: .right)
             } else {
                 if self.scenario.completed {
                     if self.dataModel.areAnyUnlocksCompleted(scenario: self.scenario) {
@@ -195,6 +195,8 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
                         } else {
                             //NOT okay to mark uncompleted
                             self.showSelectionAlert(status: "")
+                            //Test slide back
+                            tableView.reloadRows(at: [index], with: .right)
                         }
                     } else if !self.dataModel.areAnyUnlocksCompleted(scenario: self.scenario) {
                         if self.dataModel.didAnotherCompletedScenarioUnlockMe(scenario: self.scenario) {
@@ -239,7 +241,7 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
         if segue.identifier == "ShowScenarioDetail" {
             searchController.isActive = false
             let destinationVC = segue.destination as! ScenarioDetailViewController
-            let viewModel = ScenarioDetailViewModel(withScenario: scenario)
+            let viewModel = ScenarioDetailViewModel(withScenario: dataModel.selectedScenario!)
             destinationVC.viewModel = viewModel
         } else if segue.identifier == "ShowScenarioPicker" {
             let navigationController = segue.destination as! UINavigationController
@@ -271,6 +273,7 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
             }
         }
         dataModel.selectedScenario = scenario
+        print("Performing segue here with \(scenario.title)")
         performSegue(withIdentifier: "ShowScenarioDetail", sender: scenario)
         tableView.deselectRow(at: indexPath, animated: true)
     }
@@ -296,10 +299,10 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
     }
     func configureSwipeButton(for scenario: Scenario) {
         if scenario.completed {
-            bgColor = dataModel.availableBGColor
+            bgColor = UIColor(hue: 213/360, saturation: 0/100, brightness: 64/100, alpha: 1.0)
             myCompletedTitle = "Set Uncompleted"
         } else if scenario.isUnlocked && scenario.requirementsMet  {
-            bgColor = dataModel.completedBGColor
+            bgColor = UIColor(hue: 213/360, saturation: 0/100, brightness: 64/100, alpha: 1.0)
             myCompletedTitle = "Set Completed"
         } else {
             bgColor = UIColor(hue: 213/360, saturation: 0/100, brightness: 64/100, alpha: 1.0)
@@ -317,16 +320,6 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
         let label = cell.viewWithTag(1000) as! UILabel
         label.text = "\(scenario.number)) " + scenario.title
         label.sizeToFit()
-    }
-    func configureBGColor(for cell: UITableViewCell, with scenario: Scenario) -> UIColor {
-        if scenario.completed { // If completed
-            return DataModel.sharedInstance.completedBGColor
-        } else if scenario.isUnlocked && scenario.requirementsMet { // If available, set color to bright yellow
-            return DataModel.sharedInstance.availableBGColor
-        } else { // If unavailable, set color to gray
-            return DataModel.sharedInstance.unavailableBGColor
-        }
-        //return UIColor(hue: 30/360, saturation: 0/100, brightness: 97/100, alpha: 0.6)
     }
     func configureRewardText(for cell: UITableViewCell, with rewards: [String]) {
         let label = cell.viewWithTag(1200) as! UILabel
@@ -356,11 +349,9 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
     }
     func setImageFromURl(imageUrl url: NSURL) -> UIImage {
         var image = UIImage()
-//        if let url = NSURL(string: url) {
             if let data = NSData(contentsOf: url as URL) {
                 image = UIImage(data: data as Data)!
             }
-//        }
         return image
     }
     func setSegmentTitles() {
@@ -381,13 +372,14 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
         }
     }
     func showSelectionAlert(status: String) {
+        var alertTitle = String()
         if status == "disallowCompletion" {
-            title = "Cannot set to Completed!"
+            alertTitle = "Cannot set to Completed!"
         } else {
-            title = "Cannot set to Uncompleted!"
+            alertTitle = "Cannot set to Uncompleted!"
         }
         let alertView = UIAlertController(
-            title: title,
+            title: alertTitle,
             message: nil,
             preferredStyle: .actionSheet)
         
@@ -396,7 +388,7 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
         alertView.addAction(action)
         present(alertView, animated: true, completion: { _ in
         })
-        navigationItem.title = "All Scenarios"
+        //navigationItem.title = "All Scenarios"
     }
     // Search helper functions
     func filterContentForSearchText(searchText: String, scope: String = "All") {

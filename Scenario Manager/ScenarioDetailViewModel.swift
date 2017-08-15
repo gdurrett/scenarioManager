@@ -151,6 +151,17 @@ class ScenarioDetailViewModel: NSObject {
         }
         return statusIcon
     }
+    func getScenario(scenarioNumber: String) -> Scenario? {
+        
+        if scenarioNumber == "None" || scenarioNumber == "ONEOF" {
+            return nil
+        } else {
+            let scenInt = Int(scenarioNumber)!-1
+            let scenario = dataModel.allScenarios[scenInt]
+            
+            return scenario
+        }
+    }
 }
 
 
