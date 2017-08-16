@@ -305,84 +305,84 @@ class DataModel {
             unarchiver.finishDecoding()
         }
     }
-    func updateAvailableScenarios(scenario: Scenario, isCompleted: Bool) {
-        
-        toggleUnlocks(for: scenario, to: isCompleted)
-        let completed = allScenarios.filter { $0.completed == true }
-        myAchieves = completed.filter { $0.achieves != ["None"] }.flatMap { $0.achieves }
-        
-        setAchievements(atches: scenario.achieves, toggle: isCompleted)
-        setRequirementsMet()
-        
-        saveScenarios()
-        
-    }
-    func setAchievements(atches: [String], toggle: Bool) {
-        var remove = false
-        for ach in atches {
-            if ach == "REMOVE" {
-                remove = true
-                continue
-            }
-            if toggle {
-                if remove {
-                    achievements[ach]! = false
-                    remove = false
-                } else {
-                    if !(ach == "None") {
-                        achievements[ach]! = true
-                    }
-                }
-            } else {
-                if remove {
-                    achievements[ach]! = true
-                    remove = false
-                } else {
-                    if !(ach == "None") && !(myAchieves.contains(ach)){
-                        achievements[ach]! = false
-                    }
-                }
-            }
-        }
-    }
-    func setRequirementsMet() {
-        for scenario in allScenarios {
-            let orPresent = scenario.requirements["OR"] == true
-            var tempRequirementsArray = scenario.requirements
-            tempRequirementsArray.removeValue(forKey: "OR")
-            for (ach, bool) in tempRequirementsArray {
-                if orPresent {
-                    if achievements[ach]! == bool {
-                        scenario.requirementsMet = true
-                        break
-                    }
-                } else if achievements[ach]! != bool && !scenario.completed {
-                    scenario.requirementsMet = false
-                    break
-                } else {
-                    scenario.requirementsMet = true
-                }
-            }
-        }
-    }
-    func toggleUnlocks(for scenario: Scenario, to: Bool) {
-        // Don't toggle false if we're already unlocked by a completed scenario
-        if to == false && !didAnotherCompletedScenarioUnlockMe(scenario: scenario) {
-            //If we're locking a scenario with "ONEOF", we need to restore default unlocks
-            if scenario.unlocks.contains("ONEOF") {
-                scenario.unlocks = defaultUnlocks[scenario.number]!
-            }
-            for scen in scenario.unlocks {
-                if scen != "ONEOF" {
-                    getScenario(scenarioNumber: scen)?.isUnlocked = false
-                }
-            }
-        } else { // Go ahead and toggle true
-            for scen in scenario.unlocks {
-                getScenario(scenarioNumber: scen)?.isUnlocked = true
-            }
-        }
-    }
+//    func updateAvailableScenarios(scenario: Scenario, isCompleted: Bool) {
+//        
+//        toggleUnlocks(for: scenario, to: isCompleted)
+//        let completed = allScenarios.filter { $0.completed == true }
+//        myAchieves = completed.filter { $0.achieves != ["None"] }.flatMap { $0.achieves }
+//        
+//        setAchievements(atches: scenario.achieves, toggle: isCompleted)
+//        setRequirementsMet()
+//        
+//        saveScenarios()
+//        
+//    }
+//    func setAchievements(atches: [String], toggle: Bool) {
+//        var remove = false
+//        for ach in atches {
+//            if ach == "REMOVE" {
+//                remove = true
+//                continue
+//            }
+//            if toggle {
+//                if remove {
+//                    achievements[ach]! = false
+//                    remove = false
+//                } else {
+//                    if !(ach == "None") {
+//                        achievements[ach]! = true
+//                    }
+//                }
+//            } else {
+//                if remove {
+//                    achievements[ach]! = true
+//                    remove = false
+//                } else {
+//                    if !(ach == "None") && !(myAchieves.contains(ach)){
+//                        achievements[ach]! = false
+//                    }
+//                }
+//            }
+//        }
+//    }
+//    func setRequirementsMet() {
+//        for scenario in allScenarios {
+//            let orPresent = scenario.requirements["OR"] == true
+//            var tempRequirementsArray = scenario.requirements
+//            tempRequirementsArray.removeValue(forKey: "OR")
+//            for (ach, bool) in tempRequirementsArray {
+//                if orPresent {
+//                    if achievements[ach]! == bool {
+//                        scenario.requirementsMet = true
+//                        break
+//                    }
+//                } else if achievements[ach]! != bool && !scenario.completed {
+//                    scenario.requirementsMet = false
+//                    break
+//                } else {
+//                    scenario.requirementsMet = true
+//                }
+//            }
+//        }
+//    }
+//    func toggleUnlocks(for scenario: Scenario, to: Bool) {
+//        // Don't toggle false if we're already unlocked by a completed scenario
+//        if to == false && !didAnotherCompletedScenarioUnlockMe(scenario: scenario) {
+//            //If we're locking a scenario with "ONEOF", we need to restore default unlocks
+//            if scenario.unlocks.contains("ONEOF") {
+//                scenario.unlocks = defaultUnlocks[scenario.number]!
+//            }
+//            for scen in scenario.unlocks {
+//                if scen != "ONEOF" {
+//                    getScenario(scenarioNumber: scen)?.isUnlocked = false
+//                }
+//            }
+//        } else { // Go ahead and toggle true
+//            for scen in scenario.unlocks {
+//                getScenario(scenarioNumber: scen)?.isUnlocked = true
+//            }
+//        }
+//    }
     func getScenario(scenarioNumber: String) -> Scenario? {
         
         if scenarioNumber == "None" || scenarioNumber == "ONEOF" {
@@ -394,70 +394,70 @@ class DataModel {
             return scenario
         }
     }
-    func getUnlocks(for scenario: Scenario) -> [String] {
-        var unlocks = [String]()
-        let myUnlocks = scenario.unlocks.filter { !$0.contains("ONEOF") }
-        for scen in myUnlocks {
-            if scen == "None" {
-                unlocks.append("None")
-            } else {
-                unlocks.append((getScenario(scenarioNumber: scen)?.number)!)
-            }
-        }
-        return unlocks
-    }
-    func getUnlockedBys(for scenario: Scenario) -> [String] {
-        var unlockedBys = [String]()
-        let myUnlocks = scenario.unlockedBy.filter { !$0.contains("ONEOF") }
-        for scen in myUnlocks {
-            if scen == "None" {
-                unlockedBys.append("None")
-            } else {
-                unlockedBys.append((getScenario(scenarioNumber: scen)?.number)!)
-            }
-        }
-        return unlockedBys
-    }
-    func getAchieves(for scenario: Scenario) -> [String] {
-        var achieves = [String]()
-        for ach in scenario.achieves {
-            achieves.append(ach)
-        }
-        return achieves
-    }
-    func didAnotherCompletedScenarioUnlockMe(scenario: Scenario) -> Bool {
-        // Look at calling scenario's unlocks
-        for unlock in scenario.unlocks {
-            if !(unlock == "None") && !(unlock == "ONEOF") {
-                // For each unlock, look at its unlockers (unlockedBy)
-                for unlockedBy in getScenario(scenarioNumber: unlock)!.unlockedBy {
-                    if (getScenario(scenarioNumber: unlockedBy)!.number == scenario.number) {
-                        continue
-                    } else {
-                        if getScenario(scenarioNumber: unlockedBy)!.completed {
-                            return true
-                        } else {
-                            return false
-                        }
-                    }
-                }
-            }
-        }
-        return false
-    }
-    func areAnyUnlocksCompleted(scenario: Scenario) -> Bool {
-        for scen in scenario.unlocks {
-            if let answer = getScenario(scenarioNumber: scen) {
-                if answer.completed {
-                    return true
-                } else {
-                    //return false
-                    continue
-                }
-            }
-        }
-        return false
-    }
+//    func getUnlocks(for scenario: Scenario) -> [String] {
+//        var unlocks = [String]()
+//        let myUnlocks = scenario.unlocks.filter { !$0.contains("ONEOF") }
+//        for scen in myUnlocks {
+//            if scen == "None" {
+//                unlocks.append("None")
+//            } else {
+//                unlocks.append((getScenario(scenarioNumber: scen)?.number)!)
+//            }
+//        }
+//        return unlocks
+//    }
+//    func getUnlockedBys(for scenario: Scenario) -> [String] {
+//        var unlockedBys = [String]()
+//        let myUnlocks = scenario.unlockedBy.filter { !$0.contains("ONEOF") }
+//        for scen in myUnlocks {
+//            if scen == "None" {
+//                unlockedBys.append("None")
+//            } else {
+//                unlockedBys.append((getScenario(scenarioNumber: scen)?.number)!)
+//            }
+//        }
+//        return unlockedBys
+//    }
+//    func getAchieves(for scenario: Scenario) -> [String] {
+//        var achieves = [String]()
+//        for ach in scenario.achieves {
+//            achieves.append(ach)
+//        }
+//        return achieves
+//    }
+//    func didAnotherCompletedScenarioUnlockMe(scenario: Scenario) -> Bool {
+//        // Look at calling scenario's unlocks
+//        for unlock in scenario.unlocks {
+//            if !(unlock == "None") && !(unlock == "ONEOF") {
+//                // For each unlock, look at its unlockers (unlockedBy)
+//                for unlockedBy in getScenario(scenarioNumber: unlock)!.unlockedBy {
+//                    if (getScenario(scenarioNumber: unlockedBy)!.number == scenario.number) {
+//                        continue
+//                    } else {
+//                        if getScenario(scenarioNumber: unlockedBy)!.completed {
+//                            return true
+//                        } else {
+//                            return false
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//        return false
+//    }
+//    func areAnyUnlocksCompleted(scenario: Scenario) -> Bool {
+//        for scen in scenario.unlocks {
+//            if let answer = getScenario(scenarioNumber: scen) {
+//                if answer.completed {
+//                    return true
+//                } else {
+//                    //return false
+//                    continue
+//                }
+//            }
+//        }
+//        return false
+//    }
     
 }
 

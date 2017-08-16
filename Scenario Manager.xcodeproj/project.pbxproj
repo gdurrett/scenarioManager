@@ -14,6 +14,11 @@
 		FB23B6F41F044CFC00CAA684 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB23B6F21F044CFC00CAA684 /* LaunchScreen.storyboard */; };
 		FB23B6FC1F04C40D00CAA684 /* Scenario.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB23B6FB1F04C40D00CAA684 /* Scenario.swift */; };
 		FB23B7021F0AB5ED00CAA684 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB23B7011F0AB5EC00CAA684 /* DataModel.swift */; };
+		FB40EA0A1F43967C00CAA684 /* ScenarioViewModelFromModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB40EA091F43967C00CAA684 /* ScenarioViewModelFromModel.swift */; };
+		FB40EA0C1F43ACFF00CAA684 /* CampaignViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB40EA0B1F43ACFF00CAA684 /* CampaignViewController.swift */; };
+		FB40EA0F1F43AEDD00CAA684 /* UIStoryboard+Loader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB40EA0E1F43AEDD00CAA684 /* UIStoryboard+Loader.swift */; };
+		FB40EA111F43B28100CAA684 /* UIViewController+Subview.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB40EA101F43B28100CAA684 /* UIViewController+Subview.swift */; };
+		FB40EA141F4419CA00CAA684 /* ScenarioViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB40EA131F4419CA00CAA684 /* ScenarioViewModel.swift */; };
 		FB4665851F2E5C0700CAA684 /* RewardsInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB4665841F2E5C0700CAA684 /* RewardsInfoCell.swift */; };
 		FB4665871F2E5C5900CAA684 /* RewardsInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB4665861F2E5C5900CAA684 /* RewardsInfoCell.xib */; };
 		FB4665891F2E667F00CAA684 /* RequirementsInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB4665881F2E667F00CAA684 /* RequirementsInfoCell.swift */; };
@@ -46,6 +51,11 @@
 		FB23B6F51F044CFC00CAA684 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FB23B6FB1F04C40D00CAA684 /* Scenario.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scenario.swift; sourceTree = "<group>"; };
 		FB23B7011F0AB5EC00CAA684 /* DataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
+		FB40EA091F43967C00CAA684 /* ScenarioViewModelFromModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScenarioViewModelFromModel.swift; sourceTree = "<group>"; };
+		FB40EA0B1F43ACFF00CAA684 /* CampaignViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CampaignViewController.swift; sourceTree = "<group>"; };
+		FB40EA0E1F43AEDD00CAA684 /* UIStoryboard+Loader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIStoryboard+Loader.swift"; sourceTree = "<group>"; };
+		FB40EA101F43B28100CAA684 /* UIViewController+Subview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Subview.swift"; sourceTree = "<group>"; };
+		FB40EA131F4419CA00CAA684 /* ScenarioViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScenarioViewModel.swift; sourceTree = "<group>"; };
 		FB4665841F2E5C0700CAA684 /* RewardsInfoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RewardsInfoCell.swift; sourceTree = "<group>"; };
 		FB4665861F2E5C5900CAA684 /* RewardsInfoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RewardsInfoCell.xib; sourceTree = "<group>"; };
 		FB4665881F2E667F00CAA684 /* RequirementsInfoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequirementsInfoCell.swift; sourceTree = "<group>"; };
@@ -98,6 +108,7 @@
 		FB23B6E81F044CFC00CAA684 /* Scenario Manager */ = {
 			isa = PBXGroup;
 			children = (
+				FB40EA0D1F43AEB200CAA684 /* Extensions */,
 				FB482DA21F29380B00CAA684 /* TableView Cells */,
 				FB11F0491F3A5CA600CAA684 /* Assets.xcassets */,
 				FB23B6E91F044CFC00CAA684 /* AppDelegate.swift */,
@@ -109,9 +120,29 @@
 				FB7521A31F207A2F00CAA684 /* ScenarioPickerViewController.swift */,
 				FB23B6EB1F044CFC00CAA684 /* ScenarioViewController.swift */,
 				FB482D981F27C51C00CAA684 /* ScenarioDetailViewController.swift */,
-				FB482D9A1F27DBA400CAA684 /* ScenarioDetailViewModel.swift */,
+				FB40EA121F44164200CAA684 /* ViewModel */,
+				FB40EA0B1F43ACFF00CAA684 /* CampaignViewController.swift */,
 			);
 			path = "Scenario Manager";
+			sourceTree = "<group>";
+		};
+		FB40EA0D1F43AEB200CAA684 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				FB40EA0E1F43AEDD00CAA684 /* UIStoryboard+Loader.swift */,
+				FB40EA101F43B28100CAA684 /* UIViewController+Subview.swift */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
+		FB40EA121F44164200CAA684 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				FB482D9A1F27DBA400CAA684 /* ScenarioDetailViewModel.swift */,
+				FB40EA091F43967C00CAA684 /* ScenarioViewModelFromModel.swift */,
+				FB40EA131F4419CA00CAA684 /* ScenarioViewModel.swift */,
+			);
+			name = ViewModel;
 			sourceTree = "<group>";
 		};
 		FB482DA21F29380B00CAA684 /* TableView Cells */ = {
@@ -220,10 +251,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				FB482DA41F29385B00CAA684 /* UnlocksInfoCell.swift in Sources */,
+				FB40EA0F1F43AEDD00CAA684 /* UIStoryboard+Loader.swift in Sources */,
+				FB40EA0A1F43967C00CAA684 /* ScenarioViewModelFromModel.swift in Sources */,
 				FB4665891F2E667F00CAA684 /* RequirementsInfoCell.swift in Sources */,
 				FB482D9F1F29359000CAA684 /* ScenarioTitleCell.swift in Sources */,
 				FB23B6FC1F04C40D00CAA684 /* Scenario.swift in Sources */,
 				FB7521A41F207A2F00CAA684 /* ScenarioPickerViewController.swift in Sources */,
+				FB40EA141F4419CA00CAA684 /* ScenarioViewModel.swift in Sources */,
+				FB40EA0C1F43ACFF00CAA684 /* CampaignViewController.swift in Sources */,
 				FB482D9B1F27DBA400CAA684 /* ScenarioDetailViewModel.swift in Sources */,
 				FB46658F1F2F96B500CAA684 /* SummaryInfoCell.swift in Sources */,
 				FB23B6EC1F044CFC00CAA684 /* ScenarioViewController.swift in Sources */,
@@ -234,6 +269,7 @@
 				FB23B6EA1F044CFC00CAA684 /* AppDelegate.swift in Sources */,
 				FB4665911F2FA98C00CAA684 /* LocationInfoCell.swift in Sources */,
 				FB23B7021F0AB5ED00CAA684 /* DataModel.swift in Sources */,
+				FB40EA111F43B28100CAA684 /* UIViewController+Subview.swift in Sources */,
 				FB482DA81F293B2300CAA684 /* UnlockedByInfoCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
