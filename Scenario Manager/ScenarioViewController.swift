@@ -25,7 +25,8 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
 
     @IBAction func searchButtonTapped(_ sender: Any) {
         setupSearch()
-        present(searchController, animated: true, completion: nil)
+        //present(searchController, animated: true, completion: nil)
+        
         searchController.searchBar.resignFirstResponder()
 
     }
@@ -345,8 +346,6 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
         return image
     }
     func setSegmentTitles() {
-        //Replace!!
-        //self.updateVariables()
         scenarioFilterOutlet.setTitle("All (\(allScenarios.count))", forSegmentAt: 0)
         scenarioFilterOutlet.setTitle("Available (\(availableScenarios.count))", forSegmentAt: 1)
         scenarioFilterOutlet.setTitle("Completed (\(completedScenarios.count))", forSegmentAt: 2)

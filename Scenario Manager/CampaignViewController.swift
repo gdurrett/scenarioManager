@@ -24,6 +24,13 @@ class CampaignViewController: UIViewController {
         //showScenarioViewController()
         
     }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ShowScenarioManager" {
+            let destinationVC = segue.destination as! ScenarioViewController
+            let viewModel = ScenarioViewModelFromModel(withDataModel: dataModel!)
+            destinationVC.viewModel = viewModel
+        }
+    }
     // MARK: Private
     
     fileprivate func showScenarioViewController() {
@@ -34,11 +41,11 @@ class CampaignViewController: UIViewController {
         let controller = UIStoryboard.loadScenarioViewController()
         let viewModel = ScenarioViewModelFromModel(withDataModel: dataModel!)
         controller.viewModel = viewModel
-        let navController = UINavigationController(rootViewController: controller)
+        //let navController = UINavigationController(rootViewController: controller)
         //Hide Campaign Manager's nav bar so we can see ScenarioViewController's NavBar
-        self.navigationController?.navigationBar.isHidden = true
-        self.insertChildController(navController, intoParentView: self.view)
-        
+        //self.navigationController?.navigationBar.isHidden = true
+        //self.insertChildController(controller, intoParentView: self.view)
+        //performSegue(withIdentifier: "ShowScenarioManager", sender: viewModel)
         
     }
 }

@@ -15,6 +15,8 @@ extension UIViewController {
         
         self.addChildViewController(childController)
         childController.view.frame = parentView.bounds
+        //childController.view.frame = CGRect(x: 0, y: 20, width: view.bounds.width, height: view.bounds.height)
+        childController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         parentView.addSubview(childController.view)
         
         childController.didMove(toParentViewController: self)
