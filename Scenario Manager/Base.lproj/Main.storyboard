@@ -46,7 +46,7 @@
                                 <rect key="frame" x="0.0" y="72" width="320" height="100"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="t1s-S5-1Df" id="35i-Pn-zZX">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="100"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="99.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" tag="1100" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Goal" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0hn-ML-Guq">
@@ -183,9 +183,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ipd-he-zt2">
-                                <rect key="frame" x="77" y="269" width="166" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ipd-he-zt2">
+                                <rect key="frame" x="60" y="269" width="222" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="Open Scenario Manager"/>
                                 <connections>
                                     <action selector="openScenarioManagerButtonTapped:" destination="YqU-VQ-qBG" eventType="touchUpInside" id="8z3-BR-2EE"/>
@@ -193,12 +193,18 @@
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="Ipd-he-zt2" secondAttribute="trailing" constant="22" id="C6y-tN-T1b"/>
+                            <constraint firstItem="Ipd-he-zt2" firstAttribute="top" secondItem="U0T-91-vgr" secondAttribute="bottom" constant="205" id="cot-4w-hoK"/>
+                            <constraint firstItem="Ipd-he-zt2" firstAttribute="leading" secondItem="dgY-Eo-D5r" secondAttribute="leadingMargin" constant="44" id="crx-BJ-JKG"/>
+                            <constraint firstItem="bAN-5p-hfu" firstAttribute="top" secondItem="Ipd-he-zt2" secondAttribute="bottom" constant="269" id="nOg-oL-Crm"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Funklers" id="vp5-nm-reg"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EWA-jC-wwL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1639" y="-93"/>
+            <point key="canvasLocation" x="1861.875" y="-94.014084507042256"/>
         </scene>
         <!--Scenario Detail View Controller-->
         <scene sceneID="9Sv-rJ-oQK">

@@ -24,18 +24,7 @@ extension ScenarioViewController: UISearchResultsUpdating {
 class ScenarioViewController: UITableViewController, ScenarioPickerViewControllerDelegate {
 
     @IBAction func searchButtonTapped(_ sender: Any) {
-        //Set up searchController stuff
-        searchController.searchBar.barTintColor = UIColor.gray
-        searchController.searchBar.placeholder = "Search Scenarios, Rewards, Achievements"
-        searchController.searchBar.tintColor = UIColor.black
-        searchController.searchResultsUpdater = self
-        searchController.dimsBackgroundDuringPresentation = false
-        searchController.searchBar.sizeToFit()
-        searchController.searchBar.searchBarStyle = .default
-        definesPresentationContext = false
-        
-        searchController.hidesNavigationBarDuringPresentation = false
-        searchController.searchBar.delegate = self as? UISearchBarDelegate
+        setupSearch()
         present(searchController, animated: true, completion: nil)
         searchController.searchBar.resignFirstResponder()
 
@@ -64,7 +53,6 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
             fillUI()
         }
     }
-    //var dataModel: DataModel!
     var myCompletedTitle: String?
     var myLockedTitle: String?
     var bgColor: UIColor?
@@ -419,6 +407,20 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
         // Call our Dynamic bindAndFire method when these are gotten
         viewModel.availableScenarios.bindAndFire { [unowned self] in self.availableScenarios = $0 }
         viewModel.completedScenarios.bindAndFire { [unowned self] in self.completedScenarios = $0 }
+    }
+    fileprivate func setupSearch() {
+        //Set up searchController stuff
+        searchController.searchBar.barTintColor = UIColor.gray
+        searchController.searchBar.placeholder = "Search Scenarios, Rewards, Achievements"
+        searchController.searchBar.tintColor = UIColor.black
+        searchController.searchResultsUpdater = self
+        searchController.dimsBackgroundDuringPresentation = false
+        searchController.searchBar.sizeToFit()
+        searchController.searchBar.searchBarStyle = .default
+        definesPresentationContext = false
+        
+        searchController.hidesNavigationBarDuringPresentation = false
+        searchController.searchBar.delegate = self as? UISearchBarDelegate
     }
     // Implement delegate methods for ScenarioPickerViewController
     func scenarioPickerViewControllerDidCancel(_ controller: ScenarioPickerViewController) {
