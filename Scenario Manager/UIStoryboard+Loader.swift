@@ -33,4 +33,7 @@ extension UIStoryboard {
     static func loadScenarioViewController() -> ScenarioViewController {
         return loadFromMain("ScenarioViewController") as! ScenarioViewController
     }
+    static func loadCampaignViewController() -> CampaignViewController {
+        return loadFromMain("CampaignViewController") as! CampaignViewController
+    }
 }

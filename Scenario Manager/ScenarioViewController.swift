@@ -44,18 +44,18 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
     @IBOutlet weak var scenarioFilterOutlet: UISegmentedControl!
     
     @IBAction func scenarioFilterAction(_ sender: Any) {
-//        tableView.reloadData()
+
         switch scenarioFilterOutlet.selectedSegmentIndex {
         case 0:
             self.navigationItem.title = ("\(scenarioFilterOutlet.titleForSegment(at: 0)!) Scenarios")
         case 1:
-            print("Selecting available")
             self.navigationItem.title = ("\(scenarioFilterOutlet.titleForSegment(at: 1)!) Scenarios")
         case 2:
             self.navigationItem.title = ("\(scenarioFilterOutlet.titleForSegment(at: 2)!) Scenarios")
         default:
             break
         }
+
         tableView.reloadData()
     }
     
@@ -138,10 +138,6 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
         styleUI()
         fillUI()
         
-//        self.tableView.estimatedRowHeight = 100
-//        self.tableView.rowHeight = UITableViewAutomaticDimension
-//        self.navigationController?.navigationBar.tintColor = UIColor.black
-//        self.navigationController?.navigationBar.barTintColor = DataModel.sharedInstance.availableBGColor
         //Try notification for tapped rows in ScenarioDetailViewController
         NotificationCenter.default.addObserver(self, selector: #selector(segueToDetailViewController), name: NSNotification.Name(rawValue: "segueToDetail"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(segueToScenarioPickerViewController), name: NSNotification.Name(rawValue: "segueToPicker"), object: nil)
@@ -189,6 +185,7 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
         } else if self.myLockedTitle == "Lock" {
             self.scenario.isUnlocked = false
             self.viewModel?.updateAvailableScenarios(scenario: self.scenario, isCompleted: false)
+
             tableView.reloadData()
             }
         }
@@ -233,9 +230,11 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
                     } else {
                         self.viewModel?.updateAvailableScenarios(scenario: self.scenario, isCompleted: true)
                         self.setSegmentTitles()
+
                         tableView.reloadData()
                     }
                 }
+                print("Number of completed scenarios: \(self.completedScenarios.count)")
             } // Can't complete
         }
         swipeToggleComplete.backgroundColor = bgColor
@@ -261,7 +260,7 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
             let destinationVC = navigationController.topViewController as! ScenarioPickerViewController
             destinationVC.delegate = self
             destinationVC.scenario = sender as! Scenario
-            destinationVC.additionalTitles = getAdditionalTitles(for: destinationVC.scenario)
+            destinationVC.additionalTitles = viewModel!.getAdditionalTitles(for: destinationVC.scenario)
         }
     }
     
@@ -350,16 +349,6 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
         text.enumerateLines { line, _ in lines.append(line) }
         label.text = (lines[0])
     }
-    func getAdditionalTitles(for scenario: Scenario) -> [(number: String, title: String)] {
-        var additionalTitles = [(_:String, _:String)]()
-        for scen in scenario.unlocks {
-            if scen != "None" && scen != "ONEOF" {
-                let lookup = Int(scen)!-1
-                additionalTitles.append((name:(viewModel?.allScenarios[lookup].number)!, title:(viewModel?.allScenarios[lookup].title)!))
-            }
-        }
-        return additionalTitles
-    }
     func setImageFromURl(imageUrl url: NSURL) -> UIImage {
         var image = UIImage()
             if let data = NSData(contentsOf: url as URL) {
@@ -368,21 +357,12 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
         return image
     }
     func setSegmentTitles() {
+        //Replace!!
+        //self.updateVariables()
         scenarioFilterOutlet.setTitle("All (\(allScenarios.count))", forSegmentAt: 0)
         scenarioFilterOutlet.setTitle("Available (\(availableScenarios.count))", forSegmentAt: 1)
         scenarioFilterOutlet.setTitle("Completed (\(completedScenarios.count))", forSegmentAt: 2)
         tableView.reloadData()
-    }
-    func setPickerData(for scenario: Scenario) {
-        pickerData = []
-        let additionalTitles = getAdditionalTitles(for: scenario)
-        var number = String()
-        var myTitle = String()
-        for i in 0..<additionalTitles.count {
-            number = additionalTitles[i].0
-            myTitle = number + " - " + additionalTitles[i].1
-            pickerData.append(myTitle)
-        }
     }
     func showSelectionAlert(status: String) {
         var alertTitle = String()
@@ -401,7 +381,6 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
         alertView.addAction(action)
         present(alertView, animated: true, completion: { _ in
         })
-        //navigationItem.title = "All Scenarios"
     }
     // Search helper functions
     func filterContentForSearchText(searchText: String, scope: String = "All") {
@@ -424,7 +403,7 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.navigationController?.navigationBar.tintColor = UIColor.black
         self.navigationController?.navigationBar.barTintColor = UIColor.gray
-        self.navigationItem.title = "Funklers"
+        self.navigationItem.title = "All Scenarios"
     }
     fileprivate func fillUI() {
         if !isViewLoaded {
@@ -437,8 +416,9 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
         
         // We definitely have the setup done now
         self.allScenarios = viewModel.allScenarios
-        self.availableScenarios = viewModel.availableScenarios
-        self.completedScenarios = viewModel.completedScenarios
+        // Call our Dynamic bindAndFire method when these are gotten
+        viewModel.availableScenarios.bindAndFire { [unowned self] in self.availableScenarios = $0 }
+        viewModel.completedScenarios.bindAndFire { [unowned self] in self.completedScenarios = $0 }
     }
     // Implement delegate methods for ScenarioPickerViewController
     func scenarioPickerViewControllerDidCancel(_ controller: ScenarioPickerViewController) {

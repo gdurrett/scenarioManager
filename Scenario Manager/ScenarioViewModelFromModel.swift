@@ -14,8 +14,8 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
     let dataModel: DataModel
     
     var allScenarios: [Scenario]
-    var availableScenarios: [Scenario]
-    var completedScenarios: [Scenario]
+    let availableScenarios: Dynamic<[Scenario]>
+    let completedScenarios: Dynamic<[Scenario]>
     var selectedScenario: Scenario?
     var myAchieves = [String]()
     
@@ -24,12 +24,12 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
         self.dataModel = dataModel
         
         self.allScenarios = dataModel.allScenarios
-        self.availableScenarios = dataModel.availableScenarios
-        self.completedScenarios = dataModel.completedScenarios
+        self.availableScenarios = Dynamic(dataModel.availableScenarios)
+        self.completedScenarios = Dynamic(dataModel.completedScenarios)
     }
     // MARK: Helper functions
     func updateAvailableScenarios(scenario: Scenario, isCompleted: Bool) {
-        
+        print("Sending scenario: \(scenario.title) with completed status of: \(isCompleted)")
         toggleUnlocks(for: scenario, to: isCompleted)
         let completed = allScenarios.filter { $0.completed == true }
         myAchieves = completed.filter { $0.achieves != ["None"] }.flatMap { $0.achieves }
@@ -37,6 +37,9 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
         setAchievements(atches: scenario.achieves, toggle: isCompleted)
         setRequirementsMet()
         
+        //Need to re-get after update. Using Dynamic vars!
+        self.availableScenarios.value = dataModel.availableScenarios
+        self.completedScenarios.value = dataModel.completedScenarios
         dataModel.saveScenarios()
         
     }
@@ -149,5 +152,15 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
             
             return scenario
         }
+    }
+    func getAdditionalTitles(for scenario: Scenario) -> [(number: String, title: String)] {
+        var additionalTitles = [(_:String, _:String)]()
+        for scen in scenario.unlocks {
+            if scen != "None" && scen != "ONEOF" {
+                let lookup = Int(scen)!-1
+                additionalTitles.append((name:(self.allScenarios[lookup].number), title:(self.allScenarios[lookup].title)))
+            }
+        }
+        return additionalTitles
     }
 }

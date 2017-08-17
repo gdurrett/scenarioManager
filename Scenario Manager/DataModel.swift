@@ -18,11 +18,13 @@ class DataModel {
     var achievements = [ String : Bool ]()
     var availableScenarios: [Scenario] {
         get {
+            print("Getting available scenarios")
             return allScenarios.filter { $0.isUnlocked == true && $0.requirementsMet == true && $0.completed == false }
         }
     }
     var completedScenarios: [Scenario] {
         get {
+            print("Getting completed scenarios")
             return allScenarios.filter { $0.completed == true }
         }
     }
@@ -213,64 +215,67 @@ class DataModel {
             let row53Scenario = Scenario(number: "54", title: "Palace of Ice", completed: false, requirementsMet: false, requirements: ["Seeker of Xorn personal quest" : true, "Staff of Xorn item equipped" : true], isUnlocked: false, unlockedBy: ["53"], unlocks: ["None"], achieves: ["None"], rewards: ["Add City and Road Events 59 instead of normal events", "Open envelope Cthulhu Face"], summary: "Goal: Place the fully-charged Staff of Xorn on the altar.\n\nThe ethereal warden in the Crypt Basement prepared the staff for you, and told you to bring it to the Palace of Ice. Your job is to charge it and lay it upon the altar.", location: "D-8, Copperneck mountains", isManuallyUnlockable: false, mainCellBGImage: "scenarioMgrMap54")
             allScenarios.append(row53Scenario)
             
-            //availableScenarios = allScenarios.filter { $0.isUnlocked == true && $0.requirementsMet == true && $0.completed == false }
-            //completedScenarios = allScenarios.filter { $0.completed == true }
+            let row54Scenario = Scenario(number: "55", title: "Foggy Thicket", completed: false, requirementsMet: false, requirements: ["Take Back the Trees personal quest" : true], isUnlocked: false, unlockedBy: ["53"], unlocks: ["56"], achieves: ["None"], rewards: ["10 Collective Gold"], summary: "Goal: Loot the treasure tile in the third room.\n\nThe ethereal warden in the Crypt Basement prepared the staff for you, and told you to bring it to the Palace of Ice. Your job is to charge it and lay it upon the altar.", location: "G-5, Dagger Forest", isManuallyUnlockable: false, mainCellBGImage: "scenarioMgrMap55")
+            allScenarios.append(row54Scenario)
+            
+            let row55Scenario = Scenario(number: "56", title: "Bandit's Wood", completed: false, requirementsMet: false, requirements: ["Take Back the Trees personal quest" : true], isUnlocked: false, unlockedBy: ["55"], unlocks: ["None"], achieves: ["None"], rewards: ["Take Back the Trees personal quest complete, open Envelope Spiky-Haired guy, 10 Gold each, +2 Reputation"], summary: "Kill all enemies and protect at least one captive Orchid.\n\nThe map you retrieved from the Foggy Thicket has led you to the Bandit camp. You need to finish these guys off, but take care to protect the captive Orchids.", location: "G-4, Dagger Forest", isManuallyUnlockable: false, mainCellBGImage: "scenarioMgrMap56")
+            allScenarios.append(row55Scenario)
             
             achievements = [
-                "None"                      :true,
-                "First Steps"               : false,
-                "Jekserah's Plans"          : false,
-                "Dark Bounty"               : false,
-                "The Merchant Flees"        : false,
-                "The Dead Invade"           : false,
-                "A Demon's Errand"          : false,
-                "End of the Invasion"       : false,
-                "The Power of Enhancement"  : false,
-                "Stonebreaker's Censer"     : false,
-                "The Demon Dethroned"       : false,
-                "Through the Ruins"         : false,
-                "The Voice's Command"       : false,
-                "The Drake's Command"       : false,
-                "Following Clues"           : false,
-                "The Rift Closed"           : false,
-                "An Invitation"             : false,
-                "The Edge of Darkness"      : false,
-                "The Scepter and the Voice" : false,
-                "Artifact: Cleansed"        : false,
-                "Artifact: Lost"            : false,
-                "Artifact: Recovered"       : false,
-                "The Voice's Treasure"      : false,
-                "The Drake's Treasure"      : false,
-                "The Drake Slain"           : false,
-                "City Rule: Demonic"        : false,
-                "Through the Trench"        : false,
-                "Redthorn's Aid"            : false,
-                "Across the Divide"         : false,
-                "The Voice Freed"           : false,
-                "Water Breathing"           : false,
-                "End of Corruption 1"       : false,
-                "End of Corruption 2"       : false,
-                "End of Corruption 3"       : false,
-                "Annihilation of Order"     : false,
-                "City Rule: Militaristic"   : false,
-                "End of Gloom"              : false,
-                "The Poison's Source"       : false,
-                "Through the Nest"          : false,
-                "High Sea Escort"           : false,
-                "Grave Job"                 : false,
-                "Bravery"                   : false,
-                "Fish's Aid"                : false,
-                "Bad Business"              : false,
-                "Tremors"                   : false,
-                "Sin-Ra"                    : false,
-                "Debt Collection"           : false,
-                "A Map to Treasure"         : false,
-                "Chosen by picker"          : false,
-                "Ancient Technology"        : false,
-                "OR"                        : true,
-                // Personal quests always set to true
-                "Seeker of Xorn personal quest" : true,
-                "Staff of Xorn item equipped"   : false
+                "None"                                  : true,
+                "First Steps"                           : false,
+                "Jekserah's Plans"                      : false,
+                "Dark Bounty"                           : false,
+                "The Merchant Flees"                    : false,
+                "The Dead Invade"                       : false,
+                "A Demon's Errand"                      : false,
+                "End of the Invasion"                   : false,
+                "The Power of Enhancement"              : false,
+                "Stonebreaker's Censer"                 : false,
+                "The Demon Dethroned"                   : false,
+                "Through the Ruins"                     : false,
+                "The Voice's Command"                   : false,
+                "The Drake's Command"                   : false,
+                "Following Clues"                       : false,
+                "The Rift Closed"                       : false,
+                "An Invitation"                         : false,
+                "The Edge of Darkness"                  : false,
+                "The Scepter and the Voice"             : false,
+                "Artifact: Cleansed"                    : false,
+                "Artifact: Lost"                        : false,
+                "Artifact: Recovered"                   : false,
+                "The Voice's Treasure"                  : false,
+                "The Drake's Treasure"                  : false,
+                "The Drake Slain"                       : false,
+                "City Rule: Demonic"                    : false,
+                "Through the Trench"                    : false,
+                "Redthorn's Aid"                        : false,
+                "Across the Divide"                     : false,
+                "The Voice Freed"                       : false,
+                "Water Breathing"                       : false,
+                "End of Corruption 1"                   : false,
+                "End of Corruption 2"                   : false,
+                "End of Corruption 3"                   : false,
+                "Annihilation of Order"                 : false,
+                "City Rule: Militaristic"               : false,
+                "End of Gloom"                          : false,
+                "The Poison's Source"                   : false,
+                "Through the Nest"                      : false,
+                "High Sea Escort"                       : false,
+                "Grave Job"                             : false,
+                "Bravery"                               : false,
+                "Fish's Aid"                            : false,
+                "Bad Business"                          : false,
+                "Tremors"                               : false,
+                "Sin-Ra"                                : false,
+                "Debt Collection"                       : false,
+                "A Map to Treasure"                     : false,
+                "Chosen by picker"                      : false,
+                "Ancient Technology"                    : false,
+                "OR"                                    : true,
+                "Seeker of Xorn personal quest"         : false,
+                "Staff of Xorn item equipped"           : false,
+                "Take Back the Trees personal quest"    : true
                 ]
             
             //saveScenarios()
@@ -305,84 +310,6 @@ class DataModel {
             unarchiver.finishDecoding()
         }
     }
-//    func updateAvailableScenarios(scenario: Scenario, isCompleted: Bool) {
-//        
-//        toggleUnlocks(for: scenario, to: isCompleted)
-//        let completed = allScenarios.filter { $0.completed == true }
-//        myAchieves = completed.filter { $0.achieves != ["None"] }.flatMap { $0.achieves }
-//        
-//        setAchievements(atches: scenario.achieves, toggle: isCompleted)
-//        setRequirementsMet()
-//        
-//        saveScenarios()
-//        
-//    }
-//    func setAchievements(atches: [String], toggle: Bool) {
-//        var remove = false
-//        for ach in atches {
-//            if ach == "REMOVE" {
-//                remove = true
-//                continue
-//            }
-//            if toggle {
-//                if remove {
-//                    achievements[ach]! = false
-//                    remove = false
-//                } else {
-//                    if !(ach == "None") {
-//                        achievements[ach]! = true
-//                    }
-//                }
-//            } else {
-//                if remove {
-//                    achievements[ach]! = true
-//                    remove = false
-//                } else {
-//                    if !(ach == "None") && !(myAchieves.contains(ach)){
-//                        achievements[ach]! = false
-//                    }
-//                }
-//            }
-//        }
-//    }
-//    func setRequirementsMet() {
-//        for scenario in allScenarios {
-//            let orPresent = scenario.requirements["OR"] == true
-//            var tempRequirementsArray = scenario.requirements
-//            tempRequirementsArray.removeValue(forKey: "OR")
-//            for (ach, bool) in tempRequirementsArray {
-//                if orPresent {
-//                    if achievements[ach]! == bool {
-//                        scenario.requirementsMet = true
-//                        break
-//                    }
-//                } else if achievements[ach]! != bool && !scenario.completed {
-//                    scenario.requirementsMet = false
-//                    break
-//                } else {
-//                    scenario.requirementsMet = true
-//                }
-//            }
-//        }
-//    }
-//    func toggleUnlocks(for scenario: Scenario, to: Bool) {
-//        // Don't toggle false if we're already unlocked by a completed scenario
-//        if to == false && !didAnotherCompletedScenarioUnlockMe(scenario: scenario) {
-//            //If we're locking a scenario with "ONEOF", we need to restore default unlocks
-//            if scenario.unlocks.contains("ONEOF") {
-//                scenario.unlocks = defaultUnlocks[scenario.number]!
-//            }
-//            for scen in scenario.unlocks {
-//                if scen != "ONEOF" {
-//                    getScenario(scenarioNumber: scen)?.isUnlocked = false
-//                }
-//            }
-//        } else { // Go ahead and toggle true
-//            for scen in scenario.unlocks {
-//                getScenario(scenarioNumber: scen)?.isUnlocked = true
-//            }
-//        }
-//    }
     func getScenario(scenarioNumber: String) -> Scenario? {
         
         if scenarioNumber == "None" || scenarioNumber == "ONEOF" {
@@ -393,72 +320,7 @@ class DataModel {
             
             return scenario
         }
-    }
-//    func getUnlocks(for scenario: Scenario) -> [String] {
-//        var unlocks = [String]()
-//        let myUnlocks = scenario.unlocks.filter { !$0.contains("ONEOF") }
-//        for scen in myUnlocks {
-//            if scen == "None" {
-//                unlocks.append("None")
-//            } else {
-//                unlocks.append((getScenario(scenarioNumber: scen)?.number)!)
-//            }
-//        }
-//        return unlocks
-//    }
-//    func getUnlockedBys(for scenario: Scenario) -> [String] {
-//        var unlockedBys = [String]()
-//        let myUnlocks = scenario.unlockedBy.filter { !$0.contains("ONEOF") }
-//        for scen in myUnlocks {
-//            if scen == "None" {
-//                unlockedBys.append("None")
-//            } else {
-//                unlockedBys.append((getScenario(scenarioNumber: scen)?.number)!)
-//            }
-//        }
-//        return unlockedBys
-//    }
-//    func getAchieves(for scenario: Scenario) -> [String] {
-//        var achieves = [String]()
-//        for ach in scenario.achieves {
-//            achieves.append(ach)
-//        }
-//        return achieves
-//    }
-//    func didAnotherCompletedScenarioUnlockMe(scenario: Scenario) -> Bool {
-//        // Look at calling scenario's unlocks
-//        for unlock in scenario.unlocks {
-//            if !(unlock == "None") && !(unlock == "ONEOF") {
-//                // For each unlock, look at its unlockers (unlockedBy)
-//                for unlockedBy in getScenario(scenarioNumber: unlock)!.unlockedBy {
-//                    if (getScenario(scenarioNumber: unlockedBy)!.number == scenario.number) {
-//                        continue
-//                    } else {
-//                        if getScenario(scenarioNumber: unlockedBy)!.completed {
-//                            return true
-//                        } else {
-//                            return false
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//        return false
-//    }
-//    func areAnyUnlocksCompleted(scenario: Scenario) -> Bool {
-//        for scen in scenario.unlocks {
-//            if let answer = getScenario(scenarioNumber: scen) {
-//                if answer.completed {
-//                    return true
-//                } else {
-//                    //return false
-//                    continue
-//                }
-//            }
-//        }
-//        return false
-//    }
-    
+    }    
 }
 
 class ScenarioNumberAndTitle {

@@ -16,11 +16,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         let navigationController = window!.rootViewController as! UINavigationController
-        //let controller = navigationController.viewControllers[0] as! ScenarioViewController
         let controller = navigationController.viewControllers[0] as! CampaignViewController
         controller.dataModel = dataModel
-        //controller.viewModel = viewModel
-        controller.navigationItem.title = "All Scenarios"
         return true
     }
 

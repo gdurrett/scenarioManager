@@ -10,7 +10,7 @@ import Foundation
 
 protocol ScenarioViewControllerViewModel {
     var allScenarios: [Scenario] { get }
-    var availableScenarios: [Scenario] { get }
-    var completedScenarios: [Scenario] { get }
+    var availableScenarios: Dynamic<[Scenario]> { get }
+    var completedScenarios: Dynamic<[Scenario]> { get }
     
 }

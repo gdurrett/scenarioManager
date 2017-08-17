@@ -10,18 +10,20 @@ import UIKit
 
 class CampaignViewController: UIViewController {
     
+    @IBAction func openScenarioManagerButtonTapped(_ sender: Any) {
+        showScenarioViewController()
+    }
     var dataModel: DataModel? {
         didSet {
-            showScenarioViewController()
+            //showScenarioViewController()
         }
     }
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        showScenarioViewController()
+        //showScenarioViewController()
         
     }
-    
     // MARK: Private
     
     fileprivate func showScenarioViewController() {
@@ -30,10 +32,13 @@ class CampaignViewController: UIViewController {
         }
  
         let controller = UIStoryboard.loadScenarioViewController()
-        let viewModel = ScenarioViewModelFromModel(withDataModel: DataModel.sharedInstance)
+        let viewModel = ScenarioViewModelFromModel(withDataModel: dataModel!)
         controller.viewModel = viewModel
+        let navController = UINavigationController(rootViewController: controller)
+        //Hide Campaign Manager's nav bar so we can see ScenarioViewController's NavBar
+        self.navigationController?.navigationBar.isHidden = true
+        self.insertChildController(navController, intoParentView: self.view)
         
-        self.insertChildController(controller, intoParentView: self.view)
         
     }
 }
