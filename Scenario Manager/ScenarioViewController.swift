@@ -1,40 +1,25 @@
 //
-//  ViewController.swift
+//  ScenarioTableViewController.swift
 //  Scenario Manager
 //
-//  Created by Greg Durrett on 6/28/17.
+//  Created by Greg Durrett on 8/18/17.
 //  Copyright © 2017 AppHazard Productions. All rights reserved.
 //
 
 import UIKit
-
-// Test out an extension
-extension Sequence {
-    var minimalDescription: String {
-        return map { "\($0)" }.joined(separator: ", ")
-    }
-}
 // Implement search bar stuff via extension
 extension ScenarioViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
+        print("Got to updateSearchResults")
         filterContentForSearchText(searchText: searchController.searchBar.text!)
     }
 }
+class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPickerViewControllerDelegate {
+    
 
-class ScenarioViewController: UITableViewController, ScenarioPickerViewControllerDelegate {
-
-    @IBAction func searchButtonTapped(_ sender: Any) {
-        setupSearch()
-        //present(searchController, animated: true, completion: nil)
-        
-        searchController.searchBar.resignFirstResponder()
-
-    }
-
-    @IBOutlet weak var scenarioFilterOutlet: UISegmentedControl!
+    @IBOutlet weak var scenarioTableView: UITableView!
     
     @IBAction func scenarioFilterAction(_ sender: Any) {
-
         switch scenarioFilterOutlet.selectedSegmentIndex {
         case 0:
             self.navigationItem.title = ("\(scenarioFilterOutlet.titleForSegment(at: 0)!) Scenarios")
@@ -45,10 +30,10 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
         default:
             break
         }
-
-        tableView.reloadData()
+        
+        scenarioTableView.reloadData()
     }
-    
+    @IBOutlet weak var scenarioFilterOutlet: UISegmentedControl!
     var viewModel: ScenarioViewModelFromModel? {
         didSet {
             fillUI()
@@ -71,59 +56,14 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
     
     // See if we can set proper segment title for All segment tab
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        var returnValue = 0
-        if searchController.isActive && searchController.searchBar.text != "" {
-            returnValue = filteredScenarios.count
-        } else {
-            //            returnValue = dataModel.allScenarios.count
-            //        }
-            switch(scenarioFilterOutlet.selectedSegmentIndex) {
-            case 0:
-                returnValue = allScenarios.count
-            case 1:
-                returnValue = availableScenarios.count
-            case 2:
-                returnValue = completedScenarios.count
-            default:
-                break
-            }
-        }
-        return returnValue
-    }
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> ScenarioMainCell {
-        let cell = makeCell(for: tableView)
-        if searchController.isActive && searchController.searchBar.text != "" {
-            scenario = filteredScenarios[indexPath.row]
-        } else {
-            switch(scenarioFilterOutlet.selectedSegmentIndex) {
-            case 0:
-                scenario = allScenarios[indexPath.row]
-            case 1:
-                scenario = availableScenarios[indexPath.row]
-            case 2:
-                scenario = completedScenarios[indexPath.row]
-            default:
-                break
-            }
-        }
-        configureTitle(for: cell, with: scenario)
-        
-        configureRewardText(for: cell, with: scenario.rewards)
-        configureAchievesText(for: cell, with: scenario.summary)
-        configureRowIcon(for: ((cell as? ScenarioMainCell)!), with: scenario)
-        
-        // Test!
-        cell.backgroundView = UIImageView(image: UIImage(named: scenario.mainCellBGImage))
-        cell.backgroundView?.alpha = 0.25
-        cell.selectedBackgroundView = UIImageView(image: UIImage(named: scenario.mainCellBGImage))
-        cell.selectedBackgroundView?.alpha = 0.65
-        return cell as! ScenarioMainCell
-        
-    }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        scenarioTableView?.dataSource = self
+        scenarioTableView?.delegate = self
+
+
         styleUI()
         fillUI()
         
@@ -131,9 +71,10 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
         NotificationCenter.default.addObserver(self, selector: #selector(segueToDetailViewController), name: NSNotification.Name(rawValue: "segueToDetail"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(segueToScenarioPickerViewController), name: NSNotification.Name(rawValue: "segueToPicker"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(showSelectionAlertViaNotify), name: NSNotification.Name(rawValue: "showSelectionAlert"), object: nil)
-        
         // Change titles on segmented controller
         setSegmentTitles()
+        setupSearch()
+        scenarioTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
     }
     // Fix deallocation bug when returning here from detailView
     deinit {
@@ -142,12 +83,13 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
     override func viewWillAppear(_ animated: Bool) {
         setSegmentTitles()
         super.viewWillAppear(animated)
-        self.tableView.reloadData()
+        self.scenarioTableView.reloadData()
     }
     
     // Set up swipe functionality
-    override func tableView(_ tableView: UITableView, editActionsForRowAt: IndexPath) -> [UITableViewRowAction]? {
+    func tableView(_ tableView: UITableView, editActionsForRowAt: IndexPath) -> [UITableViewRowAction]? {
         if searchController.isActive && searchController.searchBar.text != "" {
+            
             scenario = filteredScenarios[editActionsForRowAt.row]
         } else {
             //            scenario = dataModel.allScenarios[editActionsForRowAt.row]
@@ -163,19 +105,19 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
                 break
             }
         }
-
+        
         configureSwipeButton(for: scenario)
-
+        
         let swipeToggleLocked = UITableViewRowAction(style: .normal, title: self.myLockedTitle) { action, index in
-        if self.myLockedTitle == "Unlock" {
-            self.scenario.isUnlocked = true
-            self.viewModel?.updateAvailableScenarios(scenario: self.scenario, isCompleted: false)
-            tableView.reloadData()
-        } else if self.myLockedTitle == "Lock" {
-            self.scenario.isUnlocked = false
-            self.viewModel?.updateAvailableScenarios(scenario: self.scenario, isCompleted: false)
-
-            tableView.reloadData()
+            if self.myLockedTitle == "Unlock" {
+                self.scenario.isUnlocked = true
+                self.viewModel?.updateAvailableScenarios(scenario: self.scenario, isCompleted: false)
+                tableView.reloadData()
+            } else if self.myLockedTitle == "Lock" {
+                self.scenario.isUnlocked = false
+                self.viewModel?.updateAvailableScenarios(scenario: self.scenario, isCompleted: false)
+                
+                tableView.reloadData()
             }
         }
         let swipeToggleComplete = UITableViewRowAction(style: .normal, title: self.myCompletedTitle) { action, index in
@@ -219,7 +161,7 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
                     } else {
                         self.viewModel?.updateAvailableScenarios(scenario: self.scenario, isCompleted: true)
                         self.setSegmentTitles()
-
+                        
                         tableView.reloadData()
                     }
                 }
@@ -240,7 +182,7 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
     // Prepare for segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ShowScenarioDetail" {
-            searchController.isActive = false
+            //searchController.isActive = false
             let destinationVC = segue.destination as! ScenarioDetailViewController
             let viewModel = ScenarioDetailViewModel(withScenario: (self.viewModel?.selectedScenario!)!)
             destinationVC.viewModel = viewModel
@@ -254,7 +196,7 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
     }
     
     // Perform segue (Show Scenario Detail when cell is tapped)
-    override func tableView(_ tableView: UITableView,
+    func tableView(_ tableView: UITableView,
                             didSelectRowAt indexPath: IndexPath) {
         if searchController.isActive && searchController.searchBar.text != "" {
             scenario = filteredScenarios[indexPath.row]
@@ -340,16 +282,16 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
     }
     func setImageFromURl(imageUrl url: NSURL) -> UIImage {
         var image = UIImage()
-            if let data = NSData(contentsOf: url as URL) {
-                image = UIImage(data: data as Data)!
-            }
+        if let data = NSData(contentsOf: url as URL) {
+            image = UIImage(data: data as Data)!
+        }
         return image
     }
     func setSegmentTitles() {
         scenarioFilterOutlet.setTitle("All (\(allScenarios.count))", forSegmentAt: 0)
         scenarioFilterOutlet.setTitle("Available (\(availableScenarios.count))", forSegmentAt: 1)
         scenarioFilterOutlet.setTitle("Completed (\(completedScenarios.count))", forSegmentAt: 2)
-        tableView.reloadData()
+        scenarioTableView.reloadData()
     }
     func showSelectionAlert(status: String) {
         var alertTitle = String()
@@ -383,11 +325,11 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
             break
         }
         filteredScenarios = scenarioSubset.filter { scenario in return scenario.title.lowercased().contains(searchText.lowercased()) || scenario.achieves.minimalDescription.lowercased().contains(searchText.lowercased()) || scenario.rewards.minimalDescription.lowercased().contains(searchText.lowercased())}
-        tableView.reloadData()
+        scenarioTableView.reloadData()
     }
     fileprivate func styleUI() {
-        self.tableView.estimatedRowHeight = 100
-        self.tableView.rowHeight = UITableViewAutomaticDimension
+        self.scenarioTableView.estimatedRowHeight = 100
+        self.scenarioTableView.rowHeight = UITableViewAutomaticDimension
         self.navigationController?.navigationBar.tintColor = UIColor.black
         self.navigationController?.navigationBar.barTintColor = UIColor.gray
         self.navigationItem.title = "All Scenarios"
@@ -409,6 +351,8 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
     }
     fileprivate func setupSearch() {
         //Set up searchController stuff
+
+        searchController.searchBar.delegate = self
         searchController.searchBar.barTintColor = UIColor.gray
         searchController.searchBar.placeholder = "Search Scenarios, Rewards, Achievements"
         searchController.searchBar.tintColor = UIColor.black
@@ -416,16 +360,20 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
         searchController.dimsBackgroundDuringPresentation = false
         searchController.searchBar.sizeToFit()
         searchController.searchBar.searchBarStyle = .default
-        definesPresentationContext = false
-        
+        searchController.searchBar.showsCancelButton = false
+        definesPresentationContext = true
+        scenarioTableView.tableHeaderView = searchController.searchBar
         searchController.hidesNavigationBarDuringPresentation = false
-        searchController.searchBar.delegate = self as? UISearchBarDelegate
+
+    }
+    internal func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        scenarioTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
     }
     // Implement delegate methods for ScenarioPickerViewController
     func scenarioPickerViewControllerDidCancel(_ controller: ScenarioPickerViewController) {
         controller.scenario.completed = false
         viewModel?.updateAvailableScenarios(scenario: controller.scenario, isCompleted: false)
-        tableView.reloadData()
+        scenarioTableView.reloadData()
         dismiss(animated: true, completion: nil)
     }
     
@@ -435,7 +383,7 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
         }
         viewModel?.updateAvailableScenarios(scenario: scenario, isCompleted: true)
         self.setSegmentTitles()
-        tableView.reloadData()
+        scenarioTableView.reloadData()
         dismiss(animated: true, completion: nil)
     }
     
@@ -473,6 +421,71 @@ class ScenarioViewController: UITableViewController, ScenarioPickerViewControlle
             })
         }
     }
-
 }
+// Test out an extension
+extension Sequence {
+    var minimalDescription: String {
+        return map { "\($0)" }.joined(separator: ", ")
+    }
+}
+// Implement ScenarioTableView datasource and delegate methods
 
+extension ScenarioViewController: UITableViewDataSource, UITableViewDelegate {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        var returnValue = 0
+        if searchController.isActive && searchController.searchBar.text != "" {
+            print("Got to numberOfRows")
+            returnValue = filteredScenarios.count
+        } else {
+            //            returnValue = dataModel.allScenarios.count
+            //        }
+            switch(scenarioFilterOutlet.selectedSegmentIndex) {
+            case 0:
+                returnValue = allScenarios.count
+            case 1:
+                returnValue = availableScenarios.count
+            case 2:
+                returnValue = completedScenarios.count
+            default:
+                break
+            }
+        }
+        return returnValue
+    }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = makeCell(for: tableView)
+        if searchController.isActive && searchController.searchBar.text != "" {
+            print("Got to cellForRowAt")
+            scenario = filteredScenarios[indexPath.row]
+        } else {
+            switch(scenarioFilterOutlet.selectedSegmentIndex) {
+            case 0:
+                print("Got to cellForRowAt")
+                scenario = allScenarios[indexPath.row]
+            case 1:
+                scenario = availableScenarios[indexPath.row]
+            case 2:
+                scenario = completedScenarios[indexPath.row]
+            default:
+                break
+            }
+        }
+        configureTitle(for: cell, with: scenario)
+        
+        configureRewardText(for: cell, with: scenario.rewards)
+        configureAchievesText(for: cell, with: scenario.summary)
+        configureRowIcon(for: ((cell as? ScenarioMainCell)!), with: scenario)
+        
+        // Test!
+        cell.backgroundView = UIImageView(image: UIImage(named: scenario.mainCellBGImage))
+        cell.backgroundView?.alpha = 0.25
+        cell.selectedBackgroundView = UIImageView(image: UIImage(named: scenario.mainCellBGImage))
+        cell.selectedBackgroundView?.alpha = 0.65
+        return cell as! ScenarioMainCell
+        
+    }
+}

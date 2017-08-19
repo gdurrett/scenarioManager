@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		FB11F04A1F3A5CA600CAA684 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB11F0491F3A5CA600CAA684 /* Assets.xcassets */; };
 		FB23B6EA1F044CFC00CAA684 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB23B6E91F044CFC00CAA684 /* AppDelegate.swift */; };
-		FB23B6EC1F044CFC00CAA684 /* ScenarioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB23B6EB1F044CFC00CAA684 /* ScenarioViewController.swift */; };
-		FB23B6EF1F044CFC00CAA684 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB23B6ED1F044CFC00CAA684 /* Main.storyboard */; };
 		FB23B6F41F044CFC00CAA684 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB23B6F21F044CFC00CAA684 /* LaunchScreen.storyboard */; };
 		FB23B6FC1F04C40D00CAA684 /* Scenario.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB23B6FB1F04C40D00CAA684 /* Scenario.swift */; };
 		FB23B7021F0AB5ED00CAA684 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB23B7011F0AB5EC00CAA684 /* DataModel.swift */; };
@@ -40,14 +38,14 @@
 		FB482DAA1F293C6600CAA684 /* AchievesInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB482DA91F293C6600CAA684 /* AchievesInfoCell.xib */; };
 		FB482DAC1F293C9500CAA684 /* AchievesInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB482DAB1F293C9500CAA684 /* AchievesInfoCell.swift */; };
 		FB7521A41F207A2F00CAA684 /* ScenarioPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB7521A31F207A2F00CAA684 /* ScenarioPickerViewController.swift */; };
+		FBE3F1E91F47C91100CAA684 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FBE3F1E81F47C91100CAA684 /* Main.storyboard */; };
+		FBE3F1EB1F47C92C00CAA684 /* ScenarioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE3F1EA1F47C92C00CAA684 /* ScenarioViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		FB11F0491F3A5CA600CAA684 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FB23B6E61F044CFC00CAA684 /* Scenario Manager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Scenario Manager.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB23B6E91F044CFC00CAA684 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		FB23B6EB1F044CFC00CAA684 /* ScenarioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScenarioViewController.swift; sourceTree = "<group>"; };
-		FB23B6EE1F044CFC00CAA684 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		FB23B6F31F044CFC00CAA684 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FB23B6F51F044CFC00CAA684 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FB23B6FB1F04C40D00CAA684 /* Scenario.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scenario.swift; sourceTree = "<group>"; };
@@ -78,6 +76,8 @@
 		FB482DA91F293C6600CAA684 /* AchievesInfoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AchievesInfoCell.xib; sourceTree = "<group>"; };
 		FB482DAB1F293C9500CAA684 /* AchievesInfoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AchievesInfoCell.swift; sourceTree = "<group>"; };
 		FB7521A31F207A2F00CAA684 /* ScenarioPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScenarioPickerViewController.swift; sourceTree = "<group>"; };
+		FBE3F1E81F47C91100CAA684 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		FBE3F1EA1F47C92C00CAA684 /* ScenarioViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScenarioViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -146,7 +146,7 @@
 			isa = PBXGroup;
 			children = (
 				FB7521A31F207A2F00CAA684 /* ScenarioPickerViewController.swift */,
-				FB23B6EB1F044CFC00CAA684 /* ScenarioViewController.swift */,
+				FBE3F1EA1F47C92C00CAA684 /* ScenarioViewController.swift */,
 				FB482D981F27C51C00CAA684 /* ScenarioDetailViewController.swift */,
 				FB40EA0B1F43ACFF00CAA684 /* CampaignViewController.swift */,
 			);
@@ -165,7 +165,7 @@
 		FB40EA171F4554A000CAA684 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				FB23B6ED1F044CFC00CAA684 /* Main.storyboard */,
+				FBE3F1E81F47C91100CAA684 /* Main.storyboard */,
 				FB40EA151F45543300CAA684 /* CampaignManager */,
 				FB482DA21F29380B00CAA684 /* TableView Cells */,
 			);
@@ -261,10 +261,10 @@
 				FB11F04A1F3A5CA600CAA684 /* Assets.xcassets in Resources */,
 				FB482D9D1F2934BA00CAA684 /* ScenarioTitleCell.xib in Resources */,
 				FB482DA11F2937B200CAA684 /* UnlocksInfoCell.xib in Resources */,
+				FBE3F1E91F47C91100CAA684 /* Main.storyboard in Resources */,
 				FB23B6F41F044CFC00CAA684 /* LaunchScreen.storyboard in Resources */,
 				FB482DAA1F293C6600CAA684 /* AchievesInfoCell.xib in Resources */,
 				FB46658B1F2E66C000CAA684 /* RequirementsInfoCell.xib in Resources */,
-				FB23B6EF1F044CFC00CAA684 /* Main.storyboard in Resources */,
 				FB482DA61F293ABA00CAA684 /* UnlockedByInfoCell.xib in Resources */,
 				FB4665931F2FA9FA00CAA684 /* LocationInfoCell.xib in Resources */,
 			);
@@ -287,9 +287,9 @@
 				FB40EA191F45552B00CAA684 /* Dynamic.swift in Sources */,
 				FB40EA141F4419CA00CAA684 /* ScenarioViewModel.swift in Sources */,
 				FB40EA0C1F43ACFF00CAA684 /* CampaignViewController.swift in Sources */,
+				FBE3F1EB1F47C92C00CAA684 /* ScenarioViewController.swift in Sources */,
 				FB482D9B1F27DBA400CAA684 /* ScenarioDetailViewModel.swift in Sources */,
 				FB46658F1F2F96B500CAA684 /* SummaryInfoCell.swift in Sources */,
-				FB23B6EC1F044CFC00CAA684 /* ScenarioViewController.swift in Sources */,
 				FB482D991F27C51C00CAA684 /* ScenarioDetailViewController.swift in Sources */,
 				FB482DAC1F293C9500CAA684 /* AchievesInfoCell.swift in Sources */,
 				FB4665951F2FDCEE00CAA684 /* ScenarioMainCell.swift in Sources */,
@@ -305,14 +305,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		FB23B6ED1F044CFC00CAA684 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				FB23B6EE1F044CFC00CAA684 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		FB23B6F21F044CFC00CAA684 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
