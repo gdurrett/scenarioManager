@@ -10,7 +10,6 @@ import UIKit
 // Implement search bar stuff via extension
 extension ScenarioViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        print("Got to updateSearchResults")
         filterContentForSearchText(searchText: searchController.searchBar.text!)
     }
 }
@@ -30,7 +29,9 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
         default:
             break
         }
-        
+        if searchController.isActive && searchController.searchBar.text != "" {
+            filterContentForSearchText(searchText: searchController.searchBar.text!)
+        }
         scenarioTableView.reloadData()
     }
     @IBOutlet weak var scenarioFilterOutlet: UISegmentedControl!
@@ -73,6 +74,7 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
         NotificationCenter.default.addObserver(self, selector: #selector(showSelectionAlertViaNotify), name: NSNotification.Name(rawValue: "showSelectionAlert"), object: nil)
         // Change titles on segmented controller
         setSegmentTitles()
+        //scenarioFilterOutlet.frame.size.height = 44
         setupSearch()
         scenarioTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
     }
@@ -165,7 +167,7 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
                         tableView.reloadData()
                     }
                 }
-                print("Number of completed scenarios: \(self.completedScenarios.count)")
+
             } // Can't complete
         }
         swipeToggleComplete.backgroundColor = bgColor
@@ -203,7 +205,7 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
         } else {
             //            scenario = dataModel.allScenarios[indexPath.row]
             //        }
-            //Make sure to draw from proper dataModel filter for our indexPath based on segment selection
+            //Make sure to draw from proper filter for our indexPath based on segment selection
             switch(scenarioFilterOutlet.selectedSegmentIndex) {
             case 0:
                 scenario = allScenarios[indexPath.row]
@@ -216,9 +218,11 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
             }
         }
         viewModel?.selectedScenario = scenario
-        print("Performing segue here with \(scenario.title)")
         performSegue(withIdentifier: "ShowScenarioDetail", sender: scenario)
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100.0
     }
     // Helper methods
     func makeCell(for tableView: UITableView) -> UITableViewCell {
@@ -274,11 +278,12 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
         let label = cell.viewWithTag(1500) as! UILabel
         label.text = ("Unlocked By: \(unlockedBys.minimalDescription)")
     }
-    func configureAchievesText(for cell: UITableViewCell, with text: String) {
-        let label = cell.viewWithTag(1100) as! UILabel
+    func configureGoalText(for cell: UITableViewCell, with text: String) {
+        let goalLabel = cell.viewWithTag(1100) as! UILabel
         var lines = [String]()
         text.enumerateLines { line, _ in lines.append(line) }
-        label.text = (lines[0])
+        goalLabel.text = (lines[0])
+        goalLabel.sizeToFit()
     }
     func setImageFromURl(imageUrl url: NSURL) -> UIImage {
         var image = UIImage()
@@ -367,7 +372,10 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
 
     }
     internal func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        scenarioTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+        print("Got to searchBarCancelButtonClicked")
+        if filteredScenarios.count != 0 || searchController.searchBar.text == "" {
+            scenarioTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+        }
     }
     // Implement delegate methods for ScenarioPickerViewController
     func scenarioPickerViewControllerDidCancel(_ controller: ScenarioPickerViewController) {
@@ -438,7 +446,6 @@ extension ScenarioViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         var returnValue = 0
         if searchController.isActive && searchController.searchBar.text != "" {
-            print("Got to numberOfRows")
             returnValue = filteredScenarios.count
         } else {
             //            returnValue = dataModel.allScenarios.count
@@ -459,12 +466,10 @@ extension ScenarioViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = makeCell(for: tableView)
         if searchController.isActive && searchController.searchBar.text != "" {
-            print("Got to cellForRowAt")
             scenario = filteredScenarios[indexPath.row]
         } else {
             switch(scenarioFilterOutlet.selectedSegmentIndex) {
             case 0:
-                print("Got to cellForRowAt")
                 scenario = allScenarios[indexPath.row]
             case 1:
                 scenario = availableScenarios[indexPath.row]
@@ -475,16 +480,14 @@ extension ScenarioViewController: UITableViewDataSource, UITableViewDelegate {
             }
         }
         configureTitle(for: cell, with: scenario)
-        
-        configureRewardText(for: cell, with: scenario.rewards)
-        configureAchievesText(for: cell, with: scenario.summary)
+        configureGoalText(for: cell, with: scenario.summary)
         configureRowIcon(for: ((cell as? ScenarioMainCell)!), with: scenario)
         
-        // Test!
         cell.backgroundView = UIImageView(image: UIImage(named: scenario.mainCellBGImage))
         cell.backgroundView?.alpha = 0.25
         cell.selectedBackgroundView = UIImageView(image: UIImage(named: scenario.mainCellBGImage))
         cell.selectedBackgroundView?.alpha = 0.65
+        
         return cell as! ScenarioMainCell
         
     }

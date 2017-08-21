@@ -17,7 +17,9 @@ class ScenarioDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tableView?.backgroundColor = UIColor(hue: 30/360, saturation: 14/100, brightness: 87/100, alpha: 1.0)
+        //self.tableView?.backgroundColor = UIColor(hue: 30/360, saturation: 14/100, brightness: 87/100, alpha: 1.0)
+        self.tableView?.backgroundView = UIImageView(image: UIImage(named: "scenarioMgrDetailBG"))
+        self.tableView?.backgroundView?.alpha = 0.25
         
         tableView?.dataSource = self
         tableView?.delegate = self
@@ -42,7 +44,6 @@ class ScenarioDetailViewController: UIViewController {
         } else {
             tableViewCell.scenarioStatusIcon.image = #imageLiteral(resourceName: "scenarioLockedIcon")
         }
-        
     }
 }
 
@@ -59,6 +60,7 @@ extension ScenarioDetailViewController: UITableViewDataSource, UITableViewDelega
             switch item.type {
             case .scenarioTitle:
                 if let cell = tableView.dequeueReusableCell(withIdentifier: ScenarioTitleCell.identifier, for: indexPath) as? ScenarioTitleCell {
+                    cell.backgroundColor = UIColor.clear
                     cell.scenarioStatusIcon.image = statusIcon
                     cell.item = item
                     return cell
@@ -67,6 +69,7 @@ extension ScenarioDetailViewController: UITableViewDataSource, UITableViewDelega
                 if let item = item as? ScenarioDetailViewModelUnlocksInfoItem, let cell = tableView.dequeueReusableCell(withIdentifier: UnlocksInfoCell.identifier, for: indexPath) as? UnlocksInfoCell {
                     //cell.backgroundColor = cellBGColor
                     let unlock = item.unlocks[indexPath.row]
+                    cell.backgroundColor = UIColor.clear
                     cell.item = unlock
                     return cell
                 }
@@ -74,6 +77,7 @@ extension ScenarioDetailViewController: UITableViewDataSource, UITableViewDelega
                 if let item = item as? ScenarioDetailViewModelUnlockedByInfoItem, let cell = tableView.dequeueReusableCell(withIdentifier: UnlockedByInfoCell.identifier, for: indexPath) as? UnlockedByInfoCell {
                     //cell.backgroundColor = cellBGColor
                     let unlockedBy = item.unlockedBys[indexPath.row]
+                    cell.backgroundColor = UIColor.clear
                     cell.item = unlockedBy
                     return cell
                 }
@@ -81,6 +85,7 @@ extension ScenarioDetailViewController: UITableViewDataSource, UITableViewDelega
                 if let item = item as? ScenarioDetailViewModelRequirementsInfoItem, let cell = tableView.dequeueReusableCell(withIdentifier: RequirementsInfoCell.identifier, for: indexPath) as? RequirementsInfoCell {
                     //cell.backgroundColor = cellBGColor
                     let requirement = item.requirements[indexPath.row]
+                    cell.backgroundColor = UIColor.clear
                     cell.item = requirement
                     return cell
                     //}
@@ -90,6 +95,7 @@ extension ScenarioDetailViewController: UITableViewDataSource, UITableViewDelega
                 if let item = item as? ScenarioDetailViewModelRewardsInfoItem, let cell = tableView.dequeueReusableCell(withIdentifier: RewardsInfoCell.identifier, for: indexPath) as? RewardsInfoCell {
                     //cell.backgroundColor = cellBGColor
                     let reward = item.rewards[indexPath.row]
+                    cell.backgroundColor = UIColor.clear
                     cell.item = reward
                     return cell
                 }
@@ -98,6 +104,7 @@ extension ScenarioDetailViewController: UITableViewDataSource, UITableViewDelega
                     let cell = tableView.dequeueReusableCell(withIdentifier: AchievesInfoCell.identifier, for: indexPath) as? AchievesInfoCell {
                     //cell.backgroundColor = cellBGColor
                     let achieve = item.achieves[indexPath.row]
+                    cell.backgroundColor = UIColor.clear
                     cell.item = achieve
                     return cell
                 }
@@ -106,12 +113,14 @@ extension ScenarioDetailViewController: UITableViewDataSource, UITableViewDelega
                     //cell.backgroundColor = cellBGColor
                     cell.selectionStyle = UITableViewCellSelectionStyle.none
                     cell.item = item
+                    cell.backgroundColor = UIColor.clear
                     return cell
                 }
             case .scenarioLocation:
                 if let cell = tableView.dequeueReusableCell(withIdentifier: LocationInfoCell.identifier, for: indexPath) as? LocationInfoCell {
                     //cell.backgroundColor = cellBGColor
                     cell.item = item
+                    cell.backgroundColor = UIColor.clear
                     return cell
                 }
             }

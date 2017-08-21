@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		FB11F04A1F3A5CA600CAA684 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB11F0491F3A5CA600CAA684 /* Assets.xcassets */; };
 		FB23B6EA1F044CFC00CAA684 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB23B6E91F044CFC00CAA684 /* AppDelegate.swift */; };
 		FB23B6F41F044CFC00CAA684 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB23B6F21F044CFC00CAA684 /* LaunchScreen.storyboard */; };
 		FB23B6FC1F04C40D00CAA684 /* Scenario.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB23B6FB1F04C40D00CAA684 /* Scenario.swift */; };
@@ -40,10 +39,10 @@
 		FB7521A41F207A2F00CAA684 /* ScenarioPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB7521A31F207A2F00CAA684 /* ScenarioPickerViewController.swift */; };
 		FBE3F1E91F47C91100CAA684 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FBE3F1E81F47C91100CAA684 /* Main.storyboard */; };
 		FBE3F1EB1F47C92C00CAA684 /* ScenarioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE3F1EA1F47C92C00CAA684 /* ScenarioViewController.swift */; };
+		FBE3F1ED1F4A5F6A00CAA684 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FBE3F1EC1F4A5F6A00CAA684 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		FB11F0491F3A5CA600CAA684 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FB23B6E61F044CFC00CAA684 /* Scenario Manager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Scenario Manager.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB23B6E91F044CFC00CAA684 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FB23B6F31F044CFC00CAA684 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -78,6 +77,7 @@
 		FB7521A31F207A2F00CAA684 /* ScenarioPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScenarioPickerViewController.swift; sourceTree = "<group>"; };
 		FBE3F1E81F47C91100CAA684 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		FBE3F1EA1F47C92C00CAA684 /* ScenarioViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScenarioViewController.swift; sourceTree = "<group>"; };
+		FBE3F1EC1F4A5F6A00CAA684 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,7 +113,6 @@
 				FB23B6F51F044CFC00CAA684 /* Info.plist */,
 				FB23B6E91F044CFC00CAA684 /* AppDelegate.swift */,
 				FB23B6F21F044CFC00CAA684 /* LaunchScreen.storyboard */,
-				FB11F0491F3A5CA600CAA684 /* Assets.xcassets */,
 				FB40EA0D1F43AEB200CAA684 /* Extensions */,
 				FB40EA161F45545200CAA684 /* Model */,
 				FB40EA171F4554A000CAA684 /* View */,
@@ -166,6 +165,7 @@
 			isa = PBXGroup;
 			children = (
 				FBE3F1E81F47C91100CAA684 /* Main.storyboard */,
+				FBE3F1EC1F4A5F6A00CAA684 /* Assets.xcassets */,
 				FB40EA151F45543300CAA684 /* CampaignManager */,
 				FB482DA21F29380B00CAA684 /* TableView Cells */,
 			);
@@ -258,7 +258,7 @@
 			files = (
 				FB46658D1F2F964C00CAA684 /* SummaryInfoCell.xib in Resources */,
 				FB4665871F2E5C5900CAA684 /* RewardsInfoCell.xib in Resources */,
-				FB11F04A1F3A5CA600CAA684 /* Assets.xcassets in Resources */,
+				FBE3F1ED1F4A5F6A00CAA684 /* Assets.xcassets in Resources */,
 				FB482D9D1F2934BA00CAA684 /* ScenarioTitleCell.xib in Resources */,
 				FB482DA11F2937B200CAA684 /* UnlocksInfoCell.xib in Resources */,
 				FBE3F1E91F47C91100CAA684 /* Main.storyboard in Resources */,
