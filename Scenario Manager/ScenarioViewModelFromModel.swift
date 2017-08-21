@@ -18,6 +18,7 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
     let completedScenarios: Dynamic<[Scenario]>
     var selectedScenario: Scenario?
     var myAchieves = [String]()
+    var scenarioMgrViewBGString = String()
     
     // MARK: Init
     init(withDataModel dataModel: DataModel) {
@@ -26,10 +27,10 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
         self.allScenarios = dataModel.allScenarios
         self.availableScenarios = Dynamic(dataModel.availableScenarios)
         self.completedScenarios = Dynamic(dataModel.completedScenarios)
+        
     }
     // MARK: Helper functions
     func updateAvailableScenarios(scenario: Scenario, isCompleted: Bool) {
-        print("Sending scenario: \(scenario.title) with completed status of: \(isCompleted)")
         toggleUnlocks(for: scenario, to: isCompleted)
         let completed = allScenarios.filter { $0.completed == true }
         myAchieves = completed.filter { $0.achieves != ["None"] }.flatMap { $0.achieves }

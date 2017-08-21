@@ -31,6 +31,21 @@ protocol LockOrUnlockCellType {
 }
 class ScenarioDetailViewModel: NSObject {
     
+    enum TableViewBGImageString: String {
+        case CopperneckMountains
+        case Corpsewood
+        case DaggerForest
+        case EastRoad
+        case Gloomhaven
+        case LingeringSwamp
+        case MerchantsBay
+        case MistySea
+        case SerpentsKissRiver
+        case StillRiver
+        case StoneRoad
+        case WatcherMountains
+    }
+    
     var scenario: Scenario!
     var items = [ScenarioDetailViewModelItem]()
     var dataModel = DataModel.sharedInstance
@@ -47,95 +62,98 @@ class ScenarioDetailViewModel: NSObject {
     var myLockedTitle: String?
     var myCompletedTitle: String?
     var bgColor: UIColor?
-//    override init() {
-//        super.init()
+    var locationString = [String]()
+    
+    //    override init() {
+    //        super.init()
     init(withScenario scenario: Scenario) {
         super.init()
-
-            statusIcon = getStatusIcon(scenario: scenario)
         
-            let titleItem = ScenarioDetailViewModelScenarioTitleItem(number: scenario.number, title: scenario.title, statusIcon: statusIcon)
-            items.append(titleItem)
-            
-            let locationItem = ScenarioDetailViewModelScenarioLocationItem(location: scenario.location)
-            items.append(locationItem)
-            
-            let summaryItem = ScenarioDetailViewModelScenarioSummaryItem(summary: scenario.summary)
-            items.append(summaryItem)
-            
-            for unlockedBy in scenario.unlockedBy {
-                unlockedBys.append(ScenarioNumberAndTitle(number: unlockedBy))
+        statusIcon = getStatusIcon(scenario: scenario)
+        locationString = scenario.locationString.components(separatedBy: ", ")
+        
+        let titleItem = ScenarioDetailViewModelScenarioTitleItem(number: scenario.number, title: scenario.title, statusIcon: statusIcon)
+        items.append(titleItem)
+        
+        let locationItem = ScenarioDetailViewModelScenarioLocationItem(location: scenario.locationString)
+        items.append(locationItem)
+        
+        let summaryItem = ScenarioDetailViewModelScenarioSummaryItem(summary: scenario.summary)
+        items.append(summaryItem)
+        
+        for unlockedBy in scenario.unlockedBy {
+            unlockedBys.append(ScenarioNumberAndTitle(number: unlockedBy))
+        }
+        if !scenario.unlockedBy.contains("None") {
+            let unlockedByItem = ScenarioDetailViewModelUnlockedByInfoItem(unlockedBys: unlockedBys)
+            items.append(unlockedByItem)
+        }
+        // Create array of ScenarioNumberAndTitle objects to store unlock info as objects
+        for unlock in scenario.unlocks {
+            if unlock == "ONEOF" {
+                oneofPresent = true
+                continue
             }
-            if !scenario.unlockedBy.contains("None") {
-                let unlockedByItem = ScenarioDetailViewModelUnlockedByInfoItem(unlockedBys: unlockedBys)
-                items.append(unlockedByItem)
-            }
-            // Create array of ScenarioNumberAndTitle objects to store unlock info as objects
-            for unlock in scenario.unlocks {
-                if unlock == "ONEOF" {
-                    oneofPresent = true
+            unlocks.append(ScenarioNumberAndTitle(number: unlock))
+        }
+        if !scenario.unlocks.contains("None") {
+            let unlocksItem = ScenarioDetailViewModelUnlocksInfoItem(unlocks: unlocks, oneofPresent: oneofPresent)
+            items.append(unlocksItem)
+        }
+        
+        if scenario.requirements.index(forKey: "None") == nil {
+            for requirement in scenario.requirements {
+                
+                if requirement.key == "None" {
+                    break
+                }
+                
+                if requirement.key == "OR" {
+                    orPresent = true
                     continue
                 }
-                unlocks.append(ScenarioNumberAndTitle(number: unlock))
-            }
-            if !scenario.unlocks.contains("None") {
-                let unlocksItem = ScenarioDetailViewModelUnlocksInfoItem(unlocks: unlocks, oneofPresent: oneofPresent)
-                items.append(unlocksItem)
-            }
-
-            if scenario.requirements.index(forKey: "None") == nil {
-                for requirement in scenario.requirements {
-                    
-                    if requirement.key == "None" {
-                        break
-                    }
-                    
-                    if requirement.key == "OR" {
-                        orPresent = true
-                        continue
-                    }
-                    if requirement.key != "None" && requirement.value == true {
-                        requirementLabel = "COMPLETE"
-                    } else if requirement.key != "None" && requirement.value == false {
-                        requirementLabel = "INCOMPLETE"
-                    } else {
-                        requirementLabel = ""
-                    }
-                    if requirement.key != "None" {
-                        requirements.append(SeparatedStrings(rowString:"\(requirement.key)" + ": " + "\(requirementLabel)"))
-                    } else {
-                        requirements.append(SeparatedStrings(rowString:requirement.key))
-                    }
-                }
-                let requirementsItem = ScenarioDetailViewModelRequirementsInfoItem(requirements: requirements, orPresent: orPresent)
-                items.append(requirementsItem)
-            }
-            for reward in scenario.rewards {
-                rewards.append(SeparatedStrings(rowString:reward))
-            }
-            if !scenario.rewards.contains("None") {
-                let rewardsItem = ScenarioDetailViewModelRewardsInfoItem(rewards: rewards)
-                items.append(rewardsItem)
-            }
-            var remove = false
-            for achieve in scenario.achieves {
-                if achieve == "REMOVE" {
-                    remove = true
-                    continue
-                }
-                if remove {
-                    achieves.append(SeparatedStrings(rowString: "REMOVE: " + achieve))
-                    remove = false
+                if requirement.key != "None" && requirement.value == true {
+                    requirementLabel = "COMPLETE"
+                } else if requirement.key != "None" && requirement.value == false {
+                    requirementLabel = "INCOMPLETE"
                 } else {
-                    achieves.append(SeparatedStrings(rowString: achieve))
+                    requirementLabel = ""
+                }
+                if requirement.key != "None" {
+                    requirements.append(SeparatedStrings(rowString:"\(requirement.key)" + ": " + "\(requirementLabel)"))
+                } else {
+                    requirements.append(SeparatedStrings(rowString:requirement.key))
                 }
             }
-
-            if !scenario.achieves.contains("None") {
-                let achievesItem = ScenarioDetailViewModelAchievesInfoItem(achieves: achieves)
-                items.append(achievesItem)
+            let requirementsItem = ScenarioDetailViewModelRequirementsInfoItem(requirements: requirements, orPresent: orPresent)
+            items.append(requirementsItem)
+        }
+        for reward in scenario.rewards {
+            rewards.append(SeparatedStrings(rowString:reward))
+        }
+        if !scenario.rewards.contains("None") {
+            let rewardsItem = ScenarioDetailViewModelRewardsInfoItem(rewards: rewards)
+            items.append(rewardsItem)
+        }
+        var remove = false
+        for achieve in scenario.achieves {
+            if achieve == "REMOVE" {
+                remove = true
+                continue
+            }
+            if remove {
+                achieves.append(SeparatedStrings(rowString: "REMOVE: " + achieve))
+                remove = false
+            } else {
+                achieves.append(SeparatedStrings(rowString: achieve))
             }
         }
+        
+        if !scenario.achieves.contains("None") {
+            let achievesItem = ScenarioDetailViewModelAchievesInfoItem(achieves: achieves)
+            items.append(achievesItem)
+        }
+    }
     //MARK: Helper Functions
     
     func getStatusIcon(scenario: Scenario) -> UIImage {

@@ -285,7 +285,7 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
         goalLabel.text = (lines[0])
         goalLabel.sizeToFit()
     }
-    func setImageFromURl(imageUrl url: NSURL) -> UIImage {
+    func setImageFromURL(imageUrl url: NSURL) -> UIImage {
         var image = UIImage()
         if let data = NSData(contentsOf: url as URL) {
             image = UIImage(data: data as Data)!

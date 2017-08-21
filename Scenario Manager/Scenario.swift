@@ -23,7 +23,7 @@ class Scenario: NSObject, NSCoding {
     var unlockedBy = [String]()
     var unlocks = [String]()
     var summary = String()
-    var location = String()
+    var locationString = String()
     var isManuallyUnlockable = false
     var mainCellBGImage = String()
  
@@ -31,7 +31,7 @@ class Scenario: NSObject, NSCoding {
 //        super.init()
 //    }
 
-    init(number: String, title: String, completed: Bool, requirementsMet: Bool, requirements: [String: Bool], isUnlocked: Bool, unlockedBy: [String], unlocks: [String], achieves: [String], rewards: [String], summary: String, location: String, isManuallyUnlockable: Bool, mainCellBGImage: String) {
+    init(number: String, title: String, completed: Bool, requirementsMet: Bool, requirements: [String: Bool], isUnlocked: Bool, unlockedBy: [String], unlocks: [String], achieves: [String], rewards: [String], summary: String, locationString: String, isManuallyUnlockable: Bool, mainCellBGImage: String) {
 //    override init() {
         self.number = number
         self.title = title
@@ -44,7 +44,7 @@ class Scenario: NSObject, NSCoding {
         self.achieves = achieves
         self.rewards = rewards
         self.summary = summary
-        self.location = location
+        self.locationString = locationString
         self.isManuallyUnlockable = isManuallyUnlockable
         self.mainCellBGImage = mainCellBGImage
     }
@@ -63,7 +63,7 @@ class Scenario: NSObject, NSCoding {
         achieves = aDecoder.decodeObject(forKey: "Achieves") as! [String]
         rewards = aDecoder.decodeObject(forKey: "Rewards") as! [String]
         summary = aDecoder.decodeObject(forKey: "Summary") as! String
-        location = aDecoder.decodeObject(forKey: "Location") as! String
+        locationString = aDecoder.decodeObject(forKey: "LocationString") as! String
         isManuallyUnlockable = aDecoder.decodeBool(forKey: "IsManuallyUnlockable")
         mainCellBGImage = aDecoder.decodeObject(forKey: "MainCellBGImage") as! String
         super.init()
@@ -84,7 +84,7 @@ class Scenario: NSObject, NSCoding {
         aCoder.encode(achieves, forKey: "Achieves")
         aCoder.encode(rewards, forKey: "Rewards")
         aCoder.encode(summary, forKey: "Summary")
-        aCoder.encode(location, forKey: "Location")
+        aCoder.encode(locationString, forKey: "LocationString")
         aCoder.encode(isManuallyUnlockable, forKey: "IsManuallyUnlockable")
         aCoder.encode(mainCellBGImage, forKey: "MainCellBGImage")
     }

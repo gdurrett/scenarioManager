@@ -17,9 +17,6 @@ class ScenarioDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //self.tableView?.backgroundColor = UIColor(hue: 30/360, saturation: 14/100, brightness: 87/100, alpha: 1.0)
-        self.tableView?.backgroundView = UIImageView(image: UIImage(named: "scenarioMgrDetailBG"))
-        self.tableView?.backgroundView?.alpha = 0.25
         
         tableView?.dataSource = self
         tableView?.delegate = self
@@ -33,9 +30,47 @@ class ScenarioDetailViewController: UIViewController {
         tableView?.register(RequirementsInfoCell.nib, forCellReuseIdentifier: RequirementsInfoCell.identifier)
         tableView?.register(RewardsInfoCell.nib, forCellReuseIdentifier: RewardsInfoCell.identifier)
         tableView?.register(AchievesInfoCell.nib, forCellReuseIdentifier: AchievesInfoCell.identifier)
-        
+        setTableViewBGImage()
+
     }
 
+    func setTableViewBGImage() {
+        
+        switch viewModel.locationString[1] {
+        case "Copperneck Mountains":
+            self.tableView?.backgroundView = UIImageView(image: UIImage(named: "scenarioMgrTableViewBGCopperneckMountains"))
+            self.tableView?.backgroundView?.alpha = 0.25
+        case "Corpsewood":
+            self.tableView?.backgroundView = UIImageView(image: UIImage(named: "scenarioMgrTableViewBGCorpsewood"))
+            self.tableView?.backgroundView?.alpha = 0.25
+        case "Dagger Forest":
+            self.tableView?.backgroundView = UIImageView(image: UIImage(named: "scenarioMgrTableViewBGDaggerForest"))
+            self.tableView?.backgroundView?.alpha = 0.25
+        case "Gloomhaven":
+            self.tableView?.backgroundView = UIImageView(image: UIImage(named: "scenarioMgrTableViewBGGloomhaven"))
+            self.tableView?.backgroundView?.alpha = 0.25
+        case "Lingering Swamp":
+            self.tableView?.backgroundView = UIImageView(image: UIImage(named: "scenarioMgrTableViewBGLingeringSwamp"))
+            self.tableView?.backgroundView?.alpha = 0.25
+        case "Misty Sea":
+            self.tableView?.backgroundView = UIImageView(image: UIImage(named: "scenarioMgrTableViewBGMistySea"))
+            self.tableView?.backgroundView?.alpha = 0.25
+        case "Serpent's Kiss River":
+            self.tableView?.backgroundView = UIImageView(image: UIImage(named: "scenarioMgrTableViewBGSerpentsKissRiver"))
+            self.tableView?.backgroundView?.alpha = 0.25
+        case "Still River":
+            self.tableView?.backgroundView = UIImageView(image: UIImage(named: "scenarioMgrTableViewBGStillRiver"))
+            self.tableView?.backgroundView?.alpha = 0.25
+        case "Stone Road":
+            self.tableView?.backgroundView = UIImageView(image: UIImage(named: "scenarioMgrTableViewBGStoneRoad"))
+            self.tableView?.backgroundView?.alpha = 0.25
+        case "Watcher Mountains":
+            self.tableView?.backgroundView = UIImageView(image: UIImage(named: "scenarioMgrTableViewBGWatcherMountains"))
+            self.tableView?.backgroundView?.alpha = 0.25
+        default:
+            break
+        }
+    }
     func configureRowIcon(for tableViewCell: ScenarioTitleCell, with scenario: Scenario) {
         if scenario.completed == true {
             tableViewCell.scenarioStatusIcon.image = #imageLiteral(resourceName: "scenarioCompletedIcon")
