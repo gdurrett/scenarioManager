@@ -7,11 +7,6 @@
     },
     {
       "idiom" : "universal",
-      "filename" : "scenarioBlankIcon.png",
-      "scale" : "1x"
-    },
-    {
-      "idiom" : "universal",
       "filename" : "scenarioBlankIcon-1.png",
       "scale" : "2x"
     },
