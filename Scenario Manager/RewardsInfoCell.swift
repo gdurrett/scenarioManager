@@ -12,13 +12,13 @@ class RewardsInfoCell: UITableViewCell {
     
     @IBOutlet weak var rewardsInfoLabel: UILabel!
     
-    var item: SeparatedStrings? {
+    var item: SeparatedAttributedStrings? {
         didSet {
             guard let item = item else {
                 return
             }
             
-            rewardsInfoLabel?.text = "\(item.rowString!)"
+            rewardsInfoLabel?.attributedText = (item.rowString!)
         }
     }
     

@@ -55,7 +55,7 @@ class ScenarioDetailViewModel: NSObject {
     var requirementLabel = String()
     var orPresent = false
     var oneofPresent = false
-    var rewards = [SeparatedStrings]()
+    var rewards = [SeparatedAttributedStrings]()
     var achieves = [SeparatedStrings]()
     var cellBGColor = UIColor()
     var statusIcon = UIImage()
@@ -102,6 +102,7 @@ class ScenarioDetailViewModel: NSObject {
         }
         
         if scenario.requirements.index(forKey: "None") == nil {
+            var removeColon = false
             for requirement in scenario.requirements {
                 
                 if requirement.key == "None" {
@@ -112,15 +113,22 @@ class ScenarioDetailViewModel: NSObject {
                     orPresent = true
                     continue
                 }
-                if requirement.key != "None" && requirement.value == true {
+                if requirement.key != "None" && requirement.value == true && !requirement.key.contains("personal quest"){
                     requirementLabel = "COMPLETE"
                 } else if requirement.key != "None" && requirement.value == false {
                     requirementLabel = "INCOMPLETE"
+                } else if requirement.key.contains("personal quest") {
+                    removeColon = true
+                    requirementLabel = ""
                 } else {
                     requirementLabel = ""
                 }
                 if requirement.key != "None" {
-                    requirements.append(SeparatedStrings(rowString:"\(requirement.key)" + ": " + "\(requirementLabel)"))
+                    if !removeColon {
+                        requirements.append(SeparatedStrings(rowString:"\(requirement.key)" + ": " + "\(requirementLabel)"))
+                    } else {
+                        requirements.append(SeparatedStrings(rowString:"\(requirement.key)" + "\(requirementLabel)"))
+                    }
                 } else {
                     requirements.append(SeparatedStrings(rowString:requirement.key))
                 }
@@ -129,9 +137,9 @@ class ScenarioDetailViewModel: NSObject {
             items.append(requirementsItem)
         }
         for reward in scenario.rewards {
-            rewards.append(SeparatedStrings(rowString:reward))
+            rewards.append(SeparatedAttributedStrings(rowString:reward))
         }
-        if !scenario.rewards.contains("None") {
+        if !scenario.rewards.contains(NSAttributedString(string: "None")) {
             let rewardsItem = ScenarioDetailViewModelRewardsInfoItem(rewards: rewards)
             items.append(rewardsItem)
         }
@@ -305,9 +313,9 @@ class ScenarioDetailViewModelRewardsInfoItem: ScenarioDetailViewModelItem {
         return rewards.count
     }
     
-    var rewards: [SeparatedStrings]
+    var rewards: [SeparatedAttributedStrings]
     
-    init(rewards: [SeparatedStrings]) {
+    init(rewards: [SeparatedAttributedStrings]) {
         self.rewards = rewards
     }
 }

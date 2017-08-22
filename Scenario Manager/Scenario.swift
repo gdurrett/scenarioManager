@@ -17,7 +17,7 @@ class Scenario: NSObject, NSCoding {
     var number = "0"
     var requirementsMet = false
     var requirements = [String: Bool]()
-    var rewards = [String]()
+    var rewards = [NSAttributedString]()
     var title = ""
     var isUnlocked = false
     var unlockedBy = [String]()
@@ -31,7 +31,7 @@ class Scenario: NSObject, NSCoding {
 //        super.init()
 //    }
 
-    init(number: String, title: String, completed: Bool, requirementsMet: Bool, requirements: [String: Bool], isUnlocked: Bool, unlockedBy: [String], unlocks: [String], achieves: [String], rewards: [String], summary: String, locationString: String, isManuallyUnlockable: Bool, mainCellBGImage: String) {
+    init(number: String, title: String, completed: Bool, requirementsMet: Bool, requirements: [String: Bool], isUnlocked: Bool, unlockedBy: [String], unlocks: [String], achieves: [String], rewards: [NSAttributedString], summary: String, locationString: String, isManuallyUnlockable: Bool, mainCellBGImage: String) {
 //    override init() {
         self.number = number
         self.title = title
@@ -61,7 +61,7 @@ class Scenario: NSObject, NSCoding {
         unlockedBy = aDecoder.decodeObject(forKey: "UnlockedBy") as! [String]
         unlocks = aDecoder.decodeObject(forKey: "Unlocks") as! [String]
         achieves = aDecoder.decodeObject(forKey: "Achieves") as! [String]
-        rewards = aDecoder.decodeObject(forKey: "Rewards") as! [String]
+        rewards = aDecoder.decodeObject(forKey: "Rewards") as! [NSAttributedString]
         summary = aDecoder.decodeObject(forKey: "Summary") as! String
         locationString = aDecoder.decodeObject(forKey: "LocationString") as! String
         isManuallyUnlockable = aDecoder.decodeBool(forKey: "IsManuallyUnlockable")

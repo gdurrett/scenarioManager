@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "spikyHeadGuySmall.png",
+      "filename" : "cthulhuFace-1.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "spikyHeadGuySmall-1.png",
+      "filename" : "cthulhuFace.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "spikyHeadGuySmall-2.png",
+      "filename" : "cthulhuFace-2.png",
       "scale" : "3x"
     }
   ],
