@@ -17,7 +17,11 @@ class UnlockedByInfoCell: UITableViewCell, LockOrUnlockCellType {
             guard let item = item else {
                 return
             }
-            unlockedByInfoLabel?.text = "\(item.number!) - \(item.title!)"
+            if (item.number?.contains("Event"))! || (item.number?.contains("Envelope"))!{ //Omit dash and title since it's an Event/Envelope
+                unlockedByInfoLabel?.text = "\(item.number!)"
+            } else {
+                unlockedByInfoLabel?.text = "\(item.number!) - \(item.title!)"
+            }
         }
     }
     

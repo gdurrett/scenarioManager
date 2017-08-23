@@ -179,7 +179,7 @@ class ScenarioDetailViewModel: NSObject {
     }
     func getScenario(scenarioNumber: String) -> Scenario? {
         
-        if scenarioNumber == "None" || scenarioNumber == "ONEOF" {
+        if scenarioNumber == "None" || scenarioNumber == "ONEOF" || scenarioNumber.contains("Event") || scenarioNumber.contains("Envelope") {
             return nil
         } else {
             let scenInt = Int(scenarioNumber)!-1

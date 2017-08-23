@@ -127,15 +127,17 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
         // Look at calling scenario's unlocks
         for unlock in scenario.unlocks {
             if !(unlock == "None") && !(unlock == "ONEOF") {
-                // For each unlock, look at its unlockers (unlockedBy)
+                // For each unlock, look at its unlockers (unlockedBy) - need to ignore Events though!
                 for unlockedBy in getScenario(scenarioNumber: unlock)!.unlockedBy {
-                    if (getScenario(scenarioNumber: unlockedBy)!.number == scenario.number) {
-                        continue
-                    } else {
-                        if getScenario(scenarioNumber: unlockedBy)!.completed {
-                            return true
+                    if !(unlockedBy.contains("Event")) && !(unlockedBy.contains("Envelope")) {
+                        if (getScenario(scenarioNumber: unlockedBy)!.number == scenario.number) {
+                            continue
                         } else {
-                            return false
+                            if getScenario(scenarioNumber: unlockedBy)!.completed {
+                                return true
+                            } else {
+                                return false
+                            }
                         }
                     }
                 }

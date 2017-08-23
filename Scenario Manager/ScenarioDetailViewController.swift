@@ -164,9 +164,12 @@ extension ScenarioDetailViewController: UITableViewDataSource, UITableViewDelega
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let indexPath = tableView.indexPathForSelectedRow
         if let currentCell = tableView.cellForRow(at: indexPath!) as? LockOrUnlockCellType {
-            let tappedScenario = viewModel.getScenario(scenarioNumber: (currentCell.item?.number)!)
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "segueToDetail"), object: nil, userInfo: ["Scenario": tappedScenario!])
+            if !((currentCell.item?.number?.contains("Event"))!) && !((currentCell.item?.number?.contains("Envelope"))!) {
+                let tappedScenario = viewModel.getScenario(scenarioNumber: (currentCell.item?.number)!)
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "segueToDetail"), object: nil, userInfo: ["Scenario": tappedScenario!])
+            }
             tableView.deselectRow(at: indexPath!, animated: true)
+
         }
     }
         func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
