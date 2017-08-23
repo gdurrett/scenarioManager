@@ -190,7 +190,7 @@ class ScenarioDetailViewModel: NSObject {
     }
 }
 
-
+// MARK: Extensions
 // Default number of rows to return if rows aren't specified
 extension ScenarioDetailViewModelItem {
     var rowCount: Int {
