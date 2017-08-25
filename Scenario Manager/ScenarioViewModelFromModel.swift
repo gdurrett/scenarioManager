@@ -32,7 +32,7 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
     // MARK: Helper functions
     func updateAvailableScenarios(scenario: Scenario, isCompleted: Bool) {
         toggleUnlocks(for: scenario, to: isCompleted)
-        let completed = allScenarios.filter { $0.completed == true }
+        let completed = allScenarios.filter { $0.isCompleted == true }
         myAchieves = completed.filter { $0.achieves != ["None"] }.flatMap { $0.achieves }
         
         setAchievements(atches: scenario.achieves, toggle: isCompleted)
@@ -83,7 +83,7 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
                         scenario.requirementsMet = true
                         break
                     }
-                } else if dataModel.achievements[ach]! != bool && !scenario.completed {
+                } else if dataModel.achievements[ach]! != bool && !scenario.isCompleted {
                     scenario.requirementsMet = false
                     break
                 } else {
@@ -113,7 +113,7 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
     func areAnyUnlocksCompleted(scenario: Scenario) -> Bool {
         for scen in scenario.unlocks {
             if let answer = getScenario(scenarioNumber: scen) {
-                if answer.completed {
+                if answer.isCompleted {
                     return true
                 } else {
                     //return false
@@ -133,7 +133,7 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
                         if (getScenario(scenarioNumber: unlockedBy)!.number == scenario.number) {
                             continue
                         } else {
-                            if getScenario(scenarioNumber: unlockedBy)!.completed {
+                            if getScenario(scenarioNumber: unlockedBy)!.isCompleted {
                                 return true
                             } else {
                                 return false

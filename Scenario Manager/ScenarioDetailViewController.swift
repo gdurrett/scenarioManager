@@ -72,7 +72,7 @@ class ScenarioDetailViewController: UIViewController {
         }
     }
     func configureRowIcon(for tableViewCell: ScenarioTitleCell, with scenario: Scenario) {
-        if scenario.completed == true {
+        if scenario.isCompleted == true {
             tableViewCell.scenarioStatusIcon.image = #imageLiteral(resourceName: "scenarioCompletedIcon")
         } else if scenario.requirementsMet == true && scenario.isUnlocked == true {
             tableViewCell.scenarioStatusIcon.image = #imageLiteral(resourceName: "scenarioBlankIcon")

@@ -127,11 +127,11 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
                 self.showSelectionAlert(status: "disallowCompletion")
                 tableView.reloadRows(at: [index], with: .right)
             } else {
-                if self.scenario.completed {
+                if self.scenario.isCompleted {
                     if (self.viewModel?.areAnyUnlocksCompleted(scenario: self.scenario))! {
                         if (self.viewModel?.didAnotherCompletedScenarioUnlockMe(scenario: self.scenario))! {
                             //Okay to mark uncompleted, but don't trigger lock
-                            self.scenario.completed = false
+                            self.scenario.isCompleted = false
                             self.viewModel?.updateAvailableScenarios(scenario: self.scenario, isCompleted: false)
                             self.setSegmentTitles()
                             tableView.reloadData()
@@ -144,20 +144,20 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
                     } else if !(self.viewModel?.areAnyUnlocksCompleted(scenario: self.scenario))! {
                         if (self.viewModel?.didAnotherCompletedScenarioUnlockMe(scenario: self.scenario))! {
                             //Okay to mark uncompleted, but don't trigger lock of uncompleted lock
-                            self.scenario.completed = false
+                            self.scenario.isCompleted = false
                             self.viewModel?.updateAvailableScenarios(scenario: self.scenario, isCompleted: false)
                             self.setSegmentTitles()
                             tableView.reloadData()
                         } else {
                             //Okay to mark uncompleted AND trigger lock
-                            self.scenario.completed = false
+                            self.scenario.isCompleted = false
                             self.viewModel?.updateAvailableScenarios(scenario: self.scenario, isCompleted: false)
                             self.setSegmentTitles()
                             tableView.reloadData()
                         }
                     }
                 } else {
-                    self.scenario.completed = true
+                    self.scenario.isCompleted = true
                     if self.scenario.unlocks[0] == "ONEOF" {
                         self.performSegue(withIdentifier: "ShowScenarioPicker", sender: self.scenario)
                     } else {
@@ -235,7 +235,7 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
         }
     }
     func configureRowIcon(for tableViewCell: ScenarioMainCell, with scenario: Scenario) {
-        if scenario.completed == true {
+        if scenario.isCompleted == true {
             tableViewCell.scenarioRowIcon.image = #imageLiteral(resourceName: "scenarioCompletedIcon")
         } else if scenario.requirementsMet == true && scenario.isUnlocked == true {
             tableViewCell.scenarioRowIcon.image = nil
@@ -245,7 +245,7 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
         
     }
     func configureSwipeButton(for scenario: Scenario) {
-        if scenario.completed {
+        if scenario.isCompleted {
             bgColor = UIColor(hue: 213/360, saturation: 0/100, brightness: 64/100, alpha: 1.0)
             myCompletedTitle = "Set Uncompleted"
         } else if scenario.isUnlocked && scenario.requirementsMet  {
@@ -255,9 +255,9 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
             bgColor = UIColor(hue: 213/360, saturation: 0/100, brightness: 64/100, alpha: 1.0)
             myCompletedTitle = "Unavailable"
         }
-        if scenario.isManuallyUnlockable && scenario.isUnlocked && !scenario.completed {
+        if scenario.isManuallyUnlockable && scenario.isUnlocked && !scenario.isCompleted {
             myLockedTitle = "Lock"
-        } else if scenario.isManuallyUnlockable && !scenario.completed {
+        } else if scenario.isManuallyUnlockable && !scenario.isCompleted {
             myLockedTitle = "Unlock"
         } else {
             myLockedTitle = "NoShow"
@@ -379,7 +379,7 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
     }
     // Implement delegate methods for ScenarioPickerViewController
     func scenarioPickerViewControllerDidCancel(_ controller: ScenarioPickerViewController) {
-        controller.scenario.completed = false
+        controller.scenario.isCompleted = false
         viewModel?.updateAvailableScenarios(scenario: controller.scenario, isCompleted: false)
         scenarioTableView.reloadData()
         dismiss(animated: true, completion: nil)

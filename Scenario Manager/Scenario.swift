@@ -12,8 +12,8 @@ import UIKit
 class Scenario: NSObject, NSCoding {
     
     var achieves = [String]()
-    var available = false
-    var completed = false
+    var isAvailable = false
+    var isCompleted = false
     var number = "0"
     var requirementsMet = false
     var requirements = [String: Bool]()
@@ -31,11 +31,11 @@ class Scenario: NSObject, NSCoding {
 //        super.init()
 //    }
 
-    init(number: String, title: String, completed: Bool, requirementsMet: Bool, requirements: [String: Bool], isUnlocked: Bool, unlockedBy: [String], unlocks: [String], achieves: [String], rewards: [NSAttributedString], summary: String, locationString: String, isManuallyUnlockable: Bool, mainCellBGImage: String) {
+    init(number: String, title: String, isCompleted: Bool, requirementsMet: Bool, requirements: [String: Bool], isUnlocked: Bool, unlockedBy: [String], unlocks: [String], achieves: [String], rewards: [NSAttributedString], summary: String, locationString: String, isManuallyUnlockable: Bool, mainCellBGImage: String) {
 //    override init() {
         self.number = number
         self.title = title
-        self.completed = completed
+        self.isCompleted = isCompleted
         self.isUnlocked = isUnlocked
         self.requirementsMet = requirementsMet
         self.requirements = requirements
@@ -54,7 +54,7 @@ class Scenario: NSObject, NSCoding {
         number = aDecoder.decodeObject(forKey: "Number") as! String
         title = aDecoder.decodeObject(forKey: "Title") as! String
         //available = aDecoder.decodeBool(forKey: "Available")
-        completed = aDecoder.decodeBool(forKey: "Completed")
+        isCompleted = aDecoder.decodeBool(forKey: "isCompleted")
         isUnlocked = aDecoder.decodeBool(forKey: "IsUnlocked")
         requirementsMet = aDecoder.decodeBool(forKey: "RequirementsMet")
         requirements = aDecoder.decodeObject(forKey: "Requirements") as! [String: Bool]
@@ -75,7 +75,7 @@ class Scenario: NSObject, NSCoding {
         aCoder.encode(number, forKey: "Number")
         aCoder.encode(title, forKey: "Title")
         //aCoder.encode(available, forKey: "Available")
-        aCoder.encode(completed, forKey: "Completed")
+        aCoder.encode(isCompleted, forKey: "isCompleted")
         aCoder.encode(requirementsMet, forKey: "RequirementsMet")
         aCoder.encode(requirements, forKey: "Requirements")
         aCoder.encode(isUnlocked, forKey: "IsUnlocked")

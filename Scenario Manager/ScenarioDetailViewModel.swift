@@ -165,7 +165,7 @@ class ScenarioDetailViewModel: NSObject {
     //MARK: Helper Functions
     
     func getStatusIcon(scenario: Scenario) -> UIImage {
-        if scenario.completed {
+        if scenario.isCompleted {
             cellBGColor = DataModel.sharedInstance.completedBGColor
             statusIcon = #imageLiteral(resourceName: "scenarioCompletedIcon")
         } else if scenario.isUnlocked && scenario.requirementsMet {
