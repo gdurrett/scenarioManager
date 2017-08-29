@@ -55,28 +55,24 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
     var filteredScenarios = [Scenario]()
     let searchController = UISearchController(searchResultsController: nil)
     
-    // See if we can set proper segment title for All segment tab
-
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         scenarioTableView?.dataSource = self
         scenarioTableView?.delegate = self
 
-
         styleUI()
         fillUI()
+        
+        // Change titles on segmented controller
+        setSegmentTitles()
+        setupSearch()
+        scenarioTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
         
         //Try notification for tapped rows in ScenarioDetailViewController
         NotificationCenter.default.addObserver(self, selector: #selector(segueToDetailViewController), name: NSNotification.Name(rawValue: "segueToDetail"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(segueToScenarioPickerViewController), name: NSNotification.Name(rawValue: "segueToPicker"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(showSelectionAlertViaNotify), name: NSNotification.Name(rawValue: "showSelectionAlert"), object: nil)
-        // Change titles on segmented controller
-        setSegmentTitles()
-        //scenarioFilterOutlet.frame.size.height = 44
-        setupSearch()
-        scenarioTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
     }
     // Fix deallocation bug when returning here from detailView
     deinit {

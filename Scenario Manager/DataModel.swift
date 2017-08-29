@@ -8,23 +8,27 @@
 
 import Foundation
 import UIKit
+import CloudKit
 
 class DataModel {
     
     // Try singleton
     static var sharedInstance = DataModel()
-    
+
     var allScenarios = [Scenario]()
+    var defaultScenarios = [Scenario]()
     var achievements = [ String : Bool ]()
+    var defaultAchievements = [ String: Bool ]()
+    
     var availableScenarios: [Scenario] {
         get {
-            print("Getting available scenarios")
+            //print("Getting available scenarios")
             return allScenarios.filter { $0.isUnlocked == true && $0.requirementsMet == true && $0.isCompleted == false }
         }
     }
     var completedScenarios: [Scenario] {
         get {
-            print("Getting completed scenarios")
+            //print("Getting completed scenarios")
             return allScenarios.filter { $0.isCompleted == true }
         }
     }
@@ -34,10 +38,11 @@ class DataModel {
     var unlocksLabel = String()
     var selectedScenario: Scenario?
     var mainCellBGImage = UIImage()
-
-    // Test 
-    let testAttribute = [ "image" : #imageLiteral(resourceName: "spikyHeadGuy")]
-
+    
+    // Try setting up CloudKit
+    let myContainer = CKContainer(identifier: "iCloud.com.apphazard.ScenarioManager")
+    var privateDatabase: CKDatabase
+    
     
     // Used by all VCs that color rows
     let unavailableBGColor = UIColor(hue: 30/360, saturation: 0/100, brightness: 95/100, alpha: 1.0)
@@ -47,9 +52,9 @@ class DataModel {
     let defaultUnlocks = [ "13" : ["ONEOF", "15", "17", "20"] ]
 
     
-    
-    
     private init() {
+        // CloudKit stuff
+        privateDatabase = myContainer.privateCloudDatabase
         
         let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
         let url = NSURL(fileURLWithPath: path)
@@ -363,8 +368,11 @@ class DataModel {
             let row94Scenario = Scenario(number: "95", title: "Payment Due", isCompleted: false, requirementsMet: false, requirements: ["None" : true], isUnlocked: false, unlockedBy: ["94"], unlocks: ["None"], achieves: ["None"], rewards: [NSAttributedString(string: "Skull of Hatred (Item 119)")], summary: "Goal: Kill the Prime Lieutenant.\n\nAfter dealing with the Vermling nest, you were expecting to find a glittering trove. Instead, you've been thrust into a battle arena for the entertainment of the Prime Lieutenant.", locationString: "G-12, Corpsewood", isManuallyUnlockable: false, mainCellBGImage: "scenarioMgrMap95")
             allScenarios.append(row94Scenario)
             
+            defaultScenarios = allScenarios.filter{$0.isUnlocked} // Capture default here for reset button
+            
             achievements = [
                 "None"                                  : true,
+                "OR"                                    : true,
                 "First Steps"                           : false,
                 "Jekserah's Plans"                      : false,
                 "Dark Bounty"                           : false,
@@ -414,15 +422,33 @@ class DataModel {
                 "A Map to Treasure"                     : false,
                 "Chosen by picker"                      : false,
                 "Ancient Technology"                    : false,
-                "OR"                                    : true,
                 "Seeker of Xorn personal quest"         : false,
                 "Staff of Xorn item equipped"           : false,
                 "Take Back the Trees personal quest"    : false,
                 "Vengeance personal quest"              : false,
                 "Finding the Cure personal quest"       : false,
-                "The Fall of Man personal quest"        : false
+                "The Fall of Man personal quest"        : false,
+                "Water Staff"                           : false
                 ]
-                        //saveScenarios()
+            
+            defaultAchievements = achievements
+
+            // Create iCloud private DB schema if no plist exists. Logic will change.
+            checkIfStatusRecordExists(recordNumber: "95") {
+                result in
+                if result {
+                    print("No need to create CK Schema. Updating local values from Cloud")
+                    for scenario in self.allScenarios {
+                        self.updateLocalScenarioStatus(scenarioNumber: scenario.number)
+                    }
+                    self.updateLocalAchievementsStatus()
+                } else {
+                    print("Attempting to create CK Schema")
+                    //self.createScenarioSchema()
+                    self.updateScenarioStatusRecords(scenarios: self.allScenarios)
+                    self.updateAchievementsStatusRecords(achievementsToUpdate: self.achievements)
+                }
+            }
         }
         
         print("Documents folder is \(documentsDirectory())")
@@ -464,7 +490,111 @@ class DataModel {
             
             return scenario
         }
-    }    
+    }
+    func resetAll() {
+        for scenario in allScenarios {
+            if scenario.number == "1" {
+                scenario.isCompleted = false
+                scenario.isAvailable = true
+                scenario.isUnlocked = true
+                //continue
+            } else {
+                scenario.isUnlocked = false
+                scenario.isCompleted = false
+                scenario.isAvailable = false
+            }
+        }
+        for achievement in achievements {
+            if achievement.key == "None" || achievement.key == "ONEOF" {
+                continue
+            } else {
+                achievements[achievement.key] = false
+            }
+        }
+    }
+    // CloudKit methods
+
+    func updateAchievementsStatusRecords(achievementsToUpdate: [String:Bool]) {
+        var records = [CKRecord]()
+        for achievement in achievementsToUpdate {
+            let achievementStatusRecordID = CKRecordID(recordName: achievement.key)
+            let achievementStatusRecord = CKRecord(recordType: "Achievement", recordID: achievementStatusRecordID)
+            let achievementState = achievement.value ? 1 : 0
+            achievementStatusRecord["isComplete"] = achievementState as NSNumber
+            records.append(achievementStatusRecord)
+        }
+        let uploadOperation = CKModifyRecordsOperation(recordsToSave: records, recordIDsToDelete: nil)
+        uploadOperation.savePolicy = .changedKeys
+        uploadOperation.modifyRecordsCompletionBlock = { savedRecords, deletedRecordsIDs, error in
+            if error != nil {
+                print("Error saving achievement records: \(error!.localizedDescription)")
+            } else {
+                print("Successfully saved achievement records")
+            }
+        }
+        privateDatabase.add(uploadOperation)
+    }
+    func updateScenarioStatusRecords(scenarios: [Scenario]) {
+        var records = [CKRecord]()
+        for scenario in scenarios {
+            let scenarioStatusRecordID = CKRecordID(recordName: "Status" + scenario.number)
+            let scenarioStatusRecord = CKRecord(recordType: "ScenarioStatus", recordID: scenarioStatusRecordID)
+            
+            let completedState = scenario.isCompleted ? 1 : 0
+            scenarioStatusRecord["isCompleted"] = completedState as NSNumber
+            let unlockedState = scenario.isUnlocked ? 1 : 0
+            scenarioStatusRecord["isUnlocked"] = unlockedState as NSNumber
+            let requirementsMetState = scenario.requirementsMet ? 1 : 0
+            scenarioStatusRecord["requirementsMet"] = requirementsMetState as NSNumber
+            records.append(scenarioStatusRecord)
+            
+        }
+        let uploadOperation = CKModifyRecordsOperation(recordsToSave: records, recordIDsToDelete: nil)
+        uploadOperation.savePolicy = .allKeys
+        uploadOperation.modifyRecordsCompletionBlock = { savedRecords, deletedRecordsIDs, error in
+            if error != nil {
+                print("Error saving records: \(error!.localizedDescription)")
+            } else {
+                print("Successfully saved records")
+            }
+        }
+        privateDatabase.add(uploadOperation)
+    }
+    func checkIfStatusRecordExists(recordNumber: String, completion:@escaping (Bool) -> ()) {
+        let recordID = CKRecordID(recordName: "Status" + recordNumber)
+        privateDatabase.fetch(withRecordID: recordID) { (record, error) in
+            completion(error == nil)
+        }
+    }
+    func updateLocalScenarioStatus(scenarioNumber: String) {
+        let recordID = CKRecordID(recordName: "Status" + scenarioNumber)
+        privateDatabase.fetch(withRecordID: recordID) { (record, error) in
+            if error != nil {
+                print("Error fetching record: \(error!.localizedDescription)")
+            } else {
+                let scenarioToUpdate = self.getScenario(scenarioNumber: scenarioNumber)
+                let isUnlockedStatus = record?["isUnlocked"] as! Bool
+                scenarioToUpdate?.isUnlocked = isUnlockedStatus
+                let isCompletedStatus = record?["isCompleted"] as! Bool
+                scenarioToUpdate?.isCompleted = isCompletedStatus
+                let requirementsMetStatus = record?["requirementsMet"] as! Bool
+                scenarioToUpdate?.requirementsMet = requirementsMetStatus
+            }
+        }
+    }
+    func updateLocalAchievementsStatus() {
+        for achievement in achievements {
+            let recordID = CKRecordID(recordName: achievement.key)
+            privateDatabase.fetch(withRecordID: recordID) { (record, error) in
+                if error != nil {
+                    print("Error fetching record: \(error!.localizedDescription)")
+                } else {
+                    let status = record?["isComplete"] as! Bool
+                    self.achievements[achievement.key] = status
+                }
+            }
+        }
+    }
 }
 
 class ScenarioNumberAndTitle {
@@ -528,5 +658,4 @@ class AssetExtractor {
         
         return url
     }
-    
 }

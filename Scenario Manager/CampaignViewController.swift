@@ -9,7 +9,17 @@
 import UIKit
 
 class CampaignViewController: UIViewController {
+    @IBAction func resetToDefaults(_ sender: Any) {
+        dataModel?.resetAll()
+        // Implement undo function on timer here?
+        dataModel?.saveScenarios()
+    }
     
+    @IBAction func saveState(_ sender: Any) {
+        dataModel?.saveScenarios()
+        dataModel?.updateAchievementsStatusRecords(achievementsToUpdate: (dataModel?.achievements)!)
+        dataModel?.updateScenarioStatusRecords(scenarios: (dataModel?.allScenarios)!)
+    }
     @IBAction func openScenarioManagerButtonTapped(_ sender: Any) {
         showScenarioViewController()
     }
@@ -20,7 +30,6 @@ class CampaignViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         //showScenarioViewController()
         
     }
