@@ -30,22 +30,7 @@ protocol LockOrUnlockCellType {
     var item: ScenarioNumberAndTitle? { get set }
 }
 class ScenarioDetailViewModel: NSObject {
-    
-    enum TableViewBGImageString: String {
-        case CopperneckMountains
-        case Corpsewood
-        case DaggerForest
-        case EastRoad
-        case Gloomhaven
-        case LingeringSwamp
-        case MerchantsBay
-        case MistySea
-        case SerpentsKissRiver
-        case StillRiver
-        case StoneRoad
-        case WatcherMountains
-    }
-    
+        
     var scenario: Scenario!
     var items = [ScenarioDetailViewModelItem]()
     var dataModel = DataModel.sharedInstance
@@ -150,7 +135,7 @@ class ScenarioDetailViewModel: NSObject {
                 continue
             }
             if remove {
-                achieves.append(SeparatedStrings(rowString: "REMOVE: " + achieve))
+                achieves.append(SeparatedStrings(rowString: "LOSE: " + achieve))
                 remove = false
             } else {
                 achieves.append(SeparatedStrings(rowString: achieve))
@@ -166,13 +151,13 @@ class ScenarioDetailViewModel: NSObject {
     
     func getStatusIcon(scenario: Scenario) -> UIImage {
         if scenario.isCompleted {
-            cellBGColor = DataModel.sharedInstance.completedBGColor
+            cellBGColor = UIColor(hue: 30/360, saturation: 0/100, brightness: 95/100, alpha: 1.0)
             statusIcon = #imageLiteral(resourceName: "scenarioCompletedIcon")
         } else if scenario.isUnlocked && scenario.requirementsMet {
-            cellBGColor = DataModel.sharedInstance.availableBGColor
+            cellBGColor = UIColor.white
             //statusIcon = #imageLiteral(resourceName: "scenarioAvailableIcon")
         } else {
-            cellBGColor = DataModel.sharedInstance.unavailableBGColor
+            cellBGColor = UIColor(hue: 30/360, saturation: 0/100, brightness: 90/100, alpha: 1.0)
             statusIcon = #imageLiteral(resourceName: "scenarioLockedIcon")
         }
         return statusIcon

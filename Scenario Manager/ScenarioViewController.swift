@@ -325,7 +325,7 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
         default:
             break
         }
-        filteredScenarios = scenarioSubset.filter { scenario in return scenario.title.lowercased().contains(searchText.lowercased()) || scenario.achieves.minimalDescription.lowercased().contains(searchText.lowercased()) || scenario.rewards.minimalDescription.lowercased().contains(searchText.lowercased())}
+        filteredScenarios = scenarioSubset.filter { scenario in return scenario.title.lowercased().contains(searchText.lowercased()) || scenario.achieves.minimalDescription.lowercased().contains(searchText.lowercased()) || scenario.rewards.minimalDescription.lowercased().contains(searchText.lowercased()) || scenario.locationString.lowercased().contains(searchText.lowercased())}
         scenarioTableView.reloadData()
     }
     fileprivate func styleUI() {

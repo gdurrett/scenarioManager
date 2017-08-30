@@ -88,7 +88,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1zt-W3-SDy">
-                                <rect key="frame" x="55" y="226" width="34" height="30"/>
+                                <rect key="frame" x="49" y="226" width="34" height="30"/>
                                 <state key="normal" title="Save"/>
                                 <connections>
                                     <action selector="saveState:" destination="YqU-VQ-qBG" eventType="touchUpInside" id="wIp-ge-afW"/>
@@ -99,13 +99,14 @@
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="Ipd-he-zt2" secondAttribute="trailing" constant="33" id="C6y-tN-T1b"/>
                             <constraint firstItem="Jrn-yK-bQc" firstAttribute="top" secondItem="Ipd-he-zt2" secondAttribute="bottom" constant="55" id="I5S-or-nz3"/>
-                            <constraint firstItem="1zt-W3-SDy" firstAttribute="leading" secondItem="dgY-Eo-D5r" secondAttribute="leadingMargin" constant="39" id="ZkQ-Hd-rDs"/>
+                            <constraint firstItem="1zt-W3-SDy" firstAttribute="leading" secondItem="dgY-Eo-D5r" secondAttribute="leadingMargin" constant="33" id="Yeg-xw-Tf0"/>
                             <constraint firstItem="Ipd-he-zt2" firstAttribute="top" secondItem="U0T-91-vgr" secondAttribute="bottom" constant="77" id="cot-4w-hoK"/>
                             <constraint firstItem="Ipd-he-zt2" firstAttribute="leading" secondItem="dgY-Eo-D5r" secondAttribute="leadingMargin" constant="33" id="crx-BJ-JKG"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Jrn-yK-bQc" secondAttribute="trailing" constant="33" id="iIc-ul-3lW"/>
+                            <constraint firstItem="1zt-W3-SDy" firstAttribute="top" secondItem="Ipd-he-zt2" secondAttribute="bottom" constant="55" id="lDG-g5-UTL"/>
                             <constraint firstItem="bAN-5p-hfu" firstAttribute="top" secondItem="Ipd-he-zt2" secondAttribute="bottom" constant="397" id="nOg-oL-Crm"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="1zt-W3-SDy" secondAttribute="trailing" constant="221" id="u1n-1l-6R5"/>
                             <constraint firstItem="Jrn-yK-bQc" firstAttribute="leading" secondItem="dgY-Eo-D5r" secondAttribute="leadingMargin" constant="211" id="xa0-Qk-pp0"/>
-                            <constraint firstItem="1zt-W3-SDy" firstAttribute="baseline" secondItem="Jrn-yK-bQc" secondAttribute="baseline" id="ySD-Ls-IWd"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Campaign Manager" id="vp5-nm-reg">

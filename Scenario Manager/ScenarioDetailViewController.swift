@@ -61,6 +61,9 @@ class ScenarioDetailViewController: UIViewController {
         case "Still River":
             self.tableView?.backgroundView = UIImageView(image: UIImage(named: "scenarioMgrTableViewBGStillRiver"))
             self.tableView?.backgroundView?.alpha = 0.25
+        case "East Road":
+            self.tableView?.backgroundView = UIImageView(image: UIImage(named: "scenarioMgrTableViewBGEastRoad"))
+            self.tableView?.backgroundView?.alpha = 0.25
         case "Stone Road":
             self.tableView?.backgroundView = UIImageView(image: UIImage(named: "scenarioMgrTableViewBGStoneRoad"))
             self.tableView?.backgroundView?.alpha = 0.25

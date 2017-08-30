@@ -31,13 +31,18 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
     }
     // MARK: Helper functions
     func updateAvailableScenarios(scenario: Scenario, isCompleted: Bool) {
-        // CloudKit update isCompleted status
-        //dataModel.updateCKStatusRecord(scenarioNumber: scenario.number, fieldToUpdate: "isCompleted", status: scenario.isCompleted)
+
         toggleUnlocks(for: scenario, to: isCompleted)
         let completed = allScenarios.filter { $0.isCompleted == true }
         myAchieves = completed.filter { $0.achieves != ["None"] }.flatMap { $0.achieves }
         
         setAchievements(atches: scenario.achieves, toggle: isCompleted)
+        // Special case for when we've achieved Drake's Command and Drake's Treasure
+        if dataModel.achievements["The Drake's Command"] == true && dataModel.achievements["The Drake's Treasure"] == true {
+            dataModel.achievements["The Drake Aided"] = true
+        } else {
+            dataModel.achievements["The Drake Aided"] = false
+        }
         setRequirementsMet()
         
         //Need to re-get after update. Using Dynamic vars!
@@ -83,19 +88,13 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
                 if orPresent {
                     if dataModel.achievements[ach]! == bool {
                         scenario.requirementsMet = true
-                        // CloudKit update
-                        //dataModel.updateCKStatusRecord(scenarioNumber: scenario.number, fieldToUpdate: "requirementsMet", status: scenario.requirementsMet)
                         break
                     }
                 } else if dataModel.achievements[ach]! != bool && !scenario.isCompleted {
                     scenario.requirementsMet = false
-                    // CloudKit update
-                    //dataModel.updateCKStatusRecord(scenarioNumber: scenario.number, fieldToUpdate: "requirementsMet", status: scenario.requirementsMet)
                     break
                 } else {
                     scenario.requirementsMet = true
-                    // CloudKit update
-                    //dataModel.updateCKStatusRecord(scenarioNumber: scenario.number, fieldToUpdate: "requirementsMet", status: scenario.requirementsMet)
                 }
             }
         }
@@ -112,8 +111,6 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
                     if scen == "None" { return }
                     let scenarioToUpdate = getScenario(scenarioNumber: scen)!
                     scenarioToUpdate.isUnlocked = false
-                    // Test CloudKit status update function
-                    //dataModel.updateCKStatusRecord(scenarioNumber: scenarioToUpdate.number, fieldToUpdate: "isUnlocked", status: scenarioToUpdate.isUnlocked)
                 }
             }
         } else { // Go ahead and toggle true
@@ -122,8 +119,6 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
                 if scen == "ONEOF" { continue }
                 let scenarioToUpdate = getScenario(scenarioNumber: scen)!
                 scenarioToUpdate.isUnlocked = true
-                // Test CloudKit status update function
-                //dataModel.updateCKStatusRecord(scenarioNumber: scenarioToUpdate.number, fieldToUpdate: "isUnlocked", status: scenarioToUpdate.isUnlocked)
             }
         }
     }
