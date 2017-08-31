@@ -17,7 +17,7 @@ class AchievesInfoCell: UITableViewCell {
             guard let item = item else {
                 return
             }
-            
+            achievesInfoLabel?.font = UIFont(name: "Nyala", size: 22)
             achievesInfoLabel?.text = "\(item.rowString!)"
         }
     }

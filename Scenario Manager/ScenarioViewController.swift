@@ -47,6 +47,7 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
     var pickedScenario: Scenario?
     var scenario: Scenario!
     var imageForMainCell: UIImage!
+    var mainTextColor = UIColor(hue: 30/360, saturation: 45/100, brightness: 18/100, alpha: 1.0)
     
     var allScenarios: [Scenario]!
     var availableScenarios: [Scenario]!
@@ -87,11 +88,8 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
     // Set up swipe functionality
     func tableView(_ tableView: UITableView, editActionsForRowAt: IndexPath) -> [UITableViewRowAction]? {
         if searchController.isActive && searchController.searchBar.text != "" {
-            
             scenario = filteredScenarios[editActionsForRowAt.row]
         } else {
-            //            scenario = dataModel.allScenarios[editActionsForRowAt.row]
-            //        }
             switch(scenarioFilterOutlet.selectedSegmentIndex) {
             case 0:
                 scenario = allScenarios[editActionsForRowAt.row]
@@ -289,10 +287,19 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
         return image
     }
     func setSegmentTitles() {
+        let segmentTitleAttributes = setTextAttributes(fontName: "Nyala", fontSize: 20.0, textColor: mainTextColor)
+        //let segmentTitleFontStyle = UIFont(name: "Nyala", size: 20.0)
+        //let segmentTitleAttributes = [NSForegroundColorAttributeName: mainTextColor, NSFontAttributeName: segmentTitleFontStyle!] as [String : Any]
         scenarioFilterOutlet.setTitle("All (\(allScenarios.count))", forSegmentAt: 0)
         scenarioFilterOutlet.setTitle("Available (\(availableScenarios.count))", forSegmentAt: 1)
         scenarioFilterOutlet.setTitle("Completed (\(completedScenarios.count))", forSegmentAt: 2)
+        scenarioFilterOutlet.setTitleTextAttributes(segmentTitleAttributes, for: .normal)
         scenarioTableView.reloadData()
+    }
+    func setTextAttributes(fontName: String, fontSize: CGFloat, textColor: UIColor) -> [ String : Any ] {
+        let fontStyle = UIFont(name: fontName, size: fontSize)
+        let fontColor = textColor
+        return [ NSFontAttributeName : fontStyle! , NSForegroundColorAttributeName : fontColor ]
     }
     func showSelectionAlert(status: String) {
         var alertTitle = String()
@@ -334,6 +341,7 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
         self.navigationController?.navigationBar.tintColor = UIColor.black
         self.navigationController?.navigationBar.barTintColor = UIColor.gray
         self.navigationItem.title = "All Scenarios"
+        self.navigationController?.navigationBar.titleTextAttributes = setTextAttributes(fontName: "Nyala", fontSize: 26.0, textColor: mainTextColor)
     }
     fileprivate func fillUI() {
         if !isViewLoaded {

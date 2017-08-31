@@ -17,7 +17,7 @@ class UnlocksInfoCell: UITableViewCell, LockOrUnlockCellType {
             guard let item = item else {
                 return
             }
-            
+            unlocksInfoLabel?.font = UIFont(name: "Nyala", size: 22)
             unlocksInfoLabel?.text = "\(item.number!) - \(item.title!)"
         }
     }

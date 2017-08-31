@@ -10,6 +10,10 @@ import Foundation
 import UIKit
 import CloudKit
 
+//Test iCloud update error messaging
+protocol DataModelDelegate {
+    func errorUpdating(error: NSError)
+}
 class DataModel {
     
     // Try singleton
@@ -37,6 +41,7 @@ class DataModel {
     var unlocksLabel = String()
     var selectedScenario: Scenario?
     var mainCellBGImage = UIImage()
+    var delegate: DataModelDelegate?
     // Used when we uncomplete scenario 13 to restore unlock options
     let defaultUnlocks = [ "13" : ["ONEOF", "15", "17", "20"] ]
     
@@ -45,6 +50,8 @@ class DataModel {
     var privateDatabase: CKDatabase
     
     private init() {
+        // Set delegate
+        
         // CloudKit stuff
         privateDatabase = myContainer.privateCloudDatabase
         
@@ -783,7 +790,7 @@ class DataModel {
                 requirementsMet: false,
                 requirements: ["The Voice's Command" : true, "The Voice's Treasure": true],
                 isUnlocked: false,
-                unlockedBy: ["32"],
+                unlockedBy: ["32", "33"],
                 unlocks: ["41"],
                 achieves: ["Ancient Technology"],
                 rewards: [NSAttributedString(string: "None")],
@@ -1862,7 +1869,7 @@ class DataModel {
                     self.updateLocalAchievementsStatus()
                 } else {
                     print("Attempting to create CK Schema")
-                    //self.createScenarioSchema()
+                    // Put code to check if logged into iCloud here?
                     self.updateScenarioStatusRecords(scenarios: self.allScenarios)
                     self.updateAchievementsStatusRecords(achievementsToUpdate: self.achievements)
                 }
@@ -1900,7 +1907,7 @@ class DataModel {
     }
     func getScenario(scenarioNumber: String) -> Scenario? {
         
-        if scenarioNumber == "None" || scenarioNumber == "ONEOF" || scenarioNumber.contains("Event") || scenarioNumber.contains("Envelope") {
+        if scenarioNumber == "None" || scenarioNumber == "OR" || scenarioNumber.contains("Event") || scenarioNumber.contains("Envelope") {
             return nil
         } else {
             let scenInt = Int(scenarioNumber)!-1
@@ -1923,8 +1930,8 @@ class DataModel {
             }
         }
         for achievement in achievements {
-            if achievement.key == "None" || achievement.key == "ONEOF" {
-                continue
+            if achievement.key == "None" || achievement.key == "OR" {
+                achievements[achievement.key] = true
             } else {
                 achievements[achievement.key] = false
             }
@@ -1933,6 +1940,7 @@ class DataModel {
     // CloudKit methods
 
     func updateAchievementsStatusRecords(achievementsToUpdate: [String:Bool]) {
+        //Put call to func to check if logged into iCloud here?
         var records = [CKRecord]()
         for achievement in achievementsToUpdate {
             let achievementStatusRecordID = CKRecordID(recordName: achievement.key)
@@ -1945,6 +1953,7 @@ class DataModel {
         uploadOperation.savePolicy = .changedKeys
         uploadOperation.modifyRecordsCompletionBlock = { savedRecords, deletedRecordsIDs, error in
             if error != nil {
+                self.delegate?.errorUpdating(error: error! as NSError)
                 print("Error saving achievement records: \(error!.localizedDescription)")
             } else {
                 print("Successfully saved achievement records")
@@ -1953,6 +1962,7 @@ class DataModel {
         privateDatabase.add(uploadOperation)
     }
     func updateScenarioStatusRecords(scenarios: [Scenario]) {
+        //Put call to func to check if logged into iCloud here?
         var records = [CKRecord]()
         for scenario in scenarios {
             let scenarioStatusRecordID = CKRecordID(recordName: "Status" + scenario.number)
@@ -1964,6 +1974,7 @@ class DataModel {
             scenarioStatusRecord["isUnlocked"] = unlockedState as NSNumber
             let requirementsMetState = scenario.requirementsMet ? 1 : 0
             scenarioStatusRecord["requirementsMet"] = requirementsMetState as NSNumber
+            
             records.append(scenarioStatusRecord)
             
         }
@@ -1971,6 +1982,7 @@ class DataModel {
         uploadOperation.savePolicy = .allKeys
         uploadOperation.modifyRecordsCompletionBlock = { savedRecords, deletedRecordsIDs, error in
             if error != nil {
+                self.delegate?.errorUpdating(error: error! as NSError)
                 print("Error saving records: \(error!.localizedDescription)")
             } else {
                 print("Successfully saved records")
@@ -1981,6 +1993,9 @@ class DataModel {
     func checkIfStatusRecordExists(recordNumber: String, completion:@escaping (Bool) -> ()) {
         let recordID = CKRecordID(recordName: "Status" + recordNumber)
         privateDatabase.fetch(withRecordID: recordID) { (record, error) in
+            if error != nil {
+                self.delegate?.errorUpdating(error: error! as NSError)
+            }
             completion(error == nil)
         }
     }
@@ -1988,6 +2003,7 @@ class DataModel {
         let recordID = CKRecordID(recordName: "Status" + scenarioNumber)
         privateDatabase.fetch(withRecordID: recordID) { (record, error) in
             if error != nil {
+                self.delegate?.errorUpdating(error: error! as NSError)
                 print("Error fetching record: \(error!.localizedDescription)")
             } else {
                 let scenarioToUpdate = self.getScenario(scenarioNumber: scenarioNumber)
@@ -2005,6 +2021,7 @@ class DataModel {
             let recordID = CKRecordID(recordName: achievement.key)
             privateDatabase.fetch(withRecordID: recordID) { (record, error) in
                 if error != nil {
+                    self.delegate?.errorUpdating(error: error! as NSError)
                     print("Error fetching record: \(error!.localizedDescription)")
                 } else {
                     let status = record?["isComplete"] as! Bool

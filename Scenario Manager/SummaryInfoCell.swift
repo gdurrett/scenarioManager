@@ -17,7 +17,7 @@ class SummaryInfoCell: UITableViewCell {
             guard let item = item as? ScenarioDetailViewModelScenarioSummaryItem else {
                 return
             }
-            
+            summaryInfoLabel?.font = UIFont(name: "Nyala", size: 22)
             summaryInfoLabel?.text = item.summary
         }
     }

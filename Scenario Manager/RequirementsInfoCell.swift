@@ -16,7 +16,7 @@ class RequirementsInfoCell: UITableViewCell {
             guard let item = item else {
                 return
             }
-            
+            requirementsInfoLabel?.font = UIFont(name: "Nyala", size: 22)
             requirementsInfoLabel?.text = "\(item.rowString!)"
         }
     }

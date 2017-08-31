@@ -20,6 +20,8 @@ class ScenarioTitleCell: UITableViewCell {
                 return
             }
             scenarioTitleLabel?.sizeToFit()
+            scenarioTitleLabel?.font = UIFont(name: "PirataOne-Regular", size: 30)
+            scenarioTitleLabel?.textColor = UIColor(hue: 30/360, saturation: 45/100, brightness: 18/100, alpha: 1.0)
             scenarioTitleLabel?.text = "\(item.number)) \(item.title)"
             scenarioStatusIcon.image = item.statusIcon
         }

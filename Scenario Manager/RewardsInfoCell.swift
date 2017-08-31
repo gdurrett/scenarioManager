@@ -17,7 +17,7 @@ class RewardsInfoCell: UITableViewCell {
             guard let item = item else {
                 return
             }
-            
+            rewardsInfoLabel?.font = UIFont(name: "Nyala", size: 22)
             rewardsInfoLabel?.attributedText = (item.rowString!)
         }
     }

@@ -17,7 +17,7 @@ class LocationInfoCell: UITableViewCell {
             guard let item = item as? ScenarioDetailViewModelScenarioLocationItem else {
                 return
             }
-            
+            locationInfoLabel?.font = UIFont(name: "Nyala", size: 22)
             locationInfoLabel?.text = item.location
         }
     }

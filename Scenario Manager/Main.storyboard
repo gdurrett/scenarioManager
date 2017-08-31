@@ -9,6 +9,14 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="PirataOne-Regular.ttf">
+            <string>PirataOne-Regular</string>
+        </array>
+        <array key="nyala.ttf">
+            <string>Nyala-Regular</string>
+        </array>
+    </customFonts>
     <scenes>
         <!--Choose One Scenario-->
         <scene sceneID="SxL-Zz-Hwo">
@@ -157,12 +165,12 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1000" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Scenario" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7xM-Zh-2KA">
-                                                    <rect key="frame" x="13" y="11" width="81" height="28"/>
+                                                    <rect key="frame" x="13" y="11" width="91" height="28"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="28" id="WRs-3h-6QR"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="21"/>
-                                                    <nil key="textColor"/>
+                                                    <fontDescription key="fontDescription" name="PirataOne-Regular" family="Pirata One" pointSize="29"/>
+                                                    <color key="textColor" red="0.1881999671459198" green="0.14574344456195831" blue="0.10207398235797882" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView tag="2000" contentMode="scaleAspectFit" horizontalHuggingPriority="1000" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="jtW-wB-YNS">
@@ -174,8 +182,8 @@
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1100" contentMode="TopLeft" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" text="Goal" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hzt-Ex-Q8R">
                                                     <rect key="frame" x="13" y="40" width="275" height="17"/>
-                                                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
-                                                    <nil key="textColor"/>
+                                                    <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="18"/>
+                                                    <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
