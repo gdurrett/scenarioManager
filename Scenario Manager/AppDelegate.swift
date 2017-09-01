@@ -52,7 +52,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         saveData()
         dataModel.updateScenarioStatusRecords(scenarios: dataModel.allScenarios)
-        dataModel.updateAchievementsStatusRecords(achievementsToUpdate: dataModel.achievements) //Really need to rename to update, but create does same thing ??
+        dataModel.updateAchievementsStatusRecords(achievementsToUpdate: dataModel.achievements)
     }
 
 

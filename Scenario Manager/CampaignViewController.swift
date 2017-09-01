@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CloudKit
 
 class CampaignViewController: UIViewController {
     @IBAction func resetToDefaults(_ sender: Any) {
@@ -29,6 +30,7 @@ class CampaignViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        dataModel?.delegate = self
         
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -54,10 +56,11 @@ class CampaignViewController: UIViewController {
 
 // MARK: - DataModelDelegate
 extension CampaignViewController: DataModelDelegate {
-    func errorUpdating(error: NSError) {
+    func errorUpdating(error: CKError, type: myCKErrorType) {
+        print("Got to errorUpdating function")
         let message: String
-        if error.code == 1 {
-            message = "Log into iCloud on your device and make sure the iCloud drive is turned on for this app."
+        if error.code == CKError.notAuthenticated {
+            message = "Authentication Error: Log your device into iCloud and enable iCloud for the CampaignManager app."
         } else {
             message = error.localizedDescription
         }

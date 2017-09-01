@@ -11,14 +11,20 @@ import UIKit
 import CloudKit
 
 //Test iCloud update error messaging
+enum myCKErrorType {
+    case saveAchievement
+    case updateLocalAchievement
+    case saveScenarioStatus
+    case updateLocalScenario
+    case fetchRecord
+}
 protocol DataModelDelegate {
-    func errorUpdating(error: NSError)
+    func errorUpdating(error: CKError, type:myCKErrorType)
 }
 class DataModel {
     
     // Try singleton
     static var sharedInstance = DataModel()
-
     
     var availableScenarios: [Scenario] {
         get {
@@ -1890,7 +1896,6 @@ class DataModel {
     func saveScenarios() {
         let data = NSMutableData()
         let archiver = NSKeyedArchiver(forWritingWith: data)
-        // this line is different from before
         archiver.encode(allScenarios, forKey: "Scenarios")
         archiver.encode(achievements, forKey: "Achievements")
         archiver.finishEncoding()
@@ -1952,8 +1957,8 @@ class DataModel {
         let uploadOperation = CKModifyRecordsOperation(recordsToSave: records, recordIDsToDelete: nil)
         uploadOperation.savePolicy = .changedKeys
         uploadOperation.modifyRecordsCompletionBlock = { savedRecords, deletedRecordsIDs, error in
-            if error != nil {
-                self.delegate?.errorUpdating(error: error! as NSError)
+            if let ckError = error as? CKError {
+                self.delegate?.errorUpdating(error: ckError as CKError, type: myCKErrorType.saveAchievement)
                 print("Error saving achievement records: \(error!.localizedDescription)")
             } else {
                 print("Successfully saved achievement records")
@@ -1981,11 +1986,11 @@ class DataModel {
         let uploadOperation = CKModifyRecordsOperation(recordsToSave: records, recordIDsToDelete: nil)
         uploadOperation.savePolicy = .allKeys
         uploadOperation.modifyRecordsCompletionBlock = { savedRecords, deletedRecordsIDs, error in
-            if error != nil {
-                self.delegate?.errorUpdating(error: error! as NSError)
-                print("Error saving records: \(error!.localizedDescription)")
+            if let ckError = error as? CKError {
+                self.delegate?.errorUpdating(error: ckError as CKError, type: myCKErrorType.saveScenarioStatus)
+                print("Error saving scenario status records: \(error!.localizedDescription)")
             } else {
-                print("Successfully saved records")
+                print("Successfully saved scenario status records")
             }
         }
         privateDatabase.add(uploadOperation)
@@ -1993,17 +1998,21 @@ class DataModel {
     func checkIfStatusRecordExists(recordNumber: String, completion:@escaping (Bool) -> ()) {
         let recordID = CKRecordID(recordName: "Status" + recordNumber)
         privateDatabase.fetch(withRecordID: recordID) { (record, error) in
-            if error != nil {
-                self.delegate?.errorUpdating(error: error! as NSError)
+            if let ckError = error as? CKError {
+                self.delegate?.errorUpdating(error: ckError as CKError, type: myCKErrorType.fetchRecord)
+                print("Did not find pre-existing iCloud schema: \(error!.localizedDescription)")
+            } else {
+                print("Found pre-existing iCloud schema.")
+                completion(error == nil)
             }
-            completion(error == nil)
+//            completion(error == nil)
         }
     }
     func updateLocalScenarioStatus(scenarioNumber: String) {
         let recordID = CKRecordID(recordName: "Status" + scenarioNumber)
         privateDatabase.fetch(withRecordID: recordID) { (record, error) in
-            if error != nil {
-                self.delegate?.errorUpdating(error: error! as NSError)
+            if let ckError = error as? CKError {
+                self.delegate?.errorUpdating(error: ckError as CKError, type: myCKErrorType.fetchRecord)
                 print("Error fetching record: \(error!.localizedDescription)")
             } else {
                 let scenarioToUpdate = self.getScenario(scenarioNumber: scenarioNumber)
@@ -2020,8 +2029,8 @@ class DataModel {
         for achievement in achievements {
             let recordID = CKRecordID(recordName: achievement.key)
             privateDatabase.fetch(withRecordID: recordID) { (record, error) in
-                if error != nil {
-                    self.delegate?.errorUpdating(error: error! as NSError)
+                if let ckError = error as? CKError {
+                    self.delegate?.errorUpdating(error: ckError as CKError, type: myCKErrorType.fetchRecord)
                     print("Error fetching record: \(error!.localizedDescription)")
                 } else {
                     let status = record?["isComplete"] as! Bool

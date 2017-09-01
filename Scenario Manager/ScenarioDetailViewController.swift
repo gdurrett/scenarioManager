@@ -12,7 +12,7 @@ import UIKit
 class ScenarioDetailViewController: UIViewController {
     
     var viewModel: ScenarioDetailViewModel!
-    var mainTextColor = UIColor(hue: 30/360, saturation: 45/100, brightness: 18/100, alpha: 1.0)
+    var mainTextColor = UIColor(hue: 30/360, saturation: 45/100, brightness: 25/100, alpha: 1.0)
     
     @IBOutlet weak var tableView: UITableView?
     

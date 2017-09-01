@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import CloudKit
+
 // Implement search bar stuff via extension
 extension ScenarioViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
@@ -21,11 +23,14 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
     @IBAction func scenarioFilterAction(_ sender: Any) {
         switch scenarioFilterOutlet.selectedSegmentIndex {
         case 0:
-            self.navigationItem.title = ("\(scenarioFilterOutlet.titleForSegment(at: 0)!) Scenarios")
+            //self.navigationItem.title = ("\(scenarioFilterOutlet.titleForSegment(at: 0)!) Scenarios")
+            self.navigationItem.title = "All Scenarios"
         case 1:
-            self.navigationItem.title = ("\(scenarioFilterOutlet.titleForSegment(at: 1)!) Scenarios")
+            //self.navigationItem.title = ("\(scenarioFilterOutlet.titleForSegment(at: 1)!) Scenarios")
+            self.navigationItem.title = "Available Scenarios"
         case 2:
-            self.navigationItem.title = ("\(scenarioFilterOutlet.titleForSegment(at: 2)!) Scenarios")
+            //self.navigationItem.title = ("\(scenarioFilterOutlet.titleForSegment(at: 2)!) Scenarios")
+            self.navigationItem.title = "Completed Scenarios"
         default:
             break
         }
@@ -47,7 +52,7 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
     var pickedScenario: Scenario?
     var scenario: Scenario!
     var imageForMainCell: UIImage!
-    var mainTextColor = UIColor(hue: 30/360, saturation: 45/100, brightness: 18/100, alpha: 1.0)
+    var mainTextColor = UIColor(hue: 30/360, saturation: 45/100, brightness: 25/100, alpha: 1.0)
     
     var allScenarios: [Scenario]!
     var availableScenarios: [Scenario]!
@@ -61,7 +66,7 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
         
         scenarioTableView?.dataSource = self
         scenarioTableView?.delegate = self
-
+        
         styleUI()
         fillUI()
         
@@ -288,12 +293,11 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
     }
     func setSegmentTitles() {
         let segmentTitleAttributes = setTextAttributes(fontName: "Nyala", fontSize: 20.0, textColor: mainTextColor)
-        //let segmentTitleFontStyle = UIFont(name: "Nyala", size: 20.0)
-        //let segmentTitleAttributes = [NSForegroundColorAttributeName: mainTextColor, NSFontAttributeName: segmentTitleFontStyle!] as [String : Any]
         scenarioFilterOutlet.setTitle("All (\(allScenarios.count))", forSegmentAt: 0)
         scenarioFilterOutlet.setTitle("Available (\(availableScenarios.count))", forSegmentAt: 1)
         scenarioFilterOutlet.setTitle("Completed (\(completedScenarios.count))", forSegmentAt: 2)
         scenarioFilterOutlet.setTitleTextAttributes(segmentTitleAttributes, for: .normal)
+        scenarioFilterOutlet.backgroundColor = UIColor(hue: 40/360, saturation: 6/100, brightness: 100/100, alpha: 1.0)
         scenarioTableView.reloadData()
     }
     func setTextAttributes(fontName: String, fontSize: CGFloat, textColor: UIColor) -> [ String : Any ] {
@@ -338,8 +342,8 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
     fileprivate func styleUI() {
         self.scenarioTableView.estimatedRowHeight = 100
         self.scenarioTableView.rowHeight = UITableViewAutomaticDimension
-        self.navigationController?.navigationBar.tintColor = UIColor.black
-        self.navigationController?.navigationBar.barTintColor = UIColor.gray
+        self.navigationController?.navigationBar.tintColor = mainTextColor
+        self.navigationController?.navigationBar.barTintColor = UIColor(hue: 40/360, saturation: 6/100, brightness: 100/100, alpha: 1.0)
         self.navigationItem.title = "All Scenarios"
         self.navigationController?.navigationBar.titleTextAttributes = setTextAttributes(fontName: "Nyala", fontSize: 26.0, textColor: mainTextColor)
     }
@@ -440,7 +444,7 @@ extension Sequence {
         return map { "\($0)" }.joined(separator: ", ")
     }
 }
-// Implement ScenarioTableView datasource and delegate methods
+// MARK: ScenarioTableView datasource and delegate methods
 
 extension ScenarioViewController: UITableViewDataSource, UITableViewDelegate {
     
@@ -494,5 +498,25 @@ extension ScenarioViewController: UITableViewDataSource, UITableViewDelegate {
         
         return cell as! ScenarioMainCell
         
+    }
+}
+
+// MARK: DataModelDelegate
+// MARK: - DataModelDelegate
+extension ScenarioViewController: DataModelDelegate {
+    func errorUpdating(error: CKError, type: myCKErrorType) {
+        let message: String
+        if error.code == CKError.notAuthenticated {
+            message = "Authentication Error: Log your device into iCloud and enable iCloud for the CampaignManager app."
+        } else {
+            message = error.localizedDescription
+        }
+        let alertController = UIAlertController(title: nil,
+                                                message: message,
+                                                preferredStyle: .alert)
+        
+        alertController.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: nil))
+        
+        present(alertController, animated: true, completion: nil)
     }
 }

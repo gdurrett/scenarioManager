@@ -170,7 +170,7 @@
                                                         <constraint firstAttribute="height" constant="28" id="WRs-3h-6QR"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" name="PirataOne-Regular" family="Pirata One" pointSize="29"/>
-                                                    <color key="textColor" red="0.1881999671459198" green="0.14574344456195831" blue="0.10207398235797882" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                    <color key="textColor" red="0.24528702071734837" green="0.18995208048027454" blue="0.13303627734393372" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView tag="2000" contentMode="scaleAspectFit" horizontalHuggingPriority="1000" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="jtW-wB-YNS">
@@ -183,7 +183,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1100" contentMode="TopLeft" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" text="Goal" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hzt-Ex-Q8R">
                                                     <rect key="frame" x="13" y="40" width="275" height="17"/>
                                                     <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="18"/>
-                                                    <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <color key="textColor" red="0.30019531249999998" green="0.23115039062499998" blue="0.16210546875000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>

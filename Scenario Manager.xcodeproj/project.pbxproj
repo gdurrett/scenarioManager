@@ -176,12 +176,10 @@
 		FB40EA171F4554A000CAA684 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				FBCE87601F58764300CAA684 /* HTOWERT.TTF */,
-				FBCE875E1F586FB400CAA684 /* nyala.ttf */,
-				FBCE875C1F57F4C200CAA684 /* PirataOne-Regular.ttf */,
 				FBE3F1E81F47C91100CAA684 /* Main.storyboard */,
 				FBE3F1EC1F4A5F6A00CAA684 /* Assets.xcassets */,
 				FB40EA151F45543300CAA684 /* CampaignManager */,
+				FBCE87621F58A32C00CAA684 /* Fonts */,
 				FB482DA21F29380B00CAA684 /* TableView Cells */,
 			);
 			name = View;
@@ -209,6 +207,16 @@
 				FB4665941F2FDCEE00CAA684 /* ScenarioMainCell.swift */,
 			);
 			name = "TableView Cells";
+			sourceTree = "<group>";
+		};
+		FBCE87621F58A32C00CAA684 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				FBCE87601F58764300CAA684 /* HTOWERT.TTF */,
+				FBCE875E1F586FB400CAA684 /* nyala.ttf */,
+				FBCE875C1F57F4C200CAA684 /* PirataOne-Regular.ttf */,
+			);
+			name = Fonts;
 			sourceTree = "<group>";
 		};
 		FBD42F161F4F388C00CAA684 /* Frameworks */ = {
