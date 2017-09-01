@@ -11,13 +11,11 @@ import CloudKit
 
 class CampaignViewController: UIViewController {
     @IBAction func resetToDefaults(_ sender: Any) {
-        dataModel?.resetAll()
-        // Implement undo function on timer here?
-        dataModel?.saveScenarios()
+        confirmDataModelReset()
     }
     
     @IBAction func saveState(_ sender: Any) {
-        dataModel?.saveScenarios()
+        dataModel?.saveScenariosLocally()
         dataModel?.updateAchievementsStatusRecords(achievementsToUpdate: (dataModel?.achievements)!)
         dataModel?.updateScenarioStatusRecords(scenarios: (dataModel?.allScenarios)!)
     }
@@ -51,6 +49,21 @@ class CampaignViewController: UIViewController {
         let viewModel = ScenarioViewModelFromModel(withDataModel: dataModel!)
         controller.viewModel = viewModel
         
+    }
+    fileprivate func confirmDataModelReset () {
+        let alertController = UIAlertController(title: "Reset Scenario status to default?", message: "Clicking OK will set Scenario status back to initial state, both locally and in iCloud (if available).", preferredStyle: .alert)
+        let OKAction = UIAlertAction(title: "OK", style: .default) { (action:UIAlertAction!) in
+            self.dataModel?.resetAll()
+            self.dataModel?.saveScenariosLocally()
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (action:UIAlertAction!) in
+            print("Cancel button tapped");
+        }
+        alertController.addAction(cancelAction)
+        alertController.addAction(OKAction)
+        
+        self.present(alertController, animated: true, completion:nil)
     }
 }
 

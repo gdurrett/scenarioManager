@@ -1893,7 +1893,7 @@ class DataModel {
     func dataFilePath() -> URL {
         return documentsDirectory().appendingPathComponent("Scenarios.plist")
     }
-    func saveScenarios() {
+    func saveScenariosLocally() {
         let data = NSMutableData()
         let archiver = NSKeyedArchiver(forWritingWith: data)
         archiver.encode(allScenarios, forKey: "Scenarios")

@@ -8,10 +8,14 @@
 
 import Foundation
 
+protocol ScenarioViewModelDelegate: class {
+    func presentiCloudConnectionAlert()
+}
 
 class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
     
     let dataModel: DataModel
+    weak var delegate: ScenarioViewModelDelegate?
     
     var allScenarios: [Scenario]
     let availableScenarios: Dynamic<[Scenario]>
@@ -48,7 +52,7 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
         //Need to re-get after update. Using Dynamic vars!
         self.availableScenarios.value = dataModel.availableScenarios
         self.completedScenarios.value = dataModel.completedScenarios
-        dataModel.saveScenarios()
+        dataModel.saveScenariosLocally()
         
     }
     func setAchievements(atches: [String], toggle: Bool) {

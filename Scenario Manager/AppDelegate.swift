@@ -23,21 +23,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func saveData() {
-        dataModel.saveScenarios()
+        dataModel.saveScenariosLocally()
     }
     
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
-        //saveData()
-        // Try CloudKit update here
-        dataModel.updateScenarioStatusRecords(scenarios: dataModel.allScenarios)
-        dataModel.updateAchievementsStatusRecords(achievementsToUpdate: dataModel.achievements) //Really need to rename to update, but create does same thing ??
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        saveData()
+        // Implement automatic CloudKit update when I have a better handle on error handling
+        //dataModel.updateScenarioStatusRecords(scenarios: dataModel.allScenarios)
+        //dataModel.updateAchievementsStatusRecords(achievementsToUpdate: dataModel.achievements)
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -51,8 +51,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         saveData()
-        dataModel.updateScenarioStatusRecords(scenarios: dataModel.allScenarios)
-        dataModel.updateAchievementsStatusRecords(achievementsToUpdate: dataModel.achievements)
+        // Implement automatic CloudKit update when I have a better handle on error handling
+//        dataModel.updateScenarioStatusRecords(scenarios: dataModel.allScenarios)
+//        dataModel.updateAchievementsStatusRecords(achievementsToUpdate: dataModel.achievements)
     }
 
 
