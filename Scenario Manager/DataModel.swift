@@ -48,18 +48,21 @@ class DataModel {
     var selectedScenario: Scenario?
     var mainCellBGImage = UIImage()
     var delegate: DataModelDelegate?
+    
+    let myCloudKitMgr = CloudKitMgr()
+    
     // Used when we uncomplete scenario 13 to restore unlock options
     let defaultUnlocks = [ "13" : ["ONEOF", "15", "17", "20"] ]
     
-    // Try setting up CloudKit
-    let myContainer = CKContainer(identifier: "iCloud.com.apphazard.ScenarioManager")
-    var privateDatabase: CKDatabase
+//    // Try setting up CloudKit
+//    let myContainer = CKContainer(identifier: "iCloud.com.apphazard.ScenarioManager")
+//    var privateDatabase: CKDatabase
     
     private init() {
         // Set delegate
         
         // CloudKit stuff
-        privateDatabase = myContainer.privateCloudDatabase
+        //let privateDatabase = myCloudKitMgr.privateDatabase
         
         let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
         let url = NSURL(fileURLWithPath: path)
@@ -1964,7 +1967,7 @@ class DataModel {
                 print("Successfully saved achievement records")
             }
         }
-        privateDatabase.add(uploadOperation)
+        self.myCloudKitMgr.privateDatabase.add(uploadOperation)
     }
     func updateScenarioStatusRecords(scenarios: [Scenario]) {
         //Put call to func to check if logged into iCloud here?
@@ -1993,11 +1996,11 @@ class DataModel {
                 print("Successfully saved scenario status records")
             }
         }
-        privateDatabase.add(uploadOperation)
+        self.myCloudKitMgr.privateDatabase.add(uploadOperation)
     }
     func checkIfStatusRecordExists(recordNumber: String, completion:@escaping (Bool) -> ()) {
         let recordID = CKRecordID(recordName: "Status" + recordNumber)
-        privateDatabase.fetch(withRecordID: recordID) { (record, error) in
+        self.myCloudKitMgr.privateDatabase.fetch(withRecordID: recordID) { (record, error) in
             if let ckError = error as? CKError {
                 self.delegate?.errorUpdating(error: ckError as CKError, type: myCKErrorType.fetchRecord)
                 print("Did not find pre-existing iCloud schema: \(error!.localizedDescription)")
@@ -2010,7 +2013,7 @@ class DataModel {
     }
     func updateLocalScenarioStatus(scenarioNumber: String) {
         let recordID = CKRecordID(recordName: "Status" + scenarioNumber)
-        privateDatabase.fetch(withRecordID: recordID) { (record, error) in
+        self.myCloudKitMgr.privateDatabase.fetch(withRecordID: recordID) { (record, error) in
             if let ckError = error as? CKError {
                 self.delegate?.errorUpdating(error: ckError as CKError, type: myCKErrorType.fetchRecord)
                 print("Error fetching record: \(error!.localizedDescription)")
@@ -2028,7 +2031,7 @@ class DataModel {
     func updateLocalAchievementsStatus() {
         for achievement in achievements {
             let recordID = CKRecordID(recordName: achievement.key)
-            privateDatabase.fetch(withRecordID: recordID) { (record, error) in
+            self.myCloudKitMgr.privateDatabase.fetch(withRecordID: recordID) { (record, error) in
                 if let ckError = error as? CKError {
                     self.delegate?.errorUpdating(error: ckError as CKError, type: myCKErrorType.fetchRecord)
                     print("Error fetching record: \(error!.localizedDescription)")

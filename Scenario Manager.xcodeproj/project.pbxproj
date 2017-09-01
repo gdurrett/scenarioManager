@@ -40,6 +40,7 @@
 		FBCE875D1F57F4C200CAA684 /* PirataOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FBCE875C1F57F4C200CAA684 /* PirataOne-Regular.ttf */; };
 		FBCE875F1F586FB400CAA684 /* nyala.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FBCE875E1F586FB400CAA684 /* nyala.ttf */; };
 		FBCE87611F58764300CAA684 /* HTOWERT.TTF in Resources */ = {isa = PBXBuildFile; fileRef = FBCE87601F58764300CAA684 /* HTOWERT.TTF */; };
+		FBCE87641F59EBE400CAA684 /* CloudKitMgr.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBCE87631F59EBE400CAA684 /* CloudKitMgr.swift */; };
 		FBE3F1E91F47C91100CAA684 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FBE3F1E81F47C91100CAA684 /* Main.storyboard */; };
 		FBE3F1EB1F47C92C00CAA684 /* ScenarioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE3F1EA1F47C92C00CAA684 /* ScenarioViewController.swift */; };
 		FBE3F1ED1F4A5F6A00CAA684 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FBE3F1EC1F4A5F6A00CAA684 /* Assets.xcassets */; };
@@ -83,6 +84,7 @@
 		FBCE875C1F57F4C200CAA684 /* PirataOne-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PirataOne-Regular.ttf"; sourceTree = "<group>"; };
 		FBCE875E1F586FB400CAA684 /* nyala.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = nyala.ttf; sourceTree = "<group>"; };
 		FBCE87601F58764300CAA684 /* HTOWERT.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = HTOWERT.TTF; sourceTree = "<group>"; };
+		FBCE87631F59EBE400CAA684 /* CloudKitMgr.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudKitMgr.swift; sourceTree = "<group>"; };
 		FBE3F1E81F47C91100CAA684 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		FBE3F1EA1F47C92C00CAA684 /* ScenarioViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScenarioViewController.swift; sourceTree = "<group>"; };
 		FBE3F1EC1F4A5F6A00CAA684 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -178,6 +180,7 @@
 			children = (
 				FBE3F1E81F47C91100CAA684 /* Main.storyboard */,
 				FBE3F1EC1F4A5F6A00CAA684 /* Assets.xcassets */,
+				FBCE87631F59EBE400CAA684 /* CloudKitMgr.swift */,
 				FB40EA151F45543300CAA684 /* CampaignManager */,
 				FBCE87621F58A32C00CAA684 /* Fonts */,
 				FB482DA21F29380B00CAA684 /* TableView Cells */,
@@ -338,6 +341,7 @@
 				FB4665851F2E5C0700CAA684 /* RewardsInfoCell.swift in Sources */,
 				FB23B6EA1F044CFC00CAA684 /* AppDelegate.swift in Sources */,
 				FB4665911F2FA98C00CAA684 /* LocationInfoCell.swift in Sources */,
+				FBCE87641F59EBE400CAA684 /* CloudKitMgr.swift in Sources */,
 				FB23B7021F0AB5ED00CAA684 /* DataModel.swift in Sources */,
 				FB40EA111F43B28100CAA684 /* UIViewController+Subview.swift in Sources */,
 				FB482DA81F293B2300CAA684 /* UnlockedByInfoCell.swift in Sources */,
