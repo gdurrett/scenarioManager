@@ -67,9 +67,10 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
         scenarioTableView?.dataSource = self
         scenarioTableView?.delegate = self
         
+        // Set up UI
         styleUI()
         fillUI()
-        
+
         // Change titles on segmented controller
         setSegmentTitles()
         setupSearch()

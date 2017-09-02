@@ -41,6 +41,7 @@
 		FBCE875F1F586FB400CAA684 /* nyala.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FBCE875E1F586FB400CAA684 /* nyala.ttf */; };
 		FBCE87611F58764300CAA684 /* HTOWERT.TTF in Resources */ = {isa = PBXBuildFile; fileRef = FBCE87601F58764300CAA684 /* HTOWERT.TTF */; };
 		FBCE87641F59EBE400CAA684 /* CloudKitMgr.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBCE87631F59EBE400CAA684 /* CloudKitMgr.swift */; };
+		FBCE876A1F5A066F00CAA684 /* CampaignManagerTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBCE87691F5A066F00CAA684 /* CampaignManagerTabBarController.swift */; };
 		FBE3F1E91F47C91100CAA684 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FBE3F1E81F47C91100CAA684 /* Main.storyboard */; };
 		FBE3F1EB1F47C92C00CAA684 /* ScenarioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE3F1EA1F47C92C00CAA684 /* ScenarioViewController.swift */; };
 		FBE3F1ED1F4A5F6A00CAA684 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FBE3F1EC1F4A5F6A00CAA684 /* Assets.xcassets */; };
@@ -85,6 +86,7 @@
 		FBCE875E1F586FB400CAA684 /* nyala.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = nyala.ttf; sourceTree = "<group>"; };
 		FBCE87601F58764300CAA684 /* HTOWERT.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = HTOWERT.TTF; sourceTree = "<group>"; };
 		FBCE87631F59EBE400CAA684 /* CloudKitMgr.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudKitMgr.swift; sourceTree = "<group>"; };
+		FBCE87691F5A066F00CAA684 /* CampaignManagerTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CampaignManagerTabBarController.swift; sourceTree = "<group>"; };
 		FBE3F1E81F47C91100CAA684 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		FBE3F1EA1F47C92C00CAA684 /* ScenarioViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScenarioViewController.swift; sourceTree = "<group>"; };
 		FBE3F1EC1F4A5F6A00CAA684 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -162,6 +164,7 @@
 				FBE3F1EA1F47C92C00CAA684 /* ScenarioViewController.swift */,
 				FB482D981F27C51C00CAA684 /* ScenarioDetailViewController.swift */,
 				FB40EA0B1F43ACFF00CAA684 /* CampaignViewController.swift */,
+				FBCE87691F5A066F00CAA684 /* CampaignManagerTabBarController.swift */,
 			);
 			name = CampaignManager;
 			sourceTree = "<group>";
@@ -169,6 +172,7 @@
 		FB40EA161F45545200CAA684 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				FBCE87631F59EBE400CAA684 /* CloudKitMgr.swift */,
 				FB23B7011F0AB5EC00CAA684 /* DataModel.swift */,
 				FB23B6FB1F04C40D00CAA684 /* Scenario.swift */,
 			);
@@ -180,7 +184,6 @@
 			children = (
 				FBE3F1E81F47C91100CAA684 /* Main.storyboard */,
 				FBE3F1EC1F4A5F6A00CAA684 /* Assets.xcassets */,
-				FBCE87631F59EBE400CAA684 /* CloudKitMgr.swift */,
 				FB40EA151F45543300CAA684 /* CampaignManager */,
 				FBCE87621F58A32C00CAA684 /* Fonts */,
 				FB482DA21F29380B00CAA684 /* TableView Cells */,
@@ -333,6 +336,7 @@
 				FB40EA141F4419CA00CAA684 /* ScenarioViewModel.swift in Sources */,
 				FB40EA0C1F43ACFF00CAA684 /* CampaignViewController.swift in Sources */,
 				FBE3F1EB1F47C92C00CAA684 /* ScenarioViewController.swift in Sources */,
+				FBCE876A1F5A066F00CAA684 /* CampaignManagerTabBarController.swift in Sources */,
 				FB482D9B1F27DBA400CAA684 /* ScenarioDetailViewModel.swift in Sources */,
 				FB46658F1F2F96B500CAA684 /* SummaryInfoCell.swift in Sources */,
 				FB482D991F27C51C00CAA684 /* ScenarioDetailViewController.swift in Sources */,

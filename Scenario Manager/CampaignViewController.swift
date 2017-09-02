@@ -19,37 +19,41 @@ class CampaignViewController: UIViewController {
         dataModel?.updateAchievementsStatusRecords(achievementsToUpdate: (dataModel?.achievements)!)
         dataModel?.updateScenarioStatusRecords(scenarios: (dataModel?.allScenarios)!)
     }
-    @IBAction func openScenarioManagerButtonTapped(_ sender: Any) {
-        showScenarioViewController()
-    }
     var dataModel: DataModel? {
         didSet {
         }
     }
+    var mainTextColor = UIColor(hue: 30/360, saturation: 45/100, brightness: 25/100, alpha: 1.0)
     override func viewDidLoad() {
         super.viewDidLoad()
         dataModel?.delegate = self
         
     }
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "ShowScenarioManager" {
-            let destinationVC = segue.destination as! ScenarioViewController
-            let viewModel = ScenarioViewModelFromModel(withDataModel: dataModel!)
-            destinationVC.viewModel = viewModel
-        }
+    // Farm this out to separate object
+    func setTextAttributes(fontName: String, fontSize: CGFloat, textColor: UIColor) -> [ String : Any ] {
+        let fontStyle = UIFont(name: fontName, size: fontSize)
+        let fontColor = textColor
+        return [ NSFontAttributeName : fontStyle! , NSForegroundColorAttributeName : fontColor ]
     }
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if segue.identifier == "ShowScenarioManager" {
+//            let destinationVC = segue.destination as! ScenarioViewController
+//            let viewModel = ScenarioViewModelFromModel(withDataModel: dataModel!)
+//            destinationVC.viewModel = viewModel
+//        }
+//    }
     // MARK: Private
-    
-    fileprivate func showScenarioViewController() {
-        if !self.isViewLoaded {
-            return
-        }
- 
-        let controller = UIStoryboard.loadScenarioViewController()
-        let viewModel = ScenarioViewModelFromModel(withDataModel: dataModel!)
-        controller.viewModel = viewModel
-        
-    }
+//    
+//    fileprivate func showScenarioViewController() {
+//        if !self.isViewLoaded {
+//            return
+//        }
+// 
+//        let controller = UIStoryboard.loadScenarioViewController()
+//        let viewModel = ScenarioViewModelFromModel(withDataModel: dataModel!)
+//        controller.viewModel = viewModel
+//        
+//    }
     fileprivate func confirmDataModelReset () {
         let alertController = UIAlertController(title: "Reset Scenario status to default?", message: "Clicking OK will set Scenario status back to initial state, both locally and in iCloud (if available).", preferredStyle: .alert)
         let OKAction = UIAlertAction(title: "Reset", style: .default) { (action:UIAlertAction!) in
