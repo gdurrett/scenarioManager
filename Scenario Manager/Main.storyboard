@@ -66,7 +66,7 @@
             </objects>
             <point key="canvasLocation" x="2040" y="-481"/>
         </scene>
-        <!--Campaign Manager-->
+        <!--Campaign View Controller-->
         <scene sceneID="R3Y-0W-gPH">
             <objects>
                 <viewController id="YqU-VQ-qBG" customClass="CampaignViewController" customModule="Scenario_Manager" customModuleProvider="target" sceneMemberID="viewController">
@@ -79,15 +79,24 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jrn-yK-bQc">
-                                <rect key="frame" x="227" y="232" width="44" height="30"/>
-                                <state key="normal" title="Reset!"/>
+                                <rect key="frame" x="61" y="187" width="199" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="UD1-ZB-ax3"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="24"/>
+                                <state key="normal" title="Reset Campaign State">
+                                    <color key="titleColor" red="0.2452870207" green="0.18995208050000001" blue="0.13303627730000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
                                 <connections>
                                     <action selector="resetToDefaults:" destination="YqU-VQ-qBG" eventType="touchUpInside" id="mag-Bn-PDg"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1zt-W3-SDy">
-                                <rect key="frame" x="49" y="232" width="34" height="30"/>
-                                <state key="normal" title="Save"/>
+                                <rect key="frame" x="67" y="123" width="186" height="30"/>
+                                <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="24"/>
+                                <state key="normal" title="Save Campaign State">
+                                    <color key="titleColor" red="0.25" green="0.19330979077711283" blue="0.13500000000000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
                                 <connections>
                                     <action selector="saveState:" destination="YqU-VQ-qBG" eventType="touchUpInside" id="wIp-ge-afW"/>
                                 </connections>
@@ -95,20 +104,22 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="Jrn-yK-bQc" firstAttribute="baseline" secondItem="1zt-W3-SDy" secondAttribute="baseline" id="Ic5-aB-GhM"/>
-                            <constraint firstItem="1zt-W3-SDy" firstAttribute="top" secondItem="U0T-91-vgr" secondAttribute="bottom" constant="168" id="QTz-Ds-1CP"/>
-                            <constraint firstItem="1zt-W3-SDy" firstAttribute="leading" secondItem="dgY-Eo-D5r" secondAttribute="leadingMargin" constant="33" id="Yeg-xw-Tf0"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="Jrn-yK-bQc" secondAttribute="trailing" constant="33" id="jw8-Fv-hsB"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="1zt-W3-SDy" secondAttribute="trailing" constant="221" id="u1n-1l-6R5"/>
+                            <constraint firstItem="bAN-5p-hfu" firstAttribute="top" secondItem="Jrn-yK-bQc" secondAttribute="bottom" constant="302" id="7F5-V5-ohz"/>
+                            <constraint firstItem="Jrn-yK-bQc" firstAttribute="centerX" secondItem="dgY-Eo-D5r" secondAttribute="centerX" id="RFI-ce-5Yx"/>
+                            <constraint firstItem="Jrn-yK-bQc" firstAttribute="leading" secondItem="dgY-Eo-D5r" secondAttribute="leadingMargin" constant="45" id="VYf-v3-2oS"/>
+                            <constraint firstItem="1zt-W3-SDy" firstAttribute="leading" secondItem="dgY-Eo-D5r" secondAttribute="leadingMargin" constant="51" id="ce8-eo-v8Z"/>
+                            <constraint firstItem="1zt-W3-SDy" firstAttribute="centerX" secondItem="Jrn-yK-bQc" secondAttribute="centerX" id="dah-c3-Rfx"/>
+                            <constraint firstItem="1zt-W3-SDy" firstAttribute="top" secondItem="U0T-91-vgr" secondAttribute="bottom" constant="59" id="vGc-oO-uwS"/>
+                            <constraint firstItem="Jrn-yK-bQc" firstAttribute="top" secondItem="1zt-W3-SDy" secondAttribute="bottom" constant="34" id="zcf-n7-xr5"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Campaign Manager" id="vp5-nm-reg">
+                    <navigationItem key="navigationItem" id="vp5-nm-reg">
                         <barButtonItem key="backBarButtonItem" title="Back" id="SBx-2D-DLf"/>
                     </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EWA-jC-wwL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2801" y="-482"/>
+            <point key="canvasLocation" x="2799.375" y="-482.74647887323943"/>
         </scene>
         <!--Scenario View Controller-->
         <scene sceneID="mM1-G2-PZq">
@@ -132,7 +143,7 @@
                                     <segment title="Available"/>
                                     <segment title="Completed"/>
                                 </segments>
-                                <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="tintColor" red="0.24919084821428572" green="0.19297523336041433" blue="0.13515359552678494" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
                                     <action selector="scenarioFilterAction:" destination="xrX-4O-C3P" eventType="valueChanged" id="E4L-L1-4EZ"/>
                                 </connections>

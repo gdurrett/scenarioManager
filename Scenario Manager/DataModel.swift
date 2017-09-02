@@ -38,7 +38,6 @@ class DataModel {
     }
     
     var allScenarios = [Scenario]()
-    var defaultScenarios = [Scenario]()
     var achievements = [ String : Bool ]()
     var defaultAchievements = [ String: Bool ]()
     var requirementsMet = false
@@ -1381,7 +1380,7 @@ class DataModel {
                 rewards: [NSAttributedString(string: "+1 Reputation"), NSAttributedString(string: "+1 Prosperity")],
                 summary: "Goal: Destroy all trees and kill all Oozes.\n\nTown librarian Dominic fears the military will quash his attempts to chronicle Gloomhaven history. If you scratch Councilman Greymare's back, the councilman will do what he can to protect Dominic. In this case, the back-scratching involves clearing Greymare's Corpsewood estate of an Ooze infestation.",
                 locationString: "H-12, Corpsewood",
-                isManuallyUnlockable: false,
+                isManuallyUnlockable: true,
                 mainCellBGImage: "scenarioMgrMap72"
             )
             allScenarios.append(row71Scenario)
@@ -1399,7 +1398,7 @@ class DataModel {
                 rewards: [NSAttributedString(string: "+1 Reputation")],
                 summary: "Goal: Kill all enemies and loot all treasure tiles.\n\nDominic the librarian implores you to recover a Codex that contains vital information about Gloomhaven's ancient history. Problem is, it's purportedly in the hands of a band of Inox.",
                 locationString: "N-5, Watcher Mountains",
-                isManuallyUnlockable: false,
+                isManuallyUnlockable: true,
                 mainCellBGImage: "scenarioMgrMap73"
             )
             allScenarios.append(row72Scenario)
@@ -1800,8 +1799,6 @@ class DataModel {
             )
             allScenarios.append(row94Scenario)
             
-            defaultScenarios = allScenarios.filter{$0.isUnlocked} // Capture default here for reset button
-            
             achievements = [
                 "None"                                  : true,
                 "OR"                                    : true,
@@ -1876,6 +1873,7 @@ class DataModel {
                         self.updateLocalScenarioStatus(scenarioNumber: scenario.number)
                     }
                     self.updateLocalAchievementsStatus()
+                    //self.saveScenariosLocally()
                 } else {
                     print("Attempting to create CK Schema")
                     // Put code to check if logged into iCloud here?

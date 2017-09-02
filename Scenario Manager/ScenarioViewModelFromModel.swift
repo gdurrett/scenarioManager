@@ -55,6 +55,12 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
         dataModel.saveScenariosLocally()
         
     }
+    // Test refresh after download of scenario and achievement status. Try calling from viewDidLoad() in scenarioViewController
+    func updateAvailableScenarios() {
+        self.availableScenarios.value = dataModel.availableScenarios
+        self.completedScenarios.value = dataModel.completedScenarios
+        dataModel.saveScenariosLocally()
+    }
     func setAchievements(atches: [String], toggle: Bool) {
         var remove = false
         for ach in atches {

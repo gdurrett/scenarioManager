@@ -74,20 +74,22 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
         // Change titles on segmented controller
         setSegmentTitles()
         setupSearch()
+        viewModel?.updateAvailableScenarios()
         scenarioTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
         
         //Try notification for tapped rows in ScenarioDetailViewController
         NotificationCenter.default.addObserver(self, selector: #selector(segueToDetailViewController), name: NSNotification.Name(rawValue: "segueToDetail"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(segueToScenarioPickerViewController), name: NSNotification.Name(rawValue: "segueToPicker"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(showSelectionAlertViaNotify), name: NSNotification.Name(rawValue: "showSelectionAlert"), object: nil)
+        
     }
     // Fix deallocation bug when returning here from detailView
     deinit {
         self.searchController.view.removeFromSuperview()
     }
     override func viewWillAppear(_ animated: Bool) {
-        setSegmentTitles()
         super.viewWillAppear(animated)
+        setSegmentTitles()
         self.scenarioTableView.reloadData()
     }
     
@@ -114,11 +116,12 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
             if self.myLockedTitle == "Unlock" {
                 self.scenario.isUnlocked = true
                 self.viewModel?.updateAvailableScenarios(scenario: self.scenario, isCompleted: false)
+                self.setSegmentTitles()
                 tableView.reloadData()
             } else if self.myLockedTitle == "Lock" {
                 self.scenario.isUnlocked = false
                 self.viewModel?.updateAvailableScenarios(scenario: self.scenario, isCompleted: false)
-                
+                self.setSegmentTitles()
                 tableView.reloadData()
             }
         }

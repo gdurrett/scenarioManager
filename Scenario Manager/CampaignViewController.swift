@@ -27,6 +27,8 @@ class CampaignViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         dataModel?.delegate = self
+        self.navigationItem.title = "Dashboard"
+        self.navigationController?.navigationBar.titleTextAttributes = setTextAttributes(fontName: "Nyala", fontSize: 26.0, textColor: mainTextColor)
         
     }
     // Farm this out to separate object
