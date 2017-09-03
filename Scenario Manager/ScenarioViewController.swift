@@ -511,7 +511,7 @@ extension ScenarioViewController: DataModelDelegate {
     func errorUpdating(error: CKError, type: myCKErrorType) {
         let message: String
         if error.code == CKError.notAuthenticated {
-            message = "Authentication Error: Log your device into iCloud and enable iCloud for the CampaignManager app."
+            message = "Unable to save state to iCloud. Please enable iCloud for the CampaignManager app in iCloud settings."
         } else {
             message = error.localizedDescription
         }

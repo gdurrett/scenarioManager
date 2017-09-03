@@ -39,7 +39,6 @@ class DataModel {
     
     var allScenarios = [Scenario]()
     var achievements = [ String : Bool ]()
-    var defaultAchievements = [ String: Bool ]()
     var requirementsMet = false
     var myAchieves = [String]()
     var or = false
@@ -53,15 +52,7 @@ class DataModel {
     // Used when we uncomplete scenario 13 to restore unlock options
     let defaultUnlocks = [ "13" : ["ONEOF", "15", "17", "20"] ]
     
-//    // Try setting up CloudKit
-//    let myContainer = CKContainer(identifier: "iCloud.com.apphazard.ScenarioManager")
-//    var privateDatabase: CKDatabase
-    
     private init() {
-        // Set delegate
-        
-        // CloudKit stuff
-        //let privateDatabase = myCloudKitMgr.privateDatabase
         
         let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
         let url = NSURL(fileURLWithPath: path)
@@ -1862,8 +1853,6 @@ class DataModel {
                 "Water Staff"                           : false
                 ]
             
-            defaultAchievements = achievements
-
             // Create iCloud private DB schema if no plist exists. Logic will change.
             checkIfStatusRecordExists(recordNumber: "95") {
                 result in

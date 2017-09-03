@@ -27,7 +27,6 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
     // MARK: Init
     init(withDataModel dataModel: DataModel) {
         self.dataModel = dataModel
-        
         self.allScenarios = dataModel.allScenarios
         self.availableScenarios = Dynamic(dataModel.availableScenarios)
         self.completedScenarios = Dynamic(dataModel.completedScenarios)

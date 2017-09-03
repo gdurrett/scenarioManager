@@ -42,6 +42,8 @@
 		FBCE87611F58764300CAA684 /* HTOWERT.TTF in Resources */ = {isa = PBXBuildFile; fileRef = FBCE87601F58764300CAA684 /* HTOWERT.TTF */; };
 		FBCE87641F59EBE400CAA684 /* CloudKitMgr.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBCE87631F59EBE400CAA684 /* CloudKitMgr.swift */; };
 		FBCE876A1F5A066F00CAA684 /* CampaignManagerTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBCE87691F5A066F00CAA684 /* CampaignManagerTabBarController.swift */; };
+		FBD2DCF81F5C935B00CAA684 /* Campaign.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD2DCF71F5C935B00CAA684 /* Campaign.swift */; };
+		FBD2DCFA1F5C945C00CAA684 /* Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD2DCF91F5C945C00CAA684 /* Character.swift */; };
 		FBE3F1E91F47C91100CAA684 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FBE3F1E81F47C91100CAA684 /* Main.storyboard */; };
 		FBE3F1EB1F47C92C00CAA684 /* ScenarioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE3F1EA1F47C92C00CAA684 /* ScenarioViewController.swift */; };
 		FBE3F1ED1F4A5F6A00CAA684 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FBE3F1EC1F4A5F6A00CAA684 /* Assets.xcassets */; };
@@ -87,6 +89,8 @@
 		FBCE87601F58764300CAA684 /* HTOWERT.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = HTOWERT.TTF; sourceTree = "<group>"; };
 		FBCE87631F59EBE400CAA684 /* CloudKitMgr.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudKitMgr.swift; sourceTree = "<group>"; };
 		FBCE87691F5A066F00CAA684 /* CampaignManagerTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CampaignManagerTabBarController.swift; sourceTree = "<group>"; };
+		FBD2DCF71F5C935B00CAA684 /* Campaign.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Campaign.swift; sourceTree = "<group>"; };
+		FBD2DCF91F5C945C00CAA684 /* Character.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Character.swift; sourceTree = "<group>"; };
 		FBE3F1E81F47C91100CAA684 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		FBE3F1EA1F47C92C00CAA684 /* ScenarioViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScenarioViewController.swift; sourceTree = "<group>"; };
 		FBE3F1EC1F4A5F6A00CAA684 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -175,6 +179,8 @@
 				FBCE87631F59EBE400CAA684 /* CloudKitMgr.swift */,
 				FB23B7011F0AB5EC00CAA684 /* DataModel.swift */,
 				FB23B6FB1F04C40D00CAA684 /* Scenario.swift */,
+				FBD2DCF71F5C935B00CAA684 /* Campaign.swift */,
+				FBD2DCF91F5C945C00CAA684 /* Character.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -338,6 +344,7 @@
 				FBE3F1EB1F47C92C00CAA684 /* ScenarioViewController.swift in Sources */,
 				FBCE876A1F5A066F00CAA684 /* CampaignManagerTabBarController.swift in Sources */,
 				FB482D9B1F27DBA400CAA684 /* ScenarioDetailViewModel.swift in Sources */,
+				FBD2DCFA1F5C945C00CAA684 /* Character.swift in Sources */,
 				FB46658F1F2F96B500CAA684 /* SummaryInfoCell.swift in Sources */,
 				FB482D991F27C51C00CAA684 /* ScenarioDetailViewController.swift in Sources */,
 				FB482DAC1F293C9500CAA684 /* AchievesInfoCell.swift in Sources */,
@@ -348,6 +355,7 @@
 				FBCE87641F59EBE400CAA684 /* CloudKitMgr.swift in Sources */,
 				FB23B7021F0AB5ED00CAA684 /* DataModel.swift in Sources */,
 				FB40EA111F43B28100CAA684 /* UIViewController+Subview.swift in Sources */,
+				FBD2DCF81F5C935B00CAA684 /* Campaign.swift in Sources */,
 				FB482DA81F293B2300CAA684 /* UnlockedByInfoCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
