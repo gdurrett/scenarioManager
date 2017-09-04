@@ -37,6 +37,12 @@ class DataModel {
         }
     }
     
+    var currentCampaign: Campaign {
+        get {
+            let myCampaign = campaigns.filter { $0.value.isCurrent == true }
+            return myCampaign[0].value
+        }
+    }
     var allScenarios = [Scenario]()
     var achievements = [ String : Bool ]()
     var requirementsMet = false
@@ -46,6 +52,11 @@ class DataModel {
     var selectedScenario: Scenario?
     var mainCellBGImage = UIImage()
     var delegate: DataModelDelegate?
+    
+    // Campaign test
+    var campaigns = [String: Campaign]()
+    var defaultCampaign: Campaign?
+    var chosenCampaign: Campaign? // Not set initially
     
     let myCloudKitMgr = CloudKitMgr()
     
@@ -60,9 +71,18 @@ class DataModel {
         let fileManager = FileManager.default
         if fileManager.fileExists(atPath: filePath!){
             loadScenarios()
+            //loadCampaigns()
+            for campaign in campaigns {
+                if campaign.value.isCurrent == true {
+                    loadCampaign(campaign: campaign.key)
+                    print("Setting campaign to: \(campaign.value.title)")
+                    break
+                }
+            }
             
         } else {
         
+            
             let scenario44String = NSMutableAttributedString(string: "Open envelope ")
             let image44Attachment = NSTextAttachment()
             image44Attachment.image = UIImage(named: "spikyHeadGuy.png")
@@ -269,8 +289,8 @@ class DataModel {
                 isUnlocked: false,
                 unlockedBy: ["9"],
                 unlocks: ["16", "18"],
-                achieves: ["End of the Invasion"],
-                rewards: [NSAttributedString(string: "15 Gold Each"), NSAttributedString(string: "-2 Reputation"), NSAttributedString(string: "+2 Prosperity")],
+                achieves: ["City Rule: Economic", "End of the Invasion"],
+                rewards: [NSAttributedString(string: "15 Gold Each"), NSAttributedString(string: "-2 Reputation"), NSAttributedString(string: "+2 Prosperity"), NSAttributedString(string: "Skullbane Axe design (Item 113)")],
                 summary: "Goal: Kill the Captain of the Guard.\n\nYou decide to go in with Jekserah, and help her take down the City Guard, placing town rule into the Merchants' hands.",
                 locationString: "B-16, Gloomhaven",
                 isManuallyUnlockable: false,
@@ -288,7 +308,7 @@ class DataModel {
                 unlockedBy: ["9"],
                 unlocks: ["16", "18", "28"],
                 achieves: ["End of the Invasion"],
-                rewards: [NSAttributedString(string: "+4 Reputation")],
+                rewards: [NSAttributedString(string: "+4 Reputation"), NSAttributedString(string: "Skullbane Axe design (Item 113)")],
                 summary: "Goal: Kill Jekserah.\n\nYou throw in your lot with the City Guard and attempt to hold the square against Jekserah's armies of undead.",
                 locationString: "B-16, Gloomhaven",
                 isManuallyUnlockable: false,
@@ -321,7 +341,7 @@ class DataModel {
                 requirementsMet: false,
                 requirements: ["None": true],
                 isUnlocked: false,
-                unlockedBy: ["8", "18"],
+                unlockedBy: ["5", "8", "18"],
                 unlocks: ["None"],
                 achieves: ["The Power of Enhancement"],
                 rewards: [NSAttributedString(string: "None")],
@@ -843,7 +863,7 @@ class DataModel {
                 requirementsMet: false,
                 requirements: ["The Power of Enhancement" : true],
                 isUnlocked: false,
-                unlockedBy: ["18"],
+                unlockedBy: ["18", "31"],
                 unlocks: ["None"],
                 achieves: ["Water Breathing"],
                 rewards: [NSAttributedString(string: "None")],
@@ -1793,6 +1813,7 @@ class DataModel {
             achievements = [
                 "None"                                  : true,
                 "OR"                                    : true,
+                "City Rule: Militaristic"               : true,
                 "First Steps"                           : false,
                 "Jekserah's Plans"                      : false,
                 "Dark Bounty"                           : false,
@@ -1820,6 +1841,7 @@ class DataModel {
                 "The Drake Slain"                       : false,
                 "The Voice Silenced"                    : false,
                 "City Rule: Demonic"                    : false,
+                "City Rule: Economic"                   : false,
                 "Through the Trench"                    : false,
                 "Redthorn's Aid"                        : false,
                 "Across the Divide"                     : false,
@@ -1829,7 +1851,6 @@ class DataModel {
                 "End of Corruption 2"                   : false,
                 "End of Corruption 3"                   : false,
                 "Annihilation of Order"                 : false,
-                "City Rule: Militaristic"               : false,
                 "End of Gloom"                          : false,
                 "The Poison's Source"                   : false,
                 "Through the Nest"                      : false,
@@ -1854,22 +1875,25 @@ class DataModel {
                 ]
             
             // Create iCloud private DB schema if no plist exists. Logic will change.
-            checkIfStatusRecordExists(recordNumber: "95") {
-                result in
-                if result {
-                    print("No need to create CK Schema. Updating local values from Cloud")
-                    for scenario in self.allScenarios {
-                        self.updateLocalScenarioStatus(scenarioNumber: scenario.number)
-                    }
-                    self.updateLocalAchievementsStatus()
-                    //self.saveScenariosLocally()
-                } else {
-                    print("Attempting to create CK Schema")
-                    // Put code to check if logged into iCloud here?
-                    self.updateScenarioStatusRecords(scenarios: self.allScenarios)
-                    self.updateAchievementsStatusRecords(achievementsToUpdate: self.achievements)
-                }
-            }
+//            checkIfStatusRecordExists(recordNumber: "95") {
+//                result in
+//                if result {
+//                    print("No need to create CK Schema. Updating local values from Cloud")
+//                    for scenario in self.allScenarios {
+//                        self.updateLocalScenarioStatus(scenarioNumber: scenario.number)
+//                    }
+//                    self.updateLocalAchievementsStatus()
+//                    //self.saveScenariosLocally()
+//                } else {
+//                    print("Attempting to create CK Schema")
+//                    // Put code to check if logged into iCloud here?
+//                    self.updateScenarioStatusRecords(scenarios: self.allScenarios)
+//                    self.updateAchievementsStatusRecords(achievementsToUpdate: self.achievements)
+//                }
+//            }
+            // Until we save them to cloud
+            self.addCampaign(campaign: "Default")
+            self.saveScenariosLocally()
         }
         
         print("Documents folder is \(documentsDirectory())")
@@ -1888,15 +1912,33 @@ class DataModel {
         let archiver = NSKeyedArchiver(forWritingWith: data)
         archiver.encode(allScenarios, forKey: "Scenarios")
         archiver.encode(achievements, forKey: "Achievements")
+        archiver.encode(campaigns, forKey: "Campaigns")
         archiver.finishEncoding()
         data.write(to: dataFilePath(), atomically: true)
     }
+//    func saveCampaignsLocally() {
+//        let data = NSMutableData()
+//        let archiver = NSKeyedArchiver(forWritingWith: data)
+//        archiver.encode(campaigns, forKey: "Campaigns")
+//        archiver.finishEncoding()
+//        data.write(to: dataFilePath(), atomically: true)
+//    }
     func loadScenarios() {
         let path = dataFilePath()
         if let data = try? Data(contentsOf: path) {
             let unarchiver = NSKeyedUnarchiver(forReadingWith: data)
             allScenarios = unarchiver.decodeObject(forKey: "Scenarios") as! [Scenario]
             achievements = unarchiver.decodeObject(forKey: "Achievements") as! [ String : Bool ]
+            campaigns = unarchiver.decodeObject(forKey: "Campaigns") as! [ String: Campaign ]
+            unarchiver.finishDecoding()
+        }
+
+    }
+    func loadCampaigns() {
+        let path = dataFilePath()
+        if let data = try? Data(contentsOf: path) {
+            let unarchiver = NSKeyedUnarchiver(forReadingWith: data)
+            campaigns = unarchiver.decodeObject(forKey: "Campaigns") as! [ String: Campaign ]
             unarchiver.finishDecoding()
         }
     }
@@ -1909,6 +1951,81 @@ class DataModel {
             let scenario = allScenarios[scenInt]
             
             return scenario
+        }
+    }
+    // CampaignTest
+    func addCampaign(campaign: String) {
+        if (campaigns[campaign] == nil) {
+            let newCampaign = Campaign(title: campaign, isUnlocked: [], requirementsMet: [], isCompleted: [], achievements:[:], isCurrent: true)
+            for scenario in allScenarios {
+                if scenario.number == "1" {
+                    newCampaign.isUnlocked.append(true)
+                    newCampaign.requirementsMet.append(true)
+                    newCampaign.isCompleted.append(false)
+                } else {
+                    newCampaign.isUnlocked.append(false)
+                    newCampaign.requirementsMet.append(false)
+                    newCampaign.isCompleted.append(false)
+                }
+            }
+            for achievement in achievements {
+                if achievement.key == "None" || achievement.key == "OR" {
+                    newCampaign.achievements[achievement.key] = true
+                } else {
+                    newCampaign.achievements[achievement.key] = false
+                }
+            }
+            newCampaign.isCurrent = true
+            campaigns[campaign] = newCampaign
+            loadCampaign(campaign: newCampaign.title)
+            print("Added campaign: \(newCampaign.title)")
+        } else {
+            print("Campaign \(campaigns[campaign]!.title) already exists! Loading \(campaigns[campaign]!.title)")
+            loadCampaign(campaign: campaign)
+            
+        }
+    }
+    func resetCampaign(campaign: Campaign) {
+        var count = 0
+        for scenario in allScenarios {
+            if scenario.number == "1" {
+                campaign.isUnlocked[count] = true
+                campaign.isCompleted[count] = false
+                campaign.requirementsMet[count] = true
+                count += 1
+            } else {
+                campaign.isUnlocked[count] = false
+                campaign.isCompleted[count] = false
+                campaign.requirementsMet[count] = false
+                count+=1
+            }
+        }
+        for achievement in achievements {
+            if achievement.key == "None" || achievement.key == "OR" {
+                campaign.achievements[achievement.key] = true
+            } else {
+                campaign.achievements[achievement.key] = false
+            }
+        }
+    }
+    func loadCampaign(campaign: String) {
+        if let requestedCampaign = campaigns[campaign] {
+            var count = 0
+            for scenario in allScenarios {
+                scenario.isUnlocked = requestedCampaign.isUnlocked[count]
+                scenario.requirementsMet = requestedCampaign.requirementsMet[count]
+                scenario.isCompleted = requestedCampaign.isCompleted[count]
+                count += 1
+            }
+            // Set isCurrent to false for all, then set requested one to true
+            for campaign in campaigns {
+                campaign.value.isCurrent = false
+            }
+            requestedCampaign.isCurrent = true
+            chosenCampaign = requestedCampaign
+            saveScenariosLocally()
+        } else {
+            print("No such campaign exists")
         }
     }
     func resetAll() {

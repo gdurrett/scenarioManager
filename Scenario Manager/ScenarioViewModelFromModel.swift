@@ -18,6 +18,7 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
     weak var delegate: ScenarioViewModelDelegate?
     
     var allScenarios: [Scenario]
+    var campaign: Dynamic<Campaign>
     let availableScenarios: Dynamic<[Scenario]>
     let completedScenarios: Dynamic<[Scenario]>
     var selectedScenario: Scenario?
@@ -28,13 +29,14 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
     init(withDataModel dataModel: DataModel) {
         self.dataModel = dataModel
         self.allScenarios = dataModel.allScenarios
+        //self.campaign = dataModel.currentCampaign!
+        self.campaign = Dynamic(dataModel.currentCampaign)
         self.availableScenarios = Dynamic(dataModel.availableScenarios)
         self.completedScenarios = Dynamic(dataModel.completedScenarios)
         
     }
     // MARK: Helper functions
     func updateAvailableScenarios(scenario: Scenario, isCompleted: Bool) {
-
         toggleUnlocks(for: scenario, to: isCompleted)
         let completed = allScenarios.filter { $0.isCompleted == true }
         myAchieves = completed.filter { $0.achieves != ["None"] }.flatMap { $0.achieves }
@@ -58,6 +60,7 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
     func updateAvailableScenarios() {
         self.availableScenarios.value = dataModel.availableScenarios
         self.completedScenarios.value = dataModel.completedScenarios
+        self.campaign.value = dataModel.currentCampaign
         dataModel.saveScenariosLocally()
     }
     func setAchievements(atches: [String], toggle: Bool) {
@@ -70,19 +73,23 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
             if toggle {
                 if remove {
                     dataModel.achievements[ach]! = false
+                    campaign.value.achievements[ach]! = false
                     remove = false
                 } else {
                     if !(ach == "None") {
                         dataModel.achievements[ach]! = true
+                        campaign.value.achievements[ach]! = true
                     }
                 }
             } else {
                 if remove {
                     dataModel.achievements[ach]! = true
+                    campaign.value.achievements[ach]! = true
                     remove = false
                 } else {
                     if !(ach == "None") && !(myAchieves.contains(ach)){
                         dataModel.achievements[ach]! = false
+                        campaign.value.achievements[ach]! = false
                     }
                 }
             }
@@ -97,29 +104,37 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
                 if orPresent {
                     if dataModel.achievements[ach]! == bool {
                         scenario.requirementsMet = true
+                        campaign.value.requirementsMet[Int(scenario.number)! - 1] = true
                         break
                     }
                 } else if dataModel.achievements[ach]! != bool && !scenario.isCompleted {
                     scenario.requirementsMet = false
+                    campaign.value.requirementsMet[Int(scenario.number)! - 1] = false
                     break
                 } else {
                     scenario.requirementsMet = true
+                    campaign.value.requirementsMet[Int(scenario.number)! - 1] = true
                 }
             }
         }
     }
     func toggleUnlocks(for scenario: Scenario, to: Bool) {
-        // Don't toggle false if we're already unlocked by a completed scenario
-        if to == false && !didAnotherCompletedScenarioUnlockMe(scenario: scenario) {
-            //If we're locking a scenario with "ONEOF", we need to restore default unlocks
-            if scenario.unlocks.contains("ONEOF") {
-                scenario.unlocks = dataModel.defaultUnlocks[scenario.number]!
-            }
-            for scen in scenario.unlocks {
-                if scen != "ONEOF" {
-                    if scen == "None" { return }
-                    let scenarioToUpdate = getScenario(scenarioNumber: scen)!
+        // If we're trying to set to uncompleted
+        if to == false {
+            // Check each of this scenarios unlocks to see if another completed scenario has unlocked this unlock
+            for unlock in scenario.unlocks {
+                // Send each unlock to see, but only if unlock is a scenario
+                if (unlock == "None") { return }
+                if (unlock == "ONEOF") { scenario.unlocks = dataModel.defaultUnlocks[scenario.number]! ; continue }
+                let scenarioToUpdate = getScenario(scenarioNumber: unlock)!
+                if didAnotherCompletedScenarioUnlockMe(unlockToCheck: scenarioToUpdate, sendingScenario: scenario) {
+                    // This unlock is unlocked by another completed scenario, so OK to set unlocked
+                    scenarioToUpdate.isUnlocked = true
+                    campaign.value.isUnlocked[Int(scenarioToUpdate.number)! - 1] = true
+                } else {
+                    // This unlock is not unlocked by another completed scenario, so NOT OK to set unlocked
                     scenarioToUpdate.isUnlocked = false
+                    campaign.value.isUnlocked[Int(scenarioToUpdate.number)! - 1] = false
                 }
             }
         } else { // Go ahead and toggle true
@@ -128,6 +143,7 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
                 if scen == "ONEOF" { continue }
                 let scenarioToUpdate = getScenario(scenarioNumber: scen)!
                 scenarioToUpdate.isUnlocked = true
+                campaign.value.isUnlocked[Int(scenarioToUpdate.number)! - 1] = true
             }
         }
     }
@@ -144,23 +160,16 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
         }
         return false
     }
-    func didAnotherCompletedScenarioUnlockMe(scenario: Scenario) -> Bool {
-        // Look at calling scenario's unlocks
-        for unlock in scenario.unlocks {
-            if !(unlock == "None") && !(unlock == "ONEOF") {
-                // For each unlock, look at its unlockers (unlockedBy) - need to ignore Events though!
-                for unlockedBy in getScenario(scenarioNumber: unlock)!.unlockedBy {
-                    if !(unlockedBy.contains("Event")) && !(unlockedBy.contains("Envelope")) {
-                        if (getScenario(scenarioNumber: unlockedBy)!.number == scenario.number) {
-                            continue
-                        } else {
-                            if getScenario(scenarioNumber: unlockedBy)!.isCompleted {
-                                return true
-                            } else {
-                                return false
-                            }
-                        }
-                    }
+    func didAnotherCompletedScenarioUnlockMe(unlockToCheck: Scenario, sendingScenario: Scenario) -> Bool {
+        for unlockedBy in unlockToCheck.unlockedBy {
+            // If unlockedBy is the sending scenario, ignore and move on to next unlock
+            if unlockedBy == sendingScenario.number { continue }
+            if !(unlockedBy.contains("Event")) && !(unlockedBy.contains("Envelope")) {
+                let unlockedBy = getScenario(scenarioNumber: unlockedBy)
+                if unlockedBy!.isCompleted {
+                    return true
+                } else {
+                    return false
                 }
             }
         }

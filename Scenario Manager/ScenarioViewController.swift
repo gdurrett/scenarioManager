@@ -24,13 +24,15 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
         switch scenarioFilterOutlet.selectedSegmentIndex {
         case 0:
             //self.navigationItem.title = ("\(scenarioFilterOutlet.titleForSegment(at: 0)!) Scenarios")
-            self.navigationItem.title = "All Scenarios"
+            //self.navigationItem.title = "All Scenarios"
+            self.navigationItem.title = "\(selectedCampaign!.title) Scenarios"
         case 1:
             //self.navigationItem.title = ("\(scenarioFilterOutlet.titleForSegment(at: 1)!) Scenarios")
-            self.navigationItem.title = "Available Scenarios"
+            //self.navigationItem.title = "Available Scenarios"
+            self.navigationItem.title = "\(selectedCampaign!.title) Scenarios"
         case 2:
-            //self.navigationItem.title = ("\(scenarioFilterOutlet.titleForSegment(at: 2)!) Scenarios")
-            self.navigationItem.title = "Completed Scenarios"
+            //self.navigationItem.title = "Completed Scenarios"
+            self.navigationItem.title = "\(selectedCampaign!.title) Scenarios"
         default:
             break
         }
@@ -58,6 +60,8 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
     var availableScenarios: [Scenario]!
     var completedScenarios: [Scenario]!
     
+    var selectedCampaign: Campaign?
+    
     var filteredScenarios = [Scenario]()
     let searchController = UISearchController(searchResultsController: nil)
     
@@ -66,15 +70,15 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
         
         scenarioTableView?.dataSource = self
         scenarioTableView?.delegate = self
-        
+        viewModel?.updateAvailableScenarios()
         // Set up UI
-        styleUI()
         fillUI()
+        styleUI()
+
 
         // Change titles on segmented controller
         setSegmentTitles()
         setupSearch()
-        viewModel?.updateAvailableScenarios()
         scenarioTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
         
         //Try notification for tapped rows in ScenarioDetailViewController
@@ -90,6 +94,7 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setSegmentTitles()
+        self.navigationItem.title = ("\(self.selectedCampaign!.title) Scenarios")
         self.scenarioTableView.reloadData()
     }
     
@@ -115,11 +120,13 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
         let swipeToggleLocked = UITableViewRowAction(style: .normal, title: self.myLockedTitle) { action, index in
             if self.myLockedTitle == "Unlock" {
                 self.scenario.isUnlocked = true
+                self.viewModel?.campaign.value.isUnlocked[Int(self.scenario.number)! - 1] = true
                 self.viewModel?.updateAvailableScenarios(scenario: self.scenario, isCompleted: false)
                 self.setSegmentTitles()
                 tableView.reloadData()
             } else if self.myLockedTitle == "Lock" {
                 self.scenario.isUnlocked = false
+                self.viewModel?.campaign.value.isUnlocked[Int(self.scenario.number)! - 1] = false
                 self.viewModel?.updateAvailableScenarios(scenario: self.scenario, isCompleted: false)
                 self.setSegmentTitles()
                 tableView.reloadData()
@@ -132,41 +139,54 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
             } else {
                 if self.scenario.isCompleted {
                     if (self.viewModel?.areAnyUnlocksCompleted(scenario: self.scenario))! {
-                        if (self.viewModel?.didAnotherCompletedScenarioUnlockMe(scenario: self.scenario))! {
-                            //Okay to mark uncompleted, but don't trigger lock
-                            self.scenario.isCompleted = false
-                            self.viewModel?.updateAvailableScenarios(scenario: self.scenario, isCompleted: false)
-                            self.setSegmentTitles()
-                            tableView.reloadData()
-                        } else {
-                            //NOT okay to mark uncompleted
-                            self.showSelectionAlert(status: "")
-                            //Test slide back
-                            tableView.reloadRows(at: [index], with: .right)
+                        for unlock in self.scenario.unlocks {
+                            if unlock == "ONEOF" { continue }
+                            let scenarioToUpdate = self.viewModel?.getScenario(scenarioNumber: unlock)!
+                            if (self.viewModel?.didAnotherCompletedScenarioUnlockMe(unlockToCheck: scenarioToUpdate!, sendingScenario: self.scenario))! {
+                                //Okay to mark uncompleted, but don't trigger lock
+                                self.scenario.isCompleted = false
+                                self.viewModel?.campaign.value.isCompleted[Int(self.scenario.number)! - 1] = false
+                                self.viewModel?.updateAvailableScenarios(scenario: self.scenario, isCompleted: false)
+                                self.setSegmentTitles()
+                                tableView.reloadData()
+                                
+                            } else {
+                                //NOT okay to mark uncompleted
+                                self.showSelectionAlert(status: "")
+                                tableView.reloadRows(at: [index], with: .right)
+                                //Test bail out first time we disallow uncompletion
+                                break
+                            }
                         }
                     } else if !(self.viewModel?.areAnyUnlocksCompleted(scenario: self.scenario))! {
-                        if (self.viewModel?.didAnotherCompletedScenarioUnlockMe(scenario: self.scenario))! {
-                            //Okay to mark uncompleted, but don't trigger lock of uncompleted lock
-                            self.scenario.isCompleted = false
-                            self.viewModel?.updateAvailableScenarios(scenario: self.scenario, isCompleted: false)
-                            self.setSegmentTitles()
-                            tableView.reloadData()
-                        } else {
-                            //Okay to mark uncompleted AND trigger lock
-                            self.scenario.isCompleted = false
-                            self.viewModel?.updateAvailableScenarios(scenario: self.scenario, isCompleted: false)
-                            self.setSegmentTitles()
-                            tableView.reloadData()
+                        for unlock in self.scenario.unlocks {
+                            if unlock == "ONEOF" { continue }
+                            let scenarioToUpdate = self.viewModel?.getScenario(scenarioNumber: unlock)
+                            if (scenarioToUpdate != nil && (self.viewModel?.didAnotherCompletedScenarioUnlockMe(unlockToCheck: scenarioToUpdate!, sendingScenario: self.scenario))!) {
+                                //Okay to mark uncompleted, but don't trigger lock of uncompleted lock
+                                self.scenario.isCompleted = false
+                                self.viewModel?.campaign.value.isCompleted[Int(self.scenario.number)! - 1] = false
+                                self.viewModel?.updateAvailableScenarios(scenario: self.scenario, isCompleted: false)
+                                self.setSegmentTitles()
+                                tableView.reloadData()
+                            } else {
+                                //Okay to mark uncompleted AND trigger lock
+                                self.scenario.isCompleted = false
+                                self.viewModel?.campaign.value.isCompleted[Int(self.scenario.number)! - 1] = false
+                                self.viewModel?.updateAvailableScenarios(scenario: self.scenario, isCompleted: false)
+                                self.setSegmentTitles()
+                                tableView.reloadData()
+                            }
                         }
                     }
                 } else {
                     self.scenario.isCompleted = true
+                    self.viewModel?.campaign.value.isCompleted[Int(self.scenario.number)! - 1] = true
                     if self.scenario.unlocks[0] == "ONEOF" {
                         self.performSegue(withIdentifier: "ShowScenarioPicker", sender: self.scenario)
                     } else {
                         self.viewModel?.updateAvailableScenarios(scenario: self.scenario, isCompleted: true)
                         self.setSegmentTitles()
-                        
                         tableView.reloadData()
                     }
                 }
@@ -348,7 +368,6 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
         self.scenarioTableView.rowHeight = UITableViewAutomaticDimension
         self.navigationController?.navigationBar.tintColor = mainTextColor
         self.navigationController?.navigationBar.barTintColor = UIColor(hue: 40/360, saturation: 6/100, brightness: 100/100, alpha: 1.0)
-        self.navigationItem.title = "All Scenarios"
         self.navigationController?.navigationBar.titleTextAttributes = setTextAttributes(fontName: "Nyala", fontSize: 26.0, textColor: mainTextColor)
     }
     fileprivate func fillUI() {
@@ -362,9 +381,12 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
         
         // We definitely have the setup done now
         self.allScenarios = viewModel.allScenarios
+        self.selectedCampaign = viewModel.campaign.value
+//        self.navigationItem.title = "\(selectedCampaign!.title) Scenarios"
         // Call our Dynamic bindAndFire method when these are gotten
         viewModel.availableScenarios.bindAndFire { [unowned self] in self.availableScenarios = $0 }
         viewModel.completedScenarios.bindAndFire { [unowned self] in self.completedScenarios = $0 }
+        viewModel.campaign.bindAndFire { [unowned self] in self.selectedCampaign = $0 }
     }
     fileprivate func setupSearch() {
         //Set up searchController stuff
@@ -384,7 +406,6 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
 
     }
     internal func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        print("Got to searchBarCancelButtonClicked")
         if filteredScenarios.count != 0 || searchController.searchBar.text == "" {
             scenarioTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
         }
