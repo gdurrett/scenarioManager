@@ -34,7 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func saveData() {
-        dataModel.saveScenariosLocally()
+        dataModel.saveCampaignsLocally()
     }
     
     func applicationWillResignActive(_ application: UIApplication) {

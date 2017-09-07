@@ -26,9 +26,10 @@ class CampaignViewController: UIViewController {
         print("Unlocks for \(viewModel?.campaign.value.isUnlocked.minimalDescription)")
     }
     @IBAction func saveState(_ sender: Any) {
-        dataModel?.saveScenariosLocally()
-        dataModel?.updateAchievementsStatusRecords(achievementsToUpdate: (dataModel?.achievements)!)
-        dataModel?.updateScenarioStatusRecords(scenarios: (dataModel?.allScenarios)!)
+        dataModel?.saveCampaignsLocally()
+        dataModel?.updateCampaignRecords()
+//        dataModel?.updateAchievementsStatusRecords(achievementsToUpdate: (dataModel?.achievements)!)
+//        dataModel?.updateScenarioStatusRecords(scenarios: (dataModel?.allScenarios)!)
     }
     var dataModel: DataModel? {
         didSet {
@@ -50,7 +51,8 @@ class CampaignViewController: UIViewController {
     // Test create campaign and add to dataModel
     func createCampaign() {
         let newCampaign = "Donkler"
-        dataModel?.addCampaign(campaign: newCampaign)
+        //dataModel?.addCampaign(campaign: newCampaign)
+        dataModel?.loadCampaign(campaign: newCampaign)
     }
 
     // Farm this out to separate object
@@ -82,7 +84,7 @@ class CampaignViewController: UIViewController {
         let alertController = UIAlertController(title: "Reset Scenario status to default?", message: "Clicking OK will set Scenario status back to initial state, both locally and in iCloud (if available).", preferredStyle: .alert)
         let OKAction = UIAlertAction(title: "Reset", style: .default) { (action:UIAlertAction!) in
             self.dataModel?.resetAll()
-            self.dataModel?.saveScenariosLocally()
+            self.dataModel?.saveCampaignsLocally()
         }
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (action:UIAlertAction!) in

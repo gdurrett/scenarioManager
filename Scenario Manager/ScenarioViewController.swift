@@ -70,6 +70,8 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
         
         scenarioTableView?.dataSource = self
         scenarioTableView?.delegate = self
+        print("Calling updateAvailable")
+        viewModel?.updateLoadedCampaign()
         viewModel?.updateAvailableScenarios()
         // Set up UI
         fillUI()
@@ -95,6 +97,8 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
         super.viewWillAppear(animated)
         setSegmentTitles()
         self.navigationItem.title = ("\(self.selectedCampaign!.title) Scenarios")
+        viewModel?.updateLoadedCampaign()
+        viewModel?.updateAvailableScenarios()
         self.scenarioTableView.reloadData()
     }
     

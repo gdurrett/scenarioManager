@@ -37,10 +37,19 @@ class DataModel {
         }
     }
     
-    var currentCampaign: Campaign {
+    var currentCampaign: Campaign? {
         get {
             let myCampaign = campaigns.filter { $0.value.isCurrent == true }
-            return myCampaign[0].value
+            if !myCampaign.isEmpty {
+                //loadCampaign(campaign: myCampaign[0].value.title)
+                return myCampaign[0].value
+            } else {
+                if self.campaigns["Default"] == nil {
+                    print("Am I fucking adding from here?!")
+                    addCampaign(campaign: "Default", isCurrent: true)
+                }
+                return campaigns["Default"]
+            }
         }
     }
     var allScenarios = [Scenario]()
@@ -56,7 +65,8 @@ class DataModel {
     // Campaign test
     var campaigns = [String: Campaign]()
     var defaultCampaign: Campaign?
-    var chosenCampaign: Campaign? // Not set initially
+    //var cloudAchievements = [String:Bool]()
+    //var chosenCampaign: Campaign? // Not set initially
     
     let myCloudKitMgr = CloudKitMgr()
     
@@ -593,7 +603,7 @@ class DataModel {
                 requirementsMet: false,
                 requirements: ["Dark Bounty" : true],
                 isUnlocked: false,
-                unlockedBy: ["20"],
+                unlockedBy: ["12", "20"],
                 unlocks: ["29"],
                 achieves: ["An Invitation"],
                 rewards: [NSAttributedString(string: "None")],
@@ -1875,25 +1885,21 @@ class DataModel {
                 ]
             
             // Create iCloud private DB schema if no plist exists. Logic will change.
-//            checkIfStatusRecordExists(recordNumber: "95") {
-//                result in
-//                if result {
-//                    print("No need to create CK Schema. Updating local values from Cloud")
-//                    for scenario in self.allScenarios {
-//                        self.updateLocalScenarioStatus(scenarioNumber: scenario.number)
-//                    }
-//                    self.updateLocalAchievementsStatus()
-//                    //self.saveScenariosLocally()
-//                } else {
-//                    print("Attempting to create CK Schema")
-//                    // Put code to check if logged into iCloud here?
-//                    self.updateScenarioStatusRecords(scenarios: self.allScenarios)
-//                    self.updateAchievementsStatusRecords(achievementsToUpdate: self.achievements)
-//                }
-//            }
-            // Until we save them to cloud
-            self.addCampaign(campaign: "Default")
-            self.saveScenariosLocally()
+            checkIfCampaignRecordExists() {
+                result in
+                if result != nil {
+                    print("No need to create CK Schema. Updating local values from Cloud")
+                    //DispatchQueue.main.async {
+                    self.updateCampaignsFromCloud() { campaigns in
+                        self.campaigns = campaigns
+                    }
+                } else { // No cloud schema, no local plist -> create new default campaign
+                    print("Attempting to create CK Schema")
+                    self.addCampaign(campaign: "Default", isCurrent: true)
+                    self.saveCampaignsLocally()
+                    self.updateCampaignRecords()
+                }
+            }
         }
         
         print("Documents folder is \(documentsDirectory())")
@@ -1907,7 +1913,7 @@ class DataModel {
     func dataFilePath() -> URL {
         return documentsDirectory().appendingPathComponent("Scenarios.plist")
     }
-    func saveScenariosLocally() {
+    func saveCampaignsLocally() {
         let data = NSMutableData()
         let archiver = NSKeyedArchiver(forWritingWith: data)
         archiver.encode(allScenarios, forKey: "Scenarios")
@@ -1916,13 +1922,6 @@ class DataModel {
         archiver.finishEncoding()
         data.write(to: dataFilePath(), atomically: true)
     }
-//    func saveCampaignsLocally() {
-//        let data = NSMutableData()
-//        let archiver = NSKeyedArchiver(forWritingWith: data)
-//        archiver.encode(campaigns, forKey: "Campaigns")
-//        archiver.finishEncoding()
-//        data.write(to: dataFilePath(), atomically: true)
-//    }
     func loadScenarios() {
         let path = dataFilePath()
         if let data = try? Data(contentsOf: path) {
@@ -1933,14 +1932,6 @@ class DataModel {
             unarchiver.finishDecoding()
         }
 
-    }
-    func loadCampaigns() {
-        let path = dataFilePath()
-        if let data = try? Data(contentsOf: path) {
-            let unarchiver = NSKeyedUnarchiver(forReadingWith: data)
-            campaigns = unarchiver.decodeObject(forKey: "Campaigns") as! [ String: Campaign ]
-            unarchiver.finishDecoding()
-        }
     }
     func getScenario(scenarioNumber: String) -> Scenario? {
         
@@ -1954,9 +1945,10 @@ class DataModel {
         }
     }
     // CampaignTest
-    func addCampaign(campaign: String) {
+    func addCampaign(campaign: String, isCurrent: Bool) {
         if (campaigns[campaign] == nil) {
-            let newCampaign = Campaign(title: campaign, isUnlocked: [], requirementsMet: [], isCompleted: [], achievements:[:], isCurrent: true)
+            print("Nothing for \(campaign)")
+            let newCampaign = Campaign(title: campaign, isUnlocked: [], requirementsMet: [], isCompleted: [], achievements:[:], isCurrent: isCurrent)
             for scenario in allScenarios {
                 if scenario.number == "1" {
                     newCampaign.isUnlocked.append(true)
@@ -1975,14 +1967,13 @@ class DataModel {
                     newCampaign.achievements[achievement.key] = false
                 }
             }
-            newCampaign.isCurrent = true
             campaigns[campaign] = newCampaign
-            loadCampaign(campaign: newCampaign.title)
+            if newCampaign.isCurrent == true {
+                loadCampaign(campaign: newCampaign.title)
+            }
             print("Added campaign: \(newCampaign.title)")
         } else {
-            print("Campaign \(campaigns[campaign]!.title) already exists! Loading \(campaigns[campaign]!.title)")
-            loadCampaign(campaign: campaign)
-            
+            print("Campaign \(campaigns[campaign]!.title) already exists!")
         }
     }
     func resetCampaign(campaign: Campaign) {
@@ -2017,16 +2008,50 @@ class DataModel {
                 scenario.isCompleted = requestedCampaign.isCompleted[count]
                 count += 1
             }
-            // Set isCurrent to false for all, then set requested one to true
-            for campaign in campaigns {
-                campaign.value.isCurrent = false
+            for achievement in achievements.keys {
+                let newStatus = requestedCampaign.achievements[achievement]
+                self.achievements[achievement] = newStatus
             }
-            requestedCampaign.isCurrent = true
-            chosenCampaign = requestedCampaign
-            saveScenariosLocally()
+            print("Loading up \(campaign)")
+            updateLocalCampaignIsCurrent(campaign: requestedCampaign.title)
+            updateCloudCampaignIsCurrent(campaign: requestedCampaign.title) // Make sure to set others to not current
         } else {
             print("No such campaign exists")
         }
+    }
+    func updateLocalCampaignIsCurrent(campaign: String) {
+        for myCampaign in campaigns {
+            myCampaign.value.isCurrent = false
+        }
+        campaigns[campaign]?.isCurrent = true
+    }
+    func updateCloudCampaignIsCurrent(campaign: String) {
+        var records = [CKRecord]()
+        for myCampaign in self.campaigns {
+            print("Check \(myCampaign.value.title)")
+            if myCampaign.value.isCurrent == true {
+                print("Skipping \(myCampaign.value.title)") // Should already be toggled true, so skip setting to false below
+            } else {
+                let campaignRecordID = CKRecordID(recordName: myCampaign.value.title)
+                let campaignRecord = CKRecord(recordType: "CampaignStatus", recordID: campaignRecordID)
+                print("Setting \(myCampaign) to false in cloud!")
+                campaignRecord["isCurrent"] = false as CKRecordValue
+                
+                records.append(campaignRecord)
+            }
+        }
+        // Need to put these into a separate function/class one day
+        let uploadOperation = CKModifyRecordsOperation(recordsToSave: records, recordIDsToDelete: nil)
+        uploadOperation.savePolicy = .allKeys
+        uploadOperation.modifyRecordsCompletionBlock = { savedRecords, deletedRecordsIDs, error in
+            if let ckError = error as? CKError {
+                self.delegate?.errorUpdating(error: ckError as CKError, type: myCKErrorType.saveScenarioStatus)
+                print("Error updating campaign isCurrent statuses: \(error!.localizedDescription)")
+            } else {
+                //print("Successfully updated campaign isCurrent statuses")
+            }
+        }
+        self.myCloudKitMgr.privateDatabase.add(uploadOperation)
     }
     func resetAll() {
         for scenario in allScenarios {
@@ -2050,34 +2075,22 @@ class DataModel {
         }
     }
     // CloudKit methods
-
-    func updateAchievementsStatusRecords(achievementsToUpdate: [String:Bool]) {
+    func updateCampaignRecords() {
         //Put call to func to check if logged into iCloud here?
         var records = [CKRecord]()
-        for achievement in achievementsToUpdate {
-            let achievementStatusRecordID = CKRecordID(recordName: achievement.key)
-            let achievementStatusRecord = CKRecord(recordType: "Achievement", recordID: achievementStatusRecordID)
-            let achievementState = achievement.value ? 1 : 0
-            achievementStatusRecord["isComplete"] = achievementState as NSNumber
-            records.append(achievementStatusRecord)
-        }
-        let uploadOperation = CKModifyRecordsOperation(recordsToSave: records, recordIDsToDelete: nil)
-        uploadOperation.savePolicy = .changedKeys
-        uploadOperation.modifyRecordsCompletionBlock = { savedRecords, deletedRecordsIDs, error in
-            if let ckError = error as? CKError {
-                self.delegate?.errorUpdating(error: ckError as CKError, type: myCKErrorType.saveAchievement)
-                print("Error saving achievement records: \(error!.localizedDescription)")
-            } else {
-                print("Successfully saved achievement records")
-            }
-        }
-        self.myCloudKitMgr.privateDatabase.add(uploadOperation)
-    }
-    func updateScenarioStatusRecords(scenarios: [Scenario]) {
-        //Put call to func to check if logged into iCloud here?
-        var records = [CKRecord]()
-        for scenario in scenarios {
-            let scenarioStatusRecordID = CKRecordID(recordName: "Status" + scenario.number)
+        let campaignRecordID = CKRecordID(recordName: (currentCampaign?.title)!)
+        let campaignRecord = CKRecord(recordType: "CampaignStatus", recordID: campaignRecordID)
+        //let campaignReference = CKReference(recordID: campaignRecordID, action: .deleteSelf)
+        let campaignTitle = currentCampaign?.title
+        campaignRecord["title"] = campaignTitle! as CKRecordValue
+        let campaignIsCurrent = currentCampaign?.isCurrent
+        campaignRecord["isCurrent"] = campaignIsCurrent! as CKRecordValue
+        
+        records.append(campaignRecord)
+        
+        for scenario in allScenarios {
+            // Append current campaign title to recordID for association with Campaign?
+            let scenarioStatusRecordID = CKRecordID(recordName: scenario.number + "_\(currentCampaign!.title)")
             let scenarioStatusRecord = CKRecord(recordType: "ScenarioStatus", recordID: scenarioStatusRecordID)
             
             let completedState = scenario.isCompleted ? 1 : 0
@@ -2086,63 +2099,137 @@ class DataModel {
             scenarioStatusRecord["isUnlocked"] = unlockedState as NSNumber
             let requirementsMetState = scenario.requirementsMet ? 1 : 0
             scenarioStatusRecord["requirementsMet"] = requirementsMetState as NSNumber
-            
+            scenarioStatusRecord["owningCampaign"] = campaignTitle! as CKRecordValue
+                
             records.append(scenarioStatusRecord)
             
+        }
+        // Needs to be in campaign.achievements
+        for achievement in achievements {
+            let achievementStatusRecordID = CKRecordID(recordName: achievement.key + "_\(currentCampaign!.title)")
+            let achievementStatusRecord = CKRecord(recordType: "Achievement", recordID: achievementStatusRecordID)
+            let achievementState = achievement.value ? 1 : 0
+            achievementStatusRecord["isComplete"] = achievementState as NSNumber
+            achievementStatusRecord["owningCampaign"] = campaignTitle! as CKRecordValue
+            
+            records.append(achievementStatusRecord)
         }
         let uploadOperation = CKModifyRecordsOperation(recordsToSave: records, recordIDsToDelete: nil)
         uploadOperation.savePolicy = .allKeys
         uploadOperation.modifyRecordsCompletionBlock = { savedRecords, deletedRecordsIDs, error in
             if let ckError = error as? CKError {
                 self.delegate?.errorUpdating(error: ckError as CKError, type: myCKErrorType.saveScenarioStatus)
-                print("Error saving scenario status records: \(error!.localizedDescription)")
+                print("Error saving campaign records: \(error!.localizedDescription)")
             } else {
-                print("Successfully saved scenario status records")
+                print("Successfully saved campaign records")
             }
         }
         self.myCloudKitMgr.privateDatabase.add(uploadOperation)
     }
-    func checkIfStatusRecordExists(recordNumber: String, completion:@escaping (Bool) -> ()) {
-        let recordID = CKRecordID(recordName: "Status" + recordNumber)
-        self.myCloudKitMgr.privateDatabase.fetch(withRecordID: recordID) { (record, error) in
+    func checkIfCampaignRecordExists(completion:@escaping (String?) -> ()) {
+        let predicate = NSPredicate(value: true)
+        let query = CKQuery(recordType: "CampaignStatus", predicate: predicate)
+        
+        myCloudKitMgr.privateDatabase.perform(query, inZoneWith: nil) { (records, error) in
             if let ckError = error as? CKError {
                 self.delegate?.errorUpdating(error: ckError as CKError, type: myCKErrorType.fetchRecord)
-                print("Did not find pre-existing iCloud schema: \(error!.localizedDescription)")
+                print("Didn't find an existing iCloud schema.")
+                completion(nil)
             } else {
+                for record in records! {
+                    if record.value(forKey: "isCurrent") as! Bool == true {
+                        completion(record.value(forKey: "title") as? String)
+                    }
+                }
                 print("Found pre-existing iCloud schema.")
-                completion(error == nil)
             }
-//            completion(error == nil)
         }
     }
-    func updateLocalScenarioStatus(scenarioNumber: String) {
-        let recordID = CKRecordID(recordName: "Status" + scenarioNumber)
-        self.myCloudKitMgr.privateDatabase.fetch(withRecordID: recordID) { (record, error) in
+    func getScenarioStatusFromCloud(campaign: String, completion: @escaping ([String:Bool], [String:Bool], [String:Bool]) -> ()) {
+        let predicate = NSPredicate(format:"owningCampaign == %@", campaign)
+        let query = CKQuery(recordType: "ScenarioStatus", predicate: predicate)
+        
+        var myIsUnlocked = [String:Bool]()
+        var myIsCompleted = [String:Bool]()
+        var myRequirementsMet = [String:Bool]()
+        
+        myCloudKitMgr.privateDatabase.perform(query, inZoneWith: nil) { (records, error) in
             if let ckError = error as? CKError {
                 self.delegate?.errorUpdating(error: ckError as CKError, type: myCKErrorType.fetchRecord)
                 print("Error fetching record: \(error!.localizedDescription)")
             } else {
-                let scenarioToUpdate = self.getScenario(scenarioNumber: scenarioNumber)
-                let isUnlockedStatus = record?["isUnlocked"] as! Bool
-                scenarioToUpdate?.isUnlocked = isUnlockedStatus
-                let isCompletedStatus = record?["isCompleted"] as! Bool
-                scenarioToUpdate?.isCompleted = isCompletedStatus
-                let requirementsMetStatus = record?["requirementsMet"] as! Bool
-                scenarioToUpdate?.requirementsMet = requirementsMetStatus
+                print("Found \(records!.count) Scenario records matching query")
+                for record in records! {
+                    let recordName = record.recordID.recordName
+                    let number = recordName.replacingOccurrences(of: "_" + campaign, with: "")
+                    let isUnlockedStatus = record["isUnlocked"] as! Bool
+                    myIsUnlocked[number] = isUnlockedStatus
+                    let isCompletedStatus = record["isCompleted"] as! Bool
+                    myIsCompleted[number] = isCompletedStatus
+                    let requirementsMetStatus = record["requirementsMet"] as! Bool
+                    myRequirementsMet[number] = requirementsMetStatus
+                }
+                completion(myIsUnlocked, myIsCompleted, myRequirementsMet)
             }
         }
     }
-    func updateLocalAchievementsStatus() {
-        for achievement in achievements {
-            let recordID = CKRecordID(recordName: achievement.key)
-            self.myCloudKitMgr.privateDatabase.fetch(withRecordID: recordID) { (record, error) in
-                if let ckError = error as? CKError {
-                    self.delegate?.errorUpdating(error: ckError as CKError, type: myCKErrorType.fetchRecord)
-                    print("Error fetching record: \(error!.localizedDescription)")
-                } else {
-                    let status = record?["isComplete"] as! Bool
-                    self.achievements[achievement.key] = status
+    func getAchievementsStatusFromCloud(campaign: String, completion: @escaping ([String:Bool]) -> ()) {
+        let predicate = NSPredicate(format:"owningCampaign == %@", campaign)
+        let query = CKQuery(recordType: "Achievement", predicate: predicate)
+        var cloudAchievements = [String:Bool]()
+        myCloudKitMgr.privateDatabase.perform(query, inZoneWith: nil) { (records, error) in
+            if let ckError = error as? CKError {
+                self.delegate?.errorUpdating(error: ckError as CKError, type: myCKErrorType.fetchRecord)
+                print("Error fetching record: \(error!.localizedDescription)")
+            } else {
+                print("Found \(records!.count) Achievement records matching query")
+                for record in records! {
+                    let newStatus = record["isComplete"] as! Bool
+                    let recordName = record.recordID.recordName
+                    let shortenedKey = recordName.replacingOccurrences(of: "_" + campaign, with: "")
+                    cloudAchievements[shortenedKey] = newStatus
                 }
+                completion(cloudAchievements)
+            }
+        }
+    }
+    func updateCampaignsFromCloud(completion: @escaping ([String:Campaign]) -> ()) {
+        let predicate = NSPredicate(value: true)
+        let query = CKQuery(recordType: "CampaignStatus", predicate: predicate)
+        var campaignName = String()
+        myCloudKitMgr.privateDatabase.perform(query, inZoneWith: nil) { (records, error) in
+            if let ckError = error as? CKError {
+                self.delegate?.errorUpdating(error: ckError as CKError, type: myCKErrorType.fetchRecord)
+                print("Error updating local campaigns from iCloud.")
+            } else {
+                for record in records! {
+                    campaignName = record.recordID.recordName
+                    let current = record["isCurrent"] as! Bool == true ? true : false
+                    self.addCampaign(campaign: campaignName, isCurrent: current)
+                    let newCampaign = self.campaigns[campaignName]!
+                    newCampaign.isCurrent = record["isCurrent"] as! Bool
+                    self.getAchievementsStatusFromCloud(campaign: newCampaign.title) { achievements in
+                        newCampaign.achievements = achievements
+                    }
+                    self.getScenarioStatusFromCloud(campaign: newCampaign.title) { isUnlocked, _, _ in
+                        for myUnlocked in isUnlocked {
+                            newCampaign.isUnlocked[Int(myUnlocked.key)! - 1] = myUnlocked.value
+                        }
+                    }
+                    self.getScenarioStatusFromCloud(campaign: newCampaign.title) { _, isCompleted, _ in
+                        for myIsCompleted in isCompleted {
+                            newCampaign.isCompleted[Int(myIsCompleted.key)! - 1] = myIsCompleted.value
+                        }
+                    }
+                    self.getScenarioStatusFromCloud(campaign: newCampaign.title) { _, _, requirementsMet in
+                        for myRequirementsMet in requirementsMet {
+                            newCampaign.requirementsMet[Int(myRequirementsMet.key)! - 1] = myRequirementsMet.value
+                        }
+                    }
+                    self.campaigns[campaignName] = newCampaign
+                }
+                print("Returning \(self.campaigns)")
+                completion(self.campaigns)
             }
         }
     }

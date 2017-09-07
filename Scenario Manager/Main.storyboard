@@ -104,7 +104,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r5J-Ix-LMR">
                                 <rect key="frame" x="42" y="269" width="236" height="35"/>
                                 <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="24"/>
-                                <state key="normal" title="Add &quot;Donkler&quot; Campaign">
+                                <state key="normal" title="Load &quot;Donkler&quot; Campaign">
                                     <color key="titleColor" red="0.24919084820000001" green="0.1929752334" blue="0.1351535955" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" red="0.24919084820000001" green="0.1929752334" blue="0.1351535955" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>

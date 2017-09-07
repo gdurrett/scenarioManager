@@ -30,7 +30,7 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
         self.dataModel = dataModel
         self.allScenarios = dataModel.allScenarios
         //self.campaign = dataModel.currentCampaign!
-        self.campaign = Dynamic(dataModel.currentCampaign)
+        self.campaign = Dynamic(dataModel.currentCampaign!)
         self.availableScenarios = Dynamic(dataModel.availableScenarios)
         self.completedScenarios = Dynamic(dataModel.completedScenarios)
         
@@ -53,15 +53,19 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
         //Need to re-get after update. Using Dynamic vars!
         self.availableScenarios.value = dataModel.availableScenarios
         self.completedScenarios.value = dataModel.completedScenarios
-        dataModel.saveScenariosLocally()
+        dataModel.saveCampaignsLocally()
         
     }
     // Test refresh after download of scenario and achievement status. Try calling from viewDidLoad() in scenarioViewController
     func updateAvailableScenarios() {
         self.availableScenarios.value = dataModel.availableScenarios
         self.completedScenarios.value = dataModel.completedScenarios
-        self.campaign.value = dataModel.currentCampaign
-        dataModel.saveScenariosLocally()
+        self.campaign.value = dataModel.currentCampaign!
+        dataModel.saveCampaignsLocally()
+        // Try force refresh here to solve first load from cloud issue?
+    }
+    func updateLoadedCampaign() {
+        dataModel.loadCampaign(campaign: dataModel.currentCampaign!.title)
     }
     func setAchievements(atches: [String], toggle: Bool) {
         var remove = false
