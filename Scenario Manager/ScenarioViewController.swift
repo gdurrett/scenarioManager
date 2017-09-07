@@ -95,10 +95,10 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setSegmentTitles()
         self.navigationItem.title = ("\(self.selectedCampaign!.title) Scenarios")
         viewModel?.updateLoadedCampaign()
         viewModel?.updateAvailableScenarios()
+        self.setSegmentTitles()
         self.scenarioTableView.reloadData()
     }
     

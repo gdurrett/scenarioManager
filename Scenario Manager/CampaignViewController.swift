@@ -83,8 +83,10 @@ class CampaignViewController: UIViewController {
     fileprivate func confirmDataModelReset () {
         let alertController = UIAlertController(title: "Reset Scenario status to default?", message: "Clicking OK will set Scenario status back to initial state, both locally and in iCloud (if available).", preferredStyle: .alert)
         let OKAction = UIAlertAction(title: "Reset", style: .default) { (action:UIAlertAction!) in
-            self.dataModel?.resetAll()
+            self.dataModel?.resetCurrentCampaign()
             self.dataModel?.saveCampaignsLocally()
+            self.dataModel?.updateCampaignRecords()
+            //self.viewModel?.updateAvailableScenarios()
         }
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (action:UIAlertAction!) in

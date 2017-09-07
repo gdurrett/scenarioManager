@@ -80,8 +80,8 @@ class DataModel {
         let filePath = url.appendingPathComponent("Scenarios.plist")?.path
         let fileManager = FileManager.default
         if fileManager.fileExists(atPath: filePath!){
-            loadScenarios()
-            //loadCampaigns()
+            //loadScenarios()
+            loadCampaignsFromLocal()
             for campaign in campaigns {
                 if campaign.value.isCurrent == true {
                     loadCampaign(campaign: campaign.key)
@@ -1922,7 +1922,7 @@ class DataModel {
         archiver.finishEncoding()
         data.write(to: dataFilePath(), atomically: true)
     }
-    func loadScenarios() {
+    func loadCampaignsFromLocal() {
         let path = dataFilePath()
         if let data = try? Data(contentsOf: path) {
             let unarchiver = NSKeyedUnarchiver(forReadingWith: data)
@@ -1976,9 +1976,10 @@ class DataModel {
             print("Campaign \(campaigns[campaign]!.title) already exists!")
         }
     }
-    func resetCampaign(campaign: Campaign) {
+    func resetCurrentCampaign() {
+        let campaign = currentCampaign!
         var count = 0
-        for scenario in allScenarios {
+        for scenario in self.allScenarios {
             if scenario.number == "1" {
                 campaign.isUnlocked[count] = true
                 campaign.isCompleted[count] = false
@@ -1991,7 +1992,7 @@ class DataModel {
                 count+=1
             }
         }
-        for achievement in achievements {
+        for achievement in self.achievements {
             if achievement.key == "None" || achievement.key == "OR" {
                 campaign.achievements[achievement.key] = true
             } else {
@@ -2089,7 +2090,6 @@ class DataModel {
         records.append(campaignRecord)
         
         for scenario in allScenarios {
-            // Append current campaign title to recordID for association with Campaign?
             let scenarioStatusRecordID = CKRecordID(recordName: scenario.number + "_\(currentCampaign!.title)")
             let scenarioStatusRecord = CKRecord(recordType: "ScenarioStatus", recordID: scenarioStatusRecordID)
             
@@ -2145,54 +2145,6 @@ class DataModel {
             }
         }
     }
-    func getScenarioStatusFromCloud(campaign: String, completion: @escaping ([String:Bool], [String:Bool], [String:Bool]) -> ()) {
-        let predicate = NSPredicate(format:"owningCampaign == %@", campaign)
-        let query = CKQuery(recordType: "ScenarioStatus", predicate: predicate)
-        
-        var myIsUnlocked = [String:Bool]()
-        var myIsCompleted = [String:Bool]()
-        var myRequirementsMet = [String:Bool]()
-        
-        myCloudKitMgr.privateDatabase.perform(query, inZoneWith: nil) { (records, error) in
-            if let ckError = error as? CKError {
-                self.delegate?.errorUpdating(error: ckError as CKError, type: myCKErrorType.fetchRecord)
-                print("Error fetching record: \(error!.localizedDescription)")
-            } else {
-                print("Found \(records!.count) Scenario records matching query")
-                for record in records! {
-                    let recordName = record.recordID.recordName
-                    let number = recordName.replacingOccurrences(of: "_" + campaign, with: "")
-                    let isUnlockedStatus = record["isUnlocked"] as! Bool
-                    myIsUnlocked[number] = isUnlockedStatus
-                    let isCompletedStatus = record["isCompleted"] as! Bool
-                    myIsCompleted[number] = isCompletedStatus
-                    let requirementsMetStatus = record["requirementsMet"] as! Bool
-                    myRequirementsMet[number] = requirementsMetStatus
-                }
-                completion(myIsUnlocked, myIsCompleted, myRequirementsMet)
-            }
-        }
-    }
-    func getAchievementsStatusFromCloud(campaign: String, completion: @escaping ([String:Bool]) -> ()) {
-        let predicate = NSPredicate(format:"owningCampaign == %@", campaign)
-        let query = CKQuery(recordType: "Achievement", predicate: predicate)
-        var cloudAchievements = [String:Bool]()
-        myCloudKitMgr.privateDatabase.perform(query, inZoneWith: nil) { (records, error) in
-            if let ckError = error as? CKError {
-                self.delegate?.errorUpdating(error: ckError as CKError, type: myCKErrorType.fetchRecord)
-                print("Error fetching record: \(error!.localizedDescription)")
-            } else {
-                print("Found \(records!.count) Achievement records matching query")
-                for record in records! {
-                    let newStatus = record["isComplete"] as! Bool
-                    let recordName = record.recordID.recordName
-                    let shortenedKey = recordName.replacingOccurrences(of: "_" + campaign, with: "")
-                    cloudAchievements[shortenedKey] = newStatus
-                }
-                completion(cloudAchievements)
-            }
-        }
-    }
     func updateCampaignsFromCloud(completion: @escaping ([String:Campaign]) -> ()) {
         let predicate = NSPredicate(value: true)
         let query = CKQuery(recordType: "CampaignStatus", predicate: predicate)
@@ -2233,7 +2185,56 @@ class DataModel {
             }
         }
     }
+    func getAchievementsStatusFromCloud(campaign: String, completion: @escaping ([String:Bool]) -> ()) {
+        let predicate = NSPredicate(format:"owningCampaign == %@", campaign)
+        let query = CKQuery(recordType: "Achievement", predicate: predicate)
+        var cloudAchievements = [String:Bool]()
+        myCloudKitMgr.privateDatabase.perform(query, inZoneWith: nil) { (records, error) in
+            if let ckError = error as? CKError {
+                self.delegate?.errorUpdating(error: ckError as CKError, type: myCKErrorType.fetchRecord)
+                print("Error fetching record: \(error!.localizedDescription)")
+            } else {
+                print("Found \(records!.count) Achievement records matching query")
+                for record in records! {
+                    let newStatus = record["isComplete"] as! Bool
+                    let recordName = record.recordID.recordName
+                    let shortenedKey = recordName.replacingOccurrences(of: "_" + campaign, with: "")
+                    cloudAchievements[shortenedKey] = newStatus
+                }
+                completion(cloudAchievements)
+            }
+        }
+    }
+    func getScenarioStatusFromCloud(campaign: String, completion: @escaping ([String:Bool], [String:Bool], [String:Bool]) -> ()) {
+        let predicate = NSPredicate(format:"owningCampaign == %@", campaign)
+        let query = CKQuery(recordType: "ScenarioStatus", predicate: predicate)
+        
+        var myIsUnlocked = [String:Bool]()
+        var myIsCompleted = [String:Bool]()
+        var myRequirementsMet = [String:Bool]()
+        
+        myCloudKitMgr.privateDatabase.perform(query, inZoneWith: nil) { (records, error) in
+            if let ckError = error as? CKError {
+                self.delegate?.errorUpdating(error: ckError as CKError, type: myCKErrorType.fetchRecord)
+                print("Error fetching record: \(error!.localizedDescription)")
+            } else {
+                print("Found \(records!.count) Scenario records matching query")
+                for record in records! {
+                    let recordName = record.recordID.recordName
+                    let number = recordName.replacingOccurrences(of: "_" + campaign, with: "")
+                    let isUnlockedStatus = record["isUnlocked"] as! Bool
+                    myIsUnlocked[number] = isUnlockedStatus
+                    let isCompletedStatus = record["isCompleted"] as! Bool
+                    myIsCompleted[number] = isCompletedStatus
+                    let requirementsMetStatus = record["requirementsMet"] as! Bool
+                    myRequirementsMet[number] = requirementsMetStatus
+                }
+                completion(myIsUnlocked, myIsCompleted, myRequirementsMet)
+            }
+        }
+    }
 }
+
 
 class ScenarioNumberAndTitle {
     
