@@ -10,7 +10,7 @@ import Foundation
 
 class Campaign: NSObject, NSCoding {
     
-    //var characters: [Character]?
+    var characters: [Character]?
     var title: String
     var isUnlocked: [Bool]
     var requirementsMet: [Bool]
@@ -18,13 +18,14 @@ class Campaign: NSObject, NSCoding {
     var achievements: [String:Bool]
     var isCurrent: Bool
     
-    init(title: String, isUnlocked: [Bool], requirementsMet: [Bool], isCompleted: [Bool], achievements: [String:Bool], isCurrent: Bool) {
+    init(title: String, isUnlocked: [Bool], requirementsMet: [Bool], isCompleted: [Bool], achievements: [String:Bool], isCurrent: Bool, characters: [Character]) {
         self.title = title
         self.isUnlocked = isUnlocked
         self.requirementsMet = requirementsMet
         self.isCompleted = isCompleted
         self.achievements = achievements
         self.isCurrent = isCurrent
+        self.characters = characters
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -34,6 +35,7 @@ class Campaign: NSObject, NSCoding {
         isCompleted = aDecoder.decodeObject(forKey: "IsCompleted") as! [Bool]
         achievements = aDecoder.decodeObject(forKey: "Achievements") as! [String:Bool]
         isCurrent = aDecoder.decodeBool(forKey: "IsCurrent")
+        characters = aDecoder.decodeObject(forKey: "Characters") as? [Character]
         super.init()
     }
     
@@ -44,5 +46,6 @@ class Campaign: NSObject, NSCoding {
         aCoder.encode(isCompleted, forKey: "IsCompleted")
         aCoder.encode(achievements, forKey: "Achievements")
         aCoder.encode(isCurrent, forKey: "IsCurrent")
+        aCoder.encode(characters, forKey: "Characters")
     }
 }

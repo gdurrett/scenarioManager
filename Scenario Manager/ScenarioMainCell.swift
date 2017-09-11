@@ -12,6 +12,8 @@ class ScenarioMainCell: UITableViewCell {
 
     @IBOutlet weak var scenarioRowIcon: UIImageView!
     
+    let colorDefinitions = ColorDefinitions()
+    let fontDefinitions = FontDefinitions()
     
     // Test custom text color for SwipeAction buttons
     override func layoutSubviews() {
@@ -30,7 +32,8 @@ class ScenarioMainCell: UITableViewCell {
                             
                             if let label = view as? UILabel {
                                 
-                                label.textColor = UIColor.black
+                                label.textColor = colorDefinitions.scenarioSwipeFontColor
+                                label.font = fontDefinitions.scenarioSwipeFont
                             }
                             
                         }

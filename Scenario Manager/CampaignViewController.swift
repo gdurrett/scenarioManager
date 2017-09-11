@@ -9,7 +9,9 @@
 import UIKit
 import CloudKit
 
-class CampaignViewController: UIViewController {
+class CampaignViewController: UIViewController, AddCampaignViewControllerDelegate {
+    var progressHUD: ProgressHUD!
+    
     @IBAction func resetToDefaults(_ sender: Any) {
         confirmDataModelReset()
     }
@@ -17,19 +19,18 @@ class CampaignViewController: UIViewController {
         dataModel?.loadCampaign(campaign: "Default")
         viewModel?.updateAvailableScenarios()
     }
-    @IBAction func addCampaign(_ sender: Any) {
-        createCampaign()
-        viewModel?.updateAvailableScenarios()
-    }
     
-    @IBAction func printAchievements(_ sender: Any) {
-        print("Unlocks for \(viewModel?.campaign.value.isUnlocked.minimalDescription)")
+    @IBAction func addCampaign(_ sender: Any) {
+        //loadAddCampaignViewController()
+        displayCampaignOptions()
     }
     @IBAction func saveState(_ sender: Any) {
         dataModel?.saveCampaignsLocally()
-        dataModel?.updateCampaignRecords()
-//        dataModel?.updateAchievementsStatusRecords(achievementsToUpdate: (dataModel?.achievements)!)
-//        dataModel?.updateScenarioStatusRecords(scenarios: (dataModel?.allScenarios)!)
+        DispatchQueue.main.async {
+            self.view.backgroundColor = UIColor.black
+            self.dataModel?.updateCampaignRecords()
+        }
+        
     }
     var dataModel: DataModel? {
         didSet {
@@ -40,13 +41,27 @@ class CampaignViewController: UIViewController {
             
         }
     }
-    var mainTextColor = UIColor(hue: 30/360, saturation: 45/100, brightness: 25/100, alpha: 1.0)
+    //var addCampaignViewController = AddCampaignViewController()
+    var colorDefinitions = ColorDefinitions()
+
+    
+//    let rightButtonItem = UIBarButtonItem(
+//        barButtonSystemItem: .add,
+//        target: self,
+//        action: #selector(loadAddCampaignViewController)
+//    )
     override func viewDidLoad() {
+        //Activity Indicator View
+        //Create and add the view to the screen.
+        progressHUD = ProgressHUD(text: "Updating")
+        self.view.addSubview(progressHUD)
+        progressHUD.hide()
         super.viewDidLoad()
+        
+        
         dataModel?.delegate = self
         self.navigationItem.title = "Dashboard"
-        self.navigationController?.navigationBar.titleTextAttributes = setTextAttributes(fontName: "Nyala", fontSize: 26.0, textColor: mainTextColor)
-        
+        self.navigationController?.navigationBar.titleTextAttributes = setTextAttributes(fontName: "Nyala", fontSize: 26.0, textColor: colorDefinitions.mainTextColor)
     }
     // Test create campaign and add to dataModel
     func createCampaign() {
@@ -61,6 +76,14 @@ class CampaignViewController: UIViewController {
         let fontColor = textColor
         return [ NSFontAttributeName : fontStyle! , NSForegroundColorAttributeName : fontColor ]
     }
+    // Delegate methods for AddCampaignViewController
+    func addCampaignViewControllerDidCancel(_ controller: AddCampaignViewController) {
+        print("Did we get back here to cancel?")
+        controller.navigationController?.popViewController(animated: true)
+    }
+    func addCampaignViewControllerDidFinishAdding(_ controller: AddCampaignViewController) {
+        //
+    }
 //    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 //        if segue.identifier == "ShowScenarioManager" {
 //            let destinationVC = segue.destination as! ScenarioViewController
@@ -70,16 +93,15 @@ class CampaignViewController: UIViewController {
 //    }
     // MARK: Private
 //    
-//    fileprivate func showScenarioViewController() {
-//        if !self.isViewLoaded {
-//            return
-//        }
-// 
-//        let controller = UIStoryboard.loadScenarioViewController()
-//        let viewModel = ScenarioViewModelFromModel(withDataModel: dataModel!)
-//        controller.viewModel = viewModel
-//        
-//    }
+    fileprivate func loadAddCampaignViewController() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let addCampaignVC = storyboard.instantiateViewController(withIdentifier: "addCampaignViewController") as! AddCampaignViewController
+        addCampaignVC.delegate = self
+        addCampaignVC.viewModel = AddCampaignViewModelFromModel(withDataModel: dataModel!)
+        addCampaignVC.hidesBottomBarWhenPushed = true
+        self.navigationController!.pushViewController(addCampaignVC, animated: true)
+        //self.present(addCampaignVC, animated: true, completion: nil)
+    }
     fileprivate func confirmDataModelReset () {
         let alertController = UIAlertController(title: "Reset Scenario status to default?", message: "Clicking OK will set Scenario status back to initial state, both locally and in iCloud (if available).", preferredStyle: .alert)
         let OKAction = UIAlertAction(title: "Reset", style: .default) { (action:UIAlertAction!) in
@@ -96,6 +118,25 @@ class CampaignViewController: UIViewController {
         
         self.present(alertController, animated: true, completion:nil)
     }
+    fileprivate func displayCampaignOptions() {
+        //let attributedTitleForAddCharacter = NSAttributedString(string:
+        let campaignOptionsActionsSheetController = UIAlertController(title: "Select", message: "Choose one option", preferredStyle: .actionSheet)
+        let cancelActionButton = UIAlertAction(title: "Cancel", style: .cancel) { action -> Void in
+            self.dismiss(animated: true, completion: nil)
+        }
+        campaignOptionsActionsSheetController.addAction(cancelActionButton)
+        let addCampaignAction = UIAlertAction(title: "Add Campaign", style: .default) { action -> Void in
+            self.loadAddCampaignViewController()
+        }
+        campaignOptionsActionsSheetController.addAction(addCampaignAction)
+        let addCharacterAction = UIAlertAction(title: "Add Character", style: .default) { action -> Void in
+            //self.loadAddCharacterViewController()
+        }
+        campaignOptionsActionsSheetController.addAction(addCharacterAction)
+        //campaignOptionsActionsSheetController.setValue(attributedTitle, forKey: )
+        self.present(campaignOptionsActionsSheetController, animated: true, completion: nil)
+    }
+
 }
 
 // MARK: - DataModelDelegate
@@ -114,5 +155,17 @@ extension CampaignViewController: DataModelDelegate {
         alertController.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: nil))
         
         present(alertController, animated: true, completion: nil)
+    }
+    func showProgressHUD() {
+        progressHUD.show()
+    }
+    func hideProgressHUD() {
+        progressHUD.hide()
+    }
+    func darkenViewBGColor() {
+        view.backgroundColor = UIColor.darkGray
+    }
+    func restoreViewBGColor() {
+        view.backgroundColor = UIColor.white
     }
 }

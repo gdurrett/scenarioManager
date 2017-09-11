@@ -20,6 +20,10 @@ enum myCKErrorType {
 }
 protocol DataModelDelegate {
     func errorUpdating(error: CKError, type:myCKErrorType)
+    func showProgressHUD()
+    func hideProgressHUD()
+    func darkenViewBGColor()
+    func restoreViewBGColor()
 }
 class DataModel {
     
@@ -46,7 +50,7 @@ class DataModel {
             } else {
                 if self.campaigns["Default"] == nil {
                     print("Am I fucking adding from here?!")
-                    addCampaign(campaign: "Default", isCurrent: true)
+                    addCampaign(campaign: "Default", isCurrent: true, characters: [])
                 }
                 return campaigns["Default"]
             }
@@ -65,10 +69,11 @@ class DataModel {
     // Campaign test
     var campaigns = [String: Campaign]()
     var defaultCampaign: Campaign?
-    //var cloudAchievements = [String:Bool]()
-    //var chosenCampaign: Campaign? // Not set initially
+    var characters = [Character]()
     
+    // Get a CloudKit object
     let myCloudKitMgr = CloudKitMgr()
+    
     
     // Used when we uncomplete scenario 13 to restore unlock options
     let defaultUnlocks = [ "13" : ["ONEOF", "15", "17", "20"] ]
@@ -1883,6 +1888,15 @@ class DataModel {
                 "The Fall of Man personal quest"        : false,
                 "Water Staff"                           : false
                 ]
+        
+            
+            // Temp character object array
+            let character1 = Character(name: "Snarklepuss", race: "Aesther", type: "Summoner", level: 4, isRetired: false)
+            characters.append(character1)
+            let character2 = Character(name: "Homegirl", race: "Inox", type: "Brute", level: 5, isRetired: false)
+            characters.append(character2)
+            let character3 = Character(name: "Stryker", race: "Inox", type: "Berserker", level: 6, isRetired: false)
+            characters.append(character3)
             
             // Create iCloud private DB schema if no plist exists. Logic will change.
             checkIfCampaignRecordExists() {
@@ -1894,8 +1908,9 @@ class DataModel {
                         self.campaigns = campaigns
                     }
                 } else { // No cloud schema, no local plist -> create new default campaign
+                    // Need to make sure it's not that we just can't contact the container (due to authentication issues, e.g.) If that's the case, we need to give user a way to try again before overwriting Cloud
                     print("Attempting to create CK Schema")
-                    self.addCampaign(campaign: "Default", isCurrent: true)
+                    self.addCampaign(campaign: "Default", isCurrent: true, characters: [])
                     self.saveCampaignsLocally()
                     self.updateCampaignRecords()
                 }
@@ -1945,10 +1960,10 @@ class DataModel {
         }
     }
     // CampaignTest
-    func addCampaign(campaign: String, isCurrent: Bool) {
+    func addCampaign(campaign: String, isCurrent: Bool, characters: [Character]) {
         if (campaigns[campaign] == nil) {
             print("Nothing for \(campaign)")
-            let newCampaign = Campaign(title: campaign, isUnlocked: [], requirementsMet: [], isCompleted: [], achievements:[:], isCurrent: isCurrent)
+            let newCampaign = Campaign(title: campaign, isUnlocked: [], requirementsMet: [], isCompleted: [], achievements:[:], isCurrent: isCurrent, characters: [])
             for scenario in allScenarios {
                 if scenario.number == "1" {
                     newCampaign.isUnlocked.append(true)
@@ -2122,8 +2137,12 @@ class DataModel {
                 print("Error saving campaign records: \(error!.localizedDescription)")
             } else {
                 print("Successfully saved campaign records")
+                self.delegate?.hideProgressHUD()
+                self.delegate?.restoreViewBGColor()
             }
         }
+        delegate?.darkenViewBGColor()
+        delegate?.showProgressHUD()
         self.myCloudKitMgr.privateDatabase.add(uploadOperation)
     }
     func checkIfCampaignRecordExists(completion:@escaping (String?) -> ()) {
@@ -2157,9 +2176,10 @@ class DataModel {
                 for record in records! {
                     campaignName = record.recordID.recordName
                     let current = record["isCurrent"] as! Bool == true ? true : false
-                    self.addCampaign(campaign: campaignName, isCurrent: current)
+                    self.addCampaign(campaign: campaignName, isCurrent: current, characters: [])
                     let newCampaign = self.campaigns[campaignName]!
                     newCampaign.isCurrent = record["isCurrent"] as! Bool
+                    newCampaign.characters = record["characters"] as? [Character]
                     self.getAchievementsStatusFromCloud(campaign: newCampaign.title) { achievements in
                         newCampaign.achievements = achievements
                     }

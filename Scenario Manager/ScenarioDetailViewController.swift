@@ -12,7 +12,8 @@ import UIKit
 class ScenarioDetailViewController: UIViewController {
     
     var viewModel: ScenarioDetailViewModel!
-    var mainTextColor = UIColor(hue: 30/360, saturation: 45/100, brightness: 25/100, alpha: 1.0)
+    
+    let colorDefinitions = ColorDefinitions()
     
     @IBOutlet weak var tableView: UITableView?
     
@@ -188,7 +189,7 @@ extension ScenarioDetailViewController: UITableViewDataSource, UITableViewDelega
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         let header = view as? UITableViewHeaderFooterView
         header?.textLabel?.font = UIFont(name: "Nyala", size: 24)
-        header?.textLabel?.textColor = mainTextColor
-        header?.tintColor = UIColor(hue: 40/360, saturation: 6/100, brightness: 100/100, alpha: 1.0)
+        header?.textLabel?.textColor = colorDefinitions.mainTextColor
+        header?.tintColor = colorDefinitions.scenarioTableViewHeaderTintColor
     }
 }

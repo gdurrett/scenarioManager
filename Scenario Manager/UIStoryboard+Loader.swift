@@ -39,4 +39,7 @@ extension UIStoryboard {
     static func loadCampaignTabBarController() -> CampaignManagerTabBarController {
         return loadFromMain("CampaignManagerTabBarController") as! CampaignManagerTabBarController
     }
+    static func loadAddCampaignViewController() -> AddCampaignViewController {
+        return loadFromMain("AddCampaignViewController") as! AddCampaignViewController
+    }
 }

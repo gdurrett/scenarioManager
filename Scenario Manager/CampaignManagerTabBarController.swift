@@ -9,11 +9,12 @@
 import UIKit
 
 class CampaignManagerTabBarController: UITabBarController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let tabBarTitleTextAttributes = setTextAttributes(fontName: "Nyala", fontSize: 10.0, textColor: UIColor(hue: 30/360, saturation: 45/100, brightness: 25/100, alpha: 1.0))
+        let colorDefinitions = ColorDefinitions()
+        let tabBarTitleTextAttributes = setTextAttributes(fontName: "Nyala", fontSize: 10.0, textColor: colorDefinitions.tabBarTitleTextColor)
         let allTabBarItems = tabBar.items
         
         let dashboardItem = allTabBarItems?[0]
@@ -27,9 +28,9 @@ class CampaignManagerTabBarController: UITabBarController {
         scenariosItem?.setTitleTextAttributes(tabBarTitleTextAttributes, for: .selected)
         scenariosItem?.title = "Scenarios"
         
-        tabBar.unselectedItemTintColor = UIColor(hue: 40/360, saturation: 6/100, brightness: 65/100, alpha: 1.0)
-        tabBar.tintColor = UIColor(hue: 40/360, saturation: 6/100, brightness: 40/100, alpha: 1.0)
-        tabBar.barTintColor = UIColor(hue: 40/360, saturation: 6/100, brightness: 100/100, alpha: 1.0)
+        tabBar.unselectedItemTintColor = colorDefinitions.tabBarUnselectedItemTintColor
+        tabBar.tintColor = colorDefinitions.tabBarTintColor
+        tabBar.barTintColor = colorDefinitions.tabBarBarTintColor
 
     }
 

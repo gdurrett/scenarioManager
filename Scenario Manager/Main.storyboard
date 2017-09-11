@@ -64,7 +64,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kAL-N4-nPY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2040" y="-481"/>
+            <point key="canvasLocation" x="2040" y="-787"/>
         </scene>
         <!--Campaign View Controller-->
         <scene sceneID="R3Y-0W-gPH">
@@ -78,19 +78,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jrn-yK-bQc">
-                                <rect key="frame" x="61" y="187" width="199" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="UD1-ZB-ax3"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="24"/>
-                                <state key="normal" title="Reset Campaign State">
-                                    <color key="titleColor" red="0.2452870207" green="0.18995208050000001" blue="0.13303627730000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                </state>
-                                <connections>
-                                    <action selector="resetToDefaults:" destination="YqU-VQ-qBG" eventType="touchUpInside" id="mag-Bn-PDg"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1zt-W3-SDy">
                                 <rect key="frame" x="67" y="123" width="186" height="30"/>
                                 <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="24"/>
@@ -101,21 +88,10 @@
                                     <action selector="saveState:" destination="YqU-VQ-qBG" eventType="touchUpInside" id="wIp-ge-afW"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r5J-Ix-LMR">
-                                <rect key="frame" x="42" y="269" width="236" height="35"/>
-                                <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="24"/>
-                                <state key="normal" title="Load &quot;Donkler&quot; Campaign">
-                                    <color key="titleColor" red="0.24919084820000001" green="0.1929752334" blue="0.1351535955" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" red="0.24919084820000001" green="0.1929752334" blue="0.1351535955" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="addCampaign:" destination="YqU-VQ-qBG" eventType="touchUpInside" id="PSF-Kh-7Vq"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T1g-v0-Gg2">
-                                <rect key="frame" x="51" y="334" width="218" height="30"/>
+                                <rect key="frame" x="51" y="334" width="207" height="30"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="wra-j4-blP"/>
+                                    <constraint firstAttribute="height" constant="30" id="pEy-fV-UKy"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="24"/>
                                 <state key="normal" title="Load Default Campaign">
@@ -125,41 +101,99 @@
                                     <action selector="loadCampaign:" destination="YqU-VQ-qBG" eventType="touchUpInside" id="Osz-JE-Ypz"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ygh-t7-BVA">
-                                <rect key="frame" x="99" y="415" width="123" height="30"/>
-                                <state key="normal" title="Print Campaigns"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jrn-yK-bQc">
+                                <rect key="frame" x="61" y="236" width="199" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="thR-iJ-q25"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="24"/>
+                                <state key="normal" title="Reset Campaign State">
+                                    <color key="titleColor" red="0.2452870207" green="0.18995208050000001" blue="0.13303627730000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
                                 <connections>
-                                    <action selector="printAchievements:" destination="YqU-VQ-qBG" eventType="touchUpInside" id="KfG-aA-85l"/>
+                                    <action selector="resetToDefaults:" destination="YqU-VQ-qBG" eventType="touchUpInside" id="mag-Bn-PDg"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="r5J-Ix-LMR" firstAttribute="top" secondItem="Jrn-yK-bQc" secondAttribute="bottom" constant="52" id="3ZQ-wY-3Yz"/>
-                            <constraint firstItem="bAN-5p-hfu" firstAttribute="top" secondItem="Jrn-yK-bQc" secondAttribute="bottom" constant="302" id="7F5-V5-ohz"/>
-                            <constraint firstItem="T1g-v0-Gg2" firstAttribute="top" secondItem="r5J-Ix-LMR" secondAttribute="bottom" constant="30" id="9fg-QD-wDw"/>
-                            <constraint firstItem="r5J-Ix-LMR" firstAttribute="centerX" secondItem="Jrn-yK-bQc" secondAttribute="centerX" id="EeK-ge-DAT"/>
-                            <constraint firstItem="ygh-t7-BVA" firstAttribute="leading" secondItem="dgY-Eo-D5r" secondAttribute="leadingMargin" constant="83" id="KDv-N1-gbB"/>
-                            <constraint firstItem="r5J-Ix-LMR" firstAttribute="leading" secondItem="dgY-Eo-D5r" secondAttribute="leadingMargin" constant="26" id="Qcr-HS-ZBx"/>
-                            <constraint firstItem="Jrn-yK-bQc" firstAttribute="centerX" secondItem="dgY-Eo-D5r" secondAttribute="centerX" id="RFI-ce-5Yx"/>
-                            <constraint firstItem="Jrn-yK-bQc" firstAttribute="leading" secondItem="dgY-Eo-D5r" secondAttribute="leadingMargin" constant="45" id="VYf-v3-2oS"/>
-                            <constraint firstItem="ygh-t7-BVA" firstAttribute="top" secondItem="T1g-v0-Gg2" secondAttribute="bottom" constant="51" id="bBi-6b-p5U"/>
+                            <constraint firstItem="Jrn-yK-bQc" firstAttribute="top" secondItem="1zt-W3-SDy" secondAttribute="bottom" constant="83" id="Bdt-G7-zt6"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="T1g-v0-Gg2" secondAttribute="trailing" constant="46" id="Bu1-lb-cq8"/>
+                            <constraint firstItem="Jrn-yK-bQc" firstAttribute="centerX" secondItem="1zt-W3-SDy" secondAttribute="centerX" id="Gb6-Tt-bDg"/>
+                            <constraint firstItem="T1g-v0-Gg2" firstAttribute="top" secondItem="Jrn-yK-bQc" secondAttribute="bottom" constant="68" id="UFR-EQ-qOb"/>
+                            <constraint firstItem="T1g-v0-Gg2" firstAttribute="leading" secondItem="dgY-Eo-D5r" secondAttribute="leadingMargin" constant="35" id="UiI-15-Vx5"/>
                             <constraint firstItem="1zt-W3-SDy" firstAttribute="leading" secondItem="dgY-Eo-D5r" secondAttribute="leadingMargin" constant="51" id="ce8-eo-v8Z"/>
-                            <constraint firstItem="1zt-W3-SDy" firstAttribute="centerX" secondItem="Jrn-yK-bQc" secondAttribute="centerX" id="dah-c3-Rfx"/>
-                            <constraint firstItem="ygh-t7-BVA" firstAttribute="centerX" secondItem="T1g-v0-Gg2" secondAttribute="centerX" id="nmR-ph-bug"/>
+                            <constraint firstItem="Jrn-yK-bQc" firstAttribute="centerX" secondItem="dgY-Eo-D5r" secondAttribute="centerX" id="nav-fh-sbd"/>
+                            <constraint firstItem="Jrn-yK-bQc" firstAttribute="leading" secondItem="dgY-Eo-D5r" secondAttribute="leadingMargin" constant="45" id="sP8-6o-IfD"/>
                             <constraint firstItem="1zt-W3-SDy" firstAttribute="top" secondItem="U0T-91-vgr" secondAttribute="bottom" constant="59" id="vGc-oO-uwS"/>
-                            <constraint firstItem="r5J-Ix-LMR" firstAttribute="centerX" secondItem="T1g-v0-Gg2" secondAttribute="centerX" id="vRP-SG-gsK"/>
-                            <constraint firstItem="T1g-v0-Gg2" firstAttribute="leading" secondItem="dgY-Eo-D5r" secondAttribute="leadingMargin" constant="35" id="y7y-s6-PIs"/>
-                            <constraint firstItem="Jrn-yK-bQc" firstAttribute="top" secondItem="1zt-W3-SDy" secondAttribute="bottom" constant="34" id="zcf-n7-xr5"/>
+                            <constraint firstItem="bAN-5p-hfu" firstAttribute="top" secondItem="T1g-v0-Gg2" secondAttribute="bottom" constant="155" id="yL8-Vh-Ucb"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="vp5-nm-reg">
                         <barButtonItem key="backBarButtonItem" title="Back" id="SBx-2D-DLf"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="T0Z-gU-o2V">
+                            <connections>
+                                <action selector="addCampaign:" destination="YqU-VQ-qBG" id="aOJ-uE-7Uj"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EWA-jC-wwL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2799.375" y="-482.74647887323943"/>
+            <point key="canvasLocation" x="2801" y="-788"/>
+        </scene>
+        <!--Add Campaign-->
+        <scene sceneID="PLi-6s-RQ5">
+            <objects>
+                <viewController storyboardIdentifier="addCampaignViewController" id="Ymh-R6-TrY" customClass="AddCampaignViewController" customModule="Scenario_Manager" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="VfJ-wQ-Xda"/>
+                        <viewControllerLayoutGuide type="bottom" id="qBx-Hs-cEO"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="zIV-iu-w7K">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v6O-ck-Dln">
+                                <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                                <subviews>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Wim-f5-iJe">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </tableView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="v6O-ck-Dln" firstAttribute="top" secondItem="VfJ-wQ-Xda" secondAttribute="bottom" id="VlK-co-GAo"/>
+                            <constraint firstAttribute="trailing" secondItem="v6O-ck-Dln" secondAttribute="trailing" id="YA3-xL-8cR"/>
+                            <constraint firstItem="v6O-ck-Dln" firstAttribute="bottom" secondItem="qBx-Hs-cEO" secondAttribute="top" id="dBx-Xo-5bi"/>
+                            <constraint firstItem="v6O-ck-Dln" firstAttribute="leading" secondItem="zIV-iu-w7K" secondAttribute="leading" id="izO-kM-kzs"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Add Campaign" id="ESK-c0-Dk1">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="CTl-hG-J5F">
+                            <connections>
+                                <action selector="cancel:" destination="Ymh-R6-TrY" id="ybe-Pn-zgv"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="7VE-lh-blG">
+                            <connections>
+                                <action selector="save:" destination="Ymh-R6-TrY" id="Rna-hJ-1fi"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="addCampaignTableView" destination="Wim-f5-iJe" id="hFf-6K-Vtz"/>
+                        <outlet property="addCampaignView" destination="v6O-ck-Dln" id="kRs-gl-fy7"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BgC-uA-yHx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4340.625" y="-1008.8028169014085"/>
         </scene>
         <!--Scenario View Controller-->
         <scene sceneID="mM1-G2-PZq">
@@ -350,6 +384,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Z3e-xs-8dm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2040" y="293"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="bg7-ml-has">
+            <objects>
+                <navigationController storyboardIdentifier="addCampaignNavController" automaticallyAdjustsScrollViewInsets="NO" id="zlq-rP-3hz" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="JGe-dt-xSf">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Ymh-R6-TrY" kind="relationship" relationship="rootViewController" id="4fF-rX-uMs"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Y3x-AJ-h7S" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3534" y="-1007"/>
         </scene>
     </scenes>
 </document>

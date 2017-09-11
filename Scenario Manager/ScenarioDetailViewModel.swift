@@ -151,13 +151,10 @@ class ScenarioDetailViewModel: NSObject {
     
     func getStatusIcon(scenario: Scenario) -> UIImage {
         if scenario.isCompleted {
-            cellBGColor = UIColor(hue: 30/360, saturation: 0/100, brightness: 95/100, alpha: 1.0)
             statusIcon = #imageLiteral(resourceName: "scenarioCompletedIcon")
         } else if scenario.isUnlocked && scenario.requirementsMet {
-            cellBGColor = UIColor.white
             //statusIcon = #imageLiteral(resourceName: "scenarioAvailableIcon")
         } else {
-            cellBGColor = UIColor(hue: 30/360, saturation: 0/100, brightness: 90/100, alpha: 1.0)
             statusIcon = #imageLiteral(resourceName: "scenarioLockedIcon")
         }
         return statusIcon

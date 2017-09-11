@@ -42,6 +42,7 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
         scenarioTableView.reloadData()
     }
     @IBOutlet weak var scenarioFilterOutlet: UISegmentedControl!
+    
     var viewModel: ScenarioViewModelFromModel? {
         didSet {
             fillUI()
@@ -49,12 +50,11 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
     }
     var myCompletedTitle: String?
     var myLockedTitle: String?
-    var bgColor: UIColor?
     var pickerData = [String]()
     var pickedScenario: Scenario?
+    var filteredScenarios = [Scenario]()
     var scenario: Scenario!
     var imageForMainCell: UIImage!
-    var mainTextColor = UIColor(hue: 30/360, saturation: 45/100, brightness: 25/100, alpha: 1.0)
     
     var allScenarios: [Scenario]!
     var availableScenarios: [Scenario]!
@@ -62,9 +62,9 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
     
     var selectedCampaign: Campaign?
     
-    var filteredScenarios = [Scenario]()
     let searchController = UISearchController(searchResultsController: nil)
-    
+    let colorDefinitions = ColorDefinitions()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -197,7 +197,7 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
 
             } // Can't complete
         }
-        swipeToggleComplete.backgroundColor = bgColor
+        swipeToggleComplete.backgroundColor = colorDefinitions.scenarioSwipeBGColor
         swipeToggleLocked.backgroundColor = UIColor.darkGray
         if myLockedTitle == "Unlock" {
             return [swipeToggleLocked]
@@ -273,13 +273,10 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
     }
     func configureSwipeButton(for scenario: Scenario) {
         if scenario.isCompleted {
-            bgColor = UIColor(hue: 213/360, saturation: 0/100, brightness: 64/100, alpha: 1.0)
             myCompletedTitle = "Set Uncompleted"
         } else if scenario.isUnlocked && scenario.requirementsMet  {
-            bgColor = UIColor(hue: 213/360, saturation: 0/100, brightness: 64/100, alpha: 1.0)
             myCompletedTitle = "Set Completed"
         } else {
-            bgColor = UIColor(hue: 213/360, saturation: 0/100, brightness: 64/100, alpha: 1.0)
             myCompletedTitle = "Unavailable"
         }
         if scenario.isManuallyUnlockable && scenario.isUnlocked && !scenario.isCompleted {
@@ -320,12 +317,12 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
         return image
     }
     func setSegmentTitles() {
-        let segmentTitleAttributes = setTextAttributes(fontName: "Nyala", fontSize: 20.0, textColor: mainTextColor)
+        let segmentTitleAttributes = setTextAttributes(fontName: "Nyala", fontSize: 20.0, textColor: colorDefinitions.mainTextColor)
         scenarioFilterOutlet.setTitle("All (\(allScenarios.count))", forSegmentAt: 0)
         scenarioFilterOutlet.setTitle("Available (\(availableScenarios.count))", forSegmentAt: 1)
         scenarioFilterOutlet.setTitle("Completed (\(completedScenarios.count))", forSegmentAt: 2)
         scenarioFilterOutlet.setTitleTextAttributes(segmentTitleAttributes, for: .normal)
-        scenarioFilterOutlet.backgroundColor = UIColor(hue: 40/360, saturation: 6/100, brightness: 100/100, alpha: 1.0)
+        scenarioFilterOutlet.backgroundColor = colorDefinitions.scenarioSegmentedControlBGColor
         scenarioTableView.reloadData()
     }
     func setTextAttributes(fontName: String, fontSize: CGFloat, textColor: UIColor) -> [ String : Any ] {
@@ -346,7 +343,7 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
             preferredStyle: .actionSheet)
         
         let action = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil)
-        alertView.view.tintColor = UIColor.black
+        alertView.view.tintColor = colorDefinitions.scenarioAlertViewTintColor
         alertView.addAction(action)
         present(alertView, animated: true, completion: { _ in
         })
@@ -370,9 +367,9 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
     fileprivate func styleUI() {
         self.scenarioTableView.estimatedRowHeight = 100
         self.scenarioTableView.rowHeight = UITableViewAutomaticDimension
-        self.navigationController?.navigationBar.tintColor = mainTextColor
-        self.navigationController?.navigationBar.barTintColor = UIColor(hue: 40/360, saturation: 6/100, brightness: 100/100, alpha: 1.0)
-        self.navigationController?.navigationBar.titleTextAttributes = setTextAttributes(fontName: "Nyala", fontSize: 26.0, textColor: mainTextColor)
+        self.navigationController?.navigationBar.tintColor = colorDefinitions.mainTextColor
+        self.navigationController?.navigationBar.barTintColor = colorDefinitions.scenarioTableViewNavBarBarTintColor
+        self.navigationController?.navigationBar.titleTextAttributes = setTextAttributes(fontName: "Nyala", fontSize: 26.0, textColor: colorDefinitions.mainTextColor)
     }
     fileprivate func fillUI() {
         if !isViewLoaded {
@@ -396,9 +393,9 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
         //Set up searchController stuff
 
         searchController.searchBar.delegate = self
-        searchController.searchBar.barTintColor = UIColor.gray
+        searchController.searchBar.barTintColor = colorDefinitions.scenarioTableViewSearchBarBarTintColor
         searchController.searchBar.placeholder = "Search Scenarios, Rewards, Achievements"
-        searchController.searchBar.tintColor = UIColor.black
+        searchController.searchBar.tintColor = colorDefinitions.scenarioTableViewHeaderTintColor
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
         searchController.searchBar.sizeToFit()
@@ -531,7 +528,6 @@ extension ScenarioViewController: UITableViewDataSource, UITableViewDelegate {
 }
 
 // MARK: DataModelDelegate
-// MARK: - DataModelDelegate
 extension ScenarioViewController: DataModelDelegate {
     func errorUpdating(error: CKError, type: myCKErrorType) {
         let message: String
@@ -547,5 +543,17 @@ extension ScenarioViewController: DataModelDelegate {
         alertController.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: nil))
         
         present(alertController, animated: true, completion: nil)
+    }
+    func showProgressHUD() {
+        //
+    }
+    func hideProgressHUD() {
+        //
+    }
+    func darkenViewBGColor() {
+        //
+    }
+    func restoreViewBGColor() {
+        //
     }
 }
