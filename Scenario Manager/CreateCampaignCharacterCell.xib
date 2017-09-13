@@ -11,12 +11,12 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="AddCampaignCharacterCell" customModule="Scenario_Manager" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="155"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="CreateCampaignCharacterCell" customModule="Scenario_Manager" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="111"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="DKx-qj-kRP">
-                    <rect key="frame" x="54" y="62" width="268" height="30"/>
+                    <rect key="frame" x="87" y="38" width="200" height="34"/>
                     <nil key="textColor"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
@@ -24,16 +24,16 @@
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="DKx-qj-kRP" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="54" id="4LQ-Bw-tbK"/>
-                <constraint firstItem="DKx-qj-kRP" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="62" id="Eec-7M-H9F"/>
-                <constraint firstAttribute="bottom" secondItem="DKx-qj-kRP" secondAttribute="bottom" constant="63" id="Ghb-8W-jpR"/>
-                <constraint firstAttribute="trailing" secondItem="DKx-qj-kRP" secondAttribute="trailing" constant="53" id="KCC-6z-AAY"/>
+                <constraint firstItem="DKx-qj-kRP" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="38" id="DYo-bV-0Vh"/>
+                <constraint firstItem="DKx-qj-kRP" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="KZh-YT-CwS"/>
+                <constraint firstItem="DKx-qj-kRP" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="87" id="gL4-ef-f5i"/>
+                <constraint firstItem="DKx-qj-kRP" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="pGr-WO-wW7"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
-                <outlet property="addCampaignCharacterTextField" destination="DKx-qj-kRP" id="y50-nb-tfN"/>
+                <outlet property="createCampaignCharacterTextField" destination="DKx-qj-kRP" id="y50-nb-tfN"/>
             </connections>
-            <point key="canvasLocation" x="34.5" y="-183.5"/>
+            <point key="canvasLocation" x="34.5" y="-205.5"/>
         </view>
     </objects>
 </document>

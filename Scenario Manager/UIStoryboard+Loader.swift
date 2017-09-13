@@ -33,13 +33,13 @@ extension UIStoryboard {
     static func loadScenarioViewController() -> ScenarioViewController {
         return loadFromMain("ScenarioViewController") as! ScenarioViewController
     }
-    static func loadCampaignViewController() -> CampaignViewController {
-        return loadFromMain("CampaignViewController") as! CampaignViewController
+    static func loadCampaignViewController() -> DashboardViewController {
+        return loadFromMain("DashboardViewController") as! DashboardViewController
     }
     static func loadCampaignTabBarController() -> CampaignManagerTabBarController {
         return loadFromMain("CampaignManagerTabBarController") as! CampaignManagerTabBarController
     }
-    static func loadAddCampaignViewController() -> AddCampaignViewController {
-        return loadFromMain("AddCampaignViewController") as! AddCampaignViewController
+    static func loadCreateCampaignViewController() -> CreateCampaignViewController {
+        return loadFromMain("CreateCampaignViewController") as! CreateCampaignViewController
     }
 }

@@ -18,16 +18,22 @@ class CampaignManagerTabBarController: UITabBarController {
         let allTabBarItems = tabBar.items
         
         let dashboardItem = allTabBarItems?[0]
-        let scenariosItem = allTabBarItems?[1]
+        let campaignsItem = allTabBarItems?[1]
+        let scenariosItem = allTabBarItems?[2]
+
         
         dashboardItem?.image = UIImage(named: "spikyHeadGuy.png")
         dashboardItem?.setTitleTextAttributes(tabBarTitleTextAttributes, for: .selected)
         dashboardItem?.title = "Dashboard"
-
+        
+        campaignsItem?.image = UIImage(named: "moonSymbol.png")
+        campaignsItem?.setTitleTextAttributes(tabBarTitleTextAttributes, for: .selected)
+        campaignsItem?.title = "Campaigns"
+        
         scenariosItem?.image = UIImage(named: "cthulhuFace.png")
         scenariosItem?.setTitleTextAttributes(tabBarTitleTextAttributes, for: .selected)
         scenariosItem?.title = "Scenarios"
-        
+
         tabBar.unselectedItemTintColor = colorDefinitions.tabBarUnselectedItemTintColor
         tabBar.tintColor = colorDefinitions.tabBarTintColor
         tabBar.barTintColor = colorDefinitions.tabBarBarTintColor

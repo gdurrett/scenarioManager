@@ -50,7 +50,7 @@ class DataModel {
             } else {
                 if self.campaigns["Default"] == nil {
                     print("Am I fucking adding from here?!")
-                    addCampaign(campaign: "Default", isCurrent: true, characters: [])
+                    createCampaign(title: "Default", isCurrent: true, characters: [])
                 }
                 return campaigns["Default"]
             }
@@ -69,7 +69,7 @@ class DataModel {
     // Campaign test
     var campaigns = [String: Campaign]()
     var defaultCampaign: Campaign?
-    var characters = [Character]()
+    var characters = [String: Character]()
     
     // Get a CloudKit object
     let myCloudKitMgr = CloudKitMgr()
@@ -1890,13 +1890,10 @@ class DataModel {
                 ]
         
             
-            // Temp character object array
-            let character1 = Character(name: "Snarklepuss", race: "Aesther", type: "Summoner", level: 4, isRetired: false)
-            characters.append(character1)
-            let character2 = Character(name: "Homegirl", race: "Inox", type: "Brute", level: 5, isRetired: false)
-            characters.append(character2)
-            let character3 = Character(name: "Stryker", race: "Inox", type: "Berserker", level: 6, isRetired: false)
-            characters.append(character3)
+            // Temp character object dictionary
+            characters["Snarklepuss"] = Character(name: "Snarklepuss", race: "Aesther", type: "Summoner", level: 4, isRetired: false)
+            characters["Homegirl"] = Character(name: "Homegirl", race: "Inox", type: "Brute", level: 5, isRetired: false)
+            characters["Stryker"] = Character(name: "Stryker", race: "Inox", type: "Berserker", level: 6, isRetired: false)
             
             // Create iCloud private DB schema if no plist exists. Logic will change.
             checkIfCampaignRecordExists() {
@@ -1910,7 +1907,7 @@ class DataModel {
                 } else { // No cloud schema, no local plist -> create new default campaign
                     // Need to make sure it's not that we just can't contact the container (due to authentication issues, e.g.) If that's the case, we need to give user a way to try again before overwriting Cloud
                     print("Attempting to create CK Schema")
-                    self.addCampaign(campaign: "Default", isCurrent: true, characters: [])
+                    self.createCampaign(title: "Default", isCurrent: true, characters: [])
                     self.saveCampaignsLocally()
                     self.updateCampaignRecords()
                 }
@@ -1960,10 +1957,9 @@ class DataModel {
         }
     }
     // CampaignTest
-    func addCampaign(campaign: String, isCurrent: Bool, characters: [Character]) {
-        if (campaigns[campaign] == nil) {
-            print("Nothing for \(campaign)")
-            let newCampaign = Campaign(title: campaign, isUnlocked: [], requirementsMet: [], isCompleted: [], achievements:[:], isCurrent: isCurrent, characters: [])
+    func createCampaign(title: String, isCurrent: Bool, characters: [Character]) {
+        if (campaigns[title] == nil) {
+            let newCampaign = Campaign(title: title, isUnlocked: [], requirementsMet: [], isCompleted: [], achievements:[:], isCurrent: isCurrent, characters: characters)
             for scenario in allScenarios {
                 if scenario.number == "1" {
                     newCampaign.isUnlocked.append(true)
@@ -1982,13 +1978,13 @@ class DataModel {
                     newCampaign.achievements[achievement.key] = false
                 }
             }
-            campaigns[campaign] = newCampaign
+            campaigns[title] = newCampaign
             if newCampaign.isCurrent == true {
                 loadCampaign(campaign: newCampaign.title)
             }
             print("Added campaign: \(newCampaign.title)")
         } else {
-            print("Campaign \(campaigns[campaign]!.title) already exists!")
+            print("Campaign \(campaigns[title]!.title) already exists!")
         }
     }
     func resetCurrentCampaign() {
@@ -2176,7 +2172,7 @@ class DataModel {
                 for record in records! {
                     campaignName = record.recordID.recordName
                     let current = record["isCurrent"] as! Bool == true ? true : false
-                    self.addCampaign(campaign: campaignName, isCurrent: current, characters: [])
+                    self.createCampaign(title: campaignName, isCurrent: current, characters: [])
                     let newCampaign = self.campaigns[campaignName]!
                     newCampaign.isCurrent = record["isCurrent"] as! Bool
                     newCampaign.characters = record["characters"] as? [Character]

@@ -1,5 +1,5 @@
 //
-//  AddCampaignViewModelFromModel.swift
+//  CreateCampaignViewModelFromModel.swift
 //  Scenario Manager
 //
 //  Created by Greg Durrett on 9/7/17.
@@ -23,7 +23,7 @@ extension CaseCountable where Self : RawRepresentable, Self.RawValue == Int {
     }
 }
 // Move these to separate files?
-struct AddCampaignTitleCellViewModel {
+struct CreateCampaignTitleCellViewModel {
     
 //    let campaignTitleTextField: String?
     let campaignTitleTextFieldPlaceholder: String
@@ -41,28 +41,35 @@ enum SectionTypes: Int, CaseCountable {
     static let caseCount = SectionTypes.countCases()
 }
 
-class AddCampaignViewModelFromModel: NSObject, CampaignViewControllerViewModel {
+class CreateCampaignViewModelFromModel: NSObject, CreateCampaignViewControllerViewModel, CreateCampaignCharacterCellDelegate {
     
     let dataModel: DataModel
-    var campaigns: [String:Campaign]
-    var characters: [Character]
+    var campaign = [String:Campaign]()
+    var characters: [String:Character]
     let numberOfSections = SectionTypes.caseCount
     let sections = [SectionTypes.Title, SectionTypes.Characters]
-    
+    var remainingCharacters: [String:Character]
     
     init(withDataModel dataModel: DataModel) {
         self.dataModel = dataModel
-        self.campaigns = dataModel.campaigns
         self.characters = dataModel.characters
+        self.remainingCharacters = characters
     }
+
     func returnTextFieldPlaceholderText() -> String {
         return "Select Character"
     }
-    func returnCharacters() -> [Character] {
-        return self.characters
+    func updateAvailableCharacters(characterToRemove: String) {
+        if self.remainingCharacters.count == 1 {
+            print("Not removing last")
+        } else {
+            print("Calling remove again!")
+            self.remainingCharacters.removeValue(forKey: characterToRemove)
+        }
     }
-    func addCampaign(title: String) {
+    func createCampaign(title: String, characters: [Character]) {
         print("Got title: \(title)")
-        //dataModel.addCampaign(campaign: campaign, isCurrent: true)
+        print("Got character: \(characters.map { $0.name })")
+        dataModel.createCampaign(title: title, isCurrent: true, characters: characters)
     }
 }

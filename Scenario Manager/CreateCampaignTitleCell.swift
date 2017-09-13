@@ -1,5 +1,5 @@
 //
-//  AddCampaignTitleCell.swift
+//  CreateCampaignTitleCell.swift
 //  Scenario Manager
 //
 //  Created by Greg Durrett on 9/8/17.
@@ -8,11 +8,11 @@
 
 import UIKit
 
-class AddCampaignTitleCell: UITableViewCell {
+class CreateCampaignTitleCell: UITableViewCell {
     
     @IBOutlet weak var campaignTitleTextField: UITextField!
     
-    func configure(withViewModel viewModel: AddCampaignTitleCellViewModel) {
+    func configure(withViewModel viewModel: CreateCampaignTitleCellViewModel) {
         campaignTitleTextField.placeholder = viewModel.campaignTitleTextFieldPlaceholder
     }
     
