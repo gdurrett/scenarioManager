@@ -11,8 +11,11 @@ import UIKit
 class CampaignViewController: UIViewController {
 
     // MARK: Outlets and Actions
-    @IBOutlet weak var campaignTableView: UITableView!
+    @IBOutlet weak var campaignTableViewOutlet: UITableView!
     
+    @IBAction func createCampaignAction(_ sender: Any) {
+        loadCreateCampaignViewController()
+    }
     // MARK: Global variables
     var viewModel: CampaignViewModelFromModel? {
         didSet {
@@ -26,15 +29,20 @@ class CampaignViewController: UIViewController {
     // MARK: View functions
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        campaignTableView.delegate = self
-        campaignTableView.dataSource = self
-        campaigns = viewModel?.campaigns
-        
         fillUI()
+
+        campaignTableViewOutlet.delegate = self
+        campaignTableViewOutlet.dataSource = self
+        
+        campaignTableViewOutlet.reloadData()
         styleUI()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel!.updateAvailableCampaigns()
+        campaignTableViewOutlet.reloadData()
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -52,12 +60,13 @@ class CampaignViewController: UIViewController {
         }
         
         // We definitely have setup done now
-        self.campaigns = viewModel.campaigns
+        //campaigns = viewModel.campaigns
+        viewModel.campaigns.bindAndFire { [unowned self] in self.campaigns = $0 }
     }
     fileprivate func styleUI() {
         self.navigationItem.title = "Campaigns"
-        self.campaignTableView.estimatedRowHeight = 100
-        self.campaignTableView.rowHeight = UITableViewAutomaticDimension
+        self.campaignTableViewOutlet.estimatedRowHeight = 100
+        self.campaignTableViewOutlet.rowHeight = UITableViewAutomaticDimension
         self.navigationController?.navigationBar.tintColor = colorDefinitions.mainTextColor
         self.navigationController?.navigationBar.barTintColor = colorDefinitions.scenarioTableViewNavBarBarTintColor
         self.navigationController?.navigationBar.titleTextAttributes = setTextAttributes(fontName: "Nyala", fontSize: 26.0, textColor: colorDefinitions.mainTextColor)
@@ -82,6 +91,15 @@ class CampaignViewController: UIViewController {
         label.text = campaign.title
         label.sizeToFit()
     }
+    // Action methods
+    fileprivate func loadCreateCampaignViewController() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let createCampaignVC = storyboard.instantiateViewController(withIdentifier: "createCampaignViewController") as! CreateCampaignViewController
+        createCampaignVC.delegate = self
+        createCampaignVC.viewModel = self.viewModel!.createCampaignViewModel
+        createCampaignVC.hidesBottomBarWhenPushed = true
+        self.navigationController!.pushViewController(createCampaignVC, animated: true)
+    }
 }
 
 extension CampaignViewController: UITableViewDataSource, UITableViewDelegate {
@@ -91,16 +109,27 @@ extension CampaignViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return campaigns.count
+        return campaigns!.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = makeCell(for: tableView)
         let myCampaigns = Array(self.campaigns.values)
         configureTitle(for: cell, with: myCampaigns[indexPath.row])
-
+        
         cell.backgroundView?.alpha = 0.25
         cell.selectedBackgroundView?.alpha = 0.65
-        return cell
+        return cell as! CampaignMainCell
+    }
+}
+
+extension CampaignViewController: CreateCampaignViewControllerDelegate {
+    // Delegate methods for CreateCampaignViewController
+    func createCampaignViewControllerDidCancel(_ controller: CreateCampaignViewController) {
+        print("Did we get back here to cancel?")
+        controller.navigationController?.popViewController(animated: true)
+    }
+    func createCampaignViewControllerDidFinishAdding(_ controller: CreateCampaignViewController) {
+        controller.navigationController?.popViewController(animated: true)
     }
 }

@@ -50,14 +50,30 @@ class DataModel {
             } else {
                 if self.campaigns["Default"] == nil {
                     print("Am I fucking adding from here?!")
-                    createCampaign(title: "Default", isCurrent: true, characters: [])
+                    createCampaign(title: "Default", isCurrent: true, parties: [])
                 }
                 return campaigns["Default"]
             }
         }
     }
+    var currentParty: Party? {
+        get {
+            let myParty = parties.filter { $0.value.isCurrent == true }
+            if !myParty.isEmpty {
+                print("Returning \(myParty[0].value)")
+                return myParty[0].value
+            } else {
+                if self.parties["Default"] == nil {
+                    createParty(name: "Default", characters: [], location: "Gloomhaven", achievements: [:], isCurrent: true)
+                }
+                return parties["Default"]
+            }
+        }
+    }
     var allScenarios = [Scenario]()
-    var achievements = [ String : Bool ]()
+    //var achievements = [ String : Bool ]()
+    var globalAchievements = [String:Bool]()
+    var partyAchievements = [String:Bool]()
     var requirementsMet = false
     var myAchieves = [String]()
     var or = false
@@ -66,9 +82,14 @@ class DataModel {
     var mainCellBGImage = UIImage()
     var delegate: DataModelDelegate?
     
-    // Campaign test
+    // Campaigns
     var campaigns = [String: Campaign]()
     var defaultCampaign: Campaign?
+    
+    // Parties
+    var parties = [String: Party]()
+    
+    // Characters
     var characters = [String: Character]()
     
     // Get a CloudKit object
@@ -94,7 +115,13 @@ class DataModel {
                     break
                 }
             }
-            
+            for party in parties {
+                if party.value.isCurrent == true {
+                    loadParty(party: party.key)
+                    print("Setting party to: \(party.value.name)")
+                    break
+                }
+            }
         } else {
         
             
@@ -282,7 +309,7 @@ class DataModel {
                 title: "Plane of Elemental Power",
                 isCompleted: false,
                 requirementsMet: false,
-                requirements: ["The Rift Closed": false],
+                requirements: ["The Rift Neutralized": false],
                 isUnlocked: false,
                 unlockedBy: ["5"],
                 unlocks: ["21", "22"],
@@ -480,11 +507,11 @@ class DataModel {
                 title: "Infernal Throne",
                 isCompleted: false,
                 requirementsMet: false,
-                requirements: ["The Rift Closed": false],
+                requirements: ["The Rift Neutralized": false],
                 isUnlocked: false,
                 unlockedBy: ["10"],
                 unlocks: ["None"],
-                achieves: ["The Demon Dethroned"],
+                achieves: ["The Rift Neutralized"],
                 rewards: [NSAttributedString(string: "50 Gold Each"), NSAttributedString(string: "+1 Prosperity"), NSAttributedString(string: "Add City Event 78")],
                 summary: "Goal: Kill the Prime Demon.\n\nToo late to turn back now. You have chosen to face the Prime Demon in his own throne room. Problem is, you need to kill the altar, not him. And the altar has a bad habit of not staying in one place.",
                 locationString: "C-7, Stone Road",
@@ -570,7 +597,7 @@ class DataModel {
                 title: "Ancient Cistern",
                 isCompleted: false,
                 requirementsMet: false,
-                requirements: ["OR" : true, "Water Breathing" : true, "Through the Ruins" : true],
+                requirements: ["OR" : true, "Water-Breathing" : true, "Through the Ruins" : true],
                 isUnlocked: false,
                 unlockedBy: ["18"],
                 unlocks: ["22"],
@@ -592,7 +619,7 @@ class DataModel {
                 isUnlocked: false,
                 unlockedBy: ["19"],
                 unlocks: ["22"],
-                achieves: ["The Rift Closed"],
+                achieves: ["The Rift Neutralized"],
                 rewards: [NSAttributedString(string: "100 Gold Each (spend on enhancements)")],
                 summary: "Goal: Protect Hail for ten rounds.\n\nNow that you've helped Hail retrieve the Elemental Censer, you venture to the nexus of the Rift hoping Hail's scheme will work. You'll have to protect her once again as she does her thing.",
                 locationString: "E-6, Stone Road",
@@ -732,7 +759,7 @@ class DataModel {
                 title: "Gloomhaven Battlements A",
                 isCompleted: false,
                 requirementsMet: false,
-                requirements: ["A Demon's Errand" : true, "The Demon Dethroned" : false],
+                requirements: ["A Demon's Errand" : true, "The Rift Neutralized" : false],
                 isUnlocked: false,
                 unlockedBy: ["22"],
                 unlocks: ["45"],
@@ -768,13 +795,13 @@ class DataModel {
                 title: "Doom Trench",
                 isCompleted: false,
                 requirementsMet: false,
-                requirements: ["Water Breathing" : true],
+                requirements: ["Water-Breathing" : true],
                 isUnlocked: false,
                 unlockedBy: ["31"],
                 unlocks: ["47"],
                 achieves: ["Through the Trench"],
                 rewards: [NSAttributedString(string: "None")],
-                summary: "Goal: All characters must escape through the exit (a).\n\nHail claims that this murky trench beneath the Misty Sea is one of the places from which tendrils of dark power emanated when we destroyed the rock column back in the Plane of Night. Make sure you take your Water Breathing Orb with you!",
+                summary: "Goal: All characters must escape through the exit (a).\n\nHail claims that this murky trench beneath the Misty Sea is one of the places from which tendrils of dark power emanated when we destroyed the rock column back in the Plane of Night. Make sure you take your Water-Breathing Orb with you!",
                 locationString: "G-18, Misty Sea",
                 isManuallyUnlockable: false,
                 mainCellBGImage: "scenarioMgrMap37"
@@ -880,7 +907,7 @@ class DataModel {
                 isUnlocked: false,
                 unlockedBy: ["18", "31"],
                 unlocks: ["None"],
-                achieves: ["Water Breathing"],
+                achieves: ["Water-Breathing"],
                 rewards: [NSAttributedString(string: "None")],
                 summary: "Goal: Kill a number of drakes equal to four times the number of characters.\n\nYou want to be able to travel anywhere in the land, and that includes under water. Hail has a plan to help you achieve that ability, but you'll need to kill a bunch of scaly monsters first. ",
                 locationString: "D-4, Dagger Forest",
@@ -1254,7 +1281,7 @@ class DataModel {
                 title: "Underwater Lagoon",
                 isCompleted: false,
                 requirementsMet: false,
-                requirements: ["Water Breathing" : true],
+                requirements: ["Water-Breathing" : true],
                 isUnlocked: true,
                 unlockedBy: ["None"],
                 unlocks: ["None"],
@@ -1686,7 +1713,7 @@ class DataModel {
                 title: "Plane of Water",
                 isCompleted: false,
                 requirementsMet: false,
-                requirements: ["Water Breathing" : true, "Water Staff" : true],
+                requirements: ["Water-Breathing" : true, "Water Staff" : true],
                 isUnlocked: false,
                 unlockedBy: ["City Event 68A"],
                 unlocks: ["None"],
@@ -1825,70 +1852,76 @@ class DataModel {
             )
             allScenarios.append(row94Scenario)
             
-            achievements = [
+            globalAchievements = [
                 "None"                                  : true,
                 "OR"                                    : true,
-                "City Rule: Militaristic"               : true,
-                "First Steps"                           : false,
-                "Jekserah's Plans"                      : false,
-                "Dark Bounty"                           : false,
-                "The Merchant Flees"                    : false,
-                "The Dead Invade"                       : false,
-                "A Demon's Errand"                      : false,
-                "End of the Invasion"                   : false,
-                "The Power of Enhancement"              : false,
-                "Stonebreaker's Censer"                 : false,
-                "The Demon Dethroned"                   : false,
-                "Through the Ruins"                     : false,
-                "The Voice's Command"                   : false,
-                "The Drake's Command"                   : false,
-                "Following Clues"                       : false,
-                "The Rift Closed"                       : false,
-                "An Invitation"                         : false,
-                "The Edge of Darkness"                  : false,
-                "The Scepter and the Voice"             : false,
+                "Annihilation of Order"                 : false,
                 "Artifact: Cleansed"                    : false,
                 "Artifact: Lost"                        : false,
                 "Artifact: Recovered"                   : false,
-                "The Voice's Treasure"                  : false,
-                "The Drake Aided"                       : false,
-                "The Drake's Treasure"                  : false,
-                "The Drake Slain"                       : false,
-                "The Voice Silenced"                    : false,
-                "City Rule: Demonic"                    : false,
+                "Ancient Technology"                    : false,
                 "City Rule: Economic"                   : false,
-                "Through the Trench"                    : false,
-                "Redthorn's Aid"                        : false,
-                "Across the Divide"                     : false,
-                "The Voice Freed"                       : false,
-                "Water Breathing"                       : false,
+                "City Rule: Militaristic"               : true,
+                "City Rule: Demonic"                    : false,
                 "End of Corruption 1"                   : false,
                 "End of Corruption 2"                   : false,
                 "End of Corruption 3"                   : false,
-                "Annihilation of Order"                 : false,
                 "End of Gloom"                          : false,
-                "The Poison's Source"                   : false,
-                "Through the Nest"                      : false,
-                "High Sea Escort"                       : false,
-                "Grave Job"                             : false,
-                "Bravery"                               : false,
-                "Fish's Aid"                            : false,
-                "Bad Business"                          : false,
-                "Tremors"                               : false,
-                "Sin-Ra"                                : false,
-                "Debt Collection"                       : false,
+                "End of the Invasion"                   : false,
+                "The Dead Invade"                       : false,
+                "The Drake Aided"                       : false,
+                "The Drake Slain"                       : false,
+                "The Edge of Darkness"                  : false,
+                "The Merchant Flees"                    : false,
+                "The Power of Enhancement"              : false,
+                "The Rift Neutralized"                  : false,
+                "The Voice Freed"                       : false,
+                "The Voice Silenced"                    : false,
+                "Water-Breathing"                       : false
+            ]
+            
+            partyAchievements = [
+                "None"                                  : true,
+                "OR"                                    : true,
+                "A Demon's Errand"                      : false,
                 "A Map to Treasure"                     : false,
-                "Chosen by picker"                      : false,
-                "Ancient Technology"                    : false,
+                "Across the Divide"                     : false,
+                "An Invitation"                         : false,
+                "Bad Business"                          : false,
+                "Bravery"                               : false,
+                "Dark Bounty"                           : false,
+                "Debt Collection"                       : false,
+                "Finding the Cure personal quest"       : false,
+                "First Steps"                           : false,
+                "Fish's Aid"                            : false,
+                "Following Clues"                       : false,
+                "Grave Job"                             : false,
+                "High Sea Escort"                       : false,
+                "Jekserah's Plans"                      : false,
                 "Seeker of Xorn personal quest"         : false,
                 "Staff of Xorn item equipped"           : false,
+                "Redthorn's Aid"                        : false,
+                "Sin-Ra"                                : false,
+                "Stonebreaker's Censer"                 : false,
                 "Take Back the Trees personal quest"    : false,
-                "Vengeance personal quest"              : false,
-                "Finding the Cure personal quest"       : false,
+                "The Drake's Command"                   : false,
+                "The Drake's Treasure"                  : false,
                 "The Fall of Man personal quest"        : false,
+                "The Poison's Source"                   : false,
+                "The Scepter and the Voice"             : false,
+                "The Voice's Command"                   : false,
+                "The Voice's Treasure"                  : false,
+                "Through the Nest"                      : false,
+                "Through the Ruins"                     : false,
+                "Through the Trench"                    : false,
+                "Tremors"                               : false,
+                "Vengeance personal quest"              : false,
                 "Water Staff"                           : false
-                ]
+            ]
         
+            // Temp party object dictionary
+            parties["Wrecking Crew"] = Party(name: "Wrecking Crew", characters: Array(Set(characters.values)), location: "Gloomhaven", achievements: partyAchievements, isCurrent: true)
+            parties["BungleHeads"] = Party(name: "BungleHeads", characters: Array(Set(characters.values)), location: "Gloomhaven", achievements: partyAchievements, isCurrent: true)
             
             // Temp character object dictionary
             characters["Snarklepuss"] = Character(name: "Snarklepuss", race: "Aesther", type: "Summoner", level: 4, isRetired: false)
@@ -1907,7 +1940,7 @@ class DataModel {
                 } else { // No cloud schema, no local plist -> create new default campaign
                     // Need to make sure it's not that we just can't contact the container (due to authentication issues, e.g.) If that's the case, we need to give user a way to try again before overwriting Cloud
                     print("Attempting to create CK Schema")
-                    self.createCampaign(title: "Default", isCurrent: true, characters: [])
+                    self.createCampaign(title: "Default", isCurrent: true, parties: [])
                     self.saveCampaignsLocally()
                     self.updateCampaignRecords()
                 }
@@ -1929,8 +1962,9 @@ class DataModel {
         let data = NSMutableData()
         let archiver = NSKeyedArchiver(forWritingWith: data)
         archiver.encode(allScenarios, forKey: "Scenarios")
-        archiver.encode(achievements, forKey: "Achievements")
+//        archiver.encode(achievements, forKey: "Achievements")
         archiver.encode(campaigns, forKey: "Campaigns")
+        archiver.encode(parties, forKey: "Parties")
         archiver.finishEncoding()
         data.write(to: dataFilePath(), atomically: true)
     }
@@ -1939,8 +1973,9 @@ class DataModel {
         if let data = try? Data(contentsOf: path) {
             let unarchiver = NSKeyedUnarchiver(forReadingWith: data)
             allScenarios = unarchiver.decodeObject(forKey: "Scenarios") as! [Scenario]
-            achievements = unarchiver.decodeObject(forKey: "Achievements") as! [ String : Bool ]
+//            achievements = unarchiver.decodeObject(forKey: "Achievements") as! [ String : Bool ]
             campaigns = unarchiver.decodeObject(forKey: "Campaigns") as! [ String: Campaign ]
+            parties = unarchiver.decodeObject(forKey: "Parties") as! [ String:Party ]
             unarchiver.finishDecoding()
         }
 
@@ -1956,10 +1991,10 @@ class DataModel {
             return scenario
         }
     }
-    // CampaignTest
-    func createCampaign(title: String, isCurrent: Bool, characters: [Character]) {
+    // Campaign functions
+    func createCampaign(title: String, isCurrent: Bool, parties: [Party]) {
         if (campaigns[title] == nil) {
-            let newCampaign = Campaign(title: title, isUnlocked: [], requirementsMet: [], isCompleted: [], achievements:[:], isCurrent: isCurrent, characters: characters)
+            let newCampaign = Campaign(title: title, isUnlocked: [], requirementsMet: [], isCompleted: [], achievements:[:], isCurrent: isCurrent, parties: parties)
             for scenario in allScenarios {
                 if scenario.number == "1" {
                     newCampaign.isUnlocked.append(true)
@@ -1971,7 +2006,7 @@ class DataModel {
                     newCampaign.isCompleted.append(false)
                 }
             }
-            for achievement in achievements {
+            for achievement in globalAchievements {
                 if achievement.key == "None" || achievement.key == "OR" {
                     newCampaign.achievements[achievement.key] = true
                 } else {
@@ -2003,7 +2038,7 @@ class DataModel {
                 count+=1
             }
         }
-        for achievement in self.achievements {
+        for achievement in currentCampaign!.achievements {
             if achievement.key == "None" || achievement.key == "OR" {
                 campaign.achievements[achievement.key] = true
             } else {
@@ -2020,11 +2055,11 @@ class DataModel {
                 scenario.isCompleted = requestedCampaign.isCompleted[count]
                 count += 1
             }
-            for achievement in achievements.keys {
+            for achievement in requestedCampaign.achievements.keys {
                 let newStatus = requestedCampaign.achievements[achievement]
-                self.achievements[achievement] = newStatus
+                //print("Setting \(achievement) to \(newStatus!)")
+                self.globalAchievements[achievement] = newStatus
             }
-            print("Loading up \(campaign)")
             updateLocalCampaignIsCurrent(campaign: requestedCampaign.title)
             updateCloudCampaignIsCurrent(campaign: requestedCampaign.title) // Make sure to set others to not current
         } else {
@@ -2042,11 +2077,9 @@ class DataModel {
         for myCampaign in self.campaigns {
             print("Check \(myCampaign.value.title)")
             if myCampaign.value.isCurrent == true {
-                print("Skipping \(myCampaign.value.title)") // Should already be toggled true, so skip setting to false below
             } else {
                 let campaignRecordID = CKRecordID(recordName: myCampaign.value.title)
                 let campaignRecord = CKRecord(recordType: "CampaignStatus", recordID: campaignRecordID)
-                print("Setting \(myCampaign) to false in cloud!")
                 campaignRecord["isCurrent"] = false as CKRecordValue
                 
                 records.append(campaignRecord)
@@ -2065,6 +2098,48 @@ class DataModel {
         }
         self.myCloudKitMgr.privateDatabase.add(uploadOperation)
     }
+    // Party functions
+    func createParty(name: String, characters: [Character], location: String, achievements: [String:Bool], isCurrent: Bool) {
+        if (parties[name] == nil) {
+            let newParty = Party(name: name, characters: characters, location: location, achievements: [:], isCurrent: isCurrent)
+            for achievement in partyAchievements {
+                if achievement.key == "None" || achievement.key == "OR" {
+                    newParty.achievements[achievement.key] = true
+                } else {
+                    newParty.achievements[achievement.key] = false
+                }
+            }
+            parties[name] = newParty
+            if newParty.isCurrent == true {
+                loadParty(party: newParty.name)
+            }
+            print("Added party: \(newParty.name)")
+        } else {
+            print("Party \(parties[name]!.name) already exists!")
+        }
+    }
+    func loadParty(party: String) {
+        if let requestedParty = parties[party] {
+            //print("Setting party achievements after load for \(requestedParty.name)")
+            for achievement in requestedParty.achievements.keys {
+                let newStatus = requestedParty.achievements[achievement]
+                //print("Setting \(achievement) to \(newStatus!)")
+                self.partyAchievements[achievement] = newStatus
+            }
+            print("Loading up \(party)")
+            updateLocalPartyIsCurrent(party: requestedParty.name)
+            //updateCloudCampaignIsCurrent(campaign: requestedParty.title) // Make sure to set others to not current
+        } else {
+            print("No such party exists")
+        }
+    }
+    func updateLocalPartyIsCurrent(party: String) {
+        for myParty in parties {
+            myParty.value.isCurrent = false
+        }
+        parties[party]?.isCurrent = true
+    }
+    // End party functions
     func resetAll() {
         for scenario in allScenarios {
             if scenario.number == "1" {
@@ -2078,11 +2153,18 @@ class DataModel {
                 scenario.isAvailable = false
             }
         }
-        for achievement in achievements {
+        for achievement in globalAchievements {
             if achievement.key == "None" || achievement.key == "OR" {
-                achievements[achievement.key] = true
+                globalAchievements[achievement.key] = true
             } else {
-                achievements[achievement.key] = false
+                globalAchievements[achievement.key] = false
+            }
+        }
+        for achievement in partyAchievements {
+            if achievement.key == "None" || achievement.key == "OR" {
+                partyAchievements[achievement.key] = true
+            } else {
+                partyAchievements[achievement.key] = false
             }
         }
     }
@@ -2116,7 +2198,7 @@ class DataModel {
             
         }
         // Needs to be in campaign.achievements
-        for achievement in achievements {
+        for achievement in globalAchievements {
             let achievementStatusRecordID = CKRecordID(recordName: achievement.key + "_\(currentCampaign!.title)")
             let achievementStatusRecord = CKRecord(recordType: "Achievement", recordID: achievementStatusRecordID)
             let achievementState = achievement.value ? 1 : 0
@@ -2172,10 +2254,10 @@ class DataModel {
                 for record in records! {
                     campaignName = record.recordID.recordName
                     let current = record["isCurrent"] as! Bool == true ? true : false
-                    self.createCampaign(title: campaignName, isCurrent: current, characters: [])
+                    self.createCampaign(title: campaignName, isCurrent: current, parties: [])
                     let newCampaign = self.campaigns[campaignName]!
                     newCampaign.isCurrent = record["isCurrent"] as! Bool
-                    newCampaign.characters = record["characters"] as? [Character]
+                    newCampaign.parties = record["parties"] as? [Party]
                     self.getAchievementsStatusFromCloud(campaign: newCampaign.title) { achievements in
                         newCampaign.achievements = achievements
                     }

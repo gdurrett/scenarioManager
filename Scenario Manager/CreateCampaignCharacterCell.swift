@@ -30,8 +30,8 @@ class CreateCampaignCharacterCell: UITableViewCell, UIPickerViewDelegate, UIPick
         createCampaignCharacterTextField.placeholder = viewModel.returnTextFieldPlaceholderText()
         self.viewModel = viewModel
         self.delegate = viewModel
-        for character in viewModel.characters.keys {
-            self.pickerData.append(character)
+        for party in viewModel.parties.keys {
+            self.pickerData.append(party)
         }
     }
     // Delegate methods for picker
@@ -48,9 +48,9 @@ class CreateCampaignCharacterCell: UITableViewCell, UIPickerViewDelegate, UIPick
 
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         if pickerData.count > 1 { pickerData.removeAll() }
-        for character in viewModel!.remainingCharacters.keys {
-            self.pickerData.append(character)
-            print("Appending \(character)")
+        for party in viewModel!.remainingParties.keys {
+            self.pickerData.append(party)
+            print("Appending \(party)")
         }
         createCampaignCharacterTextField.text = pickerData[row]
         return pickerData[row]

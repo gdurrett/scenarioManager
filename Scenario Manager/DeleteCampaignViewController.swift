@@ -46,7 +46,7 @@ class DeleteCampaignViewController: UIViewController {
         deleteCampaignTableView?.dataSource = self
         deleteCampaignTableView?.delegate = self
         
-        self.campaigns = viewModel!.campaigns
+        //self.campaigns = viewModel!.campaigns
         self.campaignsToDelete = []
         self.deleteCampaignTableView.allowsMultipleSelection = true
         self.deleteCampaignTableView.tableFooterView = UIView(frame: .zero)
@@ -87,7 +87,8 @@ extension DeleteCampaignViewController: UITableViewDataSource, UITableViewDelega
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return (viewModel?.campaigns.count)!
+        //return (viewModel?.campaigns.count)!
+        return 3
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

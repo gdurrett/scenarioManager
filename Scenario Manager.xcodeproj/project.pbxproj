@@ -60,6 +60,7 @@
 		FBD2DD1A1F699ED100CAA684 /* CampaignViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD2DD191F699ED100CAA684 /* CampaignViewController.swift */; };
 		FBD2DD1C1F69A10200CAA684 /* CampaignViewModelFromModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD2DD1B1F69A10200CAA684 /* CampaignViewModelFromModel.swift */; };
 		FBD2DD1F1F69CB3800CAA684 /* CampaignTitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD2DD1E1F69CB3800CAA684 /* CampaignTitleCell.swift */; };
+		FBD2DD211F6ADD8E00CAA684 /* Party.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD2DD201F6ADD8E00CAA684 /* Party.swift */; };
 		FBE3F1E91F47C91100CAA684 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FBE3F1E81F47C91100CAA684 /* Main.storyboard */; };
 		FBE3F1EB1F47C92C00CAA684 /* ScenarioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE3F1EA1F47C92C00CAA684 /* ScenarioViewController.swift */; };
 		FBE3F1ED1F4A5F6A00CAA684 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FBE3F1EC1F4A5F6A00CAA684 /* Assets.xcassets */; };
@@ -123,6 +124,7 @@
 		FBD2DD191F699ED100CAA684 /* CampaignViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CampaignViewController.swift; sourceTree = "<group>"; };
 		FBD2DD1B1F69A10200CAA684 /* CampaignViewModelFromModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CampaignViewModelFromModel.swift; sourceTree = "<group>"; };
 		FBD2DD1E1F69CB3800CAA684 /* CampaignTitleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CampaignTitleCell.swift; sourceTree = "<group>"; };
+		FBD2DD201F6ADD8E00CAA684 /* Party.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Party.swift; sourceTree = "<group>"; };
 		FBE3F1E81F47C91100CAA684 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		FBE3F1EA1F47C92C00CAA684 /* ScenarioViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScenarioViewController.swift; sourceTree = "<group>"; };
 		FBE3F1EC1F4A5F6A00CAA684 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -221,6 +223,7 @@
 				FB23B6FB1F04C40D00CAA684 /* Scenario.swift */,
 				FBD2DCF71F5C935B00CAA684 /* Campaign.swift */,
 				FBD2DCF91F5C945C00CAA684 /* Character.swift */,
+				FBD2DD201F6ADD8E00CAA684 /* Party.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -448,6 +451,7 @@
 				FB4665911F2FA98C00CAA684 /* LocationInfoCell.swift in Sources */,
 				FBCE87641F59EBE400CAA684 /* CloudKitMgr.swift in Sources */,
 				FBD2DD181F68674600CAA684 /* DeleteCampaignViewController.swift in Sources */,
+				FBD2DD211F6ADD8E00CAA684 /* Party.swift in Sources */,
 				FB23B7021F0AB5ED00CAA684 /* DataModel.swift in Sources */,
 				FB40EA111F43B28100CAA684 /* UIViewController+Subview.swift in Sources */,
 				FBD2DD061F625F6500CAA684 /* CampaignViewModel.swift in Sources */,

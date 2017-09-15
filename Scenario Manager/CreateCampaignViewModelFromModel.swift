@@ -36,7 +36,7 @@ struct CreateCampaignTitleCellViewModel {
 enum SectionTypes: Int, CaseCountable {
     
     case Title
-    case Characters
+    case Parties
     
     static let caseCount = SectionTypes.countCases()
 }
@@ -45,31 +45,31 @@ class CreateCampaignViewModelFromModel: NSObject, CreateCampaignViewControllerVi
     
     let dataModel: DataModel
     var campaign = [String:Campaign]()
-    var characters: [String:Character]
+    var parties = [String:Party]()
     let numberOfSections = SectionTypes.caseCount
-    let sections = [SectionTypes.Title, SectionTypes.Characters]
-    var remainingCharacters: [String:Character]
+    let sections = [SectionTypes.Title, SectionTypes.Parties]
+    var remainingParties: [String:Party]
     
     init(withDataModel dataModel: DataModel) {
         self.dataModel = dataModel
-        self.characters = dataModel.characters
-        self.remainingCharacters = characters
+        self.parties = dataModel.parties
+        self.remainingParties = parties
     }
 
     func returnTextFieldPlaceholderText() -> String {
-        return "Select Character"
+        return "Select Party"
     }
     func updateAvailableCharacters(characterToRemove: String) {
-        if self.remainingCharacters.count == 1 {
+        if self.remainingParties.count == 1 {
             print("Not removing last")
         } else {
             print("Calling remove again!")
-            self.remainingCharacters.removeValue(forKey: characterToRemove)
+            self.remainingParties.removeValue(forKey: characterToRemove)
         }
     }
-    func createCampaign(title: String, characters: [Character]) {
+    func createCampaign(title: String, parties: [Party]) {
         print("Got title: \(title)")
-        print("Got character: \(characters.map { $0.name })")
-        dataModel.createCampaign(title: title, isCurrent: true, characters: characters)
+        print("Got party: \(parties.map { $0.name })")
+        dataModel.createCampaign(title: title, isCurrent: true, parties: parties)
     }
 }

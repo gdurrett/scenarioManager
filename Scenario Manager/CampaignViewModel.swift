@@ -10,5 +10,6 @@ import Foundation
 
 protocol CampaignViewControllerViewModel {
     var dataModel: DataModel { get }
-    var campaigns: [String:Campaign] { get }
+    var campaigns: Dynamic<[String:Campaign]> { get }
+    //var createCampaignViewModel: CreateCampaignViewModelFromModel { get }
 }

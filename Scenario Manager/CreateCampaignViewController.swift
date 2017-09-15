@@ -21,7 +21,7 @@ class CreateCampaignViewController: UIViewController {
     }
     weak var delegate: CreateCampaignViewControllerDelegate?
     var cellsArray = [UITableViewCell]()
-    var newCampaign = Campaign(title: "", isUnlocked: [], requirementsMet: [], isCompleted: [], achievements: [:], isCurrent: true, characters: [])
+    var newCampaign = Campaign(title: "", isUnlocked: [], requirementsMet: [], isCompleted: [], achievements: [:], isCurrent: true, parties: [])
     var chosenCharactersSoFar = [String]()
     
     @IBOutlet weak var createCampaignView: UIView!
@@ -35,15 +35,15 @@ class CreateCampaignViewController: UIViewController {
             }
             if let myCell = cell as? CreateCampaignCharacterCell {
                 if myCell.createCampaignCharacterTextField.text != "" {
-                    newCampaign.characters?.append ((viewModel?.characters[myCell.createCampaignCharacterTextField.text!])!)
+                    newCampaign.parties?.append ((viewModel?.parties[myCell.createCampaignCharacterTextField.text!])!)
                 }
             }
         }
         //Don't return duplicates
-        newCampaign.characters? = Array(Set(newCampaign.characters!))
+        newCampaign.parties? = Array(Set(newCampaign.parties!))
         // Code to give new campaign data back to viewModel
-        print("Would be giving back \(newCampaign.characters!) to viewModel")
-        viewModel?.createCampaign(title: newCampaign.title, characters: newCampaign.characters!)
+        print("Would be giving back \(newCampaign.parties!) to viewModel")
+        viewModel?.createCampaign(title: newCampaign.title, parties: newCampaign.parties!)
         delegate?.createCampaignViewControllerDidFinishAdding(self)
     }
     @IBAction func cancel(_ sender: Any) {
@@ -86,8 +86,8 @@ extension CreateCampaignViewController: UITableViewDataSource, UITableViewDelega
         switch sectionType {
         case .Title:
             return 1
-        case .Characters:
-            return (viewModel?.characters.count)! == 0 ? 1 : (viewModel?.characters.count)!
+        case .Parties:
+            return (viewModel?.parties.count)! == 0 ? 1 : (viewModel?.parties.count)!
         }
     }
 
@@ -102,7 +102,7 @@ extension CreateCampaignViewController: UITableViewDataSource, UITableViewDelega
             cell.configure(withViewModel: viewModel)
             tableViewCell = cell
             cellsArray.append(cell)
-        case .Characters:
+        case .Parties:
             let viewModel = self.viewModel
             let cell = tableView.dequeueReusableCell(withIdentifier: CreateCampaignCharacterCell.identifier) as! CreateCampaignCharacterCell
             cell.configure(withViewModel: viewModel!)
@@ -122,8 +122,8 @@ extension CreateCampaignViewController: UITableViewDataSource, UITableViewDelega
         switch sectionType {
         case .Title:
             return "Name your new campaign"
-        case .Characters:
-            return "Add characters"
+        case .Parties:
+            return "Add parties"
         }
     }
 }

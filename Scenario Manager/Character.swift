@@ -13,10 +13,10 @@ class Character: NSObject, NSCoding {
     var name: String
     var race: String
     var type: String
-    var level: Int32
+    var level: Double
     var isRetired: Bool
     
-    init(name: String, race: String, type: String, level: Int32, isRetired: Bool) {
+    init(name: String, race: String, type: String, level: Double, isRetired: Bool) {
         self.name = name
         self.race = race
         self.type = type
@@ -28,7 +28,7 @@ class Character: NSObject, NSCoding {
         name = aDecoder.decodeObject(forKey: "Name") as! String
         race = aDecoder.decodeObject(forKey: "Race") as! String
         type = aDecoder.decodeObject(forKey: "Type") as! String
-        level = aDecoder.decodeInt32(forKey: "Level")
+        level = aDecoder.decodeDouble(forKey: "Level")
         isRetired = aDecoder.decodeBool(forKey: "IsRetired")
     }
     

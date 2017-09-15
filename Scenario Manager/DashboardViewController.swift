@@ -9,7 +9,9 @@
 import UIKit
 import CloudKit
 
-class DashboardViewController: UIViewController, CreateCampaignViewControllerDelegate, DeleteCampaignViewControllerDelegate {
+//class DashboardViewController: UIViewController, CreateCampaignViewControllerDelegate, DeleteCampaignViewControllerDelegate {
+class DashboardViewController: UIViewController, DeleteCampaignViewControllerDelegate {
+
     var progressHUD: ProgressHUD!
     
     @IBAction func resetToDefaults(_ sender: Any) {
@@ -21,11 +23,12 @@ class DashboardViewController: UIViewController, CreateCampaignViewControllerDel
     }
     
     @IBAction func printCampaigns(_ sender: Any) {
-    print("Campaigns: \(dataModel!.campaigns)")
+        dataModel?.loadCampaign(campaign: "ThunderDays")
+        viewModel?.updateAvailableScenarios()
     }
-    @IBAction func displayCreateOptions(_ sender: Any) {
-        displayCreateOptions()
-    }
+//    @IBAction func displayCreateOptions(_ sender: Any) {
+//        displayCreateOptions()
+//    }
     @IBAction func displayDeleteOptions(_ sender: Any) {
         displayDeleteOptions()
     }
@@ -37,6 +40,10 @@ class DashboardViewController: UIViewController, CreateCampaignViewControllerDel
         }
         
     }
+    @IBAction func printParties(_ sender: Any) {
+        print(dataModel?.currentParty?.name)
+    }
+    
     var dataModel: DataModel? {
         didSet {
         }
@@ -69,13 +76,13 @@ class DashboardViewController: UIViewController, CreateCampaignViewControllerDel
         return [ NSFontAttributeName : fontStyle! , NSForegroundColorAttributeName : fontColor ]
     }
     // Delegate methods for CreateCampaignViewController
-    func createCampaignViewControllerDidCancel(_ controller: CreateCampaignViewController) {
-        print("Did we get back here to cancel?")
-        controller.navigationController?.popViewController(animated: true)
-    }
-    func createCampaignViewControllerDidFinishAdding(_ controller: CreateCampaignViewController) {
-        controller.navigationController?.popViewController(animated: true)
-    }
+//    func createCampaignViewControllerDidCancel(_ controller: CreateCampaignViewController) {
+//        print("Did we get back here to cancel?")
+//        controller.navigationController?.popViewController(animated: true)
+//    }
+//    func createCampaignViewControllerDidFinishAdding(_ controller: CreateCampaignViewController) {
+//        controller.navigationController?.popViewController(animated: true)
+//    }
     
     // Delegate methods for DeleteCamaignViewController
     func deleteCampaignViewControllerDidCancel(_ controller: DeleteCampaignViewController) {
@@ -114,10 +121,10 @@ class DashboardViewController: UIViewController, CreateCampaignViewControllerDel
             self.dismiss(animated: true, completion: nil)
         }
         campaignOptionsActionsSheetController.addAction(cancelActionButton)
-        let createCampaignAction = UIAlertAction(title: "Add Campaign", style: .default) { action -> Void in
-            self.loadCreateCampaignViewController()
-        }
-        campaignOptionsActionsSheetController.addAction(createCampaignAction)
+//        let createCampaignAction = UIAlertAction(title: "Add Campaign", style: .default) { action -> Void in
+//            self.loadCreateCampaignViewController()
+//        }
+//        campaignOptionsActionsSheetController.addAction(createCampaignAction)
         let addCharacterAction = UIAlertAction(title: "Add Character", style: .default) { action -> Void in
         }
         campaignOptionsActionsSheetController.addAction(addCharacterAction)
@@ -138,14 +145,14 @@ class DashboardViewController: UIViewController, CreateCampaignViewControllerDel
         campaignOptionsActionsSheetController.addAction(deleteCharacterAction)
         self.present(campaignOptionsActionsSheetController, animated: true, completion: nil)
     }
-    fileprivate func loadCreateCampaignViewController() {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let createCampaignVC = storyboard.instantiateViewController(withIdentifier: "createCampaignViewController") as! CreateCampaignViewController
-        createCampaignVC.delegate = self
-        createCampaignVC.viewModel = CreateCampaignViewModelFromModel(withDataModel: dataModel!)
-        createCampaignVC.hidesBottomBarWhenPushed = true
-        self.navigationController!.pushViewController(createCampaignVC, animated: true)
-    }
+//    fileprivate func loadCreateCampaignViewController() {
+//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//        let createCampaignVC = storyboard.instantiateViewController(withIdentifier: "createCampaignViewController") as! CreateCampaignViewController
+//        createCampaignVC.delegate = self
+//        createCampaignVC.viewModel = CreateCampaignViewModelFromModel(withDataModel: dataModel!)
+//        createCampaignVC.hidesBottomBarWhenPushed = true
+//        self.navigationController!.pushViewController(createCampaignVC, animated: true)
+//    }
     fileprivate func loadDeleteCampaignViewController() {
         if dataModel?.campaigns.count == 1 {
             showErrorAlert(errorMessage: "Cannot delete only remaining campaign!")

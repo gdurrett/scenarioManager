@@ -11,7 +11,6 @@ import Foundation
 protocol ScenarioViewModelDelegate: class {
     func presentiCloudConnectionAlert()
 }
-
 class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
     
     let dataModel: DataModel
@@ -19,35 +18,48 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
     
     var allScenarios: [Scenario]
     var campaign: Dynamic<Campaign>
+    var party: Dynamic<Party>
     let availableScenarios: Dynamic<[Scenario]>
     let completedScenarios: Dynamic<[Scenario]>
     var selectedScenario: Scenario?
     var myAchieves = [String]()
     var scenarioMgrViewBGString = String()
+    var dataModelAchievementsToChange = String()
+    var partyOrCampaign = String()
+    var dataModelAchievementsToCheck = String()
     
     // MARK: Init
     init(withDataModel dataModel: DataModel) {
         self.dataModel = dataModel
         self.allScenarios = dataModel.allScenarios
-        //self.campaign = dataModel.currentCampaign!
         self.campaign = Dynamic(dataModel.currentCampaign!)
+        self.party = Dynamic(dataModel.currentParty!)
         self.availableScenarios = Dynamic(dataModel.availableScenarios)
         self.completedScenarios = Dynamic(dataModel.completedScenarios)
         
     }
     // MARK: Helper functions
     func updateAvailableScenarios(scenario: Scenario, isCompleted: Bool) {
+        print("Toggling unlocks for: \(scenario.title) to \(isCompleted)")
         toggleUnlocks(for: scenario, to: isCompleted)
         let completed = allScenarios.filter { $0.isCompleted == true }
+        print("Completed scenarios: \(completed)")
         myAchieves = completed.filter { $0.achieves != ["None"] }.flatMap { $0.achieves }
-        
+        print("MyAchieves: \(myAchieves.minimalDescription)")
         setAchievements(atches: scenario.achieves, toggle: isCompleted)
         // Special case for when we've achieved Drake's Command and Drake's Treasure
-        if dataModel.achievements["The Drake's Command"] == true && dataModel.achievements["The Drake's Treasure"] == true {
-            dataModel.achievements["The Drake Aided"] = true
+        if dataModel.partyAchievements["The Drake's Command"] == true && dataModel.partyAchievements["The Drake's Treasure"] == true {
+            dataModel.globalAchievements["The Drake Aided"] = true
         } else {
-            dataModel.achievements["The Drake Aided"] = false
+            dataModel.globalAchievements["The Drake Aided"] = false
         }
+        // Special case for when we've achieved Artifact: Lost and The Rift: Neutralized
+        if dataModel.globalAchievements["The Rift Neutralized"] == true && dataModel.globalAchievements["Artifact: Lost"] == true {
+            dataModel.globalAchievements["Artifact: Recovered"] = true
+        } else {
+            dataModel.globalAchievements["Artifact: Recovered"] = false
+        }
+        
         setRequirementsMet()
         
         //Need to re-get after update. Using Dynamic vars!
@@ -68,54 +80,93 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
         dataModel.loadCampaign(campaign: dataModel.currentCampaign!.title)
     }
     func setAchievements(atches: [String], toggle: Bool) {
+
         var remove = false
         for ach in atches {
+            if dataModel.globalAchievements.keys.contains(ach) {
+                dataModelAchievementsToChange = "global"
+            } else {
+                dataModelAchievementsToChange = "party"
+                //partyOrCampaign = party.value.achievements
+            }
             if ach == "REMOVE" {
                 remove = true
                 continue
             }
             if toggle {
                 if remove {
-                    dataModel.achievements[ach]! = false
-                    campaign.value.achievements[ach]! = false
+                    if dataModelAchievementsToChange == "global" {
+                        print("Setting \(ach) to false")
+                        dataModel.globalAchievements[ach]! = false
+                        campaign.value.achievements[ach]! = false
+                    } else {
+                        print("Setting \(ach) to false")
+                        dataModel.partyAchievements[ach]! = false
+                        party.value.achievements[ach]! = false
+                    }
                     remove = false
                 } else {
                     if !(ach == "None") {
-                        dataModel.achievements[ach]! = true
-                        campaign.value.achievements[ach]! = true
+                        if dataModelAchievementsToChange == "global" {
+                            print("Setting \(ach) to true")
+                            dataModel.globalAchievements[ach]! = true
+                            campaign.value.achievements[ach]! = true
+                        } else {
+                            print("Setting \(ach) to true")
+                            dataModel.partyAchievements[ach]! = true
+                            party.value.achievements[ach]! = true
+                        }
                     }
                 }
             } else {
                 if remove {
-                    dataModel.achievements[ach]! = true
-                    campaign.value.achievements[ach]! = true
+                    if dataModelAchievementsToChange == "global" {
+                        print("Setting \(ach) to true")
+                        dataModel.globalAchievements[ach]! = true
+                        campaign.value.achievements[ach]! = true
+                    } else {
+                        print("Setting \(ach) to true")
+                        dataModel.partyAchievements[ach]! = true
+                        party.value.achievements[ach]! = true
+                    }
                     remove = false
                 } else {
                     if !(ach == "None") && !(myAchieves.contains(ach)){
-                        dataModel.achievements[ach]! = false
-                        campaign.value.achievements[ach]! = false
+                        if dataModelAchievementsToChange == "global" {
+                            print("Setting \(ach) to false")
+                            dataModel.globalAchievements[ach]! = false
+                            campaign.value.achievements[ach]! = false
+                        } else {
+                            print("Setting \(ach) to false")
+                            dataModel.partyAchievements[ach]! = false
+                            party.value.achievements[ach]! = false
+                        }
                     }
                 }
             }
         }
     }
     func setRequirementsMet() {
+        
         for scenario in allScenarios {
+            let combinedAchievementDicts = dataModel.globalAchievements.reduce(dataModel.partyAchievements) { r, e in var r = r; r[e.0] = e.1; return r }
             let orPresent = scenario.requirements["OR"] == true
             var tempRequirementsArray = scenario.requirements
             tempRequirementsArray.removeValue(forKey: "OR")
             for (ach, bool) in tempRequirementsArray {
                 if orPresent {
-                    if dataModel.achievements[ach]! == bool {
+                    if combinedAchievementDicts[ach]! == bool {
+                        print("Setting \(scenario.title) requirementsMet to true")
                         scenario.requirementsMet = true
                         campaign.value.requirementsMet[Int(scenario.number)! - 1] = true
                         break
                     }
-                } else if dataModel.achievements[ach]! != bool && !scenario.isCompleted {
+                } else if combinedAchievementDicts[ach]! != bool && !scenario.isCompleted {
                     scenario.requirementsMet = false
                     campaign.value.requirementsMet[Int(scenario.number)! - 1] = false
                     break
                 } else {
+                    print("Setting \(scenario.title) requirements met to true")
                     scenario.requirementsMet = true
                     campaign.value.requirementsMet[Int(scenario.number)! - 1] = true
                 }
@@ -147,6 +198,7 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
                 if scen == "ONEOF" { continue }
                 let scenarioToUpdate = getScenario(scenarioNumber: scen)!
                 scenarioToUpdate.isUnlocked = true
+                print("Should be setting \(scenarioToUpdate.title) unlocked to true")
                 campaign.value.isUnlocked[Int(scenarioToUpdate.number)! - 1] = true
             }
         }

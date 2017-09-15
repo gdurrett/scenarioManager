@@ -11,11 +11,17 @@ import Foundation
 class CampaignViewModelFromModel: NSObject, CampaignViewControllerViewModel {
     
     var dataModel: DataModel
-    var campaigns: [String:Campaign]
+    var campaigns: Dynamic<[String:Campaign]>
+    var createCampaignViewModel: CreateCampaignViewModelFromModel
     
     // MARK: Init
     init(withDataModel dataModel: DataModel) {
         self.dataModel = dataModel
-        self.campaigns = dataModel.campaigns
+        self.campaigns = Dynamic(dataModel.campaigns)
+        self.createCampaignViewModel = CreateCampaignViewModelFromModel(withDataModel: dataModel)
+    }
+
+    func updateAvailableCampaigns() {
+        self.campaigns.value = dataModel.campaigns
     }
 }

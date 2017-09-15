@@ -9,14 +9,16 @@
 import Foundation
 
 class DeleteCampaignViewModelFromModel: NSObject, CampaignViewControllerViewModel {
+    var campaigns: Dynamic<[String : Campaign]>
+
     
     let dataModel: DataModel
-    var campaigns: [String:Campaign]
+    //var campaigns: [String:Campaign]
     //let currentCampaign: Campaign
     
     init(withDataModel dataModel: DataModel) {
         self.dataModel = dataModel
-        self.campaigns = dataModel.campaigns
+        self.campaigns = Dynamic(dataModel.campaigns)
         //self.currentCampaign = dataModel.currentCampaign!
     }
     
