@@ -18,12 +18,13 @@ class DashboardViewController: UIViewController, DeleteCampaignViewControllerDel
         confirmDataModelReset()
     }
     @IBAction func loadCampaign(_ sender: Any) {
-        dataModel?.loadCampaign(campaign: "Default")
-        viewModel?.updateAvailableScenarios()
+        viewModel?.addDonation()
+        //viewModel?.updateAvailableScenarios()
     }
     
     @IBAction func printCampaigns(_ sender: Any) {
-        dataModel?.loadCampaign(campaign: "ThunderDays")
+//        dataModel?.loadCampaign(campaign: "ThunderDays")
+        viewModel?.decreaseProsperityCount()
         viewModel?.updateAvailableScenarios()
     }
 //    @IBAction func displayCreateOptions(_ sender: Any) {
@@ -41,7 +42,7 @@ class DashboardViewController: UIViewController, DeleteCampaignViewControllerDel
         
     }
     @IBAction func printParties(_ sender: Any) {
-        print(dataModel?.currentParty?.name)
+        viewModel?.increaseProsperityCount()
     }
     
     var dataModel: DataModel? {

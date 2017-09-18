@@ -21,7 +21,7 @@ class CreateCampaignViewController: UIViewController {
     }
     weak var delegate: CreateCampaignViewControllerDelegate?
     var cellsArray = [UITableViewCell]()
-    var newCampaign = Campaign(title: "", isUnlocked: [], requirementsMet: [], isCompleted: [], achievements: [:], isCurrent: true, parties: [])
+    var newCampaign = Campaign(title: "", parties: [], achievements: [:], prosperityCount: 0, sanctuaryDonations: 0, events: [], isUnlocked: [], requirementsMet: [], isCompleted: [], isCurrent: true)
     var chosenCharactersSoFar = [String]()
     
     @IBOutlet weak var createCampaignView: UIView!

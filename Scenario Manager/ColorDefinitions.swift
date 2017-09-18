@@ -30,7 +30,7 @@ class ColorDefinitions {
             return UIColor(hue: 30/360, saturation: 45/100, brightness: 25/100, alpha: 1.0)
         }
     }
-    var scenarioTableViewHeaderTintColor: UIColor {
+    var detailTableViewHeaderTintColor: UIColor {
         get {
             return UIColor(hue: 40/360, saturation: 6/100, brightness: 100/100, alpha: 1.0)
         }

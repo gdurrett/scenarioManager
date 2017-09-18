@@ -79,6 +79,18 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
     func updateLoadedCampaign() {
         dataModel.loadCampaign(campaign: dataModel.currentCampaign!.title)
     }
+    func increaseProsperityCount() {
+        dataModel.currentCampaign!.prosperityCount += 1
+        print("Increasing \(dataModel.currentCampaign!.title) prosperity count by 1")
+        dataModel.saveCampaignsLocally()
+    }
+    func decreaseProsperityCount() {
+        dataModel.currentCampaign!.prosperityCount -= 1
+        dataModel.saveCampaignsLocally()
+    }
+    func addDonation() {
+        dataModel.currentCampaign!.sanctuaryDonations += 10
+    }
     func setAchievements(atches: [String], toggle: Bool) {
 
         var remove = false
@@ -147,13 +159,13 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
         }
     }
     func setRequirementsMet() {
-        
+    let combinedAchievementDicts = dataModel.globalAchievements.reduce(dataModel.partyAchievements) { r, e in var r = r; r[e.0] = e.1; return r }
         for scenario in allScenarios {
-            let combinedAchievementDicts = dataModel.globalAchievements.reduce(dataModel.partyAchievements) { r, e in var r = r; r[e.0] = e.1; return r }
             let orPresent = scenario.requirements["OR"] == true
             var tempRequirementsArray = scenario.requirements
             tempRequirementsArray.removeValue(forKey: "OR")
             for (ach, bool) in tempRequirementsArray {
+                print("We got \(ach)")
                 if orPresent {
                     if combinedAchievementDicts[ach]! == bool {
                         print("Setting \(scenario.title) requirementsMet to true")

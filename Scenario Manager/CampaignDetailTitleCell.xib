@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="CampaignDetailTitleCell" customModule="Scenario_Manager" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="81"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Campaign Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JaD-ku-IsQ">
+                    <rect key="frame" x="16" y="25" width="116" height="31"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ybW-RR-mx4">
+                    <rect key="frame" x="289" y="26" width="70" height="30"/>
+                    <state key="normal" title="Set Active"/>
+                    <connections>
+                        <action selector="setCampaignActiveAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="TkB-8g-OIH"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <accessibility key="accessibilityConfiguration" identifier="CampaignDetailTitleCell"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="ybW-RR-mx4" secondAttribute="trailing" constant="16" id="1Xa-oV-tDe"/>
+                <constraint firstAttribute="bottom" secondItem="JaD-ku-IsQ" secondAttribute="bottom" constant="25" id="6AP-4f-LgC"/>
+                <constraint firstItem="JaD-ku-IsQ" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="AqM-Pq-b1F"/>
+                <constraint firstItem="ybW-RR-mx4" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="26" id="Cna-Xt-vNz"/>
+                <constraint firstItem="JaD-ku-IsQ" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="25" id="QmF-UK-pNo"/>
+                <constraint firstAttribute="bottom" secondItem="ybW-RR-mx4" secondAttribute="bottom" constant="25" id="o40-AO-Giz"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="campaignDetailTitleLabel" destination="JaD-ku-IsQ" id="hW7-Ef-jfU"/>
+                <outlet property="setCampaignActiveButtonOutlet" destination="ybW-RR-mx4" id="spw-ga-1cL"/>
+            </connections>
+            <point key="canvasLocation" x="33.5" y="-238.5"/>
+        </view>
+    </objects>
+</document>

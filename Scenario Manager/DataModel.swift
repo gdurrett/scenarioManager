@@ -45,7 +45,6 @@ class DataModel {
         get {
             let myCampaign = campaigns.filter { $0.value.isCurrent == true }
             if !myCampaign.isEmpty {
-                //loadCampaign(campaign: myCampaign[0].value.title)
                 return myCampaign[0].value
             } else {
                 if self.campaigns["Default"] == nil {
@@ -64,7 +63,7 @@ class DataModel {
                 return myParty[0].value
             } else {
                 if self.parties["Default"] == nil {
-                    createParty(name: "Default", characters: [], location: "Gloomhaven", achievements: [:], isCurrent: true)
+                    createParty(name: "Default", characters: [], location: "Gloomhaven", achievements: [:], reputation: 0, isCurrent: true)
                 }
                 return parties["Default"]
             }
@@ -85,7 +84,7 @@ class DataModel {
     // Campaigns
     var campaigns = [String: Campaign]()
     var defaultCampaign: Campaign?
-    
+
     // Parties
     var parties = [String: Party]()
     
@@ -777,11 +776,11 @@ class DataModel {
                 title: "Gloomhaven Battlements B",
                 isCompleted: false,
                 requirementsMet: false,
-                requirements: ["A Demon's Errand" : true, "The Demon Dethroned" : false],
+                requirements: ["A Demon's Errand" : true, "The Rift Neutralized" : false],
                 isUnlocked: false,
                 unlockedBy: ["22"],
                 unlocks: ["None"],
-                achieves: ["REMOVE", "A Demon's Errand", "The Demon Dethroned"],
+                achieves: ["REMOVE", "A Demon's Errand", "The Rift Neutralized"],
                 rewards: [NSAttributedString(string: "10 Gold Each"), NSAttributedString(string: "+4 Reputation"), NSAttributedString(string: "Add City Event 78")],
                 summary: "Goal: Kill the Prime Demon.\n\nRegretting your decision to retrieve the corrupted artifact for the Prime Demon, you turn tail and make for the City Battlements. You warn the City Guard and prepare to defend against the approaching hoard of Demons.",
                 locationString: "B-14, Gloomhaven",
@@ -1920,8 +1919,8 @@ class DataModel {
             ]
         
             // Temp party object dictionary
-            parties["Wrecking Crew"] = Party(name: "Wrecking Crew", characters: Array(Set(characters.values)), location: "Gloomhaven", achievements: partyAchievements, isCurrent: true)
-            parties["BungleHeads"] = Party(name: "BungleHeads", characters: Array(Set(characters.values)), location: "Gloomhaven", achievements: partyAchievements, isCurrent: true)
+            parties["Wrecking Crew"] = Party(name: "Wrecking Crew", characters: Array(Set(characters.values)), location: "Gloomhaven", achievements: partyAchievements, reputation: 0, isCurrent: false)
+            parties["BungleHeads"] = Party(name: "BungleHeads", characters: Array(Set(characters.values)), location: "Gloomhaven", achievements: partyAchievements, reputation: 0, isCurrent: true)
             
             // Temp character object dictionary
             characters["Snarklepuss"] = Character(name: "Snarklepuss", race: "Aesther", type: "Summoner", level: 4, isRetired: false)
@@ -1994,7 +1993,7 @@ class DataModel {
     // Campaign functions
     func createCampaign(title: String, isCurrent: Bool, parties: [Party]) {
         if (campaigns[title] == nil) {
-            let newCampaign = Campaign(title: title, isUnlocked: [], requirementsMet: [], isCompleted: [], achievements:[:], isCurrent: isCurrent, parties: parties)
+            let newCampaign = Campaign(title: title, parties: parties, achievements:[:], prosperityCount: 0, sanctuaryDonations: 0, events: [], isUnlocked: [], requirementsMet: [], isCompleted: [], isCurrent: isCurrent)
             for scenario in allScenarios {
                 if scenario.number == "1" {
                     newCampaign.isUnlocked.append(true)
@@ -2066,6 +2065,7 @@ class DataModel {
             print("No such campaign exists")
         }
     }
+    
     func updateLocalCampaignIsCurrent(campaign: String) {
         for myCampaign in campaigns {
             myCampaign.value.isCurrent = false
@@ -2099,9 +2099,9 @@ class DataModel {
         self.myCloudKitMgr.privateDatabase.add(uploadOperation)
     }
     // Party functions
-    func createParty(name: String, characters: [Character], location: String, achievements: [String:Bool], isCurrent: Bool) {
+    func createParty(name: String, characters: [Character], location: String, achievements: [String:Bool], reputation: Int, isCurrent: Bool) {
         if (parties[name] == nil) {
-            let newParty = Party(name: name, characters: characters, location: location, achievements: [:], isCurrent: isCurrent)
+            let newParty = Party(name: name, characters: characters, location: location, achievements: [:], reputation: reputation, isCurrent: isCurrent)
             for achievement in partyAchievements {
                 if achievement.key == "None" || achievement.key == "OR" {
                     newParty.achievements[achievement.key] = true

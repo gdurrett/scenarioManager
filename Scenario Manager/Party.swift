@@ -14,6 +14,7 @@ class Party: NSObject, NSCoding {
     var characters: [Character]
     var location: String
     var achievements: [String:Bool]
+    var reputation: Int
     var isCurrent: Bool
     var scenarioLevel: Int {
         get {
@@ -24,11 +25,12 @@ class Party: NSObject, NSCoding {
         }
     }
     
-    init(name: String, characters: [Character], location: String, achievements: [String:Bool],isCurrent: Bool) {
+    init(name: String, characters: [Character], location: String, achievements: [String:Bool], reputation: Int, isCurrent: Bool) {
         self.name = name
         self.characters = characters
         self.location = location
         self.achievements = achievements
+        self.reputation = reputation
         self.isCurrent = isCurrent
     }
     
@@ -37,6 +39,7 @@ class Party: NSObject, NSCoding {
         characters = aDecoder.decodeObject(forKey: "Characters") as! [Character]
         location = aDecoder.decodeObject(forKey: "Location") as! String
         achievements = aDecoder.decodeObject(forKey: "PartyAchievements") as! [String:Bool]
+        reputation = aDecoder.decodeInteger(forKey: "Reputation")
         isCurrent = aDecoder.decodeBool(forKey: "IsCurrent")
     }
     
@@ -45,6 +48,7 @@ class Party: NSObject, NSCoding {
         aCoder.encode(characters, forKey: "Characters")
         aCoder.encode(location, forKey: "Location")
         aCoder.encode(achievements, forKey: "PartyAchievements")
+        aCoder.encode(reputation, forKey: "Reputation")
         aCoder.encode(isCurrent, forKey: "IsCurrent")
     }
 }

@@ -15,6 +15,7 @@ class ScenarioTitleCell: UITableViewCell {
     @IBOutlet weak var scenarioStatusIcon: UIImageView!
     
     let colorDefinitions = ColorDefinitions()
+    let fontDefinitions = FontDefinitions()
     
     var item: ScenarioDetailViewModelItem? {
         didSet {
@@ -22,7 +23,8 @@ class ScenarioTitleCell: UITableViewCell {
                 return
             }
             scenarioTitleLabel?.sizeToFit()
-            scenarioTitleLabel?.font = UIFont(name: "PirataOne-Regular", size: 30)
+            scenarioTitleLabel?.font = fontDefinitions.detailTableViewTitleFont
+            //scenarioTitleLabel?.font = UIFont(name: "PirataOne-Regular", size: 30)
             scenarioTitleLabel?.textColor = colorDefinitions.scenarioTitleFontColor
             scenarioTitleLabel?.text = "\(item.number)) \(item.title)"
             scenarioStatusIcon.image = item.statusIcon

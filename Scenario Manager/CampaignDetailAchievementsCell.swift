@@ -1,26 +1,29 @@
 //
-//  RequirementsInfoCell.swift
+//  CampaignDetailAchievementsCell.swift
 //  Scenario Manager
 //
-//  Created by Greg Durrett on 7/30/17.
+//  Created by Greg Durrett on 9/17/17.
 //  Copyright © 2017 AppHazard Productions. All rights reserved.
 //
 
 import UIKit
 
-class RequirementsInfoCell: UITableViewCell {
+class CampaignDetailAchievementsCell: UITableViewCell {
 
-    let fontDefinitions = FontDefinitions()
-    let colorDefinitsions = ColorDefinitions()
+    @IBOutlet weak var campaignDetailAchievementsLabel: UILabel!
     
-    @IBOutlet weak var requirementsInfoLabel: UILabel!
+    let colorDefinitions = ColorDefinitions()
+    let fontDefinitions = FontDefinitions()
+    
     var item: SeparatedStrings? {
         didSet {
             guard let item = item else {
                 return
             }
-            requirementsInfoLabel?.font = fontDefinitions.detailTableViewNonTitleFont
-            requirementsInfoLabel?.text = "\(item.rowString!)"
+            campaignDetailAchievementsLabel?.sizeToFit()
+            campaignDetailAchievementsLabel?.font = fontDefinitions.detailTableViewNonTitleFont
+            campaignDetailAchievementsLabel?.textColor = colorDefinitions.scenarioTitleFontColor
+            campaignDetailAchievementsLabel?.text = "\(item.rowString!)"
         }
     }
     

@@ -1,26 +1,29 @@
 //
-//  RequirementsInfoCell.swift
+//  CampaignDetailDonationsCell.swift
 //  Scenario Manager
 //
-//  Created by Greg Durrett on 7/30/17.
+//  Created by Greg Durrett on 9/17/17.
 //  Copyright © 2017 AppHazard Productions. All rights reserved.
 //
 
 import UIKit
 
-class RequirementsInfoCell: UITableViewCell {
+class CampaignDetailDonationsCell: UITableViewCell {
 
-    let fontDefinitions = FontDefinitions()
-    let colorDefinitsions = ColorDefinitions()
+    @IBOutlet weak var campaignDetailDonationLabel: UILabel!
     
-    @IBOutlet weak var requirementsInfoLabel: UILabel!
-    var item: SeparatedStrings? {
+    let colorDefinitions = ColorDefinitions()
+    let fontDefinitions = FontDefinitions()
+    
+    var item: CampaignDetailViewModelItem? {
         didSet {
-            guard let item = item else {
+            guard let item = item as? CampaignDetailViewModelCampaignDonationsItem else {
                 return
             }
-            requirementsInfoLabel?.font = fontDefinitions.detailTableViewNonTitleFont
-            requirementsInfoLabel?.text = "\(item.rowString!)"
+            campaignDetailDonationLabel?.sizeToFit()
+            campaignDetailDonationLabel?.font = fontDefinitions.detailTableViewNonTitleFont
+            campaignDetailDonationLabel?.textColor = colorDefinitions.scenarioTitleFontColor
+            campaignDetailDonationLabel?.text = "\(item.amount)"
         }
     }
     

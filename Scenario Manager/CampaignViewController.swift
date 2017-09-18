@@ -43,13 +43,34 @@ class CampaignViewController: UIViewController {
         viewModel!.updateAvailableCampaigns()
         campaignTableViewOutlet.reloadData()
     }
+    override func viewWillDisappear(_ animated: Bool) {
+        //
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
+    // Prepare for segue
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ShowCampaignDetail" {
+            let destinationVC = segue.destination as! CampaignDetailViewController
+            let viewModel = CampaignDetailViewModel(withCampaign: (self.viewModel?.selectedCampaign!)!)
+            destinationVC.viewModel = viewModel
+        }
+    }
+    
+    // Perform segue (Show Campaign Detail when row is tapped)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // Extract campaigns from Dictionary into an array
+        let myCampaigns = Array(self.campaigns.values)
+        // Them we can subscript them
+        viewModel?.selectedCampaign = myCampaigns[indexPath.row]
+        performSegue(withIdentifier: "ShowCampaignDetail", sender: myCampaigns[indexPath.row])
+        campaignTableViewOutlet.deselectRow(at: indexPath, animated: true)
+    }
+    
     // Helper methods
-
     fileprivate func fillUI() {
         if !isViewLoaded {
             return

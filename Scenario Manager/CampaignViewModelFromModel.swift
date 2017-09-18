@@ -13,6 +13,7 @@ class CampaignViewModelFromModel: NSObject, CampaignViewControllerViewModel {
     var dataModel: DataModel
     var campaigns: Dynamic<[String:Campaign]>
     var createCampaignViewModel: CreateCampaignViewModelFromModel
+    var selectedCampaign: Campaign?
     
     // MARK: Init
     init(withDataModel dataModel: DataModel) {

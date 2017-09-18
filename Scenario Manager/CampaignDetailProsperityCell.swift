@@ -1,26 +1,29 @@
 //
-//  RequirementsInfoCell.swift
+//  CampaignDetailProsperityCell.swift
 //  Scenario Manager
 //
-//  Created by Greg Durrett on 7/30/17.
+//  Created by Greg Durrett on 9/17/17.
 //  Copyright © 2017 AppHazard Productions. All rights reserved.
 //
 
 import UIKit
 
-class RequirementsInfoCell: UITableViewCell {
+class CampaignDetailProsperityCell: UITableViewCell {
 
-    let fontDefinitions = FontDefinitions()
-    let colorDefinitsions = ColorDefinitions()
+    @IBOutlet weak var campaignDetailProsperityLabel: UILabel!
     
-    @IBOutlet weak var requirementsInfoLabel: UILabel!
-    var item: SeparatedStrings? {
+    let colorDefinitions = ColorDefinitions()
+    let fontDefinitions = FontDefinitions()
+    
+    var item: CampaignDetailViewModelItem? {
         didSet {
-            guard let item = item else {
+            guard let item = item as? CampaignDetailViewModelCampaignProsperityItem else {
                 return
             }
-            requirementsInfoLabel?.font = fontDefinitions.detailTableViewNonTitleFont
-            requirementsInfoLabel?.text = "\(item.rowString!)"
+            campaignDetailProsperityLabel?.sizeToFit()
+            campaignDetailProsperityLabel?.font = fontDefinitions.detailTableViewNonTitleFont
+            campaignDetailProsperityLabel?.textColor = colorDefinitions.scenarioTitleFontColor
+            campaignDetailProsperityLabel?.text = "\(item.level)"
         }
     }
     

@@ -15,4 +15,19 @@ class FontDefinitions {
             return UIFont(name: "Nyala", size: 20)!
         }
     }
+    var detailTableViewTitleFont: UIFont {
+        get {
+            return UIFont(name: "PirataOne-Regular", size: 30)!
+        }
+    }
+    var detailTableViewNonTitleFont: UIFont {
+        get {
+            return UIFont(name: "Nyala", size: 22)!
+        }
+    }
+    var detailTableViewHeaderFont: UIFont {
+        get {
+            return UIFont(name: "Nyala", size: 24)!
+        }
+    }
 }

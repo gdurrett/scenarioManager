@@ -16,7 +16,6 @@ extension ScenarioViewController: UISearchResultsUpdating {
     }
 }
 class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPickerViewControllerDelegate {
-    
 
     @IBOutlet weak var scenarioTableView: UITableView!
     
@@ -76,7 +75,7 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
         // Set up UI
         fillUI()
         styleUI()
-
+        //scenarioTableView.reloadData()
 
         // Change titles on segmented controller
         setSegmentTitles()
@@ -323,6 +322,7 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
         scenarioFilterOutlet.setTitle("Completed (\(completedScenarios.count))", forSegmentAt: 2)
         scenarioFilterOutlet.setTitleTextAttributes(segmentTitleAttributes, for: .normal)
         scenarioFilterOutlet.backgroundColor = colorDefinitions.scenarioSegmentedControlBGColor
+        self.navigationItem.title = "\(selectedCampaign!.title) Scenarios"
         scenarioTableView.reloadData()
     }
     func setTextAttributes(fontName: String, fontSize: CGFloat, textColor: UIColor) -> [ String : Any ] {
@@ -395,7 +395,7 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
         searchController.searchBar.delegate = self
         searchController.searchBar.barTintColor = colorDefinitions.scenarioTableViewSearchBarBarTintColor
         searchController.searchBar.placeholder = "Search Scenarios, Rewards, Achievements"
-        searchController.searchBar.tintColor = colorDefinitions.scenarioTableViewHeaderTintColor
+        searchController.searchBar.tintColor = colorDefinitions.detailTableViewHeaderTintColor
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
         searchController.searchBar.sizeToFit()

@@ -14,6 +14,7 @@ class ScenarioDetailViewController: UIViewController {
     var viewModel: ScenarioDetailViewModel!
     
     let colorDefinitions = ColorDefinitions()
+    let fontDefinitions = FontDefinitions()
     
     @IBOutlet weak var tableView: UITableView?
     
@@ -188,8 +189,8 @@ extension ScenarioDetailViewController: UITableViewDataSource, UITableViewDelega
     }
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         let header = view as? UITableViewHeaderFooterView
-        header?.textLabel?.font = UIFont(name: "Nyala", size: 24)
+        header?.textLabel?.font = fontDefinitions.detailTableViewHeaderFont
         header?.textLabel?.textColor = colorDefinitions.mainTextColor
-        header?.tintColor = colorDefinitions.scenarioTableViewHeaderTintColor
+        header?.tintColor = colorDefinitions.detailTableViewHeaderTintColor
     }
 }

@@ -111,7 +111,7 @@
                                             <constraint firstAttribute="height" constant="30" id="pEy-fV-UKy"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="24"/>
-                                        <state key="normal" title="Load Default Campaign">
+                                        <state key="normal" title="Increase Donation">
                                             <color key="titleColor" red="0.24919084820000001" green="0.1929752334" blue="0.1351535955" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
@@ -121,7 +121,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yRH-wn-c5A">
                                         <rect key="frame" x="0.0" y="95" width="207" height="35"/>
                                         <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="24"/>
-                                        <state key="normal" title="Load Second Campaign">
+                                        <state key="normal" title="Decrease Prosperity Count">
                                             <color key="titleColor" red="0.2452870207" green="0.18995208050000001" blue="0.13303627730000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         </state>
                                         <connections>
@@ -131,7 +131,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qhp-7c-7QB">
                                         <rect key="frame" x="0.0" y="130" width="207" height="36"/>
                                         <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="26"/>
-                                        <state key="normal" title="Print Parties"/>
+                                        <state key="normal" title="Increase Prosperity Count"/>
                                         <connections>
                                             <action selector="printParties:" destination="YqU-VQ-qBG" eventType="touchUpInside" id="L0R-a6-1Wf"/>
                                         </connections>
@@ -419,7 +419,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="aXI-qh-ezw">
-                                <rect key="frame" x="0.0" y="20" width="320" height="499"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -460,11 +460,45 @@
                     </navigationItem>
                     <connections>
                         <outlet property="campaignTableViewOutlet" destination="aXI-qh-ezw" id="JbS-9J-nOx"/>
+                        <segue destination="DHT-Ja-bDV" kind="show" identifier="ShowCampaignDetail" id="P8Z-v2-yQr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="r0M-c0-CqS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2799.375" y="1006.6901408450705"/>
+            <point key="canvasLocation" x="2797.5" y="1342.605633802817"/>
+        </scene>
+        <!--Campaign Detail View Controller-->
+        <scene sceneID="SRV-xr-4U0">
+            <objects>
+                <viewController id="DHT-Ja-bDV" customClass="CampaignDetailViewController" customModule="Scenario_Manager" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="wna-fB-l0E"/>
+                        <viewControllerLayoutGuide type="bottom" id="i6B-RV-fjx"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="N6P-2G-Vo4">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Xj2-Xd-lwa">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Xj2-Xd-lwa" firstAttribute="leading" secondItem="N6P-2G-Vo4" secondAttribute="leadingMargin" constant="-16" id="Yys-wd-GkO"/>
+                            <constraint firstItem="i6B-RV-fjx" firstAttribute="top" secondItem="Xj2-Xd-lwa" secondAttribute="bottom" id="dZn-a1-jRf"/>
+                            <constraint firstItem="Xj2-Xd-lwa" firstAttribute="top" secondItem="wna-fB-l0E" secondAttribute="bottom" constant="-64" id="mJY-KC-uXs"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Xj2-Xd-lwa" secondAttribute="trailing" constant="-16" id="tgc-vC-Obe"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="campaignDetailTableView" destination="Xj2-Xd-lwa" id="Re6-h8-XhT"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jZS-n3-24s" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3697.5" y="1342.605633802817"/>
         </scene>
         <!--Scenario Detail View Controller-->
         <scene sceneID="9Sv-rJ-oQK">
@@ -499,7 +533,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="z9T-Ke-5FO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4695" y="652.81690140845069"/>
+            <point key="canvasLocation" x="3698" y="641"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="rkI-D4-p2y">
@@ -536,7 +570,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0Sb-sM-tn1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="771" y="499"/>
+            <point key="canvasLocation" x="834" y="-25"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="bRf-8w-jiG">
@@ -610,7 +644,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CN8-s2-8KP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2040" y="1007"/>
+            <point key="canvasLocation" x="2040" y="1343"/>
         </scene>
     </scenes>
 </document>
