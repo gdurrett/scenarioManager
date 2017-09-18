@@ -1,5 +1,5 @@
 //
-//  CampaignDetailProsperityCell.swift
+//  CampaignDetailPartyCell.swift
 //  Scenario Manager
 //
 //  Created by Greg Durrett on 9/17/17.
@@ -8,23 +8,22 @@
 
 import UIKit
 
-class CampaignDetailProsperityCell: UITableViewCell {
-
-    @IBOutlet weak var campaignDetailProsperityLabel: UILabel!
+class CampaignDetailPartyCell: UITableViewCell {
+    
+    @IBOutlet weak var campaignDetailPartyLabel: UILabel!
     
     let colorDefinitions = ColorDefinitions()
     let fontDefinitions = FontDefinitions()
     
-    var item: CampaignDetailViewModelItem? {
+    var item: SeparatedStrings? {
         didSet {
-            guard let item = item as? CampaignDetailViewModelCampaignProsperityItem else {
+            guard let item = item else {
                 return
             }
-            campaignDetailProsperityLabel?.sizeToFit()
-            campaignDetailProsperityLabel?.font = fontDefinitions.detailTableViewNonTitleFont
-            campaignDetailProsperityLabel?.textColor = colorDefinitions.scenarioTitleFontColor
-            let checksText = item.remainingChecksUntilNextLevel > 1 ? "checks" : "check"
-            campaignDetailProsperityLabel?.text = "\(item.level)  (\(item.remainingChecksUntilNextLevel) \(checksText) to next prosperity level)"
+            campaignDetailPartyLabel?.sizeToFit()
+            campaignDetailPartyLabel?.font = fontDefinitions.detailTableViewNonTitleFont
+            campaignDetailPartyLabel?.textColor = colorDefinitions.scenarioTitleFontColor
+            campaignDetailPartyLabel?.text = "\(item.rowString!)"
         }
     }
     
@@ -40,11 +39,10 @@ class CampaignDetailProsperityCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        
         // Configure the view for the selected state
     }
-
 }

@@ -33,11 +33,13 @@ class CampaignDetailViewModel: NSObject {
     var achievementNames = [SeparatedStrings]()
     var isActiveCampaign: Bool?
     var prosperityLevel = Int()
+    var remainingChecksUntilNextLevel = Int()
+    var level = Int()
     
     init(withCampaign campaign: Campaign) {
         super.init()
         
-        var level = 1
+
         var prosperityLevel: Int {
             get {
                 switch (campaign.prosperityCount) {
@@ -63,6 +65,35 @@ class CampaignDetailViewModel: NSObject {
                     break
                 }
                 return level
+            }
+        }
+        var remaining = 0
+        var remainingChecksUntilNextLevel: Int {
+            get {
+                print("Got level: \(level)")
+                switch (self.level) {
+                case 1:
+                    remaining = 4 - campaign.prosperityCount
+                case 2:
+                    remaining = 9 - campaign.prosperityCount
+                case 3:
+                    remaining = 15 - campaign.prosperityCount
+                case 4:
+                    remaining = 22 - campaign.prosperityCount
+                case 5:
+                    remaining = 29 - campaign.prosperityCount
+                case 6:
+                    remaining = 39 - campaign.prosperityCount
+                case 7:
+                    remaining = 50 - campaign.prosperityCount
+                case 8:
+                    remaining = 64 - campaign.prosperityCount
+                case 9:
+                    remaining = 0
+                default:
+                    break
+                }
+                return remaining
             }
         }
         
@@ -92,8 +123,8 @@ class CampaignDetailViewModel: NSObject {
         items.append(achievementsItem)
         
         // Append prosperity level to items
-        //let prosperityItem = CampaignDetailViewModelCampaignProsperityItem(level: campaign.prosperityLevel)
-        let prosperityItem = CampaignDetailViewModelCampaignProsperityItem(level: prosperityLevel)
+        
+        let prosperityItem = CampaignDetailViewModelCampaignProsperityItem(level: prosperityLevel, remainingChecksUntilNextLevel: remainingChecksUntilNextLevel)
         items.append(prosperityItem)
         
         // Append donations amount to items
@@ -181,9 +212,11 @@ class CampaignDetailViewModelCampaignProsperityItem: CampaignDetailViewModelItem
     }
     
     var level: Int
+    var remainingChecksUntilNextLevel: Int
     
-    init(level: Int) {
+    init(level: Int, remainingChecksUntilNextLevel: Int) {
         self.level = level
+        self.remainingChecksUntilNextLevel = remainingChecksUntilNextLevel
     }
 }
 class CampaignDetailViewModelCampaignDonationsItem: CampaignDetailViewModelItem {
