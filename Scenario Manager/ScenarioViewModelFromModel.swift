@@ -50,15 +50,15 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
         // Special case for when we've achieved Drake's Command and Drake's Treasure
         if dataModel.partyAchievements["The Drake's Command"] == true && dataModel.partyAchievements["The Drake's Treasure"] == true {
             dataModel.globalAchievements["The Drake Aided"] = true
-        } else {
-            dataModel.globalAchievements["The Drake Aided"] = false
-        }
+        } //else {
+//            dataModel.globalAchievements["The Drake Aided"] = false
+//        }
         // Special case for when we've achieved Artifact: Lost and The Rift: Neutralized
         if dataModel.globalAchievements["The Rift Neutralized"] == true && dataModel.globalAchievements["Artifact: Lost"] == true {
             dataModel.globalAchievements["Artifact: Recovered"] = true
-        } else {
-            dataModel.globalAchievements["Artifact: Recovered"] = false
-        }
+        }// else {
+//            dataModel.globalAchievements["Artifact: Recovered"] = false
+//        }
         
         setRequirementsMet()
         
@@ -174,6 +174,7 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
                         break
                     }
                 } else if combinedAchievementDicts[ach]! != bool && !scenario.isCompleted {
+                    print("Setting \(scenario.title) requirements met to false")
                     scenario.requirementsMet = false
                     campaign.value.requirementsMet[Int(scenario.number)! - 1] = false
                     break
