@@ -35,68 +35,26 @@ class CampaignDetailViewModel: NSObject {
     var prosperityLevel = Int()
     var remainingChecksUntilNextLevel = Int()
     var level = Int()
+    var sanctuaryDonations = Int()
     
     init(withCampaign campaign: Campaign) {
         super.init()
         
-
         var prosperityLevel: Int {
             get {
-                switch (campaign.prosperityCount) {
-                case 0...3:
-                    level = 1
-                case 4...8:
-                    level = 2
-                case 9...14:
-                    level = 3
-                case 15...21:
-                    level = 4
-                case 22...29:
-                    level = 5
-                case 29...38:
-                    level = 6
-                case 39...49:
-                    level = 7
-                case 50...63:
-                    level = 8
-                case 64:
-                    level = 9
-                default:
-                    break
-                }
-                return level
+                return getProsperityLevel(count: campaign.prosperityCount)
             }
         }
-        var remaining = 0
         var remainingChecksUntilNextLevel: Int {
             get {
-                print("Got level: \(level)")
-                switch (self.level) {
-                case 1:
-                    remaining = 4 - campaign.prosperityCount
-                case 2:
-                    remaining = 9 - campaign.prosperityCount
-                case 3:
-                    remaining = 15 - campaign.prosperityCount
-                case 4:
-                    remaining = 22 - campaign.prosperityCount
-                case 5:
-                    remaining = 29 - campaign.prosperityCount
-                case 6:
-                    remaining = 39 - campaign.prosperityCount
-                case 7:
-                    remaining = 50 - campaign.prosperityCount
-                case 8:
-                    remaining = 64 - campaign.prosperityCount
-                case 9:
-                    remaining = 0
-                default:
-                    break
-                }
-                return remaining
+                return getRemainingChecksUntilNextLevel(level: (getProsperityLevel(count: campaign.prosperityCount)), count: campaign.prosperityCount)
             }
         }
-        
+        var sanctuaryDonations: Int {
+            get {
+                return getSanctuaryDonations(campaign: campaign)
+            }
+        }
         self.isActiveCampaign = campaign.isCurrent
         
         // Append campaign title to items
@@ -131,9 +89,82 @@ class CampaignDetailViewModel: NSObject {
         let donationsItem = CampaignDetailViewModelCampaignDonationsItem(amount: campaign.sanctuaryDonations)
         items.append(donationsItem)
     }
+    // Helper methods
+    func getProsperityLevel(count: Int) -> Int {
+        switch (count) {
+        case 0...3:
+            level = 1
+        case 4...8:
+            level = 2
+        case 9...14:
+            level = 3
+        case 15...21:
+            level = 4
+        case 22...29:
+            level = 5
+        case 29...38:
+            level = 6
+        case 39...49:
+            level = 7
+        case 50...63:
+            level = 8
+        case 64:
+            level = 9
+        default:
+            break
+        }
+        return level
+    }
+    func getRemainingChecksUntilNextLevel(level: Int, count: Int) -> Int {
+        var remaining = 0
+        switch (level) {
+        case 1:
+            remaining = 4 - count
+        case 2:
+            remaining = 9 - count
+        case 3:
+            remaining = 15 - count
+        case 4:
+            remaining = 22 - count
+        case 5:
+            remaining = 29 - count
+        case 6:
+            remaining = 39 - count
+        case 7:
+            remaining = 50 - count
+        case 8:
+            remaining = 64 - count
+        case 9:
+            remaining = 0
+        default:
+            break
+        }
+        return remaining
+    }
+    func getSanctuaryDonations(campaign: Campaign) -> Int {
+        print("Returning \(campaign.sanctuaryDonations)")
+        return campaign.sanctuaryDonations
+    }
+    // Delegate methods for custom cells
+    // Method for CampaignTitle cell
     func setCampaignActive() {
-       // print("In setCampaignActive, we have \(campaignTitle!)")
         dataModel.loadCampaign(campaign: campaignTitle!)
+        dataModel.saveCampaignsLocally()
+    }
+    // Method for CampaignProsperity cell
+    func updateProsperityCount(value: Int) -> (Int, Int) {
+        let count = dataModel.currentCampaign!.prosperityCount
+        if value == -1 && count == 0 {
+            return (getProsperityLevel(count: dataModel.currentCampaign!.prosperityCount), 0)
+        } else {
+            dataModel.currentCampaign!.prosperityCount += value
+            return (getProsperityLevel(count: dataModel.currentCampaign!.prosperityCount), dataModel.currentCampaign!.prosperityCount)
+        }
+    }
+    // Method for CampaignDonations cell
+    func updateCampaignDonationsCount(value: Int) -> Int {
+        dataModel.currentCampaign!.sanctuaryDonations += value
+        return getSanctuaryDonations(campaign:dataModel.currentCampaign!)
     }
 }
 

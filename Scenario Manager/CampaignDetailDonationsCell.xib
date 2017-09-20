@@ -21,17 +21,27 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" continuous="NO" autorepeat="NO" minimumValue="-500" maximumValue="500" stepValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="etg-uW-HkN">
+                    <rect key="frame" x="265" y="29" width="94" height="29"/>
+                    <connections>
+                        <action selector="modifyDonationsCountAction:" destination="iN0-l3-epB" eventType="valueChanged" id="HhO-GK-DLU"/>
+                    </connections>
+                </stepper>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <accessibility key="accessibilityConfiguration" identifier="CampaignDetailDonationsCell"/>
             <constraints>
+                <constraint firstAttribute="bottom" secondItem="etg-uW-HkN" secondAttribute="bottom" constant="29" id="Alf-gg-F4K"/>
                 <constraint firstItem="zBa-9c-wTC" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="20" id="K2G-Bo-1Yp"/>
+                <constraint firstItem="etg-uW-HkN" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="29" id="fEo-1C-SrY"/>
                 <constraint firstItem="zBa-9c-wTC" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="swO-W5-ZLv"/>
                 <constraint firstAttribute="bottom" secondItem="zBa-9c-wTC" secondAttribute="bottom" constant="20" id="uIa-mK-G22"/>
+                <constraint firstAttribute="trailing" secondItem="etg-uW-HkN" secondAttribute="trailing" constant="16" id="z28-o9-Z5f"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
-                <outlet property="campaignDetailDonationLabel" destination="zBa-9c-wTC" id="H3Q-wj-07a"/>
+                <outlet property="campaignDetailDonationsLabel" destination="zBa-9c-wTC" id="ibh-bB-Eki"/>
+                <outlet property="modifyDonationsCountStepperOutlet" destination="etg-uW-HkN" id="jku-VI-hjY"/>
             </connections>
             <point key="canvasLocation" x="33.5" y="-235.5"/>
         </view>

@@ -22,8 +22,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ybW-RR-mx4">
-                    <rect key="frame" x="289" y="26" width="70" height="30"/>
-                    <state key="normal" title="Set Active"/>
+                    <rect key="frame" x="329" y="26" width="30" height="30"/>
                     <connections>
                         <action selector="setCampaignActiveAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="TkB-8g-OIH"/>
                     </connections>

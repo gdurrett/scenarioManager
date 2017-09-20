@@ -8,25 +8,57 @@
 
 import UIKit
 
+protocol CampaignDetailDonationsCellDelegate {
+    func updateCampaignDonationsCount(value: Int)
+}
+
 class CampaignDetailDonationsCell: UITableViewCell {
 
-    @IBOutlet weak var campaignDetailDonationLabel: UILabel!
+    @IBOutlet weak var campaignDetailDonationsLabel: UILabel! {
+        didSet {
+            guard let item = item as? CampaignDetailViewModelCampaignDonationsItem else {
+                return
+            }
+            campaignDetailDonationsLabel?.text = "\(item.amount)"
+        }
+    }
+    
+    @IBOutlet weak var modifyDonationsCountStepperOutlet: UIStepper!
+    
+    @IBAction func modifyDonationsCountAction(_ sender: Any) {
+        let value = Int(modifyDonationsCountStepperOutlet.value)
+        delegate?.updateCampaignDonationsCount(value: value)
+        modifyDonationsCountStepperOutlet.value = 0
+    }
     
     let colorDefinitions = ColorDefinitions()
     let fontDefinitions = FontDefinitions()
+    var delegate: CampaignDetailDonationsCellDelegate?
     
     var item: CampaignDetailViewModelItem? {
         didSet {
             guard let item = item as? CampaignDetailViewModelCampaignDonationsItem else {
                 return
             }
-            campaignDetailDonationLabel?.sizeToFit()
-            campaignDetailDonationLabel?.font = fontDefinitions.detailTableViewNonTitleFont
-            campaignDetailDonationLabel?.textColor = colorDefinitions.scenarioTitleFontColor
-            campaignDetailDonationLabel?.text = "\(item.amount)"
+            campaignDetailDonationsLabel?.sizeToFit()
+            campaignDetailDonationsLabel?.font = fontDefinitions.detailTableViewNonTitleFont
+            campaignDetailDonationsLabel?.textColor = colorDefinitions.scenarioTitleFontColor
+            campaignDetailDonationsLabel?.text = "\(item.amount)"
         }
     }
-    
+    var isActive: Bool? {
+        didSet {
+            if isActive == true {
+                modifyDonationsCountStepperOutlet.isHidden = false
+                modifyDonationsCountStepperOutlet.isEnabled = true
+                modifyDonationsCountStepperOutlet.tintColor = colorDefinitions.mainTextColor
+            } else {
+                modifyDonationsCountStepperOutlet.isEnabled = false
+                modifyDonationsCountStepperOutlet.isHidden = true
+            }
+        }
+        
+    }
     static var nib:UINib {
         return UINib(nibName: identifier, bundle: nil)
     }
