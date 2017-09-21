@@ -25,6 +25,12 @@ protocol DataModelDelegate {
     func darkenViewBGColor()
     func restoreViewBGColor()
 }
+extension Dictionary {
+    mutating func changeKey(from: Key, to: Key) {
+        self[to] = self[from]
+        self.removeValue(forKey: from)
+    }
+}
 class DataModel {
     
     // Try singleton
@@ -2065,7 +2071,6 @@ class DataModel {
             print("No such campaign exists")
         }
     }
-    
     func updateLocalCampaignIsCurrent(campaign: String) {
         for myCampaign in campaigns {
             myCampaign.value.isCurrent = false

@@ -17,12 +17,15 @@ class CampaignDetailViewController: UIViewController {
     
     var currentProsperityCell = UITableViewCell()
     var currentDonationsCell = UITableViewCell()
-    
+    var currentTitleCell = UITableViewCell()
     @IBOutlet weak var campaignDetailTableView: UITableView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.view.addGestureRecognizer(UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:))))
+
+        
         campaignDetailTableView?.dataSource = self
         campaignDetailTableView?.delegate = self
         campaignDetailTableView?.estimatedRowHeight = 100
@@ -42,7 +45,7 @@ class CampaignDetailViewController: UIViewController {
     }
 }
 
-extension CampaignDetailViewController: UITableViewDataSource, UITableViewDelegate, CampaignDetailTitleCellDelegate, CampaignDetailProsperityCellDelegate, CampaignDetailDonationsCellDelegate {
+extension CampaignDetailViewController: UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, CampaignDetailTitleCellDelegate, CampaignDetailProsperityCellDelegate, CampaignDetailDonationsCellDelegate {
 
     func numberOfSections(in tableView: UITableView) -> Int {
         return viewModel.items.count
@@ -56,6 +59,11 @@ extension CampaignDetailViewController: UITableViewDataSource, UITableViewDelega
         switch item.type {
         case .campaignTitle:
             if let item = item as? CampaignDetailViewModelCampaignTitleItem, let cell = tableView.dequeueReusableCell(withIdentifier: CampaignDetailTitleCell.identifier, for: indexPath) as? CampaignDetailTitleCell {
+                // Set global title cell to this cell
+                currentTitleCell = cell
+                // Set text field to hidden until edit is requested
+                cell.campaignDetailTitleTextField.isHidden = true
+                
                 viewModel?.campaignTitle = item.title
                 cell.selectionStyle = .none
                 cell.delegate = self
@@ -134,16 +142,67 @@ extension CampaignDetailViewController: UITableViewDataSource, UITableViewDelega
         header?.textLabel?.font = fontDefinitions.detailTableViewHeaderFont
         header?.textLabel?.textColor = colorDefinitions.mainTextColor
         header?.tintColor = colorDefinitions.detailTableViewHeaderTintColor
-    }
-    func setCampaignActive() {
-        self.viewModel.setCampaignActive()
-        if let cell = currentProsperityCell as? CampaignDetailProsperityCell {
-            cell.isActive = true
+        
+        // Test custom edit button in header view (if active campaign)
+        let myCell = currentTitleCell as! CampaignDetailTitleCell
+        if myCell.isActive == true {
+            let button = UIButton(frame: CGRect(x: 340, y: 10, width: 15, height: 15))  // create button
+            button.setImage(UIImage(named: "icons8-Edit-26"), for: .normal)  // assumes there is an image named "scenarioCompletedIcon"
+
+            
+            let itemType = viewModel.items[section].type
+            
+            switch itemType {
+                
+            case .prosperity:
+                print("I selected a prosperity row")
+            case .donations:
+                print("I selected a donations row")
+            case .achievements:
+                break
+            case .campaignTitle:
+                button.isEnabled = true
+                button.addTarget(self, action: #selector(self.enableTitleTextField(_:)), for: .touchUpInside)
+                header?.addSubview(button)
+            case .parties:
+                break
+            }
         }
-        if let cell = currentDonationsCell as? CampaignDetailDonationsCell {
-            cell.isActive = true
-        }
     }
+
+    // Test function for section button
+    func enableTitleTextField(_ sender: UIButton) {
+        let myCell = currentTitleCell as! CampaignDetailTitleCell
+        let myTextField = myCell.campaignDetailTitleTextField!
+        myTextField.delegate = self
+        let oldText = myCell.campaignDetailTitleLabel.text
+        myTextField.text = oldText
+        myTextField.font = fontDefinitions.detailTableViewTitleFont
+        myTextField.becomeFirstResponder()
+        myTextField.selectedTextRange = myCell.campaignDetailTitleTextField.textRange(from: myCell.campaignDetailTitleTextField.beginningOfDocument, to: myCell.campaignDetailTitleTextField.endOfDocument)
+        myCell.campaignDetailTitleLabel.isHidden = true
+        myTextField.isHidden = false
+    }
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        let myCell = currentTitleCell as! CampaignDetailTitleCell
+        let myTextField = myCell.campaignDetailTitleTextField!
+        myTextField.delegate = self
+        myTextField.isHidden = true
+        myCell.campaignDetailTitleLabel.isHidden = false
+    }
+    // Delegate methods for textField
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        let myCell = currentTitleCell as! CampaignDetailTitleCell
+        let myLabel = myCell.campaignDetailTitleLabel
+        let oldTitle = myLabel!.text!
+        myLabel?.text = textField.text
+        textField.isHidden = true
+        viewModel.renameCampaignTitle(oldTitle: oldTitle, newTitle: textField.text!)
+        myLabel?.isHidden = false
+        return true
+    }
+
     // Delegate methods for custom campaign cells
     func updateCampaignProsperityCount(value: Int) {
         let (level, count) = (self.viewModel.updateProsperityCount(value: value))
@@ -157,6 +216,15 @@ extension CampaignDetailViewController: UITableViewDataSource, UITableViewDelega
         let amount = self.viewModel.updateCampaignDonationsCount(value: value)
         if let cell = currentDonationsCell as? CampaignDetailDonationsCell {
             cell.campaignDetailDonationsLabel.text = "\(amount)"
+        }
+    }
+    func setCampaignActive() {
+        self.viewModel.setCampaignActive()
+        if let cell = currentProsperityCell as? CampaignDetailProsperityCell {
+            cell.isActive = true
+        }
+        if let cell = currentDonationsCell as? CampaignDetailDonationsCell {
+            cell.isActive = true
         }
     }
 }

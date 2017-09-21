@@ -166,6 +166,13 @@ class CampaignDetailViewModel: NSObject {
         dataModel.currentCampaign!.sanctuaryDonations += value
         return getSanctuaryDonations(campaign:dataModel.currentCampaign!)
     }
+    // Method for Renaming Campaign Title
+    func renameCampaignTitle(oldTitle: String, newTitle: String) {
+        dataModel.campaigns.changeKey(from: oldTitle, to: newTitle)
+        dataModel.currentCampaign!.title = newTitle
+        dataModel.saveCampaignsLocally()
+        print("New list of campaigns: \(dataModel.campaigns)")
+    }
 }
 
 class CampaignDetailViewModelCampaignTitleItem: CampaignDetailViewModelItem {

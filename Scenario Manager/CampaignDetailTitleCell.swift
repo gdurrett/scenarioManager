@@ -16,6 +16,8 @@ class CampaignDetailTitleCell: UITableViewCell {
 
     @IBOutlet weak var campaignDetailTitleLabel: UILabel!
     
+    @IBOutlet weak var campaignDetailTitleTextField: UITextField!
+    
     @IBOutlet weak var setCampaignActiveButtonOutlet: UIButton!
     
     @IBAction func setCampaignActiveAction(_ sender: Any) {
