@@ -54,12 +54,12 @@ class CampaignDetailProsperityCell: UITableViewCell {
         didSet {
         //modifyProsperityCountStepperOutlet.setBackgroundImage(UIImage(named: "stepperBG.png"), for: .normal)
 //            if isActive == true {
-//                modifyProsperityCountStepperOutlet.isHidden = false
-//                modifyProsperityCountStepperOutlet.isEnabled = true
-//                modifyProsperityCountStepperOutlet.tintColor = colorDefinitions.mainTextColor
+//                myStepperOutlet.isHidden = false
+//                myStepperOutlet.isEnabled = true
+//                myStepperOutlet.tintColor = colorDefinitions.mainTextColor
 //            } else {
-//                modifyProsperityCountStepperOutlet.isEnabled = false
-//                modifyProsperityCountStepperOutlet.isHidden = true
+//                myStepperOutlet.isEnabled = false
+//                myStepperOutlet.isHidden = true
 //            }
         }
         

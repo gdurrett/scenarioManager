@@ -18,6 +18,9 @@ class CampaignDetailViewController: UIViewController {
     var currentProsperityCell = UITableViewCell()
     var currentDonationsCell = UITableViewCell()
     var currentTitleCell = UITableViewCell()
+    
+    var headersToUpdate = [Int:UITableViewHeaderFooterView]()
+    
     @IBOutlet weak var campaignDetailTableView: UITableView!
 
     override func viewDidLoad() {
@@ -142,11 +145,17 @@ extension CampaignDetailViewController: UITableViewDataSource, UITableViewDelega
         header?.textLabel?.font = fontDefinitions.detailTableViewHeaderFont
         header?.textLabel?.textColor = colorDefinitions.mainTextColor
         header?.tintColor = colorDefinitions.detailTableViewHeaderTintColor
-        
+        headersToUpdate[section] = header
         // Test custom edit button in header view (if active campaign)
+        createSectionButton(forSection: section, inHeader: header!)
+    }
+    // Create section button
+    func createSectionButton(forSection section: Int, inHeader header: UITableViewHeaderFooterView) {
+
         let myCell = currentTitleCell as! CampaignDetailTitleCell
         
         if myCell.isActive == true {
+            print("We are active")
             let button = UIButton(frame: CGRect(x: 330, y: 14, width: 25, height: 25))  // create button
             button.setImage(UIImage(named: "icons8-Edit-40"), for: .normal)
             
@@ -157,23 +166,23 @@ extension CampaignDetailViewController: UITableViewDataSource, UITableViewDelega
             case .prosperity:
                 button.isEnabled = true
                 button.addTarget(self, action: #selector(self.showUIStepperInCampaignProsperityCell(_:)), for: .touchUpInside)
-                header?.addSubview(button)
+                header.addSubview(button)
             case .donations:
                 button.isEnabled = true
                 button.addTarget(self, action: #selector(self.showUIStepperInCampaignDonationsCell(_:)), for: .touchUpInside)
-                header?.addSubview(button)
+                header.addSubview(button)
             case .achievements:
                 break
             case .campaignTitle:
+                print("Did we get to campaignTitle?")
                 button.isEnabled = true
                 button.addTarget(self, action: #selector(self.enableTitleTextField(_:)), for: .touchUpInside)
-                header?.addSubview(button)
+                header.addSubview(button)
             case .parties:
                 break
             }
         }
     }
-
     // Test function for section button
     func enableTitleTextField(_ sender: UIButton) {
         let myCell = currentTitleCell as! CampaignDetailTitleCell
@@ -269,6 +278,13 @@ extension CampaignDetailViewController: UITableViewDataSource, UITableViewDelega
         }
         if let cell = currentDonationsCell as? CampaignDetailDonationsCell {
             cell.isActive = true
+        }
+        if let cell = currentTitleCell as? CampaignDetailTitleCell {
+            cell.isActive = true
+        }
+        for (section, header) in headersToUpdate {
+            print(section, header.textLabel!.text!)
+            createSectionButton(forSection: section, inHeader: header)
         }
     }
 }
