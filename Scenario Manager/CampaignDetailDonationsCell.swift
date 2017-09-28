@@ -23,12 +23,12 @@ class CampaignDetailDonationsCell: UITableViewCell {
         }
     }
     
-    @IBOutlet weak var modifyDonationsCountStepperOutlet: UIStepper!
+    @IBOutlet weak var myStepperOutlet: UIStepper!
     
     @IBAction func modifyDonationsCountAction(_ sender: Any) {
-        let value = Int(modifyDonationsCountStepperOutlet.value)
+        let value = Int(myStepperOutlet.value)
         delegate?.updateCampaignDonationsCount(value: value)
-        modifyDonationsCountStepperOutlet.value = 0
+        myStepperOutlet.value = 0
     }
     
     let colorDefinitions = ColorDefinitions()
@@ -48,14 +48,14 @@ class CampaignDetailDonationsCell: UITableViewCell {
     }
     var isActive: Bool? {
         didSet {
-            if isActive == true {
-                modifyDonationsCountStepperOutlet.isHidden = false
-                modifyDonationsCountStepperOutlet.isEnabled = true
-                modifyDonationsCountStepperOutlet.tintColor = colorDefinitions.mainTextColor
-            } else {
-                modifyDonationsCountStepperOutlet.isEnabled = false
-                modifyDonationsCountStepperOutlet.isHidden = true
-            }
+//            if isActive == true {
+//                modifyDonationsCountStepperOutlet.isHidden = false
+//                modifyDonationsCountStepperOutlet.isEnabled = true
+//                modifyDonationsCountStepperOutlet.tintColor = colorDefinitions.mainTextColor
+//            } else {
+//                modifyDonationsCountStepperOutlet.isEnabled = false
+//                modifyDonationsCountStepperOutlet.isHidden = true
+//            }
         }
         
     }
@@ -70,6 +70,7 @@ class CampaignDetailDonationsCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        myStepperOutlet.isHidden = true
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

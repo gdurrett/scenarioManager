@@ -28,14 +28,14 @@ class CampaignDetailViewController: UIViewController {
         
         campaignDetailTableView?.dataSource = self
         campaignDetailTableView?.delegate = self
-        campaignDetailTableView?.estimatedRowHeight = 100
+        campaignDetailTableView?.estimatedRowHeight = 80
         campaignDetailTableView?.rowHeight = UITableViewAutomaticDimension
         // Register Cells
         campaignDetailTableView?.register(CampaignDetailTitleCell.nib, forCellReuseIdentifier: CampaignDetailTitleCell.identifier)
-        campaignDetailTableView?.register(CampaignDetailPartyCell.nib, forCellReuseIdentifier: CampaignDetailPartyCell.identifier)
-        campaignDetailTableView?.register(CampaignDetailAchievementsCell.nib, forCellReuseIdentifier: CampaignDetailAchievementsCell.identifier)
         campaignDetailTableView?.register(CampaignDetailProsperityCell.nib, forCellReuseIdentifier: CampaignDetailProsperityCell.identifier)
         campaignDetailTableView?.register(CampaignDetailDonationsCell.nib, forCellReuseIdentifier: CampaignDetailDonationsCell.identifier)
+        campaignDetailTableView?.register(CampaignDetailPartyCell.nib, forCellReuseIdentifier: CampaignDetailPartyCell.identifier)
+        campaignDetailTableView?.register(CampaignDetailAchievementsCell.nib, forCellReuseIdentifier: CampaignDetailAchievementsCell.identifier)
         
     }
 
@@ -72,21 +72,6 @@ extension CampaignDetailViewController: UITableViewDataSource, UITableViewDelega
                 cell.item = item
                 return cell
             }
-        case .parties:
-            if let item = item as? CampaignDetailViewModelCampaignPartyItem, let cell = tableView.dequeueReusableCell(withIdentifier: CampaignDetailPartyCell.identifier, for: indexPath) as? CampaignDetailPartyCell {
-                //cell.delegate = self
-                cell.selectionStyle = .none
-                let party = item.names[indexPath.row]
-                cell.item = party
-                return cell
-            }
-        case .achievements:
-            if let item = item as? CampaignDetailViewModelCampaignAchievementsItem, let cell = tableView.dequeueReusableCell(withIdentifier: CampaignDetailAchievementsCell.identifier, for: indexPath) as? CampaignDetailAchievementsCell {
-                let achievement = item.achievements[indexPath.row]
-                cell.selectionStyle = .none
-                cell.item = achievement
-                return cell
-            }
         case .prosperity:
             if let item = item as? CampaignDetailViewModelCampaignProsperityItem, let cell = tableView.dequeueReusableCell(withIdentifier: CampaignDetailProsperityCell.identifier, for: indexPath) as? CampaignDetailProsperityCell {
                 // Give proper status to isActive button in this cell
@@ -103,6 +88,21 @@ extension CampaignDetailViewController: UITableViewDataSource, UITableViewDelega
                 cell.isActive = (viewModel.isActiveCampaign == true ? true : false)
                 cell.item = item
                 currentDonationsCell = cell
+                return cell
+            }
+        case .parties:
+            if let item = item as? CampaignDetailViewModelCampaignPartyItem, let cell = tableView.dequeueReusableCell(withIdentifier: CampaignDetailPartyCell.identifier, for: indexPath) as? CampaignDetailPartyCell {
+                //cell.delegate = self
+                cell.selectionStyle = .none
+                let party = item.names[indexPath.row]
+                cell.item = party
+                return cell
+            }
+        case .achievements:
+            if let item = item as? CampaignDetailViewModelCampaignAchievementsItem, let cell = tableView.dequeueReusableCell(withIdentifier: CampaignDetailAchievementsCell.identifier, for: indexPath) as? CampaignDetailAchievementsCell {
+                let achievement = item.achievements[indexPath.row]
+                cell.selectionStyle = .none
+                cell.item = achievement
                 return cell
             }
         //        case .events:
@@ -135,7 +135,7 @@ extension CampaignDetailViewController: UITableViewDataSource, UITableViewDelega
         return viewModel.items[section].sectionTitle
     }
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 30
+        return 50
     }
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         let header = view as? UITableViewHeaderFooterView
@@ -145,19 +145,23 @@ extension CampaignDetailViewController: UITableViewDataSource, UITableViewDelega
         
         // Test custom edit button in header view (if active campaign)
         let myCell = currentTitleCell as! CampaignDetailTitleCell
+        
         if myCell.isActive == true {
-            let button = UIButton(frame: CGRect(x: 340, y: 10, width: 15, height: 15))  // create button
-            button.setImage(UIImage(named: "icons8-Edit-26"), for: .normal)  // assumes there is an image named "scenarioCompletedIcon"
-
+            let button = UIButton(frame: CGRect(x: 330, y: 14, width: 25, height: 25))  // create button
+            button.setImage(UIImage(named: "icons8-Edit-40"), for: .normal)
             
             let itemType = viewModel.items[section].type
             
             switch itemType {
                 
             case .prosperity:
-                print("I selected a prosperity row")
+                button.isEnabled = true
+                button.addTarget(self, action: #selector(self.showUIStepperInCampaignProsperityCell(_:)), for: .touchUpInside)
+                header?.addSubview(button)
             case .donations:
-                print("I selected a donations row")
+                button.isEnabled = true
+                button.addTarget(self, action: #selector(self.showUIStepperInCampaignDonationsCell(_:)), for: .touchUpInside)
+                header?.addSubview(button)
             case .achievements:
                 break
             case .campaignTitle:
@@ -190,15 +194,55 @@ extension CampaignDetailViewController: UITableViewDataSource, UITableViewDelega
         myTextField.isHidden = true
         myCell.campaignDetailTitleLabel.isHidden = false
     }
+    func activateStepper(_ sender: UIButton) {
+        
+    }
+    func showUIStepperInCampaignProsperityCell(_ button: UIButton) {
+        button.setImage(UIImage(named: "icons8-Edit-40_selected"), for: .normal)
+        let myCell = currentProsperityCell as! CampaignDetailProsperityCell
+        myCell.myStepperOutlet.isHidden = false
+        myCell.myStepperOutlet.isEnabled = true
+        myCell.myStepperOutlet.tintColor = colorDefinitions.mainTextColor
+        button.isEnabled = true
+        button.addTarget(self, action: #selector(self.hideUIStepperInCampaignProsperityCell(_:)), for: .touchUpInside)
+    }
+    func showUIStepperInCampaignDonationsCell(_ button: UIButton) {
+        button.setImage(UIImage(named: "icons8-Edit-40_selected"), for: .normal)
+        let myCell = currentDonationsCell as! CampaignDetailDonationsCell
+        myCell.myStepperOutlet.isHidden = false
+        myCell.myStepperOutlet.isEnabled = true
+        myCell.myStepperOutlet.tintColor = colorDefinitions.mainTextColor
+        button.isEnabled = true
+        button.addTarget(self, action: #selector(self.hideUIStepperInCampaignDonationsCell(_:)), for: .touchUpInside)
+    }
+    func hideUIStepperInCampaignProsperityCell(_ button: UIButton) {
+        let myCell = currentProsperityCell as! CampaignDetailProsperityCell
+        myCell.myStepperOutlet.isHidden = true
+        myCell.myStepperOutlet.isEnabled = false
+        button.isSelected = false
+        button.addTarget(self, action: #selector(self.showUIStepperInCampaignProsperityCell(_:)), for: .touchUpInside)
+        button.setImage(UIImage(named: "icons8-Edit-40"), for: .normal)
+    }
+    func hideUIStepperInCampaignDonationsCell(_ button: UIButton) {
+        let myCell = currentDonationsCell as! CampaignDetailDonationsCell
+        myCell.myStepperOutlet.isHidden = true
+        myCell.myStepperOutlet.isEnabled = false
+        myCell.myStepperOutlet.tintColor = colorDefinitions.mainTextColor
+        button.isSelected = false
+        button.addTarget(self, action: #selector(self.showUIStepperInCampaignDonationsCell(_:)), for: .touchUpInside)
+        button.setImage(UIImage(named: "icons8-Edit-40"), for: .normal)
+    }
     // Delegate methods for textField
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         let myCell = currentTitleCell as! CampaignDetailTitleCell
         let myLabel = myCell.campaignDetailTitleLabel
         let oldTitle = myLabel!.text!
-        myLabel?.text = textField.text
-        textField.isHidden = true
-        viewModel.renameCampaignTitle(oldTitle: oldTitle, newTitle: textField.text!)
+        if textField.text != "" {
+            myLabel?.text = textField.text
+            textField.isHidden = true
+            viewModel.renameCampaignTitle(oldTitle: oldTitle, newTitle: textField.text!)
+        }
         myLabel?.isHidden = false
         return true
     }

@@ -61,11 +61,22 @@ class CampaignDetailViewModel: NSObject {
         let titleItem = CampaignDetailViewModelCampaignTitleItem(title: campaign.title)
         items.append(titleItem)
         
+        // Append prosperity level to items
+        
+        let prosperityItem = CampaignDetailViewModelCampaignProsperityItem(level: prosperityLevel, remainingChecksUntilNextLevel: remainingChecksUntilNextLevel)
+        items.append(prosperityItem)
+        
+        // Append donations amount to items
+        let donationsItem = CampaignDetailViewModelCampaignDonationsItem(amount: campaign.sanctuaryDonations)
+        items.append(donationsItem)
+        
         // Append party names to items
         if campaign.parties?.isEmpty != true {
             for party in campaign.parties! {
                 partyNames.append(SeparatedStrings(rowString: party.name))
             }
+        } else {
+            self.partyNames.append(SeparatedStrings(rowString: "No parties assigned."))
         }
         let partyItem = CampaignDetailViewModelCampaignPartyItem(names: partyNames)
         items.append(partyItem)
@@ -79,15 +90,6 @@ class CampaignDetailViewModel: NSObject {
         }
         let achievementsItem = CampaignDetailViewModelCampaignAchievementsItem(achievements: achievementNames)
         items.append(achievementsItem)
-        
-        // Append prosperity level to items
-        
-        let prosperityItem = CampaignDetailViewModelCampaignProsperityItem(level: prosperityLevel, remainingChecksUntilNextLevel: remainingChecksUntilNextLevel)
-        items.append(prosperityItem)
-        
-        // Append donations amount to items
-        let donationsItem = CampaignDetailViewModelCampaignDonationsItem(amount: campaign.sanctuaryDonations)
-        items.append(donationsItem)
     }
     // Helper methods
     func getProsperityLevel(count: Int) -> Int {
@@ -168,10 +170,12 @@ class CampaignDetailViewModel: NSObject {
     }
     // Method for Renaming Campaign Title
     func renameCampaignTitle(oldTitle: String, newTitle: String) {
-        dataModel.campaigns.changeKey(from: oldTitle, to: newTitle)
-        dataModel.currentCampaign!.title = newTitle
-        dataModel.saveCampaignsLocally()
-        print("New list of campaigns: \(dataModel.campaigns)")
+        if oldTitle != newTitle { // Don't do anything if it's the same title
+            dataModel.campaigns.changeKey(from: oldTitle, to: newTitle)
+            dataModel.currentCampaign!.title = newTitle
+            dataModel.saveCampaignsLocally()
+            print("New list of campaigns: \(dataModel.campaigns)")
+        }
     }
 }
 

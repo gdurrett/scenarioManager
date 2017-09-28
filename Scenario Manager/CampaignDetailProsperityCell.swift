@@ -24,12 +24,12 @@ class CampaignDetailProsperityCell: UITableViewCell {
         }
     }
     
-    @IBOutlet weak var modifyProsperityCountStepperOutlet: UIStepper!
+    @IBOutlet weak var myStepperOutlet: UIStepper!
     
     @IBAction func modifyProsperityCountAction(_ sender: Any) {
-        let value = Int(modifyProsperityCountStepperOutlet.value)
+        let value = Int(myStepperOutlet.value)
         delegate?.updateCampaignProsperityCount(value: value)
-        modifyProsperityCountStepperOutlet.value = 0
+        myStepperOutlet.value = 0
     }
     
     
@@ -53,14 +53,14 @@ class CampaignDetailProsperityCell: UITableViewCell {
     var isActive: Bool? {
         didSet {
         //modifyProsperityCountStepperOutlet.setBackgroundImage(UIImage(named: "stepperBG.png"), for: .normal)
-            if isActive == true {
-                modifyProsperityCountStepperOutlet.isHidden = false
-                modifyProsperityCountStepperOutlet.isEnabled = true
-                modifyProsperityCountStepperOutlet.tintColor = colorDefinitions.mainTextColor
-            } else {
-                modifyProsperityCountStepperOutlet.isEnabled = false
-                modifyProsperityCountStepperOutlet.isHidden = true
-            }
+//            if isActive == true {
+//                modifyProsperityCountStepperOutlet.isHidden = false
+//                modifyProsperityCountStepperOutlet.isEnabled = true
+//                modifyProsperityCountStepperOutlet.tintColor = colorDefinitions.mainTextColor
+//            } else {
+//                modifyProsperityCountStepperOutlet.isEnabled = false
+//                modifyProsperityCountStepperOutlet.isHidden = true
+//            }
         }
         
     }
@@ -75,6 +75,7 @@ class CampaignDetailProsperityCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        myStepperOutlet.isHidden = true
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
