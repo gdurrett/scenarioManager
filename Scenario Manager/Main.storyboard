@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="E4s-lW-bdS">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="E4s-lW-bdS">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -55,7 +55,7 @@
                     <tabBarItem key="tabBarItem" title="" id="dUb-bL-gLa"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="CLK-0p-Z96">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="20" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -406,10 +406,10 @@
             </objects>
             <point key="canvasLocation" x="2801.25" y="292.6056338028169"/>
         </scene>
-        <!--Campaign View Controller-->
+        <!--Campaign Party Detail View Controller-->
         <scene sceneID="uk6-Pa-EWa">
             <objects>
-                <viewController id="LHV-bu-dJq" customClass="CampaignViewController" customModule="Scenario_Manager" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="LHV-bu-dJq" customClass="CampaignPartyDetailViewController" customModule="Scenario_Manager" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="lYL-gf-tmE"/>
                         <viewControllerLayoutGuide type="bottom" id="n0G-g3-Fwt"/>
@@ -418,9 +418,22 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="aXI-qh-ezw">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="QPT-Tw-4tZ">
+                                <rect key="frame" x="-16" y="64" width="352" height="45"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="JLG-eP-JMY"/>
+                                </constraints>
+                                <segments>
+                                    <segment title="Campaign"/>
+                                    <segment title="Party"/>
+                                </segments>
+                                <color key="tintColor" red="0.24919084820000001" green="0.1929752334" blue="0.1351535955" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <action selector="scenarioFilterAction:" destination="xrX-4O-C3P" eventType="valueChanged" id="p2X-DJ-yhY"/>
+                                </connections>
+                            </segmentedControl>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="aXI-qh-ezw">
+                                <rect key="frame" x="0.0" y="108" width="320" height="411"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Campaign" id="Zly-gL-gkF" customClass="CampaignMainCell" customModule="Scenario_Manager" customModuleProvider="target">
@@ -449,17 +462,26 @@
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="QPT-Tw-4tZ" firstAttribute="leading" secondItem="s32-CY-Uah" secondAttribute="leading" constant="-16" id="DYE-Pe-hXc"/>
+                            <constraint firstItem="n0G-g3-Fwt" firstAttribute="top" secondItem="aXI-qh-ezw" secondAttribute="bottom" id="G0E-23-7Yj"/>
+                            <constraint firstAttribute="trailing" secondItem="aXI-qh-ezw" secondAttribute="trailing" id="MId-so-5ih"/>
+                            <constraint firstItem="aXI-qh-ezw" firstAttribute="top" secondItem="lYL-gf-tmE" secondAttribute="bottom" constant="44" id="NV2-GB-NuB"/>
+                            <constraint firstItem="aXI-qh-ezw" firstAttribute="leading" secondItem="s32-CY-Uah" secondAttribute="leading" id="ciH-CW-2ru"/>
+                            <constraint firstItem="QPT-Tw-4tZ" firstAttribute="top" secondItem="lYL-gf-tmE" secondAttribute="bottom" id="iPd-ji-evq"/>
+                            <constraint firstAttribute="trailing" secondItem="QPT-Tw-4tZ" secondAttribute="trailing" constant="-16" id="sdp-n7-mwd"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="uaR-in-Law">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="R7Y-h4-ekN">
                             <color key="tintColor" red="0.2452870207" green="0.18995208050000001" blue="0.13303627730000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             <connections>
-                                <action selector="createCampaignAction:" destination="LHV-bu-dJq" id="Mwc-sl-DYH"/>
+                                <action selector="createCampaignAction:" destination="LHV-bu-dJq" id="NM7-XS-k4J"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="campaignTableViewOutlet" destination="aXI-qh-ezw" id="JbS-9J-nOx"/>
+                        <outlet property="campaignPartyDetailTableView" destination="aXI-qh-ezw" id="OmA-4Z-a0v"/>
                         <segue destination="DHT-Ja-bDV" kind="show" identifier="ShowCampaignDetail" id="P8Z-v2-yQr"/>
                     </connections>
                 </viewController>
@@ -541,7 +563,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" modalTransitionStyle="crossDissolve" modalPresentationStyle="overCurrentContext" id="A4A-u0-5C5" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="I5w-tC-1aA">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="20" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -579,7 +601,7 @@
                     <tabBarItem key="tabBarItem" title="" id="JzM-aK-VQg"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="2al-sh-IYm">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="20" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -597,7 +619,7 @@
                 <navigationController storyboardIdentifier="createCampaignNavController" automaticallyAdjustsScrollViewInsets="NO" id="zlq-rP-3hz" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="JGe-dt-xSf">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="20" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -615,7 +637,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="eZN-OM-tlg" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="q1i-cy-xjs">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="20" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -634,7 +656,7 @@
                     <tabBarItem key="tabBarItem" title="Item" id="S0C-1n-xpr"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="LGn-nM-jAi">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="20" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>

@@ -1,15 +1,15 @@
 //
-//  CampaignDetailViewController.swift
+//  CampaignPartyDetailViewController.swift
 //  Scenario Manager
 //
-//  Created by Greg Durrett on 9/15/17.
+//  Created by Greg Durrett on 9/30/17.
 //  Copyright © 2017 AppHazard Productions. All rights reserved.
 //
 
 import UIKit
 
-class CampaignDetailViewController: UIViewController {
-    
+class CampaignPartyDetailViewController: UIViewController {
+
     var viewModel: CampaignPartyDetailViewModel!
     
     let colorDefinitions = ColorDefinitions()
@@ -21,34 +21,45 @@ class CampaignDetailViewController: UIViewController {
     var completedGlobalAchievements = [String:Bool]()
     var headersToUpdate = [Int:UITableViewHeaderFooterView]()
     
-    @IBOutlet weak var campaignDetailTableView: UITableView!
-
+    @IBOutlet weak var campaignPartyDetailTableView: UITableView!
+    
+    @IBAction func createCampaignAction(_ sender: Any) {
+        loadCreateCampaignViewController()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        //viewModel.updateAchievements()
-        self.view.addGestureRecognizer(UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:))))
-//        NotificationCenter.default.addObserver(self, selector: #selector(reloadData), name: NSNotification.Name(rawValue: "reloadData"), object: nil)
         
-        campaignDetailTableView?.dataSource = self
-        campaignDetailTableView?.delegate = self
-        campaignDetailTableView?.estimatedRowHeight = 80
-        campaignDetailTableView?.rowHeight = UITableViewAutomaticDimension
+        self.view.addGestureRecognizer(UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:))))
+        
+        campaignPartyDetailTableView?.dataSource = self
+        campaignPartyDetailTableView?.delegate = self
+        campaignPartyDetailTableView?.estimatedRowHeight = 80
+        campaignPartyDetailTableView?.rowHeight = UITableViewAutomaticDimension
         // Register Cells
-        campaignDetailTableView?.register(CampaignDetailTitleCell.nib, forCellReuseIdentifier: CampaignDetailTitleCell.identifier)
-        campaignDetailTableView?.register(CampaignDetailProsperityCell.nib, forCellReuseIdentifier: CampaignDetailProsperityCell.identifier)
-        campaignDetailTableView?.register(CampaignDetailDonationsCell.nib, forCellReuseIdentifier: CampaignDetailDonationsCell.identifier)
-        campaignDetailTableView?.register(CampaignDetailPartyCell.nib, forCellReuseIdentifier: CampaignDetailPartyCell.identifier)
-        campaignDetailTableView?.register(CampaignDetailAchievementsCell.nib, forCellReuseIdentifier: CampaignDetailAchievementsCell.identifier)
+        campaignPartyDetailTableView?.register(CampaignDetailTitleCell.nib, forCellReuseIdentifier: CampaignDetailTitleCell.identifier)
+        campaignPartyDetailTableView?.register(CampaignDetailProsperityCell.nib, forCellReuseIdentifier: CampaignDetailProsperityCell.identifier)
+        campaignPartyDetailTableView?.register(CampaignDetailDonationsCell.nib, forCellReuseIdentifier: CampaignDetailDonationsCell.identifier)
+        campaignPartyDetailTableView?.register(CampaignDetailPartyCell.nib, forCellReuseIdentifier: CampaignDetailPartyCell.identifier)
+        campaignPartyDetailTableView?.register(CampaignDetailAchievementsCell.nib, forCellReuseIdentifier: CampaignDetailAchievementsCell.identifier)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    // Action methods
+    fileprivate func loadCreateCampaignViewController() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let createCampaignVC = storyboard.instantiateViewController(withIdentifier: "createCampaignViewController") as! CreateCampaignViewController
+        createCampaignVC.delegate = self
+        createCampaignVC.viewModel = self.viewModel!.createCampaignViewModel
+        createCampaignVC.hidesBottomBarWhenPushed = true
+        self.navigationController!.pushViewController(createCampaignVC, animated: true)
+    }
 }
-
-extension CampaignDetailViewController: UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, CampaignDetailTitleCellDelegate, CampaignDetailProsperityCellDelegate, CampaignDetailDonationsCellDelegate {
-
+extension CampaignPartyDetailViewController: UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, CampaignDetailTitleCellDelegate, CampaignDetailProsperityCellDelegate, CampaignDetailDonationsCellDelegate {
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return viewModel.items.count
     }
@@ -126,8 +137,8 @@ extension CampaignDetailViewController: UITableViewDataSource, UITableViewDelega
                 cell.item = achievement
                 return cell
             }
-        //        case .events:
-//            break
+            //        case .events:
+            //            break
         }
         return UITableViewCell()
     }
@@ -170,7 +181,7 @@ extension CampaignDetailViewController: UITableViewDataSource, UITableViewDelega
     }
     func refreshAchievements() {
         DispatchQueue.main.async {
-            self.campaignDetailTableView.reloadSections([4], with: .fade)
+            self.campaignPartyDetailTableView.reloadSections([4], with: .fade)
         }
     }
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -190,7 +201,7 @@ extension CampaignDetailViewController: UITableViewDataSource, UITableViewDelega
     }
     // Create section button
     func createSectionButton(forSection section: Int, inHeader header: UITableViewHeaderFooterView) {
-
+        
         let myCell = currentTitleCell as! CampaignDetailTitleCell
         
         if myCell.isActive == true {
@@ -285,7 +296,7 @@ extension CampaignDetailViewController: UITableViewDataSource, UITableViewDelega
         viewModel.updateAchievements()
         viewModel.completedGlobalAchievements.bindAndFire { [unowned self] in self.completedGlobalAchievements = $0 }
         //self.viewModel = CampaignDetailViewModel(withCampaign: (self.viewModel.campaign))
-        self.campaignDetailTableView.reloadData()
+        self.campaignPartyDetailTableView.reloadData()
     }
     // Delegate methods for textField
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -301,7 +312,7 @@ extension CampaignDetailViewController: UITableViewDataSource, UITableViewDelega
         myLabel?.isHidden = false
         return true
     }
-
+    
     // Delegate methods for custom campaign cells
     func updateCampaignProsperityCount(value: Int) {
         let (level, count) = (self.viewModel.updateProsperityCount(value: value))
@@ -332,5 +343,15 @@ extension CampaignDetailViewController: UITableViewDataSource, UITableViewDelega
             print(section, header.textLabel!.text!)
             createSectionButton(forSection: section, inHeader: header)
         }
+    }
+}
+extension CampaignPartyDetailViewController: CreateCampaignViewControllerDelegate {
+    // Delegate methods for CreateCampaignViewController
+    func createCampaignViewControllerDidCancel(_ controller: CreateCampaignViewController) {
+        print("Did we get back here to cancel?")
+        controller.navigationController?.popViewController(animated: true)
+    }
+    func createCampaignViewControllerDidFinishAdding(_ controller: CreateCampaignViewController) {
+        controller.navigationController?.popViewController(animated: true)
     }
 }

@@ -1,5 +1,5 @@
 //
-//  CampaignDetailViewModel.swift
+//  CampaignPartyDetailViewModel.swift
 //  Scenario Manager
 //
 //  Created by Greg Durrett on 9/15/17.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum CampaignDetailViewModelItemType {
+enum CampaignPartyDetailViewModelItemType {
     case campaignTitle
     case parties
     case achievements
@@ -17,17 +17,17 @@ enum CampaignDetailViewModelItemType {
 //    case events
 }
 
-protocol CampaignDetailViewModelItem {
-    var type: CampaignDetailViewModelItemType { get }
+protocol CampaignPartyDetailViewModelItem {
+    var type: CampaignPartyDetailViewModelItemType { get }
     var sectionTitle: String { get }
     var rowCount: Int { get }
 }
 
-class CampaignDetailViewModel: NSObject {
+class CampaignPartyDetailViewModel: NSObject {
     
     var dataModel = DataModel.sharedInstance
     var campaign: Campaign!
-    var items = [CampaignDetailViewModelItem]()
+    var items = [CampaignPartyDetailViewModelItem]()
     var campaignTitle: String?
     var partyNames = [SeparatedStrings]()
     var achievementNames = [SeparatedStrings]()
@@ -38,9 +38,11 @@ class CampaignDetailViewModel: NSObject {
     var level = Int()
     var sanctuaryDonations = Int()
     var completedGlobalAchievements: Dynamic<[String:Bool]>
+    var createCampaignViewModel: CreateCampaignViewModelFromModel
     
     init(withCampaign campaign: Campaign) {
         self.completedGlobalAchievements = Dynamic(dataModel.completedGlobalAchievements)
+        self.createCampaignViewModel = CreateCampaignViewModelFromModel(withDataModel: dataModel)
         
         var prosperityLevel: Int {
             get {
@@ -65,15 +67,15 @@ class CampaignDetailViewModel: NSObject {
         self.isActiveCampaign = campaign.isCurrent
         
         // Append campaign title to items
-        let titleItem = CampaignDetailViewModelCampaignTitleItem(title: campaign.title)
+        let titleItem = CampaignPartyDetailViewModelCampaignTitleItem(title: campaign.title)
         items.append(titleItem)
         
         // Append prosperity level to items
-        let prosperityItem = CampaignDetailViewModelCampaignProsperityItem(level: getProsperityLevel(count: campaign.prosperityCount), remainingChecksUntilNextLevel: getRemainingChecksUntilNextLevel(level: (getProsperityLevel(count: campaign.prosperityCount)), count: campaign.prosperityCount))
+        let prosperityItem = CampaignPartyDetailViewModelCampaignProsperityItem(level: getProsperityLevel(count: campaign.prosperityCount), remainingChecksUntilNextLevel: getRemainingChecksUntilNextLevel(level: (getProsperityLevel(count: campaign.prosperityCount)), count: campaign.prosperityCount))
         items.append(prosperityItem)
         
         // Append donations amount to items
-        let donationsItem = CampaignDetailViewModelCampaignDonationsItem(amount: campaign.sanctuaryDonations)
+        let donationsItem = CampaignPartyDetailViewModelCampaignDonationsItem(amount: campaign.sanctuaryDonations)
         items.append(donationsItem)
         
         // Append party names to items
@@ -84,17 +86,17 @@ class CampaignDetailViewModel: NSObject {
         } else {
             self.partyNames.append(SeparatedStrings(rowString: "No parties assigned."))
         }
-        let partyItem = CampaignDetailViewModelCampaignPartyItem(names: partyNames)
+        let partyItem = CampaignPartyDetailViewModelCampaignPartyItem(names: partyNames)
         items.append(partyItem)
         
-        // Append achievement names(keys) to items -> May be able to remove in favor of appending in cellForRowAt in CampaignDetailViewController
+        // Append achievement names(keys) to items -> May be able to remove in favor of appending in cellForRowAt in CampaignPartyDetailViewController
         let localCompletedAchievements = campaign.achievements.filter { $0.value != false && $0.key != "None" && $0.key != "OR" }
         if localCompletedAchievements.isEmpty != true {
             for achievement in localCompletedAchievements {
                 achievementNames.append(SeparatedStrings(rowString: achievement.key))
             }
         }
-        let achievementsItem = CampaignDetailViewModelCampaignAchievementsItem(achievements: achievementNames)
+        let achievementsItem = CampaignPartyDetailViewModelCampaignAchievementsItem(achievements: achievementNames)
         items.append(achievementsItem)
     }
     // Helper methods
@@ -198,9 +200,9 @@ class CampaignDetailViewModel: NSObject {
     }
 }
 
-class CampaignDetailViewModelCampaignTitleItem: CampaignDetailViewModelItem {
+class CampaignPartyDetailViewModelCampaignTitleItem: CampaignPartyDetailViewModelItem {
     
-    var type: CampaignDetailViewModelItemType {
+    var type: CampaignPartyDetailViewModelItemType {
         return .campaignTitle
     }
     
@@ -218,9 +220,9 @@ class CampaignDetailViewModelCampaignTitleItem: CampaignDetailViewModelItem {
         self.title = title
     }
 }
-class CampaignDetailViewModelCampaignPartyItem: CampaignDetailViewModelItem {
+class CampaignPartyDetailViewModelCampaignPartyItem: CampaignPartyDetailViewModelItem {
     
-    var type: CampaignDetailViewModelItemType {
+    var type: CampaignPartyDetailViewModelItemType {
         return .parties
     }
     
@@ -238,9 +240,9 @@ class CampaignDetailViewModelCampaignPartyItem: CampaignDetailViewModelItem {
         self.names = names
     }
 }
-class CampaignDetailViewModelCampaignAchievementsItem: CampaignDetailViewModelItem {
+class CampaignPartyDetailViewModelCampaignAchievementsItem: CampaignPartyDetailViewModelItem {
     
-    var type: CampaignDetailViewModelItemType {
+    var type: CampaignPartyDetailViewModelItemType {
         return .achievements
     }
     
@@ -258,9 +260,9 @@ class CampaignDetailViewModelCampaignAchievementsItem: CampaignDetailViewModelIt
         self.achievements = achievements
     }
 }
-class CampaignDetailViewModelCampaignProsperityItem: CampaignDetailViewModelItem {
+class CampaignPartyDetailViewModelCampaignProsperityItem: CampaignPartyDetailViewModelItem {
     
-    var type: CampaignDetailViewModelItemType {
+    var type: CampaignPartyDetailViewModelItemType {
         return .prosperity
     }
     
@@ -280,9 +282,9 @@ class CampaignDetailViewModelCampaignProsperityItem: CampaignDetailViewModelItem
         self.remainingChecksUntilNextLevel = remainingChecksUntilNextLevel
     }
 }
-class CampaignDetailViewModelCampaignDonationsItem: CampaignDetailViewModelItem {
+class CampaignPartyDetailViewModelCampaignDonationsItem: CampaignPartyDetailViewModelItem {
     
-    var type: CampaignDetailViewModelItemType {
+    var type: CampaignPartyDetailViewModelItemType {
         return .donations
     }
     
