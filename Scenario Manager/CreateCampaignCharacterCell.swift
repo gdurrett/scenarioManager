@@ -56,7 +56,7 @@ class CreateCampaignCharacterCell: UITableViewCell, UIPickerViewDelegate, UIPick
         return pickerData[row]
     }
     
-    func donePicker() {
+    @objc func donePicker() {
         
         if !didPick {
             createCampaignCharacterPicker.selectRow(0, inComponent: 0, animated: true)
@@ -67,7 +67,7 @@ class CreateCampaignCharacterCell: UITableViewCell, UIPickerViewDelegate, UIPick
         createCampaignCharacterTextField.resignFirstResponder()
         createCampaignCharacterPicker.reloadAllComponents()
     }
-    func cancelPicker() {
+    @objc func cancelPicker() {
         createCampaignCharacterTextField.resignFirstResponder()
     }
 

@@ -32,7 +32,7 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
     init(withDataModel dataModel: DataModel) {
         self.dataModel = dataModel
         self.allScenarios = dataModel.allScenarios
-        self.campaign = Dynamic(dataModel.currentCampaign!)
+        self.campaign = Dynamic(dataModel.currentCampaign)
         self.party = Dynamic(dataModel.currentParty!)
         self.availableScenarios = Dynamic(dataModel.availableScenarios)
         self.completedScenarios = Dynamic(dataModel.completedScenarios)
@@ -61,7 +61,8 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
 //        }
         
         setRequirementsMet()
-        
+        // Test notification to reload Campaign Detail data after changes are made in Scenario VC
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "reloadData"), object: nil)
         //Need to re-get after update. Using Dynamic vars!
         self.availableScenarios.value = dataModel.availableScenarios
         self.completedScenarios.value = dataModel.completedScenarios
@@ -72,24 +73,24 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
     func updateAvailableScenarios() {
         self.availableScenarios.value = dataModel.availableScenarios
         self.completedScenarios.value = dataModel.completedScenarios
-        self.campaign.value = dataModel.currentCampaign!
+        self.campaign.value = dataModel.currentCampaign
         dataModel.saveCampaignsLocally()
         // Try force refresh here to solve first load from cloud issue?
     }
     func updateLoadedCampaign() {
-        dataModel.loadCampaign(campaign: dataModel.currentCampaign!.title)
+        dataModel.loadCampaign(campaign: dataModel.currentCampaign.title)
     }
     func increaseProsperityCount() {
-        dataModel.currentCampaign!.prosperityCount += 1
-        print("Increasing \(dataModel.currentCampaign!.title) prosperity count by 1")
+        dataModel.currentCampaign.prosperityCount += 1
+        print("Increasing \(dataModel.currentCampaign.title) prosperity count by 1")
         dataModel.saveCampaignsLocally()
     }
     func decreaseProsperityCount() {
-        dataModel.currentCampaign!.prosperityCount -= 1
+        dataModel.currentCampaign.prosperityCount -= 1
         dataModel.saveCampaignsLocally()
     }
     func addDonation() {
-        dataModel.currentCampaign!.sanctuaryDonations += 10
+        dataModel.currentCampaign.sanctuaryDonations += 10
     }
     func setAchievements(atches: [String], toggle: Bool) {
 
@@ -165,21 +166,17 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
             var tempRequirementsArray = scenario.requirements
             tempRequirementsArray.removeValue(forKey: "OR")
             for (ach, bool) in tempRequirementsArray {
-                print("We got \(ach)")
                 if orPresent {
                     if combinedAchievementDicts[ach]! == bool {
-                        print("Setting \(scenario.title) requirementsMet to true")
                         scenario.requirementsMet = true
                         campaign.value.requirementsMet[Int(scenario.number)! - 1] = true
                         break
                     }
                 } else if combinedAchievementDicts[ach]! != bool && !scenario.isCompleted {
-                    print("Setting \(scenario.title) requirements met to false")
                     scenario.requirementsMet = false
                     campaign.value.requirementsMet[Int(scenario.number)! - 1] = false
                     break
                 } else {
-                    print("Setting \(scenario.title) requirements met to true")
                     scenario.requirementsMet = true
                     campaign.value.requirementsMet[Int(scenario.number)! - 1] = true
                 }

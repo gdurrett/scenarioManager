@@ -67,15 +67,15 @@ class DashboardViewController: UIViewController, DeleteCampaignViewControllerDel
         
         dataModel?.delegate = self
         self.navigationItem.title = "Dashboard"
-        self.navigationController?.navigationBar.titleTextAttributes = setTextAttributes(fontName: "Nyala", fontSize: 26.0, textColor: colorDefinitions.mainTextColor)
+        self.navigationController?.navigationBar.titleTextAttributes = [.font: UIFont(name: "Nyala", size: 26.0)!, .foregroundColor: colorDefinitions.mainTextColor]
     }
 
     // Farm this out to separate object
-    func setTextAttributes(fontName: String, fontSize: CGFloat, textColor: UIColor) -> [ String : Any ] {
-        let fontStyle = UIFont(name: fontName, size: fontSize)
-        let fontColor = textColor
-        return [ NSFontAttributeName : fontStyle! , NSForegroundColorAttributeName : fontColor ]
-    }
+//    func setTextAttributes(fontName: String, fontSize: CGFloat, textColor: UIColor) -> [ String : Any ] {
+//        let fontStyle = UIFont(name: fontName, size: fontSize)
+//        let fontColor = textColor
+//        return [ NSFontAttributeName : fontStyle! , NSForegroundColorAttributeName : fontColor ]
+//    }
     // Delegate methods for CreateCampaignViewController
 //    func createCampaignViewControllerDidCancel(_ controller: CreateCampaignViewController) {
 //        print("Did we get back here to cancel?")

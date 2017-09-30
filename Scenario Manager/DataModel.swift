@@ -46,27 +46,33 @@ class DataModel {
             return allScenarios.filter { $0.isCompleted == true }
         }
     }
-    
-    var currentCampaign: Campaign? {
+    var completedGlobalAchievements: [String:Bool] {
         get {
-            let myCampaign = campaigns.filter { $0.value.isCurrent == true }
-            if !myCampaign.isEmpty {
-                return myCampaign[0].value
+            print("Are we getting this?")
+            return currentCampaign.achievements.filter { $0.value != false && $0.key != "None" && $0.key != "OR" }
+        }
+    }
+    var currentCampaign: Campaign {
+        get {
+            let filtered = campaigns.filter { pair in pair.value.isCurrent == true }
+            
+            if let myCampaign = filtered.values.first {
+                return myCampaign
             } else {
                 if self.campaigns["Default"] == nil {
                     print("Am I fucking adding from here?!")
                     createCampaign(title: "Default", isCurrent: true, parties: [])
                 }
-                return campaigns["Default"]
+                return campaigns["Default"]!
             }
         }
     }
     var currentParty: Party? {
         get {
-            let myParty = parties.filter { $0.value.isCurrent == true }
-            if !myParty.isEmpty {
-                print("Returning \(myParty[0].value)")
-                return myParty[0].value
+            let filtered = parties.filter { pair in pair.value.isCurrent == true }
+            if let myParty = filtered.values.first  {
+                //print("Returning \(myParty[0].value)")
+                return myParty
             } else {
                 if self.parties["Default"] == nil {
                     createParty(name: "Default", characters: [], location: "Gloomhaven", achievements: [:], reputation: 0, isCurrent: true)
@@ -2028,7 +2034,7 @@ class DataModel {
         }
     }
     func resetCurrentCampaign() {
-        let campaign = currentCampaign!
+        let campaign = currentCampaign
         var count = 0
         for scenario in self.allScenarios {
             if scenario.number == "1" {
@@ -2043,7 +2049,7 @@ class DataModel {
                 count+=1
             }
         }
-        for achievement in currentCampaign!.achievements {
+        for achievement in currentCampaign.achievements {
             if achievement.key == "None" || achievement.key == "OR" {
                 campaign.achievements[achievement.key] = true
             } else {
@@ -2080,7 +2086,6 @@ class DataModel {
     func updateCloudCampaignIsCurrent(campaign: String) {
         var records = [CKRecord]()
         for myCampaign in self.campaigns {
-            print("Check \(myCampaign.value.title)")
             if myCampaign.value.isCurrent == true {
             } else {
                 let campaignRecordID = CKRecordID(recordName: myCampaign.value.title)
@@ -2177,18 +2182,18 @@ class DataModel {
     func updateCampaignRecords() {
         //Put call to func to check if logged into iCloud here?
         var records = [CKRecord]()
-        let campaignRecordID = CKRecordID(recordName: (currentCampaign?.title)!)
+        let campaignRecordID = CKRecordID(recordName: (currentCampaign.title))
         let campaignRecord = CKRecord(recordType: "CampaignStatus", recordID: campaignRecordID)
         //let campaignReference = CKReference(recordID: campaignRecordID, action: .deleteSelf)
-        let campaignTitle = currentCampaign?.title
-        campaignRecord["title"] = campaignTitle! as CKRecordValue
-        let campaignIsCurrent = currentCampaign?.isCurrent
-        campaignRecord["isCurrent"] = campaignIsCurrent! as CKRecordValue
+        let campaignTitle = currentCampaign.title
+        campaignRecord["title"] = campaignTitle as CKRecordValue
+        let campaignIsCurrent = currentCampaign.isCurrent
+        campaignRecord["isCurrent"] = campaignIsCurrent as CKRecordValue
         
         records.append(campaignRecord)
         
         for scenario in allScenarios {
-            let scenarioStatusRecordID = CKRecordID(recordName: scenario.number + "_\(currentCampaign!.title)")
+            let scenarioStatusRecordID = CKRecordID(recordName: scenario.number + "_\(currentCampaign.title)")
             let scenarioStatusRecord = CKRecord(recordType: "ScenarioStatus", recordID: scenarioStatusRecordID)
             
             let completedState = scenario.isCompleted ? 1 : 0
@@ -2197,18 +2202,18 @@ class DataModel {
             scenarioStatusRecord["isUnlocked"] = unlockedState as NSNumber
             let requirementsMetState = scenario.requirementsMet ? 1 : 0
             scenarioStatusRecord["requirementsMet"] = requirementsMetState as NSNumber
-            scenarioStatusRecord["owningCampaign"] = campaignTitle! as CKRecordValue
+            scenarioStatusRecord["owningCampaign"] = campaignTitle as CKRecordValue
                 
             records.append(scenarioStatusRecord)
             
         }
         // Needs to be in campaign.achievements
         for achievement in globalAchievements {
-            let achievementStatusRecordID = CKRecordID(recordName: achievement.key + "_\(currentCampaign!.title)")
+            let achievementStatusRecordID = CKRecordID(recordName: achievement.key + "_\(currentCampaign.title)")
             let achievementStatusRecord = CKRecord(recordType: "Achievement", recordID: achievementStatusRecordID)
             let achievementState = achievement.value ? 1 : 0
             achievementStatusRecord["isComplete"] = achievementState as NSNumber
-            achievementStatusRecord["owningCampaign"] = campaignTitle! as CKRecordValue
+            achievementStatusRecord["owningCampaign"] = campaignTitle as CKRecordValue
             
             records.append(achievementStatusRecord)
         }

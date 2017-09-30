@@ -18,16 +18,16 @@ class CampaignDetailViewController: UIViewController {
     var currentProsperityCell = UITableViewCell()
     var currentDonationsCell = UITableViewCell()
     var currentTitleCell = UITableViewCell()
-    
+    var completedGlobalAchievements = [String:Bool]()
     var headersToUpdate = [Int:UITableViewHeaderFooterView]()
     
     @IBOutlet weak var campaignDetailTableView: UITableView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        //viewModel.updateAchievements()
         self.view.addGestureRecognizer(UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:))))
-
+//        NotificationCenter.default.addObserver(self, selector: #selector(reloadData), name: NSNotification.Name(rawValue: "reloadData"), object: nil)
         
         campaignDetailTableView?.dataSource = self
         campaignDetailTableView?.delegate = self
@@ -39,7 +39,6 @@ class CampaignDetailViewController: UIViewController {
         campaignDetailTableView?.register(CampaignDetailDonationsCell.nib, forCellReuseIdentifier: CampaignDetailDonationsCell.identifier)
         campaignDetailTableView?.register(CampaignDetailPartyCell.nib, forCellReuseIdentifier: CampaignDetailPartyCell.identifier)
         campaignDetailTableView?.register(CampaignDetailAchievementsCell.nib, forCellReuseIdentifier: CampaignDetailAchievementsCell.identifier)
-        
     }
 
     override func didReceiveMemoryWarning() {
@@ -54,7 +53,13 @@ extension CampaignDetailViewController: UITableViewDataSource, UITableViewDelega
         return viewModel.items.count
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.items[section].rowCount
+        print("Got to numberOfRowsInSection:\(viewModel.items[section].rowCount)")
+        viewModel.updateAchievements()
+        if viewModel.items[section].type == .achievements {
+            return self.completedGlobalAchievements.count
+        } else {
+            return viewModel.items[section].rowCount
+        }
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let item = viewModel.items[indexPath.section]
@@ -80,6 +85,7 @@ extension CampaignDetailViewController: UITableViewDataSource, UITableViewDelega
                 // Give proper status to isActive button in this cell
                 cell.delegate = self
                 cell.isActive = (viewModel.isActiveCampaign == true ? true : false)
+                print("I think prosperity is: \(item.level)")
                 cell.item = item
                 currentProsperityCell = cell
                 return cell
@@ -102,8 +108,15 @@ extension CampaignDetailViewController: UITableViewDataSource, UITableViewDelega
                 return cell
             }
         case .achievements:
-            if let item = item as? CampaignDetailViewModelCampaignAchievementsItem, let cell = tableView.dequeueReusableCell(withIdentifier: CampaignDetailAchievementsCell.identifier, for: indexPath) as? CampaignDetailAchievementsCell {
-                let achievement = item.achievements[indexPath.row]
+            if let _ = item as? CampaignDetailViewModelCampaignAchievementsItem, let cell = tableView.dequeueReusableCell(withIdentifier: CampaignDetailAchievementsCell.identifier, for: indexPath) as? CampaignDetailAchievementsCell {
+                print("Calling achievements")
+                //let achievement = item.achievements[indexPath.row]
+                let tempAch = Array(self.completedGlobalAchievements.keys)
+                var achNames = [SeparatedStrings]()
+                for ach in tempAch {
+                    achNames.append(SeparatedStrings(rowString: ach))
+                }
+                let achievement = achNames[indexPath.row]
                 cell.selectionStyle = .none
                 cell.item = achievement
                 return cell
@@ -132,7 +145,28 @@ extension CampaignDetailViewController: UITableViewDataSource, UITableViewDelega
         }
     }
     override func viewWillDisappear(_ animated: Bool) {
-        self.navigationController?.popViewController(animated: true)
+        //UIView.setAnimationsEnabled(true)
+        
+        //self.navigationController?.popViewController(animated: true)
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        viewModel.updateAchievements()
+        viewModel.completedGlobalAchievements.bindAndFire { [unowned self] in self.completedGlobalAchievements = $0 }
+        print(completedGlobalAchievements) //.filter { $0.value != false && $0.key != "None" && $0.key != "OR" })
+        refreshAchievements()
+        //let indexes = (0..<completedGlobalAchievements.count).map { IndexPath(row: $0, section: 4) }
+        //let sectionIndex = IndexSet(integer: 4)
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        //refreshAchievements()
+        //campaignDetailTableView.reloadData()
+    }
+    func refreshAchievements() {
+        DispatchQueue.main.async {
+            self.campaignDetailTableView.reloadSections([4], with: .fade)
+        }
     }
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return viewModel.items[section].sectionTitle
@@ -174,7 +208,6 @@ extension CampaignDetailViewController: UITableViewDataSource, UITableViewDelega
             case .achievements:
                 break
             case .campaignTitle:
-                print("Did we get to campaignTitle?")
                 button.isEnabled = true
                 button.addTarget(self, action: #selector(self.enableTitleTextField(_:)), for: .touchUpInside)
                 header.addSubview(button)
@@ -184,7 +217,7 @@ extension CampaignDetailViewController: UITableViewDataSource, UITableViewDelega
         }
     }
     // Test function for section button
-    func enableTitleTextField(_ sender: UIButton) {
+    @objc func enableTitleTextField(_ sender: UIButton) {
         let myCell = currentTitleCell as! CampaignDetailTitleCell
         let myTextField = myCell.campaignDetailTitleTextField!
         myTextField.delegate = self
@@ -206,7 +239,7 @@ extension CampaignDetailViewController: UITableViewDataSource, UITableViewDelega
     func activateStepper(_ sender: UIButton) {
         
     }
-    func showUIStepperInCampaignProsperityCell(_ button: UIButton) {
+    @objc func showUIStepperInCampaignProsperityCell(_ button: UIButton) {
         button.setImage(UIImage(named: "icons8-Edit-40_selected"), for: .normal)
         let myCell = currentProsperityCell as! CampaignDetailProsperityCell
         myCell.myStepperOutlet.isHidden = false
@@ -215,7 +248,7 @@ extension CampaignDetailViewController: UITableViewDataSource, UITableViewDelega
         button.isEnabled = true
         button.addTarget(self, action: #selector(self.hideUIStepperInCampaignProsperityCell(_:)), for: .touchUpInside)
     }
-    func showUIStepperInCampaignDonationsCell(_ button: UIButton) {
+    @objc func showUIStepperInCampaignDonationsCell(_ button: UIButton) {
         button.setImage(UIImage(named: "icons8-Edit-40_selected"), for: .normal)
         let myCell = currentDonationsCell as! CampaignDetailDonationsCell
         myCell.myStepperOutlet.isHidden = false
@@ -224,7 +257,7 @@ extension CampaignDetailViewController: UITableViewDataSource, UITableViewDelega
         button.isEnabled = true
         button.addTarget(self, action: #selector(self.hideUIStepperInCampaignDonationsCell(_:)), for: .touchUpInside)
     }
-    func hideUIStepperInCampaignProsperityCell(_ button: UIButton) {
+    @objc func hideUIStepperInCampaignProsperityCell(_ button: UIButton) {
         let myCell = currentProsperityCell as! CampaignDetailProsperityCell
         myCell.myStepperOutlet.isHidden = true
         myCell.myStepperOutlet.isEnabled = false
@@ -232,7 +265,7 @@ extension CampaignDetailViewController: UITableViewDataSource, UITableViewDelega
         button.addTarget(self, action: #selector(self.showUIStepperInCampaignProsperityCell(_:)), for: .touchUpInside)
         button.setImage(UIImage(named: "icons8-Edit-40"), for: .normal)
     }
-    func hideUIStepperInCampaignDonationsCell(_ button: UIButton) {
+    @objc func hideUIStepperInCampaignDonationsCell(_ button: UIButton) {
         let myCell = currentDonationsCell as! CampaignDetailDonationsCell
         myCell.myStepperOutlet.isHidden = true
         myCell.myStepperOutlet.isEnabled = false
@@ -240,6 +273,14 @@ extension CampaignDetailViewController: UITableViewDataSource, UITableViewDelega
         button.isSelected = false
         button.addTarget(self, action: #selector(self.showUIStepperInCampaignDonationsCell(_:)), for: .touchUpInside)
         button.setImage(UIImage(named: "icons8-Edit-40"), for: .normal)
+    }
+    // Selector method to reload tableview data when changes made in other VCs: doesn't work
+    @objc func reloadData() {
+        print("Are we calling reloadData?")
+        viewModel.updateAchievements()
+        viewModel.completedGlobalAchievements.bindAndFire { [unowned self] in self.completedGlobalAchievements = $0 }
+        //self.viewModel = CampaignDetailViewModel(withCampaign: (self.viewModel.campaign))
+        self.campaignDetailTableView.reloadData()
     }
     // Delegate methods for textField
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

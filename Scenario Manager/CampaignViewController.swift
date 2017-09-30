@@ -36,6 +36,9 @@ class CampaignViewController: UIViewController {
         
         campaignTableViewOutlet.reloadData()
         styleUI()
+        
+        // Test notification
+        NotificationCenter.default.addObserver(self, selector: #selector(triggerSegue), name: NSNotification.Name(rawValue: "triggerSegue"), object: nil)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -44,7 +47,7 @@ class CampaignViewController: UIViewController {
         campaignTableViewOutlet.reloadData()
     }
     override func viewWillDisappear(_ animated: Bool) {
-        //
+        //UIView.setAnimationsEnabled(true)
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -90,13 +93,14 @@ class CampaignViewController: UIViewController {
         self.campaignTableViewOutlet.rowHeight = UITableViewAutomaticDimension
         self.navigationController?.navigationBar.tintColor = colorDefinitions.mainTextColor
         self.navigationController?.navigationBar.barTintColor = colorDefinitions.scenarioTableViewNavBarBarTintColor
-        self.navigationController?.navigationBar.titleTextAttributes = setTextAttributes(fontName: "Nyala", fontSize: 26.0, textColor: colorDefinitions.mainTextColor)
+        self.navigationController?.navigationBar.titleTextAttributes = [.font: UIFont(name: "Nyala", size: 26.0)!, .foregroundColor: colorDefinitions.mainTextColor]
+        //self.navigationController?.navigationBar.titleTextAttributes = setTextAttributes(fontName: "Nyala", fontSize: 26.0, textColor: colorDefinitions.mainTextColor)
     }
-    fileprivate func setTextAttributes(fontName: String, fontSize: CGFloat, textColor: UIColor) -> [ String : Any ] {
-        let fontStyle = UIFont(name: fontName, size: fontSize)
-        let fontColor = textColor
-        return [ NSFontAttributeName : fontStyle! , NSForegroundColorAttributeName : fontColor ]
-    }
+//    fileprivate func setTextAttributes(fontName: String, fontSize: CGFloat, textColor: UIColor) -> [ String : Any ] {
+//        let fontStyle = UIFont(name: fontName, size: fontSize)
+//        let fontColor = textColor
+//        return [ NSAttributedStringKey.font.rawValue : fontStyle! , NSAttributedStringKey.foregroundColor.rawValue : fontColor ]
+//    }
 
     fileprivate func makeCell(for tableView: UITableView) -> UITableViewCell {
         let cellIdentifier = "Campaign"
@@ -120,6 +124,15 @@ class CampaignViewController: UIViewController {
         createCampaignVC.viewModel = self.viewModel!.createCampaignViewModel
         createCampaignVC.hidesBottomBarWhenPushed = true
         self.navigationController!.pushViewController(createCampaignVC, animated: true)
+    }
+    // Notification method
+    @objc func triggerSegue() {
+        //UIView.setAnimationsEnabled(false)
+        performSegue(withIdentifier: "ShowCampaignDetail", sender: viewModel?.selectedCampaign)
+//        let campaignDetailVC = CampaignDetailViewController()
+//        let viewModel = CampaignDetailViewModel(withCampaign: (self.viewModel?.selectedCampaign!)!)
+//        campaignDetailVC.viewModel = viewModel
+//        navigationController?.pushViewController(campaignDetailVC, animated: false)
     }
 }
 

@@ -100,7 +100,10 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
         self.setSegmentTitles()
         self.scenarioTableView.reloadData()
     }
-    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        //NotificationCenter.default.post(name: NSNotification.Name(rawValue: "triggerSegue"), object: nil)
+    }
     // Set up swipe functionality
     func tableView(_ tableView: UITableView, editActionsForRowAt: IndexPath) -> [UITableViewRowAction]? {
         if searchController.isActive && searchController.searchBar.text != "" {
@@ -316,20 +319,19 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
         return image
     }
     func setSegmentTitles() {
-        let segmentTitleAttributes = setTextAttributes(fontName: "Nyala", fontSize: 20.0, textColor: colorDefinitions.mainTextColor)
         scenarioFilterOutlet.setTitle("All (\(allScenarios.count))", forSegmentAt: 0)
         scenarioFilterOutlet.setTitle("Available (\(availableScenarios.count))", forSegmentAt: 1)
         scenarioFilterOutlet.setTitle("Completed (\(completedScenarios.count))", forSegmentAt: 2)
-        scenarioFilterOutlet.setTitleTextAttributes(segmentTitleAttributes, for: .normal)
+        scenarioFilterOutlet.setTitleTextAttributes([NSAttributedStringKey.font: UIFont(name: "Nyala", size: 20.0)!, NSAttributedStringKey.foregroundColor: colorDefinitions.mainTextColor], for: .normal)
         scenarioFilterOutlet.backgroundColor = colorDefinitions.scenarioSegmentedControlBGColor
         self.navigationItem.title = "\(selectedCampaign!.title) Scenarios"
         scenarioTableView.reloadData()
     }
-    func setTextAttributes(fontName: String, fontSize: CGFloat, textColor: UIColor) -> [ String : Any ] {
-        let fontStyle = UIFont(name: fontName, size: fontSize)
-        let fontColor = textColor
-        return [ NSFontAttributeName : fontStyle! , NSForegroundColorAttributeName : fontColor ]
-    }
+//    func setTextAttributes(fontName: String, fontSize: CGFloat, textColor: UIColor) -> [ String : Any ] {
+//        let fontStyle = UIFont(name: fontName, size: fontSize)
+//        let fontColor = textColor
+//        return [ NSFontAttributeName : fontStyle! , NSForegroundColorAttributeName : fontColor ]
+//    }
     func showSelectionAlert(status: String) {
         var alertTitle = String()
         if status == "disallowCompletion" {
@@ -345,8 +347,7 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
         let action = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil)
         alertView.view.tintColor = colorDefinitions.scenarioAlertViewTintColor
         alertView.addAction(action)
-        present(alertView, animated: true, completion: { _ in
-        })
+        present(alertView, animated: true, completion: nil)
     }
     // Search helper functions
     func filterContentForSearchText(searchText: String, scope: String = "All") {
@@ -369,7 +370,7 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
         self.scenarioTableView.rowHeight = UITableViewAutomaticDimension
         self.navigationController?.navigationBar.tintColor = colorDefinitions.mainTextColor
         self.navigationController?.navigationBar.barTintColor = colorDefinitions.scenarioTableViewNavBarBarTintColor
-        self.navigationController?.navigationBar.titleTextAttributes = setTextAttributes(fontName: "Nyala", fontSize: 26.0, textColor: colorDefinitions.mainTextColor)
+        self.navigationController?.navigationBar.titleTextAttributes = [.font: UIFont(name: "Nyala", size: 26.0)!, .foregroundColor: colorDefinitions.mainTextColor]
     }
     fileprivate func fillUI() {
         if !isViewLoaded {
@@ -429,21 +430,21 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
         dismiss(animated: true, completion: nil)
     }
     
-    func segueToDetailViewController(_ notification: NSNotification) {
+    @objc func segueToDetailViewController(_ notification: NSNotification) {
         if let dict = notification.userInfo as NSDictionary? {
             let scenarioTapped = dict["Scenario"] as! Scenario
             viewModel?.selectedScenario = scenarioTapped
             self.performSegue(withIdentifier: "ShowScenarioDetail", sender: scenarioTapped)
         }
     }
-    func segueToScenarioPickerViewController(_ notification: NSNotification) {
+    @objc func segueToScenarioPickerViewController(_ notification: NSNotification) {
         if let dict = notification.userInfo as NSDictionary? {
             let scenarioTapped = dict["Scenario"] as! Scenario
             viewModel?.selectedScenario = scenarioTapped
             self.performSegue(withIdentifier: "ShowScenarioPicker", sender: scenarioTapped)
         }
     }
-    func showSelectionAlertViaNotify(_ notification: NSNotification) {
+    @objc func showSelectionAlertViaNotify(_ notification: NSNotification) {
         if let dict = notification.userInfo as NSDictionary? {
             let status = dict["status"] as! String
             if status == "disallowCompletion" {
@@ -459,8 +460,7 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
             let action = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil)
             
             alertView.addAction(action)
-            present(alertView, animated: true, completion: { _ in
-            })
+            present(alertView, animated: true, completion: nil)
         }
     }
 }

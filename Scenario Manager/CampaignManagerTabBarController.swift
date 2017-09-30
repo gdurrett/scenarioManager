@@ -14,7 +14,7 @@ class CampaignManagerTabBarController: UITabBarController {
         super.viewDidLoad()
         
         let colorDefinitions = ColorDefinitions()
-        let tabBarTitleTextAttributes = setTextAttributes(fontName: "Nyala", fontSize: 10.0, textColor: colorDefinitions.tabBarTitleTextColor)
+        //let tabBarTitleTextAttributes = setTextAttributes(fontName: "Nyala", fontSize: 10.0, textColor: colorDefinitions.tabBarTitleTextColor)
         let allTabBarItems = tabBar.items
         
         let dashboardItem = allTabBarItems?[0]
@@ -23,15 +23,15 @@ class CampaignManagerTabBarController: UITabBarController {
 
         
         dashboardItem?.image = UIImage(named: "spikyHeadGuy.png")
-        dashboardItem?.setTitleTextAttributes(tabBarTitleTextAttributes, for: .selected)
+        dashboardItem?.setTitleTextAttributes([.font: UIFont(name: "Nyala", size: 10.0)!, .foregroundColor: colorDefinitions.tabBarTitleTextColor], for: .selected)
         dashboardItem?.title = "Dashboard"
         
         campaignsItem?.image = UIImage(named: "moonSymbol.png")
-        campaignsItem?.setTitleTextAttributes(tabBarTitleTextAttributes, for: .selected)
+        campaignsItem?.setTitleTextAttributes([.font: UIFont(name: "Nyala", size: 10.0)!, .foregroundColor: colorDefinitions.tabBarTitleTextColor], for: .selected)
         campaignsItem?.title = "Campaigns"
         
         scenariosItem?.image = UIImage(named: "cthulhuFace.png")
-        scenariosItem?.setTitleTextAttributes(tabBarTitleTextAttributes, for: .selected)
+        scenariosItem?.setTitleTextAttributes([.font: UIFont(name: "Nyala", size: 10.0)!, .foregroundColor: colorDefinitions.tabBarTitleTextColor], for: .selected)
         scenariosItem?.title = "Scenarios"
 
         tabBar.unselectedItemTintColor = colorDefinitions.tabBarUnselectedItemTintColor
@@ -44,11 +44,11 @@ class CampaignManagerTabBarController: UITabBarController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    func setTextAttributes(fontName: String, fontSize: CGFloat, textColor: UIColor) -> [ String : Any ] {
-        let fontStyle = UIFont(name: fontName, size: fontSize)
-        let fontColor = textColor
-        return [ NSFontAttributeName : fontStyle! , NSForegroundColorAttributeName : fontColor ]
-    }
+//    func setTextAttributes(fontName: String, fontSize: CGFloat, textColor: UIColor) -> [ String : Any ] {
+//        let fontStyle = UIFont(name: fontName, size: fontSize)
+//        let fontColor = textColor
+//        return [ NSFontAttributeName : fontStyle! , NSForegroundColorAttributeName : fontColor ]
+//    }
 
     /*
     // MARK: - Navigation

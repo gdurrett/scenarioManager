@@ -31,17 +31,20 @@ class CampaignDetailViewModel: NSObject {
     var campaignTitle: String?
     var partyNames = [SeparatedStrings]()
     var achievementNames = [SeparatedStrings]()
+    var newAchievementNames = [SeparatedStrings]()
     var isActiveCampaign: Bool?
     var prosperityLevel = Int()
     var remainingChecksUntilNextLevel = Int()
     var level = Int()
     var sanctuaryDonations = Int()
+    var completedGlobalAchievements: Dynamic<[String:Bool]>
     
     init(withCampaign campaign: Campaign) {
-        super.init()
+        self.completedGlobalAchievements = Dynamic(dataModel.completedGlobalAchievements)
         
         var prosperityLevel: Int {
             get {
+                print("I think prosperityCount is: \(campaign.prosperityCount)")
                 return getProsperityLevel(count: campaign.prosperityCount)
             }
         }
@@ -52,9 +55,13 @@ class CampaignDetailViewModel: NSObject {
         }
         var sanctuaryDonations: Int {
             get {
+                print("Do we get donations?")
                 return getSanctuaryDonations(campaign: campaign)
             }
         }
+        super.init()
+        // Need to make dynamic
+        
         self.isActiveCampaign = campaign.isCurrent
         
         // Append campaign title to items
@@ -62,8 +69,7 @@ class CampaignDetailViewModel: NSObject {
         items.append(titleItem)
         
         // Append prosperity level to items
-        
-        let prosperityItem = CampaignDetailViewModelCampaignProsperityItem(level: prosperityLevel, remainingChecksUntilNextLevel: remainingChecksUntilNextLevel)
+        let prosperityItem = CampaignDetailViewModelCampaignProsperityItem(level: getProsperityLevel(count: campaign.prosperityCount), remainingChecksUntilNextLevel: getRemainingChecksUntilNextLevel(level: (getProsperityLevel(count: campaign.prosperityCount)), count: campaign.prosperityCount))
         items.append(prosperityItem)
         
         // Append donations amount to items
@@ -81,10 +87,10 @@ class CampaignDetailViewModel: NSObject {
         let partyItem = CampaignDetailViewModelCampaignPartyItem(names: partyNames)
         items.append(partyItem)
         
-        // Append achievement names(keys) to items
-        let completedAchievements = campaign.achievements.filter { $0.value != false && $0.key != "None" && $0.key != "OR" }
-        if completedAchievements.isEmpty != true {
-            for achievement in completedAchievements {
+        // Append achievement names(keys) to items -> May be able to remove in favor of appending in cellForRowAt in CampaignDetailViewController
+        let localCompletedAchievements = campaign.achievements.filter { $0.value != false && $0.key != "None" && $0.key != "OR" }
+        if localCompletedAchievements.isEmpty != true {
+            for achievement in localCompletedAchievements {
                 achievementNames.append(SeparatedStrings(rowString: achievement.key))
             }
         }
@@ -147,6 +153,19 @@ class CampaignDetailViewModel: NSObject {
         print("Returning \(campaign.sanctuaryDonations)")
         return campaign.sanctuaryDonations
     }
+    func getCompletedAchievements(campaign: Campaign) -> [SeparatedStrings] {
+        let localCompletedAchievements = campaign.achievements.filter { $0.value != false && $0.key != "None" && $0.key != "OR" }
+        if localCompletedAchievements.isEmpty != true {
+            for achievement in localCompletedAchievements {
+                achievementNames.append(SeparatedStrings(rowString: achievement.key))
+            }
+        }
+        return achievementNames
+    }
+    // See if we can accurately update ourself with completed achievements
+    func updateAchievements() {
+        self.completedGlobalAchievements.value = dataModel.completedGlobalAchievements
+    }
     // Delegate methods for custom cells
     // Method for CampaignTitle cell
     func setCampaignActive() {
@@ -155,24 +174,24 @@ class CampaignDetailViewModel: NSObject {
     }
     // Method for CampaignProsperity cell
     func updateProsperityCount(value: Int) -> (Int, Int) {
-        let count = dataModel.currentCampaign!.prosperityCount
+        let count = dataModel.currentCampaign.prosperityCount
         if value == -1 && count == 0 {
-            return (getProsperityLevel(count: dataModel.currentCampaign!.prosperityCount), 0)
+            return (getProsperityLevel(count: dataModel.currentCampaign.prosperityCount), 0)
         } else {
-            dataModel.currentCampaign!.prosperityCount += value
-            return (getProsperityLevel(count: dataModel.currentCampaign!.prosperityCount), dataModel.currentCampaign!.prosperityCount)
+            dataModel.currentCampaign.prosperityCount += value
+            return (getProsperityLevel(count: dataModel.currentCampaign.prosperityCount), dataModel.currentCampaign.prosperityCount)
         }
     }
     // Method for CampaignDonations cell
     func updateCampaignDonationsCount(value: Int) -> Int {
-        dataModel.currentCampaign!.sanctuaryDonations += value
-        return getSanctuaryDonations(campaign:dataModel.currentCampaign!)
+        dataModel.currentCampaign.sanctuaryDonations += value
+        return getSanctuaryDonations(campaign:dataModel.currentCampaign)
     }
     // Method for Renaming Campaign Title
     func renameCampaignTitle(oldTitle: String, newTitle: String) {
         if oldTitle != newTitle { // Don't do anything if it's the same title
             dataModel.campaigns.changeKey(from: oldTitle, to: newTitle)
-            dataModel.currentCampaign!.title = newTitle
+            dataModel.currentCampaign.title = newTitle
             dataModel.saveCampaignsLocally()
             print("New list of campaigns: \(dataModel.campaigns)")
         }
