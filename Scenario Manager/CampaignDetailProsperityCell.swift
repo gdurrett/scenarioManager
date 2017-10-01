@@ -16,7 +16,7 @@ class CampaignDetailProsperityCell: UITableViewCell {
 
     @IBOutlet weak var campaignDetailProsperityLabel: UILabel! {
         didSet {
-            guard let item = item as? CampaignPartyDetailViewModelCampaignProsperityItem else {
+            guard let item = item as? CampaignDetailViewModelCampaignProsperityItem else {
                 return
             }
             let checksText = item.remainingChecksUntilNextLevel == 1 ? "check" : "checks"
@@ -37,9 +37,9 @@ class CampaignDetailProsperityCell: UITableViewCell {
     let fontDefinitions = FontDefinitions()
     var delegate: CampaignDetailProsperityCellDelegate?
     
-    var item: CampaignPartyDetailViewModelItem? {
+    var item: CampaignDetailViewModelItem? {
         didSet {
-            guard let item = item as? CampaignPartyDetailViewModelCampaignProsperityItem else {
+            guard let item = item as? CampaignDetailViewModelCampaignProsperityItem else {
                 return
             }
             campaignDetailProsperityLabel?.sizeToFit()

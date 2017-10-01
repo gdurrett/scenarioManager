@@ -16,7 +16,7 @@ class CampaignDetailDonationsCell: UITableViewCell {
 
     @IBOutlet weak var campaignDetailDonationsLabel: UILabel! {
         didSet {
-            guard let item = item as? CampaignPartyDetailViewModelCampaignDonationsItem else {
+            guard let item = item as? CampaignDetailViewModelCampaignDonationsItem else {
                 return
             }
             campaignDetailDonationsLabel?.text = "\(item.amount)"
@@ -35,9 +35,9 @@ class CampaignDetailDonationsCell: UITableViewCell {
     let fontDefinitions = FontDefinitions()
     var delegate: CampaignDetailDonationsCellDelegate?
     
-    var item: CampaignPartyDetailViewModelItem? {
+    var item: CampaignDetailViewModelItem? {
         didSet {
-            guard let item = item as? CampaignPartyDetailViewModelCampaignDonationsItem else {
+            guard let item = item as? CampaignDetailViewModelCampaignDonationsItem else {
                 return
             }
             campaignDetailDonationsLabel?.sizeToFit()

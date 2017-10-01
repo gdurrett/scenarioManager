@@ -34,9 +34,9 @@ class CampaignDetailTitleCell: UITableViewCell {
     var delegate: CampaignDetailTitleCellDelegate?
     var isActive: Bool?
     
-    var item: CampaignPartyDetailViewModelItem? {
+    var item: CampaignDetailViewModelItem? {
         didSet {
-            guard let item = item as? CampaignPartyDetailViewModelCampaignTitleItem else {
+            guard let item = item as? CampaignDetailViewModelCampaignTitleItem else {
                 return
             }
             campaignDetailTitleLabel?.sizeToFit()

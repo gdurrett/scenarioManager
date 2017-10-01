@@ -10,7 +10,7 @@ import UIKit
 
 class CampaignDetailViewController: UIViewController {
     
-    var viewModel: CampaignPartyDetailViewModel!
+    var viewModel: CampaignDetailViewModel!
     
     let colorDefinitions = ColorDefinitions()
     let fontDefinitions = FontDefinitions()
@@ -66,7 +66,7 @@ extension CampaignDetailViewController: UITableViewDataSource, UITableViewDelega
         
         switch item.type {
         case .campaignTitle:
-            if let item = item as? CampaignPartyDetailViewModelCampaignTitleItem, let cell = tableView.dequeueReusableCell(withIdentifier: CampaignDetailTitleCell.identifier, for: indexPath) as? CampaignDetailTitleCell {
+            if let item = item as? CampaignDetailViewModelCampaignTitleItem, let cell = tableView.dequeueReusableCell(withIdentifier: CampaignDetailTitleCell.identifier, for: indexPath) as? CampaignDetailTitleCell {
                 // Set global title cell to this cell
                 currentTitleCell = cell
                 // Set text field to hidden until edit is requested
@@ -81,7 +81,7 @@ extension CampaignDetailViewController: UITableViewDataSource, UITableViewDelega
                 return cell
             }
         case .prosperity:
-            if let item = item as? CampaignPartyDetailViewModelCampaignProsperityItem, let cell = tableView.dequeueReusableCell(withIdentifier: CampaignDetailProsperityCell.identifier, for: indexPath) as? CampaignDetailProsperityCell {
+            if let item = item as? CampaignDetailViewModelCampaignProsperityItem, let cell = tableView.dequeueReusableCell(withIdentifier: CampaignDetailProsperityCell.identifier, for: indexPath) as? CampaignDetailProsperityCell {
                 // Give proper status to isActive button in this cell
                 cell.delegate = self
                 cell.isActive = (viewModel.isActiveCampaign == true ? true : false)
@@ -91,7 +91,7 @@ extension CampaignDetailViewController: UITableViewDataSource, UITableViewDelega
                 return cell
             }
         case .donations:
-            if let item = item as? CampaignPartyDetailViewModelCampaignDonationsItem, let cell = tableView.dequeueReusableCell(withIdentifier: CampaignDetailDonationsCell.identifier, for: indexPath) as? CampaignDetailDonationsCell {
+            if let item = item as? CampaignDetailViewModelCampaignDonationsItem, let cell = tableView.dequeueReusableCell(withIdentifier: CampaignDetailDonationsCell.identifier, for: indexPath) as? CampaignDetailDonationsCell {
                 // Give proper status to isActive button in this cell
                 cell.delegate = self
                 cell.isActive = (viewModel.isActiveCampaign == true ? true : false)
@@ -100,7 +100,7 @@ extension CampaignDetailViewController: UITableViewDataSource, UITableViewDelega
                 return cell
             }
         case .parties:
-            if let item = item as? CampaignPartyDetailViewModelCampaignPartyItem, let cell = tableView.dequeueReusableCell(withIdentifier: CampaignDetailPartyCell.identifier, for: indexPath) as? CampaignDetailPartyCell {
+            if let item = item as? CampaignDetailViewModelCampaignPartyItem, let cell = tableView.dequeueReusableCell(withIdentifier: CampaignDetailPartyCell.identifier, for: indexPath) as? CampaignDetailPartyCell {
                 //cell.delegate = self
                 cell.selectionStyle = .none
                 let party = item.names[indexPath.row]
@@ -108,20 +108,15 @@ extension CampaignDetailViewController: UITableViewDataSource, UITableViewDelega
                 return cell
             }
         case .achievements:
-            if let item = item as? CampaignPartyDetailViewModelCampaignAchievementsItem, let cell = tableView.dequeueReusableCell(withIdentifier: CampaignDetailAchievementsCell.identifier, for: indexPath) as? CampaignDetailAchievementsCell {
-                var achievement = SeparatedStrings(rowString: "")
-                if viewModel.isActiveCampaign == true {
-                    print("Showing active")
-                    let tempAch = Array(self.completedGlobalAchievements.keys)
-                    var achNames = [SeparatedStrings]()
-                    for ach in tempAch {
-                        achNames.append(SeparatedStrings(rowString: ach))
-                    }
-                    achievement = achNames[indexPath.row]
-                } else {
-                    print("Showing inactive")
-                    achievement = item.achievements[indexPath.row]
+            if let _ = item as? CampaignDetailViewModelCampaignAchievementsItem, let cell = tableView.dequeueReusableCell(withIdentifier: CampaignDetailAchievementsCell.identifier, for: indexPath) as? CampaignDetailAchievementsCell {
+                print("Calling achievements")
+                //let achievement = item.achievements[indexPath.row]
+                let tempAch = Array(self.completedGlobalAchievements.keys)
+                var achNames = [SeparatedStrings]()
+                for ach in tempAch {
+                    achNames.append(SeparatedStrings(rowString: ach))
                 }
+                let achievement = achNames[indexPath.row]
                 cell.selectionStyle = .none
                 cell.item = achievement
                 return cell

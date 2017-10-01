@@ -58,7 +58,7 @@ class CampaignViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ShowCampaignDetail" {
             let destinationVC = segue.destination as! CampaignDetailViewController
-            let viewModel = CampaignPartyDetailViewModel(withCampaign: (self.viewModel?.selectedCampaign!)!)
+            let viewModel = CampaignDetailViewModel(withCampaign: (self.viewModel?.selectedCampaign!)!)
             destinationVC.viewModel = viewModel
         }
     }

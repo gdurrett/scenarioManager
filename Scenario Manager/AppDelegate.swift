@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //let navigationController = window!.rootViewController as! UINavigationController
         //let controller = navigationController.viewControllers[0] as! CampaignViewController
         let scenarioViewModel = ScenarioViewModelFromModel(withDataModel: dataModel)
-        let campaignPartyDetailViewModel = CampaignPartyDetailViewModel(withCampaign: dataModel.currentCampaign)
+        let campaignViewModel = CampaignViewModelFromModel(withDataModel: dataModel)
         
         if let tabBarController: UITabBarController = self.window!.rootViewController as? CampaignManagerTabBarController { // Set up top-level controller
             
@@ -30,8 +30,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             // Set up Campaign view controller
             let navController2 = tabBarController.viewControllers?[1] as? UINavigationController
-            let controller2 = navController2?.viewControllers[0] as! CampaignPartyDetailViewController
-            controller2.viewModel = campaignPartyDetailViewModel
+            let controller2 = navController2?.viewControllers[0] as! CampaignViewController
+            controller2.viewModel = campaignViewModel
             // Set up Scenario view controller
             let navController3 = tabBarController.viewControllers?[2] as? UINavigationController
             let controller3 = navController3?.viewControllers[0] as! ScenarioViewController
