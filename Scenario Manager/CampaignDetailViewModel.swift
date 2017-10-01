@@ -28,31 +28,25 @@ class CampaignDetailViewModel: NSObject {
     var dataModel = DataModel.sharedInstance
     var campaign: Campaign!
     var items = [CampaignDetailViewModelItem]()
-    var campaignTitle: String?
     var partyNames = [SeparatedStrings]()
     var achievementNames = [SeparatedStrings]()
     var newAchievementNames = [SeparatedStrings]()
     var isActiveCampaign: Bool?
-    var prosperityLevel = Int()
+//    var prosperityLevel = Int()
     var remainingChecksUntilNextLevel = Int()
     var level = Int()
     var sanctuaryDonations = Int()
     var completedGlobalAchievements: Dynamic<[String:Bool]>
+    var campaignTitle: Dynamic<String>
+    var prosperityLevel: Dynamic<Int>
+    var checksToNextLevel: Dynamic<Int>
     
     init(withCampaign campaign: Campaign) {
         self.completedGlobalAchievements = Dynamic(dataModel.completedGlobalAchievements)
+        self.campaignTitle = Dynamic(dataModel.currentCampaign.title)
+        self.prosperityLevel = Dynamic(0)
+        self.checksToNextLevel = Dynamic(0)
         
-        var prosperityLevel: Int {
-            get {
-                print("I think prosperityCount is: \(campaign.prosperityCount)")
-                return getProsperityLevel(count: campaign.prosperityCount)
-            }
-        }
-        var remainingChecksUntilNextLevel: Int {
-            get {
-                return getRemainingChecksUntilNextLevel(level: (getProsperityLevel(count: campaign.prosperityCount)), count: campaign.prosperityCount)
-            }
-        }
         var sanctuaryDonations: Int {
             get {
                 print("Do we get donations?")
@@ -60,7 +54,8 @@ class CampaignDetailViewModel: NSObject {
             }
         }
         super.init()
-        // Need to make dynamic
+        self.prosperityLevel = Dynamic(getProsperityLevel(count: dataModel.currentCampaign.prosperityCount))
+        self.checksToNextLevel = Dynamic(getRemainingChecksUntilNextLevel(level: (getProsperityLevel(count: dataModel.currentCampaign.prosperityCount)), count: dataModel.currentCampaign.prosperityCount))
         
         self.isActiveCampaign = campaign.isCurrent
         
@@ -166,11 +161,25 @@ class CampaignDetailViewModel: NSObject {
     func updateAchievements() {
         self.completedGlobalAchievements.value = dataModel.completedGlobalAchievements
     }
+    func updateCampaignTitle() {
+        self.campaignTitle.value = dataModel.currentCampaign.title
+    }
+    func updateProsperityLevel() {
+        self.prosperityLevel.value = getProsperityLevel(count: dataModel.currentCampaign.prosperityCount)
+    }
+    func updateChecksToNextLevel() {
+        self.checksToNextLevel.value = getRemainingChecksUntilNextLevel(level: (getProsperityLevel(count: dataModel.currentCampaign.prosperityCount)), count: dataModel.currentCampaign.prosperityCount)
+    }
     // Delegate methods for custom cells
-    // Method for CampaignTitle cell
+    // Method for CampaignTitle cell - will deprecate
     func setCampaignActive() {
-        dataModel.loadCampaign(campaign: campaignTitle!)
+        dataModel.loadCampaign(campaign: campaignTitle.value)
         dataModel.saveCampaignsLocally()
+    }
+    func setCampaignActive(campaign: String) {
+        dataModel.loadCampaign(campaign: campaign)
+        dataModel.saveCampaignsLocally()
+        
     }
     // Method for CampaignProsperity cell
     func updateProsperityCount(value: Int) -> (Int, Int) {

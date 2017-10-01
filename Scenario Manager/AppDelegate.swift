@@ -19,21 +19,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //let navigationController = window!.rootViewController as! UINavigationController
         //let controller = navigationController.viewControllers[0] as! CampaignViewController
         let scenarioViewModel = ScenarioViewModelFromModel(withDataModel: dataModel)
-        let campaignViewModel = CampaignViewModelFromModel(withDataModel: dataModel)
+        let campaignDetailViewModel = CampaignDetailViewModel(withCampaign: dataModel.currentCampaign)
         
         if let tabBarController: UITabBarController = self.window!.rootViewController as? CampaignManagerTabBarController { // Set up top-level controller
             
-            let navController1 = tabBarController.viewControllers?[0] as! UINavigationController
+            let navController1 = tabBarController.viewControllers?[2] as! UINavigationController
             let controller1 = navController1.viewControllers[0] as! DashboardViewController
             controller1.dataModel = dataModel
             controller1.viewModel = scenarioViewModel
             
             // Set up Campaign view controller
-            let navController2 = tabBarController.viewControllers?[1] as? UINavigationController
-            let controller2 = navController2?.viewControllers[0] as! CampaignViewController
-            controller2.viewModel = campaignViewModel
+            let navController2 = tabBarController.viewControllers?[0] as? UINavigationController
+            let controller2 = navController2?.viewControllers[0] as! CampaignDetailViewController
+            controller2.viewModel = campaignDetailViewModel
             // Set up Scenario view controller
-            let navController3 = tabBarController.viewControllers?[2] as? UINavigationController
+            let navController3 = tabBarController.viewControllers?[1] as? UINavigationController
             let controller3 = navController3?.viewControllers[0] as! ScenarioViewController
             controller3.viewModel = scenarioViewModel
 

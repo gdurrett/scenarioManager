@@ -17,9 +17,10 @@ class CampaignManagerTabBarController: UITabBarController {
         //let tabBarTitleTextAttributes = setTextAttributes(fontName: "Nyala", fontSize: 10.0, textColor: colorDefinitions.tabBarTitleTextColor)
         let allTabBarItems = tabBar.items
         
-        let dashboardItem = allTabBarItems?[0]
-        let campaignsItem = allTabBarItems?[1]
-        let scenariosItem = allTabBarItems?[2]
+        let dashboardItem = allTabBarItems?[2]
+        let scenariosItem = allTabBarItems?[1]
+        let campaignsItem = allTabBarItems?[0]
+
 
         
         dashboardItem?.image = UIImage(named: "spikyHeadGuy.png")
@@ -61,4 +62,3 @@ class CampaignManagerTabBarController: UITabBarController {
     */
 
 }
-

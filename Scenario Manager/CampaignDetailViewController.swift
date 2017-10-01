@@ -18,11 +18,21 @@ class CampaignDetailViewController: UIViewController {
     var currentProsperityCell = UITableViewCell()
     var currentDonationsCell = UITableViewCell()
     var currentTitleCell = UITableViewCell()
+    // Dynamics
     var completedGlobalAchievements = [String:Bool]()
+    var campaignTitle = String()
+    var prosperityLevel = Int()
+    var checksToNextLevel = Int()
+    
     var headersToUpdate = [Int:UITableViewHeaderFooterView]()
+    
+    var didSelectNewCampaign = false
     
     @IBOutlet weak var campaignDetailTableView: UITableView!
 
+    @IBAction func selectCampaignAction(_ sender: Any) {
+        loadSelectCampaignViewController()
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         //viewModel.updateAchievements()
@@ -31,14 +41,15 @@ class CampaignDetailViewController: UIViewController {
         
         campaignDetailTableView?.dataSource = self
         campaignDetailTableView?.delegate = self
-        campaignDetailTableView?.estimatedRowHeight = 80
-        campaignDetailTableView?.rowHeight = UITableViewAutomaticDimension
+        
         // Register Cells
         campaignDetailTableView?.register(CampaignDetailTitleCell.nib, forCellReuseIdentifier: CampaignDetailTitleCell.identifier)
         campaignDetailTableView?.register(CampaignDetailProsperityCell.nib, forCellReuseIdentifier: CampaignDetailProsperityCell.identifier)
         campaignDetailTableView?.register(CampaignDetailDonationsCell.nib, forCellReuseIdentifier: CampaignDetailDonationsCell.identifier)
         campaignDetailTableView?.register(CampaignDetailPartyCell.nib, forCellReuseIdentifier: CampaignDetailPartyCell.identifier)
         campaignDetailTableView?.register(CampaignDetailAchievementsCell.nib, forCellReuseIdentifier: CampaignDetailAchievementsCell.identifier)
+        
+        styleUI()
     }
 
     override func didReceiveMemoryWarning() {
@@ -48,6 +59,10 @@ class CampaignDetailViewController: UIViewController {
 }
 
 extension CampaignDetailViewController: UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, CampaignDetailTitleCellDelegate, CampaignDetailProsperityCellDelegate, CampaignDetailDonationsCellDelegate {
+    func setCampaignActive() {
+        //Nothing
+    }
+    
 
     func numberOfSections(in tableView: UITableView) -> Int {
         return viewModel.items.count
@@ -67,12 +82,13 @@ extension CampaignDetailViewController: UITableViewDataSource, UITableViewDelega
         switch item.type {
         case .campaignTitle:
             if let item = item as? CampaignDetailViewModelCampaignTitleItem, let cell = tableView.dequeueReusableCell(withIdentifier: CampaignDetailTitleCell.identifier, for: indexPath) as? CampaignDetailTitleCell {
+                item.title = campaignTitle
                 // Set global title cell to this cell
                 currentTitleCell = cell
                 // Set text field to hidden until edit is requested
                 cell.campaignDetailTitleTextField.isHidden = true
                 
-                viewModel?.campaignTitle = item.title
+                //viewModel?.campaignTitle =
                 cell.selectionStyle = .none
                 cell.delegate = self
                 // Give proper status to isActive button in this cell
@@ -83,6 +99,8 @@ extension CampaignDetailViewController: UITableViewDataSource, UITableViewDelega
         case .prosperity:
             if let item = item as? CampaignDetailViewModelCampaignProsperityItem, let cell = tableView.dequeueReusableCell(withIdentifier: CampaignDetailProsperityCell.identifier, for: indexPath) as? CampaignDetailProsperityCell {
                 // Give proper status to isActive button in this cell
+                item.level = prosperityLevel
+                item.remainingChecksUntilNextLevel = checksToNextLevel
                 cell.delegate = self
                 cell.isActive = (viewModel.isActiveCampaign == true ? true : false)
                 print("I think prosperity is: \(item.level)")
@@ -108,21 +126,26 @@ extension CampaignDetailViewController: UITableViewDataSource, UITableViewDelega
                 return cell
             }
         case .achievements:
-            if let _ = item as? CampaignDetailViewModelCampaignAchievementsItem, let cell = tableView.dequeueReusableCell(withIdentifier: CampaignDetailAchievementsCell.identifier, for: indexPath) as? CampaignDetailAchievementsCell {
-                print("Calling achievements")
-                //let achievement = item.achievements[indexPath.row]
-                let tempAch = Array(self.completedGlobalAchievements.keys)
-                var achNames = [SeparatedStrings]()
-                for ach in tempAch {
-                    achNames.append(SeparatedStrings(rowString: ach))
+            if let item = item as? CampaignDetailViewModelCampaignAchievementsItem, let cell = tableView.dequeueReusableCell(withIdentifier: CampaignDetailAchievementsCell.identifier, for: indexPath) as? CampaignDetailAchievementsCell {
+                var achievement = SeparatedStrings(rowString: "")
+                if viewModel.isActiveCampaign == true {
+                    print("Showing active")
+                    let tempAch = Array(self.completedGlobalAchievements.keys)
+                    var achNames = [SeparatedStrings]()
+                    for ach in tempAch {
+                        achNames.append(SeparatedStrings(rowString: ach))
+                    }
+                    achievement = achNames[indexPath.row]
+                } else {
+                    print("Showing inactive")
+                    achievement = item.achievements[indexPath.row]
                 }
-                let achievement = achNames[indexPath.row]
                 cell.selectionStyle = .none
                 cell.item = achievement
                 return cell
             }
-        //        case .events:
-//            break
+            //        case .events:
+            //            break
         }
         return UITableViewCell()
     }
@@ -153,10 +176,20 @@ extension CampaignDetailViewController: UITableViewDataSource, UITableViewDelega
         super.viewWillAppear(true)
         viewModel.updateAchievements()
         viewModel.completedGlobalAchievements.bindAndFire { [unowned self] in self.completedGlobalAchievements = $0 }
-        print(completedGlobalAchievements) //.filter { $0.value != false && $0.key != "None" && $0.key != "OR" })
         refreshAchievements()
-        //let indexes = (0..<completedGlobalAchievements.count).map { IndexPath(row: $0, section: 4) }
-        //let sectionIndex = IndexSet(integer: 4)
+        viewModel.updateCampaignTitle()
+        viewModel.campaignTitle.bindAndFire { [unowned self] in
+            self.campaignTitle = $0 }
+        refreshCampaignTitle()
+        
+        viewModel.updateChecksToNextLevel()
+        viewModel.checksToNextLevel.bindAndFire { [unowned self] in
+            self.checksToNextLevel = $0 }
+
+        viewModel.updateProsperityLevel()
+        viewModel.prosperityLevel.bindAndFire { [unowned self] in
+            self.prosperityLevel = $0 }
+        refreshProsperityLevel()
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
@@ -166,6 +199,16 @@ extension CampaignDetailViewController: UITableViewDataSource, UITableViewDelega
     func refreshAchievements() {
         DispatchQueue.main.async {
             self.campaignDetailTableView.reloadSections([4], with: .fade)
+        }
+    }
+    func refreshCampaignTitle() {
+        DispatchQueue.main.async {
+            self.campaignDetailTableView.reloadSections([0], with: .fade)
+        }
+    }
+    func refreshProsperityLevel() {
+        DispatchQueue.main.async {
+            self.campaignDetailTableView.reloadSections([1], with: .fade)
         }
     }
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -215,6 +258,28 @@ extension CampaignDetailViewController: UITableViewDataSource, UITableViewDelega
                 break
             }
         }
+    }
+    // Helper methods
+    fileprivate func styleUI() {
+        self.campaignDetailTableView.estimatedRowHeight = 80
+        self.campaignDetailTableView.rowHeight = UITableViewAutomaticDimension
+        self.navigationController?.navigationBar.tintColor = colorDefinitions.mainTextColor
+        self.navigationController?.navigationBar.barTintColor = colorDefinitions.scenarioTableViewNavBarBarTintColor
+        self.navigationController?.navigationBar.titleTextAttributes = [.font: UIFont(name: "Nyala", size: 26.0)!, .foregroundColor: colorDefinitions.mainTextColor]
+        self.navigationItem.title = ("Campaign Detail")
+    }
+    // Action methods
+    // Need to emulate method from old CampaignViewController, and need to create this selectCampaignVC file (tableview with some selection method)
+    fileprivate func loadSelectCampaignViewController() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let selectCampaignVC = storyboard.instantiateViewController(withIdentifier: "SelectCampaignViewController") as! SelectCampaignViewController
+        selectCampaignVC.delegate = self
+        // Give VC the current campaign so it can set checkmark.
+        selectCampaignVC.currentCampaign = viewModel.campaignTitle.value
+        selectCampaignVC.viewModel = CampaignViewModelFromModel(withDataModel: viewModel!.dataModel)
+        selectCampaignVC.hidesBottomBarWhenPushed = true
+        //self.navigationController!.pushViewController(selectCampaignVC, animated: true)
+        self.navigationController!.present(selectCampaignVC, animated: true, completion: nil)
     }
     // Test function for section button
     @objc func enableTitleTextField(_ sender: UIButton) {
@@ -312,8 +377,8 @@ extension CampaignDetailViewController: UITableViewDataSource, UITableViewDelega
             cell.campaignDetailDonationsLabel.text = "\(amount)"
         }
     }
-    func setCampaignActive() {
-        self.viewModel.setCampaignActive()
+    func setCampaignActive(campaign: String) {
+        self.viewModel.setCampaignActive(campaign: campaign)
         if let cell = currentProsperityCell as? CampaignDetailProsperityCell {
             cell.isActive = true
         }
@@ -327,5 +392,18 @@ extension CampaignDetailViewController: UITableViewDataSource, UITableViewDelega
             print(section, header.textLabel!.text!)
             createSectionButton(forSection: section, inHeader: header)
         }
+    }
+}
+extension CampaignDetailViewController: SelectCampaignViewControllerDelegate {
+    func selectCampaignViewControllerDidCancel(_ controller: SelectCampaignViewController) {
+        controller.dismiss(animated: true, completion: nil)
+    }
+    
+    func selectCampaignViewControllerDidFinishSelecting(_ controller: SelectCampaignViewController) {
+        didSelectNewCampaign = true
+        let campaignTitle = controller.selectedCampaign!
+        //viewModel.setCampaignActive(campaign: campaignTitle)
+        setCampaignActive(campaign: campaignTitle)
+        controller.dismiss(animated: true, completion: nil)
     }
 }

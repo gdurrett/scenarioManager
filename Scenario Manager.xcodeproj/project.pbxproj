@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FB2237D51F816B5500CAA684 /* SelectCampaignViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2237D41F816B5500CAA684 /* SelectCampaignViewController.swift */; };
+		FB2237D81F8190E600CAA684 /* SelectCampaignTitleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB2237D71F8190E600CAA684 /* SelectCampaignTitleCell.xib */; };
+		FB2237DA1F81916B00CAA684 /* SelectCampaignTitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2237D91F81916B00CAA684 /* SelectCampaignTitleCell.swift */; };
 		FB23B6EA1F044CFC00CAA684 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB23B6E91F044CFC00CAA684 /* AppDelegate.swift */; };
 		FB23B6F41F044CFC00CAA684 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB23B6F21F044CFC00CAA684 /* LaunchScreen.storyboard */; };
 		FB23B6FC1F04C40D00CAA684 /* Scenario.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB23B6FB1F04C40D00CAA684 /* Scenario.swift */; };
@@ -80,6 +83,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		FB2237D41F816B5500CAA684 /* SelectCampaignViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCampaignViewController.swift; sourceTree = "<group>"; };
+		FB2237D71F8190E600CAA684 /* SelectCampaignTitleCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelectCampaignTitleCell.xib; sourceTree = "<group>"; };
+		FB2237D91F81916B00CAA684 /* SelectCampaignTitleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCampaignTitleCell.swift; sourceTree = "<group>"; };
 		FB23B6E61F044CFC00CAA684 /* Scenario Manager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Scenario Manager.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB23B6E91F044CFC00CAA684 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FB23B6F31F044CFC00CAA684 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -167,6 +173,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FB2237D61F8190CB00CAA684 /* SelectCampaignTableViewCells */ = {
+			isa = PBXGroup;
+			children = (
+				FB2237D71F8190E600CAA684 /* SelectCampaignTitleCell.xib */,
+				FB2237D91F81916B00CAA684 /* SelectCampaignTitleCell.swift */,
+			);
+			name = SelectCampaignTableViewCells;
+			sourceTree = "<group>";
+		};
 		FB23B6DD1F044CFC00CAA684 = {
 			isa = PBXGroup;
 			children = (
@@ -237,6 +252,7 @@
 				FBD2DD031F620F4800CAA684 /* CreateCampaignViewController.swift */,
 				FBD2DD171F68674600CAA684 /* DeleteCampaignViewController.swift */,
 				FB5729C31F6C806800CAA684 /* CampaignDetailViewController.swift */,
+				FB2237D41F816B5500CAA684 /* SelectCampaignViewController.swift */,
 			);
 			name = CampaignManager;
 			sourceTree = "<group>";
@@ -271,6 +287,7 @@
 		FB482DA21F29380B00CAA684 /* TableView Cells */ = {
 			isa = PBXGroup;
 			children = (
+				FB2237D61F8190CB00CAA684 /* SelectCampaignTableViewCells */,
 				FB5729BA1F6C728E00CAA684 /* CampaignDetailTableViewCells */,
 				FBD2DD091F634B9700CAA684 /* ScenarioDetailTableViewCells */,
 				FBD2DD0C1F634C0800CAA684 /* CreateCampaignTableViewCells */,
@@ -448,6 +465,7 @@
 				FBCE875F1F586FB400CAA684 /* nyala.ttf in Resources */,
 				FBE3F1E91F47C91100CAA684 /* Main.storyboard in Resources */,
 				FB5729CA1F6F1B5F00CAA684 /* CampaignDetailAchievementsCell.xib in Resources */,
+				FB2237D81F8190E600CAA684 /* SelectCampaignTitleCell.xib in Resources */,
 				FB5729C01F6C73B900CAA684 /* CampaignDetailTitleCell.xib in Resources */,
 				FB23B6F41F044CFC00CAA684 /* LaunchScreen.storyboard in Resources */,
 				FB482DAA1F293C6600CAA684 /* AchievesInfoCell.xib in Resources */,
@@ -501,7 +519,9 @@
 				FB482DAC1F293C9500CAA684 /* AchievesInfoCell.swift in Sources */,
 				FB4665951F2FDCEE00CAA684 /* ScenarioMainCell.swift in Sources */,
 				FB4665851F2E5C0700CAA684 /* RewardsInfoCell.swift in Sources */,
+				FB2237DA1F81916B00CAA684 /* SelectCampaignTitleCell.swift in Sources */,
 				FB23B6EA1F044CFC00CAA684 /* AppDelegate.swift in Sources */,
+				FB2237D51F816B5500CAA684 /* SelectCampaignViewController.swift in Sources */,
 				FBD2DD081F625FEA00CAA684 /* CreateCampaignViewModelFromModel.swift in Sources */,
 				FB4665911F2FA98C00CAA684 /* LocationInfoCell.swift in Sources */,
 				FBCE87641F59EBE400CAA684 /* CloudKitMgr.swift in Sources */,
