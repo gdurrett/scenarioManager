@@ -48,8 +48,18 @@ class DataModel {
     }
     var completedGlobalAchievements: [String:Bool] {
         get {
-            print("Are we getting this?")
             return currentCampaign.achievements.filter { $0.value != false && $0.key != "None" && $0.key != "OR" }
+        }
+    }
+    var currentParties: [String] {
+        get {
+            var tempParties = [String]()
+            if currentCampaign.parties?.isEmpty != true {
+                for party in currentCampaign.parties! {
+                    tempParties.append(party.name)
+                }
+            }
+            return tempParties
         }
     }
     var currentCampaign: Campaign {

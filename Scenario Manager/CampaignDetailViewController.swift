@@ -23,6 +23,8 @@ class CampaignDetailViewController: UIViewController {
     var campaignTitle = String()
     var prosperityLevel = Int()
     var checksToNextLevel = Int()
+    var donations = Int()
+    var parties = [String]()
     
     var headersToUpdate = [Int:UITableViewHeaderFooterView]()
     
@@ -111,6 +113,7 @@ extension CampaignDetailViewController: UITableViewDataSource, UITableViewDelega
         case .donations:
             if let item = item as? CampaignDetailViewModelCampaignDonationsItem, let cell = tableView.dequeueReusableCell(withIdentifier: CampaignDetailDonationsCell.identifier, for: indexPath) as? CampaignDetailDonationsCell {
                 // Give proper status to isActive button in this cell
+                item.amount = donations
                 cell.delegate = self
                 cell.isActive = (viewModel.isActiveCampaign == true ? true : false)
                 cell.item = item
@@ -118,10 +121,18 @@ extension CampaignDetailViewController: UITableViewDataSource, UITableViewDelega
                 return cell
             }
         case .parties:
-            if let item = item as? CampaignDetailViewModelCampaignPartyItem, let cell = tableView.dequeueReusableCell(withIdentifier: CampaignDetailPartyCell.identifier, for: indexPath) as? CampaignDetailPartyCell {
+            if let _ = item as? CampaignDetailViewModelCampaignPartyItem, let cell = tableView.dequeueReusableCell(withIdentifier: CampaignDetailPartyCell.identifier, for: indexPath) as? CampaignDetailPartyCell {
                 //cell.delegate = self
+                var names = [SeparatedStrings]()
+                if parties.isEmpty != true {
+                    for name in parties {
+                        names.append(SeparatedStrings(rowString: name))
+                    }
+                } else {
+                    names.append(SeparatedStrings(rowString: "No parties assigned."))
+                }
                 cell.selectionStyle = .none
-                let party = item.names[indexPath.row]
+                let party = names[indexPath.row]
                 cell.item = party
                 return cell
             }
@@ -190,6 +201,17 @@ extension CampaignDetailViewController: UITableViewDataSource, UITableViewDelega
         viewModel.prosperityLevel.bindAndFire { [unowned self] in
             self.prosperityLevel = $0 }
         refreshProsperityLevel()
+        
+        viewModel.updateDonations()
+        viewModel.donations.bindAndFire { [unowned self] in
+            self.donations = $0 }
+        refreshDonations()
+        
+        viewModel.updateParties()
+        viewModel.parties.bindAndFire { [unowned self] in
+            self.parties = $0 }
+        refreshParties()
+    
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
@@ -198,18 +220,28 @@ extension CampaignDetailViewController: UITableViewDataSource, UITableViewDelega
     }
     func refreshAchievements() {
         DispatchQueue.main.async {
-            self.campaignDetailTableView.reloadSections([4], with: .fade)
+            self.campaignDetailTableView.reloadSections([4], with: .none)
         }
     }
     func refreshCampaignTitle() {
         DispatchQueue.main.async {
-            self.campaignDetailTableView.reloadSections([0], with: .fade)
+            self.campaignDetailTableView.reloadSections([0], with: .none)
         }
     }
     func refreshProsperityLevel() {
         DispatchQueue.main.async {
-            self.campaignDetailTableView.reloadSections([1], with: .fade)
+            self.campaignDetailTableView.reloadSections([1], with: .none)
         }
+    }
+    func refreshDonations() {
+        DispatchQueue.main.async {
+            self.campaignDetailTableView.reloadSections([2], with: .none)
+        }
+    }
+    func refreshParties() {
+        DispatchQueue.main.async {
+        self.campaignDetailTableView.reloadSections([3], with: .none)
+    }
     }
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return viewModel.items[section].sectionTitle

@@ -40,19 +40,16 @@ class CampaignDetailViewModel: NSObject {
     var campaignTitle: Dynamic<String>
     var prosperityLevel: Dynamic<Int>
     var checksToNextLevel: Dynamic<Int>
+    var donations: Dynamic<Int>
+    var parties: Dynamic<[String]>
     
     init(withCampaign campaign: Campaign) {
         self.completedGlobalAchievements = Dynamic(dataModel.completedGlobalAchievements)
         self.campaignTitle = Dynamic(dataModel.currentCampaign.title)
         self.prosperityLevel = Dynamic(0)
         self.checksToNextLevel = Dynamic(0)
-        
-        var sanctuaryDonations: Int {
-            get {
-                print("Do we get donations?")
-                return getSanctuaryDonations(campaign: campaign)
-            }
-        }
+        self.donations = Dynamic(dataModel.currentCampaign.sanctuaryDonations)
+        self.parties = Dynamic(dataModel.currentParties)
         super.init()
         self.prosperityLevel = Dynamic(getProsperityLevel(count: dataModel.currentCampaign.prosperityCount))
         self.checksToNextLevel = Dynamic(getRemainingChecksUntilNextLevel(level: (getProsperityLevel(count: dataModel.currentCampaign.prosperityCount)), count: dataModel.currentCampaign.prosperityCount))
@@ -169,6 +166,12 @@ class CampaignDetailViewModel: NSObject {
     }
     func updateChecksToNextLevel() {
         self.checksToNextLevel.value = getRemainingChecksUntilNextLevel(level: (getProsperityLevel(count: dataModel.currentCampaign.prosperityCount)), count: dataModel.currentCampaign.prosperityCount)
+    }
+    func updateDonations() {
+        self.donations.value = dataModel.currentCampaign.sanctuaryDonations
+    }
+    func updateParties() {
+        self.parties.value = dataModel.currentParties
     }
     // Delegate methods for custom cells
     // Method for CampaignTitle cell - will deprecate
