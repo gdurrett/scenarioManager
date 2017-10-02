@@ -9,7 +9,7 @@
 import UIKit
 
 protocol CampaignDetailTitleCellDelegate {
-    func setCampaignActive()
+    func setCampaignActive(campaign: String)
 }
 
 class CampaignDetailTitleCell: UITableViewCell {
@@ -24,7 +24,8 @@ class CampaignDetailTitleCell: UITableViewCell {
         setCampaignActiveButtonOutlet.isEnabled = false
         setCampaignActiveButtonOutlet.setTitle("Active", for: .disabled)
         setCampaignActiveButtonOutlet.setTitleColor(UIColor.gray, for: .disabled)
-        delegate?.setCampaignActive()
+        guard let item = item as? CampaignDetailViewModelCampaignTitleItem else { return }
+        delegate?.setCampaignActive(campaign: item.title)
     }
     
     
