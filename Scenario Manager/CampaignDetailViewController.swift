@@ -8,18 +8,33 @@
 
 import UIKit
 
+protocol CampaignDetailViewControllerDelegate: class {
+    func campaignDetailVCDidTapDelete(_ controller: CampaignDetailViewController)
+}
+
 class CampaignDetailViewController: UIViewController {
-    
-    var viewModel: CampaignDetailViewModel!
-    
-    let colorDefinitions = ColorDefinitions()
-    let fontDefinitions = FontDefinitions()
-    
+
     @IBOutlet weak var campaignDetailTableView: UITableView!
 
     @IBAction func selectCampaignAction(_ sender: Any) {
         loadSelectCampaignViewController()
     }
+    @IBAction func createCampaignAction(_ sender: Any) {
+        loadCreateCampaignViewController()
+    }
+    @IBAction func deleteCampaignAction(_ sender: Any) {
+        // Call back to viewModel
+        // check if we're only campaign and raise alert if so
+        delegate.campaignDetailVCDidTapDelete(self)
+        updateAllSections()
+        refreshAllSections()
+    }
+    weak var delegate: CampaignDetailViewControllerDelegate!
+    
+    var viewModel: CampaignDetailViewModel!
+    let colorDefinitions = ColorDefinitions()
+    let fontDefinitions = FontDefinitions()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.addGestureRecognizer(UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:))))
@@ -70,22 +85,8 @@ extension CampaignDetailViewController: UITableViewDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
-        viewModel.updateAchievements()
-        refreshAchievements()
-        
-        viewModel.updateCampaignTitle()
-        refreshCampaignTitle()
-
-        viewModel.updateChecksToNextLevel()
-
-        viewModel.updateProsperityLevel()
-        refreshProsperityLevel()
-
-        viewModel.updateDonations()
-        refreshDonations()
-
-        viewModel.updateParties()
-        refreshParties()
+        updateAllSections()
+        refreshAllSections()
     }
     // Helper methods
     fileprivate func styleUI() {
@@ -95,6 +96,21 @@ extension CampaignDetailViewController: UITableViewDelegate {
         self.navigationController?.navigationBar.barTintColor = colorDefinitions.scenarioTableViewNavBarBarTintColor
         self.navigationController?.navigationBar.titleTextAttributes = [.font: UIFont(name: "Nyala", size: 26.0)!, .foregroundColor: colorDefinitions.mainTextColor]
         self.navigationItem.title = ("Campaign Detail")
+    }
+    func updateAllSections() {
+        viewModel.updateAchievements()
+        viewModel.updateCampaignTitle()
+        viewModel.updateChecksToNextLevel()
+        viewModel.updateProsperityLevel()
+        viewModel.updateDonations()
+        viewModel.updateParties()
+    }
+    func refreshAllSections() {
+        refreshAchievements()
+        refreshCampaignTitle()
+        refreshProsperityLevel()
+        refreshDonations()
+        refreshParties()
     }
     func refreshAchievements() {
         DispatchQueue.main.async {
@@ -133,4 +149,14 @@ extension CampaignDetailViewController: UITableViewDelegate {
         //self.navigationController!.pushViewController(selectCampaignVC, animated: true)
         self.navigationController!.present(selectCampaignVC, animated: true, completion: nil)
     }
+    fileprivate func loadCreateCampaignViewController() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let createCampaignVC = storyboard.instantiateViewController(withIdentifier: "CreateCampaignViewController") as! CreateCampaignViewController
+        // Give VC the current campaign so it can set checkmark.
+        createCampaignVC.viewModel = CreateCampaignViewModelFromModel(withDataModel: viewModel!.dataModel)
+        createCampaignVC.delegate = createCampaignVC.viewModel
+        createCampaignVC.hidesBottomBarWhenPushed = true
+        self.navigationController!.present(createCampaignVC, animated: true, completion: nil)
+    }
+
 }

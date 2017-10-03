@@ -32,6 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let navController2 = tabBarController.viewControllers?[0] as? UINavigationController
             let controller2 = navController2?.viewControllers[0] as! CampaignDetailViewController
             controller2.viewModel = campaignDetailViewModel
+            controller2.delegate = campaignDetailViewModel
             // Set up Scenario view controller
             let navController3 = tabBarController.viewControllers?[1] as? UINavigationController
             let controller3 = navController3?.viewControllers[0] as! ScenarioViewController

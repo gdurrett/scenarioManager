@@ -83,7 +83,7 @@ class CampaignDetailViewModel: NSObject {
                 partyNames.append(SeparatedStrings(rowString: party.name))
             }
         } else {
-            self.partyNames.append(SeparatedStrings(rowString: "No parties assigned."))
+            self.partyNames.append(SeparatedStrings(rowString: ""))
         }
         let partyItem = CampaignDetailViewModelCampaignPartyItem(names: partyNames)
         items.append(partyItem)
@@ -200,28 +200,26 @@ class CampaignDetailViewModel: NSObject {
     }
     // Method for Renaming Campaign Title
     func renameCampaignTitle(oldTitle: String, newTitle: String) {
-        if oldTitle != newTitle { // Don't do anything if it's the same title
+        if dataModel.campaigns[newTitle] == nil && oldTitle != newTitle { // Don't do anything if it's the same title or if there's already a campaign with the new title name
             dataModel.campaigns.changeKey(from: oldTitle, to: newTitle)
             dataModel.currentCampaign.title = newTitle
             dataModel.saveCampaignsLocally()
-            print("New list of campaigns: \(dataModel.campaigns)")
         }
     }
     // Method for changing active campaign
     func setCampaignActive(campaign: String) {
         dataModel.loadCampaign(campaign: campaign)
         dataModel.saveCampaignsLocally()
-        if let cell = self.currentProsperityCell as? CampaignDetailProsperityCell {
-            cell.isActive = true
-        }
-        if let cell = self.currentDonationsCell as? CampaignDetailDonationsCell {
-            cell.isActive = true
-        }
-        if let cell = self.currentTitleCell as? CampaignDetailTitleCell {
-            cell.isActive = true
-        }
+//        if let cell = self.currentProsperityCell as? CampaignDetailProsperityCell {
+//            cell.isActive = true
+//        }
+//        if let cell = self.currentDonationsCell as? CampaignDetailDonationsCell {
+//            cell.isActive = true
+//        }
+//        if let cell = self.currentTitleCell as? CampaignDetailTitleCell {
+//            cell.isActive = true
+//        }
         for (section, header) in headersToUpdate {
-            print(section, header.textLabel!.text!)
             createSectionButton(forSection: section, inHeader: header)
         }
     }
@@ -291,7 +289,7 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
                         names.append(SeparatedStrings(rowString: name))
                     }
                 } else {
-                    names.append(SeparatedStrings(rowString: "No parties assigned."))
+                    names.append(SeparatedStrings(rowString: "No parties assigned"))
                 }
                 cell.selectionStyle = .none
                 let party = names[indexPath.row]
@@ -299,20 +297,19 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
                 return cell
             }
         case .achievements:
-            if let item = item as? CampaignDetailViewModelCampaignAchievementsItem, let cell = tableView.dequeueReusableCell(withIdentifier: CampaignDetailAchievementsCell.identifier, for: indexPath) as? CampaignDetailAchievementsCell {
+            if let _ = item as? CampaignDetailViewModelCampaignAchievementsItem, let cell = tableView.dequeueReusableCell(withIdentifier: CampaignDetailAchievementsCell.identifier, for: indexPath) as? CampaignDetailAchievementsCell {
                 var achievement = SeparatedStrings(rowString: "")
-                if self.isActiveCampaign == true {
-                    print("Showing active")
+                //if self.isActiveCampaign == true {
                     let tempAch = Array(self.completedGlobalAchievements.value.keys)
                     var achNames = [SeparatedStrings]()
                     for ach in tempAch {
                         achNames.append(SeparatedStrings(rowString: ach))
                     }
                     achievement = achNames[indexPath.row]
-                } else {
-                    print("Showing inactive")
-                    achievement = item.achievements[indexPath.row]
-                }
+//                } else {
+//                    print("Showing inactive")
+//                    achievement = item.achievements[indexPath.row]
+//                }
                 cell.selectionStyle = .none
                 cell.item = achievement
                 return cell
@@ -338,7 +335,7 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
         // Test custom edit button in header view (if active campaign)
         createSectionButton(forSection: section, inHeader: header!)
     }
-    // Delegate methods for textField
+    // Delegate methods for textField in cell
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         let myCell = self.currentTitleCell as! CampaignDetailTitleCell
@@ -363,10 +360,9 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
     }
     func createSectionButton(forSection section: Int, inHeader header: UITableViewHeaderFooterView) {
         
-        let myCell = self.currentTitleCell as! CampaignDetailTitleCell
+        //let myCell = self.currentTitleCell as! CampaignDetailTitleCell
         
-        if myCell.isActive == true {
-            print("We are active")
+        //if myCell.isActive == true {
             let button = UIButton(frame: CGRect(x: 330, y: 14, width: 25, height: 25))  // create button
             button.setImage(UIImage(named: "icons8-Edit-40"), for: .normal)
             
@@ -392,7 +388,7 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
                 button.isEnabled = true
                 button.addTarget(self, action: #selector(self.showAvailableParties(_:)), for: .touchUpInside)
             }
-        }
+        //}
     }
     @objc func enableTitleTextField(_ sender: UIButton) {
         let myCell = self.currentTitleCell as! CampaignDetailTitleCell
@@ -452,16 +448,27 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
         
     }
 }
-extension CampaignDetailViewModel: SelectCampaignViewControllerDelegate {
+extension CampaignDetailViewModel: SelectCampaignViewControllerDelegate, CampaignDetailViewControllerDelegate {
     func selectCampaignViewControllerDidCancel(_ controller: SelectCampaignViewController) {
         controller.dismiss(animated: true, completion: nil)
     }
     
     func selectCampaignViewControllerDidFinishSelecting(_ controller: SelectCampaignViewController) {
         let campaignTitle = controller.selectedCampaign!
-        //viewModel.setCampaignActive(campaign: campaignTitle)
         setCampaignActive(campaign: campaignTitle)
         controller.dismiss(animated: true, completion: nil)
+    }
+    
+    func campaignDetailVCDidTapDelete(_ controller: CampaignDetailViewController) {
+        if dataModel.campaigns.count > 1 {
+            print("Okay, we can delete")
+            let firstCampaign = dataModel.campaigns.values.first!
+            let myCampaignTitle = firstCampaign.title
+            setCampaignActive(campaign: myCampaignTitle)
+            dataModel.campaigns.removeValue(forKey: self.campaignTitle.value)
+        } else {
+            print("Can't delete last campaign!")
+        }
     }
 }
 

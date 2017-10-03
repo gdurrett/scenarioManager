@@ -97,7 +97,6 @@ class SelectCampaignViewController: UIViewController {
     fileprivate func configureCheckmark(for cell: UITableViewCell, activeStatus: Bool) {
         if activeStatus == true && selectedIndex == -1 {
             cell.accessoryType = .checkmark
-            
         }
     }
 }

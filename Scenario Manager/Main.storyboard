@@ -169,7 +169,7 @@
         <!--Create Campaign-->
         <scene sceneID="PLi-6s-RQ5">
             <objects>
-                <viewController storyboardIdentifier="createCampaignViewController" id="Ymh-R6-TrY" customClass="CreateCampaignViewController" customModule="Scenario_Manager" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CreateCampaignViewController" id="Ymh-R6-TrY" customClass="CreateCampaignViewController" customModule="Scenario_Manager" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="VfJ-wQ-Xda"/>
                         <viewControllerLayoutGuide type="bottom" id="qBx-Hs-cEO"/>
@@ -178,51 +178,70 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v6O-ck-Dln">
-                                <rect key="frame" x="0.0" y="64" width="320" height="504"/>
-                                <subviews>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Wim-f5-iJe">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    </tableView>
-                                </subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Wim-f5-iJe">
+                                <rect key="frame" x="0.0" y="68" width="320" height="500"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bXw-Q3-0J5">
+                                <rect key="frame" x="16" y="20" width="51" height="31"/>
                                 <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="Wim-f5-iJe" secondAttribute="bottom" id="Bqt-Ht-Esx"/>
-                                    <constraint firstAttribute="trailing" secondItem="Wim-f5-iJe" secondAttribute="trailing" id="OdL-QU-2Cr"/>
-                                    <constraint firstItem="Wim-f5-iJe" firstAttribute="top" secondItem="v6O-ck-Dln" secondAttribute="top" id="eqm-H3-4mG"/>
-                                    <constraint firstItem="Wim-f5-iJe" firstAttribute="leading" secondItem="v6O-ck-Dln" secondAttribute="leading" id="mJ9-mx-v2h"/>
+                                    <constraint firstAttribute="width" constant="51" id="48x-Qo-GJM"/>
                                 </constraints>
-                            </view>
+                                <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="20"/>
+                                <state key="normal" title="Cancel">
+                                    <color key="titleColor" red="0.2452870207" green="0.18995208050000001" blue="0.13303627730000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
+                                <connections>
+                                    <action selector="cancel:" destination="Ymh-R6-TrY" eventType="touchUpInside" id="8XY-Gz-9W3"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7wB-Px-pVY">
+                                <rect key="frame" x="261" y="20" width="43" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="43" id="7aF-Co-aRq"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="20"/>
+                                <state key="normal" title="Save">
+                                    <color key="titleColor" red="0.24919084820000001" green="0.1929752334" blue="0.1351535955" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="save:" destination="Ymh-R6-TrY" eventType="touchUpInside" id="MsL-BF-8dc"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create Campaign" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WW8-U5-Yxf">
+                                <rect key="frame" x="75" y="23" width="169" height="24"/>
+                                <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="26"/>
+                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="v6O-ck-Dln" firstAttribute="top" secondItem="VfJ-wQ-Xda" secondAttribute="bottom" id="VlK-co-GAo"/>
-                            <constraint firstAttribute="trailing" secondItem="v6O-ck-Dln" secondAttribute="trailing" id="YA3-xL-8cR"/>
-                            <constraint firstItem="v6O-ck-Dln" firstAttribute="bottom" secondItem="qBx-Hs-cEO" secondAttribute="top" id="dBx-Xo-5bi"/>
-                            <constraint firstItem="v6O-ck-Dln" firstAttribute="leading" secondItem="zIV-iu-w7K" secondAttribute="leading" id="izO-kM-kzs"/>
+                            <constraint firstItem="Wim-f5-iJe" firstAttribute="top" secondItem="VfJ-wQ-Xda" secondAttribute="bottom" constant="48" id="AUN-vD-aUU"/>
+                            <constraint firstItem="7wB-Px-pVY" firstAttribute="trailing" secondItem="zIV-iu-w7K" secondAttribute="trailingMargin" id="C6O-uR-PS7"/>
+                            <constraint firstItem="Wim-f5-iJe" firstAttribute="top" secondItem="7wB-Px-pVY" secondAttribute="bottom" constant="18" id="EZ7-uf-hPB"/>
+                            <constraint firstItem="7wB-Px-pVY" firstAttribute="leading" secondItem="WW8-U5-Yxf" secondAttribute="trailing" constant="17" id="Jk9-3h-Gy2"/>
+                            <constraint firstItem="WW8-U5-Yxf" firstAttribute="leading" secondItem="bXw-Q3-0J5" secondAttribute="trailing" constant="8" id="NNb-oG-PUV"/>
+                            <constraint firstAttribute="trailing" secondItem="Wim-f5-iJe" secondAttribute="trailing" id="Rwi-xA-jcG"/>
+                            <constraint firstItem="bXw-Q3-0J5" firstAttribute="leading" secondItem="zIV-iu-w7K" secondAttribute="leadingMargin" id="U4P-zu-jJW"/>
+                            <constraint firstItem="7wB-Px-pVY" firstAttribute="top" secondItem="bXw-Q3-0J5" secondAttribute="top" id="bFk-xu-DWs"/>
+                            <constraint firstItem="WW8-U5-Yxf" firstAttribute="top" secondItem="VfJ-wQ-Xda" secondAttribute="bottom" constant="3" id="gK3-Rt-PVv"/>
+                            <constraint firstItem="Wim-f5-iJe" firstAttribute="bottom" secondItem="qBx-Hs-cEO" secondAttribute="top" id="ovh-bS-iCI"/>
+                            <constraint firstItem="Wim-f5-iJe" firstAttribute="leading" secondItem="zIV-iu-w7K" secondAttribute="leading" id="wRD-fe-Xh0"/>
+                            <constraint firstItem="7wB-Px-pVY" firstAttribute="top" secondItem="VfJ-wQ-Xda" secondAttribute="bottom" id="xwj-CG-WBo"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Create Campaign" id="ESK-c0-Dk1">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="CTl-hG-J5F">
-                            <connections>
-                                <action selector="cancel:" destination="Ymh-R6-TrY" id="ybe-Pn-zgv"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="7VE-lh-blG">
-                            <connections>
-                                <action selector="save:" destination="Ymh-R6-TrY" id="Rna-hJ-1fi"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="CTl-hG-J5F"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="7VE-lh-blG"/>
                     </navigationItem>
                     <connections>
                         <outlet property="createCampaignTableView" destination="Wim-f5-iJe" id="hFf-6K-Vtz"/>
-                        <outlet property="createCampaignView" destination="v6O-ck-Dln" id="kRs-gl-fy7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BgC-uA-yHx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4472" y="-1488"/>
+            <point key="canvasLocation" x="3698" y="2041"/>
         </scene>
         <!--Delete Campaign-->
         <scene sceneID="mBG-EH-7ht">
@@ -438,9 +457,20 @@
                                 <action selector="selectCampaignAction:" destination="DHT-Ja-bDV" id="LA0-Iy-ugY"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="InL-M7-vzu">
-                            <color key="tintColor" red="0.2452870207" green="0.18995208050000001" blue="0.13303627730000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem systemItem="add" id="InL-M7-vzu">
+                                <color key="tintColor" red="0.2452870207" green="0.18995208050000001" blue="0.13303627730000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <connections>
+                                    <action selector="createCampaignAction:" destination="DHT-Ja-bDV" id="Z2U-UY-qrm"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem systemItem="trash" id="LOj-RK-p5a">
+                                <color key="tintColor" red="0.24919084820000001" green="0.1929752334" blue="0.1351535955" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <action selector="deleteCampaignAction:" destination="DHT-Ja-bDV" id="kyd-aw-3Oi"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
                         <outlet property="campaignDetailTableView" destination="Xj2-Xd-lwa" id="Re6-h8-XhT"/>
@@ -448,7 +478,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jZS-n3-24s" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2801" y="1356"/>
+            <point key="canvasLocation" x="2799" y="1742"/>
         </scene>
         <!--Select Campaign View Controller-->
         <scene sceneID="hbJ-EV-HYi">
@@ -462,35 +492,49 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="M10-Uo-M4e">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="M10-Uo-M4e">
                                 <rect key="frame" x="0.0" y="66" width="320" height="502"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nac-Cx-q5T">
-                                <rect key="frame" x="263" y="28" width="37" height="30"/>
-                                <state key="normal" title="Done"/>
-                                <connections>
-                                    <action selector="selectCampaignDoneAction:" destination="Dxr-ab-bP8" eventType="touchUpInside" id="icD-dt-68k"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lkG-hU-Kgv">
-                                <rect key="frame" x="15" y="28" width="48" height="30"/>
-                                <state key="normal" title="Cancel"/>
+                                <rect key="frame" x="16" y="20" width="49" height="31"/>
+                                <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="20"/>
+                                <state key="normal" title="Cancel">
+                                    <color key="titleColor" red="0.24919084820000001" green="0.1929752334" blue="0.1351535955" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
                                 <connections>
                                     <action selector="selectCampaignCancelAction:" destination="Dxr-ab-bP8" eventType="touchUpInside" id="0cu-F4-EFc"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select Campaign" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="11W-pN-LZ9">
+                                <rect key="frame" x="81" y="23" width="158" height="24"/>
+                                <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="26"/>
+                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nac-Cx-q5T">
+                                <rect key="frame" x="265" y="20" width="39" height="31"/>
+                                <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="20"/>
+                                <state key="normal" title="Done">
+                                    <color key="titleColor" red="0.2452870207" green="0.18995208050000001" blue="0.13303627730000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
+                                <connections>
+                                    <action selector="selectCampaignDoneAction:" destination="Dxr-ab-bP8" eventType="touchUpInside" id="icD-dt-68k"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="M10-Uo-M4e" firstAttribute="top" secondItem="Tlb-dx-pMz" secondAttribute="top" constant="57" id="0wZ-8Q-E3t"/>
-                            <constraint firstItem="lkG-hU-Kgv" firstAttribute="leading" secondItem="Tlb-dx-pMz" secondAttribute="leading" constant="15" id="9Is-T5-Rle"/>
-                            <constraint firstAttribute="trailing" secondItem="nac-Cx-q5T" secondAttribute="trailing" constant="20" id="Py1-zE-nUy"/>
+                            <constraint firstItem="M10-Uo-M4e" firstAttribute="top" secondItem="Tlb-dx-pMz" secondAttribute="top" constant="66" id="0wZ-8Q-E3t"/>
+                            <constraint firstItem="lkG-hU-Kgv" firstAttribute="baseline" secondItem="nac-Cx-q5T" secondAttribute="baseline" id="BVu-0h-eSs"/>
+                            <constraint firstItem="11W-pN-LZ9" firstAttribute="centerX" secondItem="M10-Uo-M4e" secondAttribute="centerX" id="Qc9-d9-ivk"/>
                             <constraint firstItem="M10-Uo-M4e" firstAttribute="leading" secondItem="Tlb-dx-pMz" secondAttribute="leading" id="YD1-DG-bfy"/>
-                            <constraint firstItem="nac-Cx-q5T" firstAttribute="top" secondItem="QVv-jw-f80" secondAttribute="bottom" constant="8" id="YEv-fM-JGX"/>
-                            <constraint firstItem="lkG-hU-Kgv" firstAttribute="top" secondItem="QVv-jw-f80" secondAttribute="bottom" constant="8" id="Yf6-tk-5aJ"/>
+                            <constraint firstItem="nac-Cx-q5T" firstAttribute="top" secondItem="QVv-jw-f80" secondAttribute="bottom" id="YMd-PE-osS"/>
                             <constraint firstItem="Lbh-vO-09M" firstAttribute="top" secondItem="M10-Uo-M4e" secondAttribute="bottom" id="cLZ-TF-1mA"/>
                             <constraint firstAttribute="trailing" secondItem="M10-Uo-M4e" secondAttribute="trailing" id="cfQ-Ls-1Xo"/>
+                            <constraint firstItem="nac-Cx-q5T" firstAttribute="trailing" secondItem="Tlb-dx-pMz" secondAttribute="trailingMargin" id="e81-2N-APt"/>
+                            <constraint firstItem="11W-pN-LZ9" firstAttribute="top" secondItem="QVv-jw-f80" secondAttribute="bottom" constant="3" id="mgy-NU-mPA"/>
+                            <constraint firstItem="lkG-hU-Kgv" firstAttribute="leading" secondItem="Tlb-dx-pMz" secondAttribute="leadingMargin" id="zEy-mg-Dg1"/>
                         </constraints>
                     </view>
                     <connections>
@@ -499,7 +543,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gfb-ad-CK1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3635.625" y="1355.2816901408451"/>
+            <point key="canvasLocation" x="3698" y="1356"/>
         </scene>
         <!--Scenario Detail View Controller-->
         <scene sceneID="9Sv-rJ-oQK">
@@ -571,7 +615,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0Sb-sM-tn1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="551" y="936"/>
+            <point key="canvasLocation" x="683" y="293"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="bRf-8w-jiG">
@@ -591,24 +635,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Z3e-xs-8dm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2040" y="293"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="bg7-ml-has">
-            <objects>
-                <navigationController storyboardIdentifier="createCampaignNavController" automaticallyAdjustsScrollViewInsets="NO" id="zlq-rP-3hz" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="JGe-dt-xSf">
-                        <rect key="frame" x="0.0" y="20" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="Ymh-R6-TrY" kind="relationship" relationship="rootViewController" id="4fF-rX-uMs"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Y3x-AJ-h7S" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3698" y="-1488"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="AXm-ca-bPI">
@@ -645,7 +671,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Oap-Gx-f9H" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2040" y="1357"/>
+            <point key="canvasLocation" x="2040" y="1743"/>
         </scene>
     </scenes>
     <resources>

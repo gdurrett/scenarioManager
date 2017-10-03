@@ -21,9 +21,9 @@ class CampaignDetailTitleCell: UITableViewCell {
     @IBOutlet weak var setCampaignActiveButtonOutlet: UIButton!
     
     @IBAction func setCampaignActiveAction(_ sender: Any) {
-        setCampaignActiveButtonOutlet.isEnabled = false
-        setCampaignActiveButtonOutlet.setTitle("Active", for: .disabled)
-        setCampaignActiveButtonOutlet.setTitleColor(UIColor.gray, for: .disabled)
+//        setCampaignActiveButtonOutlet.isEnabled = false
+//        setCampaignActiveButtonOutlet.setTitle("Active", for: .disabled)
+//        setCampaignActiveButtonOutlet.setTitleColor(UIColor.gray, for: .disabled)
         guard let item = item as? CampaignDetailViewModelCampaignTitleItem else { return }
         delegate?.setCampaignActive(campaign: item.title)
     }
@@ -47,21 +47,21 @@ class CampaignDetailTitleCell: UITableViewCell {
             
             setCampaignActiveButtonOutlet.titleLabel?.font = fontDefinitions.scenarioSwipeFont
             
-            updateButtonLabel()
+            //updateButtonLabel()
             
         }
     }
-    func updateButtonLabel() {
-        if isActive! == true {
-            setCampaignActiveButtonOutlet.isEnabled = false
-            setCampaignActiveButtonOutlet.setTitle("Active", for: .disabled)
-        } else {
-            setCampaignActiveButtonOutlet.isEnabled = true
-            setCampaignActiveButtonOutlet.setTitle("Set Active", for: .normal)
-            setCampaignActiveButtonOutlet.setTitleColor(UIColor.gray, for: .selected)
-            setCampaignActiveButtonOutlet.setTitleColor(colorDefinitions.mainTextColor, for: .normal)
-        }
-    }
+//    func updateButtonLabel() {
+//        if isActive! == true {
+//            setCampaignActiveButtonOutlet.isEnabled = false
+//            setCampaignActiveButtonOutlet.setTitle("Active", for: .disabled)
+//        } else {
+//            setCampaignActiveButtonOutlet.isEnabled = true
+//            setCampaignActiveButtonOutlet.setTitle("Set Active", for: .normal)
+//            setCampaignActiveButtonOutlet.setTitleColor(UIColor.gray, for: .selected)
+//            setCampaignActiveButtonOutlet.setTitleColor(colorDefinitions.mainTextColor, for: .normal)
+//        }
+//    }
     static var nib:UINib {
         return UINib(nibName: identifier, bundle: nil)
     }
