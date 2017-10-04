@@ -245,6 +245,7 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
         switch item.type {
         case .campaignTitle:
             if let item = item as? CampaignDetailViewModelCampaignTitleItem, let cell = tableView.dequeueReusableCell(withIdentifier: CampaignDetailTitleCell.identifier, for: indexPath) as? CampaignDetailTitleCell {
+                cell.backgroundColor = UIColor.clear
                 item.title = campaignTitle.value
                 // Set global title cell to this cell
                 currentTitleCell = cell
@@ -261,6 +262,7 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
             }
         case .prosperity:
             if let item = item as? CampaignDetailViewModelCampaignProsperityItem, let cell = tableView.dequeueReusableCell(withIdentifier: CampaignDetailProsperityCell.identifier, for: indexPath) as? CampaignDetailProsperityCell {
+                cell.backgroundColor = UIColor.clear
                 // Give proper status to isActive button in this cell
                 item.level = prosperityLevel.value
                 item.remainingChecksUntilNextLevel = checksToNextLevel.value
@@ -272,7 +274,7 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
             }
         case .donations:
             if let item = item as? CampaignDetailViewModelCampaignDonationsItem, let cell = tableView.dequeueReusableCell(withIdentifier: CampaignDetailDonationsCell.identifier, for: indexPath) as? CampaignDetailDonationsCell {
-                // Give proper status to isActive button in this cell
+                cell.backgroundColor = UIColor.clear
                 item.amount = donations.value
                 cell.delegate = self
                 cell.isActive = (self.isActiveCampaign == true ? true : false)
@@ -283,6 +285,7 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
         case .parties:
             if let _ = item as? CampaignDetailViewModelCampaignPartyItem, let cell = tableView.dequeueReusableCell(withIdentifier: CampaignDetailPartyCell.identifier, for: indexPath) as? CampaignDetailPartyCell {
                 //cell.delegate = self
+                cell.backgroundColor = UIColor.clear
                 var names = [SeparatedStrings]()
                 if parties.value.isEmpty != true {
                     for name in parties.value {
@@ -298,6 +301,7 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
             }
         case .achievements:
             if let _ = item as? CampaignDetailViewModelCampaignAchievementsItem, let cell = tableView.dequeueReusableCell(withIdentifier: CampaignDetailAchievementsCell.identifier, for: indexPath) as? CampaignDetailAchievementsCell {
+                cell.backgroundColor = UIColor.clear
                 var achievement = SeparatedStrings(rowString: "")
                 //if self.isActiveCampaign == true {
                     let tempAch = Array(self.completedGlobalAchievements.value.keys)
@@ -465,7 +469,7 @@ extension CampaignDetailViewModel: SelectCampaignViewControllerDelegate, Campaig
             let myCampaign = Array(dataModel.campaigns.values)
             setCampaignActive(campaign: myCampaign.first!.title)
         } else {
-            controller.showDeletionAlert()
+            controller.showDisallowDeletionAlert()
         }
     }
 }

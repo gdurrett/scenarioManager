@@ -13,11 +13,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     let dataModel = DataModel.sharedInstance
-    
+    let globalButtonFont = UIFont(name: "Nyala", size: 20.0)!
+   
+
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        //let navigationController = window!.rootViewController as! UINavigationController
-        //let controller = navigationController.viewControllers[0] as! CampaignViewController
+        
+        UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedStringKey.font: globalButtonFont], for: .normal)
         let scenarioViewModel = ScenarioViewModelFromModel(withDataModel: dataModel)
         let campaignDetailViewModel = CampaignDetailViewModel(withCampaign: dataModel.currentCampaign)
         
@@ -28,11 +30,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             controller1.dataModel = dataModel
             controller1.viewModel = scenarioViewModel
             
-            // Set up Campaign view controller
+            // Set up Campaign Detail view controller
             let navController2 = tabBarController.viewControllers?[0] as? UINavigationController
             let controller2 = navController2?.viewControllers[0] as! CampaignDetailViewController
             controller2.viewModel = campaignDetailViewModel
             controller2.delegate = campaignDetailViewModel
+            
             // Set up Scenario view controller
             let navController3 = tabBarController.viewControllers?[1] as? UINavigationController
             let controller3 = navController3?.viewControllers[0] as! ScenarioViewController

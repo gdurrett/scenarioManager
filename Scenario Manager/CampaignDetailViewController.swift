@@ -25,9 +25,10 @@ class CampaignDetailViewController: UIViewController {
     @IBAction func deleteCampaignAction(_ sender: Any) {
         // Call back to viewModel
         // check if we're only campaign and raise alert if so
-        delegate.campaignDetailVCDidTapDelete(self)
-        updateAllSections()
-        refreshAllSections()
+        //delegate.campaignDetailVCDidTapDelete(self)
+        showConfirmDeletionAlert()
+//        updateAllSections()
+//        refreshAllSections()
     }
     weak var delegate: CampaignDetailViewControllerDelegate!
     
@@ -96,6 +97,8 @@ extension CampaignDetailViewController: UITableViewDelegate {
         self.navigationController?.navigationBar.barTintColor = colorDefinitions.scenarioTableViewNavBarBarTintColor
         self.navigationController?.navigationBar.titleTextAttributes = [.font: UIFont(name: "Nyala", size: 26.0)!, .foregroundColor: colorDefinitions.mainTextColor]
         self.navigationItem.title = ("Campaign Detail")
+        self.campaignDetailTableView.backgroundView = UIImageView(image: UIImage(named: "campaignDetailTableViewBG"))
+        self.campaignDetailTableView.backgroundView?.alpha = 0.25
     }
     func updateAllSections() {
         viewModel.updateAchievements()
@@ -137,6 +140,22 @@ extension CampaignDetailViewController: UITableViewDelegate {
             self.campaignDetailTableView.reloadSections([3], with: .none)
         }
     }
+    fileprivate func showConfirmDeletionAlert () {
+        let alertController = UIAlertController(title: "Delete current campaign?", message: "Clicking OK will delete the current campaign.", preferredStyle: .alert)
+        let OKAction = UIAlertAction(title: "Delete", style: .default) { (action:UIAlertAction!) in
+            self.delegate.campaignDetailVCDidTapDelete(self)
+            self.updateAllSections()
+            self.refreshAllSections()
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (action:UIAlertAction!) in
+        }
+        alertController.view.tintColor = colorDefinitions.scenarioAlertViewTintColor
+        alertController.addAction(cancelAction)
+        alertController.addAction(OKAction)
+        
+        self.present(alertController, animated: true, completion:nil)
+    }
     // Action methods
     fileprivate func loadSelectCampaignViewController() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -159,12 +178,12 @@ extension CampaignDetailViewController: UITableViewDelegate {
         self.navigationController!.present(createCampaignVC, animated: true, completion: nil)
     }
     // Called by CampaignDetailViewModel
-    func showDeletionAlert() {
+    func showDisallowDeletionAlert() {
         let alertTitle = "Cannot delete only campaign!"
         let alertView = UIAlertController(
             title: alertTitle,
-            message: nil,
-            preferredStyle: .actionSheet)
+            message: "Create a new campaign before deleting this one.",
+            preferredStyle: .alert)
         
         let action = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil)
         alertView.view.tintColor = colorDefinitions.scenarioAlertViewTintColor
