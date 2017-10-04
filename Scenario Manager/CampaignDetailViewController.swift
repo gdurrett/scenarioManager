@@ -158,5 +158,17 @@ extension CampaignDetailViewController: UITableViewDelegate {
         createCampaignVC.hidesBottomBarWhenPushed = true
         self.navigationController!.present(createCampaignVC, animated: true, completion: nil)
     }
-
+    // Called by CampaignDetailViewModel
+    func showDeletionAlert() {
+        let alertTitle = "Cannot delete only campaign!"
+        let alertView = UIAlertController(
+            title: alertTitle,
+            message: nil,
+            preferredStyle: .actionSheet)
+        
+        let action = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil)
+        alertView.view.tintColor = colorDefinitions.scenarioAlertViewTintColor
+        alertView.addAction(action)
+        present(alertView, animated: true, completion: nil)
+    }
 }

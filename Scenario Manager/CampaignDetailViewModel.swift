@@ -461,13 +461,11 @@ extension CampaignDetailViewModel: SelectCampaignViewControllerDelegate, Campaig
     
     func campaignDetailVCDidTapDelete(_ controller: CampaignDetailViewController) {
         if dataModel.campaigns.count > 1 {
-            print("Okay, we can delete")
-            let firstCampaign = dataModel.campaigns.values.first!
-            let myCampaignTitle = firstCampaign.title
-            setCampaignActive(campaign: myCampaignTitle)
             dataModel.campaigns.removeValue(forKey: self.campaignTitle.value)
+            let myCampaign = Array(dataModel.campaigns.values)
+            setCampaignActive(campaign: myCampaign.first!.title)
         } else {
-            print("Can't delete last campaign!")
+            controller.showDeletionAlert()
         }
     }
 }

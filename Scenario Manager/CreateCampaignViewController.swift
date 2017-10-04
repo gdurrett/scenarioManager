@@ -20,8 +20,7 @@ class CreateCampaignViewController: UIViewController {
         delegate?.createCampaignViewControllerDidFinishAdding(self)
     }
     @IBAction func cancel(_ sender: Any) {
-        print("Cancel tapped")
-        delegate?.createCampaignViewControllerDidCancel(self)
+         delegate?.createCampaignViewControllerDidCancel(self)
     }
     
     var viewModel: CreateCampaignViewModelFromModel? {

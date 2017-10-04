@@ -53,8 +53,6 @@ class CreateCampaignViewModelFromModel: NSObject {
         return "Select Party"
     }
     fileprivate func createCampaign(title: String, parties: [Party]) {
-        print("Got title: \(title)")
-        print("Got party: \(parties.map { $0.name })")
         dataModel.createCampaign(title: title, isCurrent: true, parties: parties)
     }
 }
