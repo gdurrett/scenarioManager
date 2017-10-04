@@ -15,7 +15,7 @@ enum CampaignDetailViewModelItemType {
     case achievements
     case prosperity
     case donations
-//    case events
+    case cityEvents
 }
 
 protocol CampaignDetailViewModelItem {
@@ -44,7 +44,8 @@ class CampaignDetailViewModel: NSObject {
     var checksToNextLevel: Dynamic<Int>
     var donations: Dynamic<Int>
     var parties: Dynamic<[String]>
-    
+    // Convert to dynamic later
+    var cityEventItems: CampaignDetailViewModelCityEventsItem?
     var headersToUpdate = [Int:UITableViewHeaderFooterView]()
 
     var currentTitleCell = UITableViewCell()
@@ -88,6 +89,7 @@ class CampaignDetailViewModel: NSObject {
         let partyItem = CampaignDetailViewModelCampaignPartyItem(names: partyNames)
         items.append(partyItem)
         
+        // Append completed achievements to items
         let localCompletedAchievements = campaign.achievements.filter { $0.value != false && $0.key != "None" && $0.key != "OR" }
         if localCompletedAchievements.isEmpty != true {
             for achievement in localCompletedAchievements {
@@ -96,6 +98,10 @@ class CampaignDetailViewModel: NSObject {
         }
         let achievementsItem = CampaignDetailViewModelCampaignAchievementsItem(achievements: achievementNames)
         items.append(achievementsItem)
+        
+        // Append completed city events to items
+        cityEventItems = CampaignDetailViewModelCityEventsItem(titles: ["07A", "06B", "03A", "01A", "29A", "13B", "11B", "78A", "16B", "70B", "19A", "21B", "22A", "12B", "28A", "24A", "17B", "27A", "02A", "14B", "05A", "15A", "09B", "33B", "75B"])
+        items.append(cityEventItems!)
     }
     // Helper methods
     func getProsperityLevel(count: Int) -> Int {
@@ -267,7 +273,7 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
                 item.level = prosperityLevel.value
                 item.remainingChecksUntilNextLevel = checksToNextLevel.value
                 cell.delegate = self
-                cell.isActive = (isActiveCampaign == true ? true : false)
+                //cell.isActive = (isActiveCampaign == true ? true : false)
                 cell.item = item
                 currentProsperityCell = cell
                 return cell
@@ -318,8 +324,15 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
                 cell.item = achievement
                 return cell
             }
-            //        case .events:
-            //            break
+        case .cityEvents:
+            if let item = item as? CampaignDetailViewModelCityEventsItem, let cell = tableView.dequeueReusableCell(withIdentifier: CampaignDetailCityEventsCell.identifier, for: indexPath) as? CampaignDetailCityEventsCell {
+                cell.backgroundColor = UIColor.clear
+                //item.titles = ["05A", "15B"]
+                item.titles = cityEventItems!.titles
+                cell.dataSource = self
+                cell.items = item
+                return cell
+            }
         }
         return UITableViewCell()
     }
@@ -389,8 +402,10 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
                 button.addTarget(self, action: #selector(self.enableTitleTextField(_:)), for: .touchUpInside)
                 header.addSubview(button)
             case .parties:
+                button.isEnabled = false
+            case .cityEvents:
                 button.isEnabled = true
-                button.addTarget(self, action: #selector(self.showAvailableParties(_:)), for: .touchUpInside)
+                //
             }
         //}
     }
@@ -450,6 +465,28 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
     }
     @objc func showAvailableParties(_ button: UIButton) {
         
+    }
+}
+extension CampaignDetailViewModel: UICollectionViewDelegate, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return cityEventItems!.titles.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+	print("Are we executing dataSource function?")
+        let item = cityEventItems
+        var cellToReturn = UICollectionViewCell()
+        switch item!.type {
+        case .cityEvents:
+            if let item = item as? CampaignDetailViewModelCityEventsItem, let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CampaignDetailEventCollectionCell.identifier, for: indexPath) as? CampaignDetailEventCollectionCell {
+                cell.item = item.titles[indexPath.row]
+                //return cell
+                cellToReturn = cell
+            }
+        default:
+            break
+        }
+        return cellToReturn
     }
 }
 extension CampaignDetailViewModel: SelectCampaignViewControllerDelegate, CampaignDetailViewControllerDelegate {
@@ -574,5 +611,25 @@ class CampaignDetailViewModelCampaignDonationsItem: CampaignDetailViewModelItem 
     
     init(amount: Int) {
         self.amount = amount
+    }
+}
+class CampaignDetailViewModelCityEventsItem: CampaignDetailViewModelItem {
+    
+    var type: CampaignDetailViewModelItemType {
+        return .cityEvents
+    }
+    
+    var sectionTitle: String {
+        return "City Events"
+    }
+    
+    var rowCount: Int {
+        return 1
+    }
+    
+    var titles: [String]
+    
+    init(titles: [String]) {
+        self.titles = titles
     }
 }

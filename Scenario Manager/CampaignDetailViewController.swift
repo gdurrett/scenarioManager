@@ -49,7 +49,7 @@ class CampaignDetailViewController: UIViewController {
         campaignDetailTableView?.register(CampaignDetailDonationsCell.nib, forCellReuseIdentifier: CampaignDetailDonationsCell.identifier)
         campaignDetailTableView?.register(CampaignDetailPartyCell.nib, forCellReuseIdentifier: CampaignDetailPartyCell.identifier)
         campaignDetailTableView?.register(CampaignDetailAchievementsCell.nib, forCellReuseIdentifier: CampaignDetailAchievementsCell.identifier)
-        
+        campaignDetailTableView?.register(CampaignDetailCityEventsCell.nib, forCellReuseIdentifier: CampaignDetailCityEventsCell.identifier)
         styleUI()
     }
 
@@ -75,6 +75,8 @@ extension CampaignDetailViewController: UITableViewDelegate {
         case .campaignTitle:
             break
         case .parties:
+            break
+        case .cityEvents:
             break
         }
     }
