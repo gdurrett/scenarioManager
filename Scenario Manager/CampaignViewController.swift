@@ -88,19 +88,13 @@ class CampaignViewController: UIViewController {
         viewModel.campaigns.bindAndFire { [unowned self] in self.campaigns = $0 }
     }
     fileprivate func styleUI() {
-        self.navigationItem.title = "Campaigns"
+        //self.navigationItem.title = "Campaigns"
         self.campaignTableViewOutlet.estimatedRowHeight = 100
         self.campaignTableViewOutlet.rowHeight = UITableViewAutomaticDimension
         self.navigationController?.navigationBar.tintColor = colorDefinitions.mainTextColor
         self.navigationController?.navigationBar.barTintColor = colorDefinitions.scenarioTableViewNavBarBarTintColor
         self.navigationController?.navigationBar.titleTextAttributes = [.font: UIFont(name: "Nyala", size: 26.0)!, .foregroundColor: colorDefinitions.mainTextColor]
-        //self.navigationController?.navigationBar.titleTextAttributes = setTextAttributes(fontName: "Nyala", fontSize: 26.0, textColor: colorDefinitions.mainTextColor)
     }
-//    fileprivate func setTextAttributes(fontName: String, fontSize: CGFloat, textColor: UIColor) -> [ String : Any ] {
-//        let fontStyle = UIFont(name: fontName, size: fontSize)
-//        let fontColor = textColor
-//        return [ NSAttributedStringKey.font.rawValue : fontStyle! , NSAttributedStringKey.foregroundColor.rawValue : fontColor ]
-//    }
 
     fileprivate func makeCell(for tableView: UITableView) -> UITableViewCell {
         let cellIdentifier = "Campaign"
@@ -129,10 +123,6 @@ class CampaignViewController: UIViewController {
     @objc func triggerSegue() {
         //UIView.setAnimationsEnabled(false)
         performSegue(withIdentifier: "ShowCampaignDetail", sender: viewModel?.selectedCampaign)
-//        let campaignDetailVC = CampaignDetailViewController()
-//        let viewModel = CampaignDetailViewModel(withCampaign: (self.viewModel?.selectedCampaign!)!)
-//        campaignDetailVC.viewModel = viewModel
-//        navigationController?.pushViewController(campaignDetailVC, animated: false)
     }
 }
 
@@ -160,7 +150,6 @@ extension CampaignViewController: UITableViewDataSource, UITableViewDelegate {
 extension CampaignViewController: CreateCampaignViewControllerDelegate {
     // Delegate methods for CreateCampaignViewController
     func createCampaignViewControllerDidCancel(_ controller: CreateCampaignViewController) {
-        print("Did we get back here to cancel?")
         controller.navigationController?.popViewController(animated: true)
     }
     func createCampaignViewControllerDidFinishAdding(_ controller: CreateCampaignViewController) {

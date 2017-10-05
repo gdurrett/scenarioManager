@@ -67,9 +67,9 @@ extension CampaignDetailViewController: UITableViewDelegate {
         switch item.type {
             
         case .prosperity:
-            print("I selected a prosperity row")
+            break
         case .donations:
-            print("I selected a donations row")
+            break
         case .achievements:
             break
         case .campaignTitle:
@@ -81,9 +81,7 @@ extension CampaignDetailViewController: UITableViewDelegate {
         }
     }
     override func viewWillDisappear(_ animated: Bool) {
-        //UIView.setAnimationsEnabled(true)
         
-        //self.navigationController?.popViewController(animated: true)
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)

@@ -16,13 +16,11 @@ class CampaignDetailCityEventsCell: UITableViewCell {
     
     var items: CampaignDetailViewModelCityEventsItem? {
         didSet {
-            print("Got items \(items!.titles)")
             campaignDetailCityEventsCollectionView.backgroundColor = UIColor.clear
         }
     }
     var dataSource: UICollectionViewDataSource? {
         didSet {
-            print("We got our datasource!")
             campaignDetailCityEventsCollectionView.dataSource = self.dataSource
         }
     }

@@ -81,7 +81,6 @@ class DataModel {
         get {
             let filtered = parties.filter { pair in pair.value.isCurrent == true }
             if let myParty = filtered.values.first  {
-                //print("Returning \(myParty[0].value)")
                 return myParty
             } else {
                 if self.parties["Default"] == nil {
@@ -132,7 +131,6 @@ class DataModel {
             for campaign in campaigns {
                 if campaign.value.isCurrent == true {
                     loadCampaign(campaign: campaign.key)
-                    print("Setting campaign to: \(campaign.value.title)")
                     break
                 }
             }
@@ -2038,7 +2036,6 @@ class DataModel {
             if newCampaign.isCurrent == true {
                 loadCampaign(campaign: newCampaign.title)
             }
-            print("Added campaign: \(newCampaign.title)")
         } else {
             print("Campaign \(campaigns[title]!.title) already exists!")
         }
@@ -2078,7 +2075,6 @@ class DataModel {
             }
             for achievement in requestedCampaign.achievements.keys {
                 let newStatus = requestedCampaign.achievements[achievement]
-                //print("Setting \(achievement) to \(newStatus!)")
                 self.globalAchievements[achievement] = newStatus
             }
             updateLocalCampaignIsCurrent(campaign: requestedCampaign.title)
@@ -2113,7 +2109,6 @@ class DataModel {
                 self.delegate?.errorUpdating(error: ckError as CKError, type: myCKErrorType.saveScenarioStatus)
                 print("Error updating campaign isCurrent statuses: \(error!.localizedDescription)")
             } else {
-                //print("Successfully updated campaign isCurrent statuses")
             }
         }
         self.myCloudKitMgr.privateDatabase.add(uploadOperation)
@@ -2140,10 +2135,8 @@ class DataModel {
     }
     func loadParty(party: String) {
         if let requestedParty = parties[party] {
-            //print("Setting party achievements after load for \(requestedParty.name)")
             for achievement in requestedParty.achievements.keys {
                 let newStatus = requestedParty.achievements[achievement]
-                //print("Setting \(achievement) to \(newStatus!)")
                 self.partyAchievements[achievement] = newStatus
             }
             print("Loading up \(party)")
@@ -2298,7 +2291,6 @@ class DataModel {
                     }
                     self.campaigns[campaignName] = newCampaign
                 }
-                print("Returning \(self.campaigns)")
                 completion(self.campaigns)
             }
         }

@@ -68,7 +68,6 @@ class CampaignDetailViewModel: NSObject {
         // Append campaign title to items
         let titleItem = CampaignDetailViewModelCampaignTitleItem(title: campaignTitle.value)
         items.append(titleItem)
-        //print("Appended \(titleItem.title)")
         
         // Append prosperity level to items
         let prosperityItem = CampaignDetailViewModelCampaignProsperityItem(level: getProsperityLevel(count: campaign.prosperityCount), remainingChecksUntilNextLevel: getRemainingChecksUntilNextLevel(level: (getProsperityLevel(count: campaign.prosperityCount)), count: campaign.prosperityCount))
@@ -156,7 +155,6 @@ class CampaignDetailViewModel: NSObject {
         return remaining
     }
     func getSanctuaryDonations(campaign: Campaign) -> Int {
-        print("Returning \(campaign.sanctuaryDonations)")
         return campaign.sanctuaryDonations
     }
     func getCompletedAchievements(campaign: Campaign) -> [SeparatedStrings] {
@@ -309,17 +307,12 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
             if let _ = item as? CampaignDetailViewModelCampaignAchievementsItem, let cell = tableView.dequeueReusableCell(withIdentifier: CampaignDetailAchievementsCell.identifier, for: indexPath) as? CampaignDetailAchievementsCell {
                 cell.backgroundColor = UIColor.clear
                 var achievement = SeparatedStrings(rowString: "")
-                //if self.isActiveCampaign == true {
-                    let tempAch = Array(self.completedGlobalAchievements.value.keys)
-                    var achNames = [SeparatedStrings]()
-                    for ach in tempAch {
-                        achNames.append(SeparatedStrings(rowString: ach))
-                    }
-                    achievement = achNames[indexPath.row]
-//                } else {
-//                    print("Showing inactive")
-//                    achievement = item.achievements[indexPath.row]
-//                }
+                let tempAch = Array(self.completedGlobalAchievements.value.keys)
+                var achNames = [SeparatedStrings]()
+                for ach in tempAch {
+                    achNames.append(SeparatedStrings(rowString: ach))
+                }
+                achievement = achNames[indexPath.row]
                 cell.selectionStyle = .none
                 cell.item = achievement
                 return cell
@@ -327,7 +320,6 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
         case .cityEvents:
             if let item = item as? CampaignDetailViewModelCityEventsItem, let cell = tableView.dequeueReusableCell(withIdentifier: CampaignDetailCityEventsCell.identifier, for: indexPath) as? CampaignDetailCityEventsCell {
                 cell.backgroundColor = UIColor.clear
-                //item.titles = ["05A", "15B"]
                 item.titles = cityEventItems!.titles
                 cell.dataSource = self
                 cell.items = item
@@ -473,12 +465,11 @@ extension CampaignDetailViewModel: UICollectionViewDelegate, UICollectionViewDat
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-	print("Are we executing dataSource function?")
         let item = cityEventItems
         var cellToReturn = UICollectionViewCell()
         switch item!.type {
         case .cityEvents:
-            if let item = item as? CampaignDetailViewModelCityEventsItem, let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CampaignDetailEventCollectionCell.identifier, for: indexPath) as? CampaignDetailEventCollectionCell {
+            if let item = item, let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CampaignDetailEventCollectionCell.identifier, for: indexPath) as? CampaignDetailEventCollectionCell {
                 cell.item = item.titles[indexPath.row]
                 //return cell
                 cellToReturn = cell

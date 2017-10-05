@@ -14,7 +14,6 @@ class CampaignManagerTabBarController: UITabBarController {
         super.viewDidLoad()
         
         let colorDefinitions = ColorDefinitions()
-        //let tabBarTitleTextAttributes = setTextAttributes(fontName: "Nyala", fontSize: 10.0, textColor: colorDefinitions.tabBarTitleTextColor)
         let allTabBarItems = tabBar.items
         
         let dashboardItem = allTabBarItems?[2]
@@ -45,20 +44,5 @@ class CampaignManagerTabBarController: UITabBarController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-//    func setTextAttributes(fontName: String, fontSize: CGFloat, textColor: UIColor) -> [ String : Any ] {
-//        let fontStyle = UIFont(name: fontName, size: fontSize)
-//        let fontColor = textColor
-//        return [ NSFontAttributeName : fontStyle! , NSForegroundColorAttributeName : fontColor ]
-//    }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

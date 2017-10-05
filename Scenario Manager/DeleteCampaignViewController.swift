@@ -33,7 +33,6 @@ class DeleteCampaignViewController: UIViewController {
     }
     
     @IBAction func done(_ sender: Any) {
-        print("Would be removing: \(campaignsToDelete?.minimalDescription)")
         for campaignString in campaignsToDelete! {
             viewModel?.deleteCampaign(campaign: campaignString)
         }

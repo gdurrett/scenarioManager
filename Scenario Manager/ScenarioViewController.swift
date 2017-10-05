@@ -69,7 +69,6 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
         
         scenarioTableView?.dataSource = self
         scenarioTableView?.delegate = self
-        print("Calling updateAvailable")
         viewModel?.updateLoadedCampaign()
         viewModel?.updateAvailableScenarios()
         // Set up UI

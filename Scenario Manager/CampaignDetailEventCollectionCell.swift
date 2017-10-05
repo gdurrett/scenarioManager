@@ -17,7 +17,6 @@ class CampaignDetailEventCollectionCell: UICollectionViewCell {
     
     var item: String? {
         didSet {
-            print("Finally get here?")
             campaignDetailEventCollectionCellLabel.font = fontDefinitions.detailTableViewNonTitleFont
             campaignDetailEventCollectionCellLabel.textColor = colorDefinitions.mainTextColor
             campaignDetailEventCollectionCellLabel.backgroundColor = UIColor.clear
