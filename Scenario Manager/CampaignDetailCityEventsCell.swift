@@ -39,7 +39,7 @@ class CampaignDetailCityEventsCell: UITableViewCell {
 
         // Register collection view events cell
         campaignDetailCityEventsCollectionView.register(CampaignDetailEventCollectionCell.nib, forCellWithReuseIdentifier: CampaignDetailEventCollectionCell.identifier)
-        
+
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

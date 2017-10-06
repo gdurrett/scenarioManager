@@ -16,20 +16,22 @@ class Campaign: NSObject, NSCoding {
     var achievements: [String:Bool]
     var prosperityCount: Int
     var sanctuaryDonations: Int
-    var events: [String]?
+    var cityEvents: [String]?
+    var roadEvents: [String]?
     var isUnlocked: [Bool]
     var requirementsMet: [Bool]
     var isCompleted: [Bool]
     var isCurrent: Bool
     private var level = 1
     
-    init(title: String, parties: [Party], achievements: [String:Bool], prosperityCount: Int, sanctuaryDonations: Int, events: [String], isUnlocked: [Bool], requirementsMet: [Bool], isCompleted: [Bool], isCurrent: Bool) {
+    init(title: String, parties: [Party], achievements: [String:Bool], prosperityCount: Int, sanctuaryDonations: Int, cityEvents: [String], roadEvents: [String], isUnlocked: [Bool], requirementsMet: [Bool], isCompleted: [Bool], isCurrent: Bool) {
         self.title = title
         self.parties = parties
         self.achievements = achievements
         self.prosperityCount = prosperityCount
         self.sanctuaryDonations = sanctuaryDonations
-        self.events = events
+        self.cityEvents = cityEvents
+        self.roadEvents = roadEvents
         self.isUnlocked = isUnlocked
         self.requirementsMet = requirementsMet
         self.isCompleted = isCompleted
@@ -42,7 +44,8 @@ class Campaign: NSObject, NSCoding {
         achievements = aDecoder.decodeObject(forKey: "CampaignAchievements") as! [String:Bool]
         prosperityCount = aDecoder.decodeInteger(forKey: "ProsperityCount")
         sanctuaryDonations = aDecoder.decodeInteger(forKey: "SanctuaryDonations")
-        events = aDecoder.decodeObject(forKey: "Events") as? [String]
+        cityEvents = aDecoder.decodeObject(forKey: "CityEvents") as? [String]
+        roadEvents = aDecoder.decodeObject(forKey: "RoadEvents") as? [String]
         isUnlocked = aDecoder.decodeObject(forKey: "IsUnlocked") as! [Bool]
         requirementsMet = aDecoder.decodeObject(forKey: "RequirementsMet") as! [Bool]
         isCompleted = aDecoder.decodeObject(forKey: "IsCompleted") as! [Bool]
@@ -56,7 +59,8 @@ class Campaign: NSObject, NSCoding {
         aCoder.encode(achievements, forKey: "CampaignAchievements")
         aCoder.encode(prosperityCount, forKey: "ProsperityCount")
         aCoder.encode(sanctuaryDonations, forKey: "SanctuaryDonations")
-        aCoder.encode(events, forKey: "Events")
+        aCoder.encode(cityEvents, forKey: "CityEvents")
+        aCoder.encode(roadEvents, forKey: "RoadEvents")
         aCoder.encode(isUnlocked, forKey: "IsUnlocked")
         aCoder.encode(requirementsMet, forKey: "RequirementsMet")
         aCoder.encode(isCompleted, forKey: "IsCompleted")

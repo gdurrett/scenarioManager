@@ -12,6 +12,8 @@ class CampaignDetailEventCollectionCell: UICollectionViewCell {
     
     @IBOutlet weak var campaignDetailEventCollectionCellLabel: UILabel!
     
+    @IBOutlet weak var campaignDetailEventCollectionCellTextField: UITextField!
+    
     let colorDefinitions = ColorDefinitions()
     let fontDefinitions = FontDefinitions()
     
@@ -35,5 +37,6 @@ class CampaignDetailEventCollectionCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        //self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(UIView.endEditing(_:))))
     }
 }

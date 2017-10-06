@@ -2013,7 +2013,7 @@ class DataModel {
     // Campaign functions
     func createCampaign(title: String, isCurrent: Bool, parties: [Party]) {
         if (campaigns[title] == nil) {
-            let newCampaign = Campaign(title: title, parties: parties, achievements:[:], prosperityCount: 0, sanctuaryDonations: 0, events: [], isUnlocked: [], requirementsMet: [], isCompleted: [], isCurrent: isCurrent)
+            let newCampaign = Campaign(title: title, parties: parties, achievements:[:], prosperityCount: 0, sanctuaryDonations: 0, cityEvents: ["None"], roadEvents: ["None"],  isUnlocked: [], requirementsMet: [], isCompleted: [], isCurrent: isCurrent)
             for scenario in allScenarios {
                 if scenario.number == "1" {
                     newCampaign.isUnlocked.append(true)

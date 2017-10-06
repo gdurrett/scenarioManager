@@ -56,8 +56,9 @@ class CampaignDetailViewModel: NSObject {
     var currentProsperityCell = UITableViewCell()
     var currentDonationsCell = UITableViewCell()
     var currentCityEventsCollectionView: UICollectionView?
-    
+    var currentCityEventsCollectionCell: UICollectionViewCell?
     var isCityEventButtonClicked = false
+    var textFieldReturningCellType: CampaignDetailViewModelItemType?
     
     weak var delegate: CampaignDetailViewModelDelegate?
     
@@ -219,6 +220,14 @@ class CampaignDetailViewModel: NSObject {
             dataModel.saveCampaignsLocally()
         }
     }
+    // Method for adding a new city event
+    func addNewCityEvent(name: String) {
+        // Check for existing event before adding!
+        // Probably need to make this dynamic
+        dataModel.currentCampaign.cityEvents?.insert(name, at: 0)
+        //dataModel.saveCampaignsLocally()
+        //delegate?.refreshCityEvents()
+    }
     // Method for changing active campaign
     func setCampaignActive(campaign: String) {
         dataModel.loadCampaign(campaign: campaign)
@@ -332,6 +341,10 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
                 cell.backgroundColor = UIColor.clear
                 item.titles = cityEventItems!.titles
                 cell.setCollectionViewDataSourceDelegate(self, forRow: indexPath.row)
+                // Make unselectable until we hit edit button
+//                if isCityEventButtonClicked != true {
+//                    currentCityEventsCollectionView!.isUserInteractionEnabled = false
+//                }
                 cell.collectionViewOffset = storedOffsets[indexPath.row] ?? 0
                 cell.items = item
                 return cell
@@ -364,15 +377,31 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
     // Delegate methods for textField in cell
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
-        let myCell = self.currentTitleCell as! CampaignDetailTitleCell
-        let myLabel = myCell.campaignDetailTitleLabel
-        let oldTitle = myLabel!.text!
-        if textField.text != "" {
-            myLabel?.text = textField.text
-            textField.isHidden = true
-            self.renameCampaignTitle(oldTitle: oldTitle, newTitle: textField.text!)
+        switch self.textFieldReturningCellType! {
+        case .campaignTitle:
+            let myCell = self.currentTitleCell as! CampaignDetailTitleCell
+            let myLabel = myCell.campaignDetailTitleLabel
+            let oldTitle = myLabel!.text!
+            if textField.text != "" {
+                myLabel?.text = textField.text
+                textField.isHidden = true
+                self.renameCampaignTitle(oldTitle: oldTitle, newTitle: textField.text!)
+            }
+            myLabel?.isHidden = false
+        case .cityEvents:
+            let myCell = self.currentCityEventsCollectionCell as! CampaignDetailEventCollectionCell
+            let myLabel = myCell.campaignDetailEventCollectionCellLabel
+            //let oldTitle = myLabel?.text!
+            if textField.text != "" {
+                myLabel?.text = textField.text
+                textField.isHidden = true
+                // Provisional
+                myLabel?.isHidden = false
+                self.addNewCityEvent(name: myLabel!.text!)
+            }
+        default:
+            break
         }
-        myLabel?.isHidden = false
         return true
     }
     // Helper Methods
@@ -439,14 +468,15 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
         myTextField.selectedTextRange = myCell.campaignDetailTitleTextField.textRange(from: myCell.campaignDetailTitleTextField.beginningOfDocument, to: myCell.campaignDetailTitleTextField.endOfDocument)
         myCell.campaignDetailTitleLabel.isHidden = true
         myTextField.isHidden = false
+        self.textFieldReturningCellType = .campaignTitle
     }
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        let myCell = self.currentTitleCell as! CampaignDetailTitleCell
-        let myTextField = myCell.campaignDetailTitleTextField!
-        myTextField.delegate = self
-        myTextField.isHidden = true
-        myCell.campaignDetailTitleLabel.isHidden = false
-    }
+//    func textFieldDidEndEditing(_ textField: UITextField) {
+//        let myCell = self.currentTitleCell as! CampaignDetailTitleCell
+//        let myTextField = myCell.campaignDetailTitleTextField!
+//        myTextField.delegate = self
+//        myTextField.isHidden = true
+//        myCell.campaignDetailTitleLabel.isHidden = false
+//    }
     @objc func showUIStepperInCampaignProsperityCell(_ button: UIButton) {
         button.setImage(UIImage(named: "icons8-Edit-40_selected"), for: .normal)
         let myCell = self.currentProsperityCell as! CampaignDetailProsperityCell
@@ -483,9 +513,10 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
         button.setImage(UIImage(named: "icons8-Edit-40"), for: .normal)
     }
     @objc func editCityEvents(_ button: UIButton) {
-        print("clicked me")
         isCityEventButtonClicked = true
         button.setImage(UIImage(named: "icons8-Edit-40_selected"), for: .normal)
+        // Make cells selectable
+        self.currentCityEventsCollectionView!.isUserInteractionEnabled = true
         self.cityEventItems!.titles.insert("Add", at: 0)
         delegate!.refreshCityEvents()
     }
@@ -503,6 +534,8 @@ extension CampaignDetailViewModel: UICollectionViewDelegate, UICollectionViewDat
         case .cityEvents:
             if let item = item, let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CampaignDetailEventCollectionCell.identifier, for: indexPath) as? CampaignDetailEventCollectionCell {
                 cell.item = item.titles[indexPath.row]
+                //Hide textField until selected
+                cell.campaignDetailEventCollectionCellTextField.isHidden = true
                 cellToReturn = cell
             }
         default:
@@ -511,8 +544,24 @@ extension CampaignDetailViewModel: UICollectionViewDelegate, UICollectionViewDat
         return cellToReturn
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let item = cityEventItems!.titles[indexPath.row]
-        print("Selected City Event: \(item)")
+        //let item = cityEventItems!.titles[indexPath.row]
+        let myEventCell = currentCityEventsCollectionView?.cellForItem(at: indexPath) as! CampaignDetailEventCollectionCell
+        self.currentCityEventsCollectionCell = myEventCell
+        // Only call if we're on add cell
+        if myEventCell.campaignDetailEventCollectionCellLabel.text == "Add" {
+            let myEventTextField = myEventCell.campaignDetailEventCollectionCellTextField
+            let myEventLabel = myEventCell.campaignDetailEventCollectionCellLabel
+            myEventTextField!.delegate = self
+            let oldEventText = myEventLabel!.text
+            myEventTextField!.text = oldEventText
+            myEventTextField!.font = fontDefinitions.detailTableViewNonTitleFont
+            myEventTextField!.becomeFirstResponder()
+            myEventTextField!.selectedTextRange = myEventTextField!.textRange(from: myEventTextField!.beginningOfDocument, to: myEventTextField!.endOfDocument)
+            myEventLabel!.isHidden = true
+            myEventTextField!.isHidden = false
+            // Need to tell shouldReturn which kind of cell was being edited
+            textFieldReturningCellType = .cityEvents
+        }
     }
 }
 extension CampaignDetailViewModel: SelectCampaignViewControllerDelegate, CampaignDetailViewControllerDelegate {
@@ -536,7 +585,6 @@ extension CampaignDetailViewModel: SelectCampaignViewControllerDelegate, Campaig
         }
     }
 }
-
 class CampaignDetailViewModelCampaignTitleItem: CampaignDetailViewModelItem {
     
     var type: CampaignDetailViewModelItemType {

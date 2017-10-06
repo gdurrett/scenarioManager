@@ -20,18 +20,26 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DPI-pQ-OsN">
-                        <rect key="frame" x="4" y="15" width="42" height="21"/>
+                        <rect key="frame" x="0.0" y="10" width="50" height="30"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="eX8-jn-q5e">
+                        <rect key="frame" x="0.0" y="10" width="50" height="30"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <nil key="textColor"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <textInputTraits key="textInputTraits"/>
+                    </textField>
                 </subviews>
             </view>
             <viewLayoutGuide key="safeArea" id="JpP-6e-NjL"/>
             <size key="customSize" width="50" height="50"/>
             <connections>
                 <outlet property="campaignDetailEventCollectionCellLabel" destination="DPI-pQ-OsN" id="HQp-z3-f3X"/>
+                <outlet property="campaignDetailEventCollectionCellTextField" destination="eX8-jn-q5e" id="2cs-XY-6yd"/>
             </connections>
             <point key="canvasLocation" x="-141" y="-77"/>
         </collectionViewCell>

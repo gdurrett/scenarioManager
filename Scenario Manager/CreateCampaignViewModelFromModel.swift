@@ -35,7 +35,7 @@ enum SectionTypes: Int, CaseCountable {
 class CreateCampaignViewModelFromModel: NSObject {
     
     let dataModel: DataModel
-    var newCampaign = Campaign(title: "", parties: [], achievements: [:], prosperityCount: 0, sanctuaryDonations: 0, events: [], isUnlocked: [], requirementsMet: [], isCompleted: [], isCurrent: true)
+    var newCampaign = Campaign(title: "", parties: [], achievements: [:], prosperityCount: 0, sanctuaryDonations: 0, cityEvents: ["None"], roadEvents: ["None"], isUnlocked: [], requirementsMet: [], isCompleted: [], isCurrent: true)
     var parties = [String:Party]()
     let numberOfSections = SectionTypes.caseCount
     let sections = [SectionTypes.Title, SectionTypes.Parties]
