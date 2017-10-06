@@ -21,7 +21,7 @@ class CampaignDetailCityEventsCell: UITableViewCell {
     }
     var dataSource: UICollectionViewDataSource? {
         didSet {
-            campaignDetailCityEventsCollectionView.dataSource = self.dataSource
+            //campaignDetailCityEventsCollectionView.dataSource = self.dataSource
         }
     }
     
@@ -39,7 +39,7 @@ class CampaignDetailCityEventsCell: UITableViewCell {
 
         // Register collection view events cell
         campaignDetailCityEventsCollectionView.register(CampaignDetailEventCollectionCell.nib, forCellWithReuseIdentifier: CampaignDetailEventCollectionCell.identifier)
-        //campaignDetailCityEventsCollectionView.register(CampaignDetailCityEventsCell.self, forCellWithReuseIdentifier: CampaignDetailCityEventsCell.identifier)
+        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -47,5 +47,19 @@ class CampaignDetailCityEventsCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-
+}
+extension CampaignDetailCityEventsCell {
+    
+    func setCollectionViewDataSourceDelegate<D: UICollectionViewDataSource & UICollectionViewDelegate>(_ dataSourceDelegate: D, forRow row: Int) {
+        campaignDetailCityEventsCollectionView.delegate = dataSourceDelegate
+        campaignDetailCityEventsCollectionView.dataSource = dataSourceDelegate
+        //campaignDetailCityEventsCollectionView.tag = row
+        campaignDetailCityEventsCollectionView.setContentOffset(campaignDetailCityEventsCollectionView.contentOffset, animated:false) // Stops collection view if it was scrolling.
+        //campaignDetailCityEventsCollectionView.reloadData()
+    }
+    
+    var collectionViewOffset: CGFloat {
+        set { campaignDetailCityEventsCollectionView.contentOffset.x = newValue }
+        get { return campaignDetailCityEventsCollectionView.contentOffset.x }
+    }
 }

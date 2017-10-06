@@ -12,7 +12,7 @@ protocol CampaignDetailViewControllerDelegate: class {
     func campaignDetailVCDidTapDelete(_ controller: CampaignDetailViewController)
 }
 
-class CampaignDetailViewController: UIViewController {
+class CampaignDetailViewController: UIViewController, CampaignDetailViewModelDelegate {
 
     @IBOutlet weak var campaignDetailTableView: UITableView!
 
@@ -38,7 +38,9 @@ class CampaignDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.addGestureRecognizer(UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:))))
+        //self.view.addGestureRecognizer(UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:))))
+        
+        viewModel.delegate = self
         
         campaignDetailTableView?.dataSource = viewModel
         campaignDetailTableView?.delegate = viewModel
@@ -138,6 +140,11 @@ extension CampaignDetailViewController: UITableViewDelegate {
     func refreshParties() {
         DispatchQueue.main.async {
             self.campaignDetailTableView.reloadSections([3], with: .none)
+        }
+    }
+    func refreshCityEvents() {
+        DispatchQueue.main.async {
+            self.campaignDetailTableView.reloadSections([5], with: .none)
         }
     }
     fileprivate func showConfirmDeletionAlert () {

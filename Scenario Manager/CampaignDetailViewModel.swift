@@ -6,6 +6,10 @@
 //  Copyright © 2017 AppHazard Productions. All rights reserved.
 //
 
+// Test
+protocol CampaignDetailViewModelDelegate: class {
+    func refreshCityEvents()
+}
 import Foundation
 import UIKit
 
@@ -47,11 +51,16 @@ class CampaignDetailViewModel: NSObject {
     // Convert to dynamic later
     var cityEventItems: CampaignDetailViewModelCityEventsItem?
     var headersToUpdate = [Int:UITableViewHeaderFooterView]()
-
+    var storedOffsets = [Int: CGFloat]()
     var currentTitleCell = UITableViewCell()
     var currentProsperityCell = UITableViewCell()
     var currentDonationsCell = UITableViewCell()
-
+    var currentCityEventsCollectionView: UICollectionView?
+    
+    var isCityEventButtonClicked = false
+    
+    weak var delegate: CampaignDetailViewModelDelegate?
+    
     init(withCampaign campaign: Campaign) {
         self.completedGlobalAchievements = Dynamic(dataModel.completedGlobalAchievements)
         self.campaignTitle = Dynamic(dataModel.currentCampaign.title)
@@ -319,9 +328,11 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
             }
         case .cityEvents:
             if let item = item as? CampaignDetailViewModelCityEventsItem, let cell = tableView.dequeueReusableCell(withIdentifier: CampaignDetailCityEventsCell.identifier, for: indexPath) as? CampaignDetailCityEventsCell {
+                currentCityEventsCollectionView = cell.campaignDetailCityEventsCollectionView
                 cell.backgroundColor = UIColor.clear
                 item.titles = cityEventItems!.titles
-                cell.dataSource = self
+                cell.setCollectionViewDataSourceDelegate(self, forRow: indexPath.row)
+                cell.collectionViewOffset = storedOffsets[indexPath.row] ?? 0
                 cell.items = item
                 return cell
             }
@@ -344,6 +355,12 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
         // Test custom edit button in header view (if active campaign)
         createSectionButton(forSection: section, inHeader: header!)
     }
+    func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        
+        guard let tableViewCell = cell as? CampaignDetailCityEventsCell else { return }
+        storedOffsets[indexPath.row] = tableViewCell.collectionViewOffset
+    }
+
     // Delegate methods for textField in cell
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
@@ -373,31 +390,41 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
         
         //if myCell.isActive == true {
             let button = UIButton(frame: CGRect(x: 330, y: 14, width: 25, height: 25))  // create button
-            button.setImage(UIImage(named: "icons8-Edit-40"), for: .normal)
+        
+            //button.setImage(UIImage(named: "icons8-Edit-40"), for: .normal)
             
             let itemType = self.items[section].type
             
             switch itemType {
                 
             case .prosperity:
+                button.setImage(UIImage(named: "icons8-Edit-40"), for: .normal)
                 button.isEnabled = true
                 button.addTarget(self, action: #selector(self.showUIStepperInCampaignProsperityCell(_:)), for: .touchUpInside)
                 header.addSubview(button)
             case .donations:
+                button.setImage(UIImage(named: "icons8-Edit-40"), for: .normal)
                 button.isEnabled = true
                 button.addTarget(self, action: #selector(self.showUIStepperInCampaignDonationsCell(_:)), for: .touchUpInside)
                 header.addSubview(button)
             case .achievements:
                 break
             case .campaignTitle:
+                button.setImage(UIImage(named: "icons8-Edit-40"), for: .normal)
                 button.isEnabled = true
                 button.addTarget(self, action: #selector(self.enableTitleTextField(_:)), for: .touchUpInside)
                 header.addSubview(button)
             case .parties:
                 button.isEnabled = false
             case .cityEvents:
+                if isCityEventButtonClicked == true {
+                    button.setImage(UIImage(named: "icons8-Edit-40_selected"), for: .normal)
+                } else {
+                    button.setImage(UIImage(named: "icons8-Edit-40"), for: .normal)
+                }
                 button.isEnabled = true
-                //
+                button.addTarget(self, action: #selector(self.editCityEvents(_:)), for: .touchUpInside)
+                header.addSubview(button)
             }
         //}
     }
@@ -455,12 +482,17 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
         button.addTarget(self, action: #selector(self.showUIStepperInCampaignDonationsCell(_:)), for: .touchUpInside)
         button.setImage(UIImage(named: "icons8-Edit-40"), for: .normal)
     }
-    @objc func showAvailableParties(_ button: UIButton) {
-        
+    @objc func editCityEvents(_ button: UIButton) {
+        print("clicked me")
+        isCityEventButtonClicked = true
+        button.setImage(UIImage(named: "icons8-Edit-40_selected"), for: .normal)
+        self.cityEventItems!.titles.insert("Add", at: 0)
+        delegate!.refreshCityEvents()
     }
 }
 extension CampaignDetailViewModel: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        print("Numitems: \(cityEventItems!.titles.count)")
         return cityEventItems!.titles.count
     }
     
@@ -471,13 +503,16 @@ extension CampaignDetailViewModel: UICollectionViewDelegate, UICollectionViewDat
         case .cityEvents:
             if let item = item, let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CampaignDetailEventCollectionCell.identifier, for: indexPath) as? CampaignDetailEventCollectionCell {
                 cell.item = item.titles[indexPath.row]
-                //return cell
                 cellToReturn = cell
             }
         default:
             break
         }
         return cellToReturn
+    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let item = cityEventItems!.titles[indexPath.row]
+        print("Selected City Event: \(item)")
     }
 }
 extension CampaignDetailViewModel: SelectCampaignViewControllerDelegate, CampaignDetailViewControllerDelegate {

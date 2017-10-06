@@ -21,12 +21,6 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ybW-RR-mx4">
-                    <rect key="frame" x="329" y="26" width="30" height="30"/>
-                    <connections>
-                        <action selector="setCampaignActiveAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="TkB-8g-OIH"/>
-                    </connections>
-                </button>
                 <textField opaque="NO" clipsSubviews="YES" tag="2600" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iU1-4j-9bb">
                     <rect key="frame" x="16" y="25" width="115" height="30"/>
                     <nil key="textColor"/>
@@ -37,21 +31,17 @@
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <accessibility key="accessibilityConfiguration" identifier="CampaignDetailTitleCell"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="ybW-RR-mx4" secondAttribute="trailing" constant="16" id="1Xa-oV-tDe"/>
                 <constraint firstAttribute="bottom" secondItem="JaD-ku-IsQ" secondAttribute="bottom" constant="25" id="6AP-4f-LgC"/>
                 <constraint firstItem="JaD-ku-IsQ" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="AqM-Pq-b1F"/>
                 <constraint firstItem="iU1-4j-9bb" firstAttribute="trailing" secondItem="JaD-ku-IsQ" secondAttribute="trailing" id="Bh4-Ej-CGY"/>
-                <constraint firstItem="ybW-RR-mx4" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="26" id="Cna-Xt-vNz"/>
                 <constraint firstItem="iU1-4j-9bb" firstAttribute="leading" secondItem="JaD-ku-IsQ" secondAttribute="leading" id="Eh5-vW-Gjl"/>
                 <constraint firstItem="iU1-4j-9bb" firstAttribute="top" secondItem="JaD-ku-IsQ" secondAttribute="top" id="Qi8-qS-4Gj"/>
                 <constraint firstItem="JaD-ku-IsQ" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="25" id="QmF-UK-pNo"/>
-                <constraint firstAttribute="bottom" secondItem="ybW-RR-mx4" secondAttribute="bottom" constant="25" id="o40-AO-Giz"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="campaignDetailTitleLabel" destination="JaD-ku-IsQ" id="hW7-Ef-jfU"/>
                 <outlet property="campaignDetailTitleTextField" destination="iU1-4j-9bb" id="79l-Tj-ZiI"/>
-                <outlet property="setCampaignActiveButtonOutlet" destination="ybW-RR-mx4" id="spw-ga-1cL"/>
             </connections>
             <point key="canvasLocation" x="33.5" y="-238.5"/>
         </view>
