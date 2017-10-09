@@ -8,6 +8,7 @@
 
 // Test
 protocol CampaignDetailViewModelDelegate: class {
+    //func updateCityEvents()
     func refreshCityEvents()
 }
 import Foundation
@@ -19,7 +20,7 @@ enum CampaignDetailViewModelItemType {
     case achievements
     case prosperity
     case donations
-    case cityEvents
+    case events
 }
 
 protocol CampaignDetailViewModelItem {
@@ -48,8 +49,9 @@ class CampaignDetailViewModel: NSObject {
     var checksToNextLevel: Dynamic<Int>
     var donations: Dynamic<Int>
     var parties: Dynamic<[String]>
+    var events: Dynamic<[Event]>
     // Convert to dynamic later
-    var cityEventItems: CampaignDetailViewModelCityEventsItem?
+    var eventItems: CampaignDetailViewModelEventsItem?
     var headersToUpdate = [Int:UITableViewHeaderFooterView]()
     var storedOffsets = [Int: CGFloat]()
     var currentTitleCell = UITableViewCell()
@@ -69,6 +71,7 @@ class CampaignDetailViewModel: NSObject {
         self.checksToNextLevel = Dynamic(0)
         self.donations = Dynamic(dataModel.currentCampaign.sanctuaryDonations)
         self.parties = Dynamic(dataModel.currentParties)
+        self.events = Dynamic(dataModel.currentCampaign.events)
         super.init()
         self.prosperityLevel = Dynamic(getProsperityLevel(count: dataModel.currentCampaign.prosperityCount))
         self.checksToNextLevel = Dynamic(getRemainingChecksUntilNextLevel(level: (getProsperityLevel(count: dataModel.currentCampaign.prosperityCount)), count: dataModel.currentCampaign.prosperityCount))
@@ -109,7 +112,9 @@ class CampaignDetailViewModel: NSObject {
         items.append(achievementsItem)
         
         // Append completed city events to items
-        cityEventItems = CampaignDetailViewModelCityEventsItem(titles: ["07A", "06B", "03A", "01A", "29A", "13B", "11B", "78A", "16B", "70B", "19A", "21B", "22A", "12B", "28A", "24A", "17B", "27A", "02A", "14B", "05A", "15A", "09B", "33B", "75B"])
+        //cityEventItems = CampaignDetailViewModelCityEventsItem(titles: ["07A", "06B", "03A", "01A", "29A", "13B", "11B", "78A", "16B", "70B", "19A", "21B", "22A", "12B", "28A", "24A", "17B", "27A", "02A", "14B", "05A", "15A", "09B", "33B", "75B"])
+        print("City Events now has: \(self.events.value)")
+        eventItems = CampaignDetailViewModelEventsItem(titles: self.events.value)
         items.append(cityEventItems!)
     }
     // Helper methods
@@ -195,6 +200,11 @@ class CampaignDetailViewModel: NSObject {
     func updateParties() {
         self.parties.value = dataModel.currentParties
     }
+    func updateCityEvents() {
+        self.events.value = dataModel.currentCampaign.events
+        print("in Update, events is: \(self.events.value)")
+        print("in update, datamodel has: \(dataModel.currentCampaign.events)")
+    }
     // Method for CampaignProsperity cell
     func updateProsperityCount(value: Int) -> (Int, Int) {
         let count = dataModel.currentCampaign.prosperityCount
@@ -220,27 +230,11 @@ class CampaignDetailViewModel: NSObject {
             dataModel.saveCampaignsLocally()
         }
     }
-    // Method for adding a new city event
-    func addNewCityEvent(name: String) {
-        // Check for existing event before adding!
-        // Probably need to make this dynamic
-        dataModel.currentCampaign.cityEvents?.insert(name, at: 0)
-        //dataModel.saveCampaignsLocally()
-        //delegate?.refreshCityEvents()
-    }
+
     // Method for changing active campaign
     func setCampaignActive(campaign: String) {
         dataModel.loadCampaign(campaign: campaign)
         dataModel.saveCampaignsLocally()
-//        if let cell = self.currentProsperityCell as? CampaignDetailProsperityCell {
-//            cell.isActive = true
-//        }
-//        if let cell = self.currentDonationsCell as? CampaignDetailDonationsCell {
-//            cell.isActive = true
-//        }
-//        if let cell = self.currentTitleCell as? CampaignDetailTitleCell {
-//            cell.isActive = true
-//        }
         for (section, header) in headersToUpdate {
             createSectionButton(forSection: section, inHeader: header)
         }
@@ -335,16 +329,10 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
                 cell.item = achievement
                 return cell
             }
-        case .cityEvents:
+        case .events:
             if let item = item as? CampaignDetailViewModelCityEventsItem, let cell = tableView.dequeueReusableCell(withIdentifier: CampaignDetailCityEventsCell.identifier, for: indexPath) as? CampaignDetailCityEventsCell {
-                currentCityEventsCollectionView = cell.campaignDetailCityEventsCollectionView
                 cell.backgroundColor = UIColor.clear
                 item.titles = cityEventItems!.titles
-                cell.setCollectionViewDataSourceDelegate(self, forRow: indexPath.row)
-                // Make unselectable until we hit edit button
-//                if isCityEventButtonClicked != true {
-//                    currentCityEventsCollectionView!.isUserInteractionEnabled = false
-//                }
                 cell.collectionViewOffset = storedOffsets[indexPath.row] ?? 0
                 cell.items = item
                 return cell
@@ -388,7 +376,7 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
                 self.renameCampaignTitle(oldTitle: oldTitle, newTitle: textField.text!)
             }
             myLabel?.isHidden = false
-        case .cityEvents:
+        case .events:
             let myCell = self.currentCityEventsCollectionCell as! CampaignDetailEventCollectionCell
             let myLabel = myCell.campaignDetailEventCollectionCellLabel
             //let oldTitle = myLabel?.text!
@@ -398,6 +386,8 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
                 // Provisional
                 myLabel?.isHidden = false
                 self.addNewCityEvent(name: myLabel!.text!)
+                self.updateCityEvents()
+                //delegate?.refreshCityEvents()
             }
         default:
             break
@@ -415,13 +405,8 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
     }
     func createSectionButton(forSection section: Int, inHeader header: UITableViewHeaderFooterView) {
         
-        //let myCell = self.currentTitleCell as! CampaignDetailTitleCell
-        
-        //if myCell.isActive == true {
             let button = UIButton(frame: CGRect(x: 330, y: 14, width: 25, height: 25))  // create button
         
-            //button.setImage(UIImage(named: "icons8-Edit-40"), for: .normal)
-            
             let itemType = self.items[section].type
             
             switch itemType {
@@ -445,14 +430,15 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
                 header.addSubview(button)
             case .parties:
                 button.isEnabled = false
-            case .cityEvents:
+            case .events:
                 if isCityEventButtonClicked == true {
                     button.setImage(UIImage(named: "icons8-Edit-40_selected"), for: .normal)
+                    button.addTarget(self, action: #selector(self.doneEditingCityEvents(_:)), for: .touchUpInside)
                 } else {
                     button.setImage(UIImage(named: "icons8-Edit-40"), for: .normal)
+                    button.addTarget(self, action: #selector(self.editCityEvents(_:)), for: .touchUpInside)
                 }
                 button.isEnabled = true
-                button.addTarget(self, action: #selector(self.editCityEvents(_:)), for: .touchUpInside)
                 header.addSubview(button)
             }
         //}
@@ -487,6 +473,7 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
         button.addTarget(self, action: #selector(self.hideUIStepperInCampaignProsperityCell(_:)), for: .touchUpInside)
     }
     @objc func showUIStepperInCampaignDonationsCell(_ button: UIButton) {
+        print("editing donations cell")
         button.setImage(UIImage(named: "icons8-Edit-40_selected"), for: .normal)
         let myCell = self.currentDonationsCell as! CampaignDetailDonationsCell
         myCell.myStepperOutlet.isHidden = false
@@ -504,6 +491,7 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
         button.setImage(UIImage(named: "icons8-Edit-40"), for: .normal)
     }
     @objc func hideUIStepperInCampaignDonationsCell(_ button: UIButton) {
+        print("done editing donations cell")
         let myCell = self.currentDonationsCell as! CampaignDetailDonationsCell
         myCell.myStepperOutlet.isHidden = true
         myCell.myStepperOutlet.isEnabled = false
@@ -515,55 +503,16 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
     @objc func editCityEvents(_ button: UIButton) {
         isCityEventButtonClicked = true
         button.setImage(UIImage(named: "icons8-Edit-40_selected"), for: .normal)
-        // Make cells selectable
-        self.currentCityEventsCollectionView!.isUserInteractionEnabled = true
-        self.cityEventItems!.titles.insert("Add", at: 0)
-        delegate!.refreshCityEvents()
+        button.removeTarget(self, action: #selector(self.editCityEvents(_:)), for: .touchUpInside)
+        button.addTarget(self, action: #selector(self.doneEditingCityEvents(_:)), for: .touchUpInside)
+    }
+    @objc func doneEditingCityEvents(_ button: UIButton) {
+        button.setImage(UIImage(named: "icons8-Edit-40"), for: .normal)
+        button.removeTarget(self, action: #selector(self.doneEditingCityEvents(_:)), for: .touchUpInside)
+        button.addTarget(self, action: #selector(self.editCityEvents(_:)), for: .touchUpInside)
     }
 }
-extension CampaignDetailViewModel: UICollectionViewDelegate, UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print("Numitems: \(cityEventItems!.titles.count)")
-        return cityEventItems!.titles.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let item = cityEventItems
-        var cellToReturn = UICollectionViewCell()
-        switch item!.type {
-        case .cityEvents:
-            if let item = item, let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CampaignDetailEventCollectionCell.identifier, for: indexPath) as? CampaignDetailEventCollectionCell {
-                cell.item = item.titles[indexPath.row]
-                //Hide textField until selected
-                cell.campaignDetailEventCollectionCellTextField.isHidden = true
-                cellToReturn = cell
-            }
-        default:
-            break
-        }
-        return cellToReturn
-    }
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        //let item = cityEventItems!.titles[indexPath.row]
-        let myEventCell = currentCityEventsCollectionView?.cellForItem(at: indexPath) as! CampaignDetailEventCollectionCell
-        self.currentCityEventsCollectionCell = myEventCell
-        // Only call if we're on add cell
-        if myEventCell.campaignDetailEventCollectionCellLabel.text == "Add" {
-            let myEventTextField = myEventCell.campaignDetailEventCollectionCellTextField
-            let myEventLabel = myEventCell.campaignDetailEventCollectionCellLabel
-            myEventTextField!.delegate = self
-            let oldEventText = myEventLabel!.text
-            myEventTextField!.text = oldEventText
-            myEventTextField!.font = fontDefinitions.detailTableViewNonTitleFont
-            myEventTextField!.becomeFirstResponder()
-            myEventTextField!.selectedTextRange = myEventTextField!.textRange(from: myEventTextField!.beginningOfDocument, to: myEventTextField!.endOfDocument)
-            myEventLabel!.isHidden = true
-            myEventTextField!.isHidden = false
-            // Need to tell shouldReturn which kind of cell was being edited
-            textFieldReturningCellType = .cityEvents
-        }
-    }
-}
+
 extension CampaignDetailViewModel: SelectCampaignViewControllerDelegate, CampaignDetailViewControllerDelegate {
     func selectCampaignViewControllerDidCancel(_ controller: SelectCampaignViewController) {
         controller.dismiss(animated: true, completion: nil)
@@ -687,14 +636,14 @@ class CampaignDetailViewModelCampaignDonationsItem: CampaignDetailViewModelItem 
         self.amount = amount
     }
 }
-class CampaignDetailViewModelCityEventsItem: CampaignDetailViewModelItem {
+class CampaignDetailViewModelEventsItem: CampaignDetailViewModelItem {
     
     var type: CampaignDetailViewModelItemType {
-        return .cityEvents
+        return .events
     }
     
     var sectionTitle: String {
-        return "City Events"
+        return "Events"
     }
     
     var rowCount: Int {

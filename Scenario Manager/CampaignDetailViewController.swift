@@ -38,7 +38,11 @@ class CampaignDetailViewController: UIViewController, CampaignDetailViewModelDel
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //self.view.addGestureRecognizer(UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:))))
+        // Test
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+
         
         viewModel.delegate = self
         
@@ -52,12 +56,31 @@ class CampaignDetailViewController: UIViewController, CampaignDetailViewModelDel
         campaignDetailTableView?.register(CampaignDetailPartyCell.nib, forCellReuseIdentifier: CampaignDetailPartyCell.identifier)
         campaignDetailTableView?.register(CampaignDetailAchievementsCell.nib, forCellReuseIdentifier: CampaignDetailAchievementsCell.identifier)
         campaignDetailTableView?.register(CampaignDetailCityEventsCell.nib, forCellReuseIdentifier: CampaignDetailCityEventsCell.identifier)
+        
+        updateAllSections()
+        refreshAllSections()
+        
         styleUI()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y == 0{
+                self.view.frame.origin.y -= keyboardSize.height
+            }
+        }
+    }
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y != 0{
+                self.view.frame.origin.y += keyboardSize.height
+            }
+        }
     }
 }
 
@@ -78,7 +101,7 @@ extension CampaignDetailViewController: UITableViewDelegate {
             break
         case .parties:
             break
-        case .cityEvents:
+        case .events:
             break
         }
     }
@@ -87,9 +110,22 @@ extension CampaignDetailViewController: UITableViewDelegate {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        viewModel.updateAchievements()
+        viewModel.updateCampaignTitle()
+        viewModel.updateChecksToNextLevel()
+        viewModel.updateProsperityLevel()
+        viewModel.updateDonations()
+        viewModel.updateParties()
         
-        updateAllSections()
-        refreshAllSections()
+        refreshAchievements()
+        refreshCampaignTitle()
+        refreshProsperityLevel()
+        refreshDonations()
+        refreshParties()
+        
+//        updateAllSections()
+//        refreshAllSections()
+        print("In ViewWillAppear, I see: \(viewModel.eventItems!.titles)")
     }
     // Helper methods
     fileprivate func styleUI() {
@@ -102,6 +138,7 @@ extension CampaignDetailViewController: UITableViewDelegate {
         self.campaignDetailTableView.backgroundView = UIImageView(image: UIImage(named: "campaignDetailTableViewBG"))
         self.campaignDetailTableView.backgroundView?.alpha = 0.25
     }
+
     func updateAllSections() {
         viewModel.updateAchievements()
         viewModel.updateCampaignTitle()
@@ -109,6 +146,7 @@ extension CampaignDetailViewController: UITableViewDelegate {
         viewModel.updateProsperityLevel()
         viewModel.updateDonations()
         viewModel.updateParties()
+        viewModel.updateCityEvents()
     }
     func refreshAllSections() {
         refreshAchievements()
@@ -116,6 +154,7 @@ extension CampaignDetailViewController: UITableViewDelegate {
         refreshProsperityLevel()
         refreshDonations()
         refreshParties()
+        refreshCityEvents()
     }
     func refreshAchievements() {
         DispatchQueue.main.async {
@@ -144,6 +183,7 @@ extension CampaignDetailViewController: UITableViewDelegate {
     }
     func refreshCityEvents() {
         DispatchQueue.main.async {
+//            print("I think viewModel has: \(self.viewModel.cityEventItems!.titles)")
             self.campaignDetailTableView.reloadSections([5], with: .none)
         }
     }

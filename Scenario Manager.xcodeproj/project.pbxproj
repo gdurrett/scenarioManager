@@ -14,6 +14,7 @@
 		FB23B6F41F044CFC00CAA684 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB23B6F21F044CFC00CAA684 /* LaunchScreen.storyboard */; };
 		FB23B6FC1F04C40D00CAA684 /* Scenario.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB23B6FB1F04C40D00CAA684 /* Scenario.swift */; };
 		FB23B7021F0AB5ED00CAA684 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB23B7011F0AB5EC00CAA684 /* DataModel.swift */; };
+		FB36438D1F8AAF9300CAA684 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB36438C1F8AAF9300CAA684 /* Event.swift */; };
 		FB40EA0A1F43967C00CAA684 /* ScenarioViewModelFromModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB40EA091F43967C00CAA684 /* ScenarioViewModelFromModel.swift */; };
 		FB40EA0C1F43ACFF00CAA684 /* DashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB40EA0B1F43ACFF00CAA684 /* DashboardViewController.swift */; };
 		FB40EA0F1F43AEDD00CAA684 /* UIStoryboard+Loader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB40EA0E1F43AEDD00CAA684 /* UIStoryboard+Loader.swift */; };
@@ -54,10 +55,6 @@
 		FB7521A41F207A2F00CAA684 /* ScenarioPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB7521A31F207A2F00CAA684 /* ScenarioPickerViewController.swift */; };
 		FB7A89BA1F83FF5600CAA684 /* CreateCampaignPartyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB7A89B91F83FF5600CAA684 /* CreateCampaignPartyCell.xib */; };
 		FB7A89BC1F83FF8F00CAA684 /* CreateCampaignPartyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB7A89BB1F83FF8F00CAA684 /* CreateCampaignPartyCell.swift */; };
-		FB7A89BE1F8571CE00CAA684 /* CampaignDetailCityEventsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB7A89BD1F8571CE00CAA684 /* CampaignDetailCityEventsCell.xib */; };
-		FB7A89C01F8572C800CAA684 /* CampaignDetailCityEventsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB7A89BF1F8572C800CAA684 /* CampaignDetailCityEventsCell.swift */; };
-		FB7A89C21F8576F100CAA684 /* CampaignDetailEventCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB7A89C11F8576F100CAA684 /* CampaignDetailEventCollectionCell.xib */; };
-		FB7A89C41F85777D00CAA684 /* CampaignDetailEventCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB7A89C31F85777D00CAA684 /* CampaignDetailEventCollectionCell.swift */; };
 		FBCE875D1F57F4C200CAA684 /* PirataOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FBCE875C1F57F4C200CAA684 /* PirataOne-Regular.ttf */; };
 		FBCE875F1F586FB400CAA684 /* nyala.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FBCE875E1F586FB400CAA684 /* nyala.ttf */; };
 		FBCE87611F58764300CAA684 /* HTOWERT.TTF in Resources */ = {isa = PBXBuildFile; fileRef = FBCE87601F58764300CAA684 /* HTOWERT.TTF */; };
@@ -96,6 +93,7 @@
 		FB23B6F51F044CFC00CAA684 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FB23B6FB1F04C40D00CAA684 /* Scenario.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scenario.swift; sourceTree = "<group>"; };
 		FB23B7011F0AB5EC00CAA684 /* DataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = DataModel.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		FB36438C1F8AAF9300CAA684 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		FB40EA091F43967C00CAA684 /* ScenarioViewModelFromModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScenarioViewModelFromModel.swift; sourceTree = "<group>"; };
 		FB40EA0B1F43ACFF00CAA684 /* DashboardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashboardViewController.swift; sourceTree = "<group>"; };
 		FB40EA0E1F43AEDD00CAA684 /* UIStoryboard+Loader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIStoryboard+Loader.swift"; sourceTree = "<group>"; };
@@ -137,10 +135,6 @@
 		FB7521A31F207A2F00CAA684 /* ScenarioPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScenarioPickerViewController.swift; sourceTree = "<group>"; };
 		FB7A89B91F83FF5600CAA684 /* CreateCampaignPartyCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CreateCampaignPartyCell.xib; sourceTree = "<group>"; };
 		FB7A89BB1F83FF8F00CAA684 /* CreateCampaignPartyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCampaignPartyCell.swift; sourceTree = "<group>"; };
-		FB7A89BD1F8571CE00CAA684 /* CampaignDetailCityEventsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CampaignDetailCityEventsCell.xib; sourceTree = "<group>"; };
-		FB7A89BF1F8572C800CAA684 /* CampaignDetailCityEventsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignDetailCityEventsCell.swift; sourceTree = "<group>"; };
-		FB7A89C11F8576F100CAA684 /* CampaignDetailEventCollectionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CampaignDetailEventCollectionCell.xib; sourceTree = "<group>"; };
-		FB7A89C31F85777D00CAA684 /* CampaignDetailEventCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignDetailEventCollectionCell.swift; sourceTree = "<group>"; };
 		FBCE875C1F57F4C200CAA684 /* PirataOne-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PirataOne-Regular.ttf"; sourceTree = "<group>"; };
 		FBCE875E1F586FB400CAA684 /* nyala.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = nyala.ttf; sourceTree = "<group>"; };
 		FBCE87601F58764300CAA684 /* HTOWERT.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = HTOWERT.TTF; sourceTree = "<group>"; };
@@ -274,6 +268,7 @@
 				FBD2DCF71F5C935B00CAA684 /* Campaign.swift */,
 				FBD2DCF91F5C945C00CAA684 /* Character.swift */,
 				FBD2DD201F6ADD8E00CAA684 /* Party.swift */,
+				FB36438C1F8AAF9300CAA684 /* Event.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -318,10 +313,6 @@
 				FB5729CD1F6F282400CAA684 /* CampaignDetailProsperityCell.xib */,
 				FB5729BD1F6C732600CAA684 /* CampaignDetailTitleCell.swift */,
 				FB5729BF1F6C73B900CAA684 /* CampaignDetailTitleCell.xib */,
-				FB7A89BD1F8571CE00CAA684 /* CampaignDetailCityEventsCell.xib */,
-				FB7A89BF1F8572C800CAA684 /* CampaignDetailCityEventsCell.swift */,
-				FB7A89C11F8576F100CAA684 /* CampaignDetailEventCollectionCell.xib */,
-				FB7A89C31F85777D00CAA684 /* CampaignDetailEventCollectionCell.swift */,
 			);
 			name = CampaignDetailTableViewCells;
 			sourceTree = "<group>";
@@ -463,7 +454,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FB7A89BE1F8571CE00CAA684 /* CampaignDetailCityEventsCell.xib in Resources */,
 				FB46658D1F2F964C00CAA684 /* SummaryInfoCell.xib in Resources */,
 				FB4665871F2E5C5900CAA684 /* RewardsInfoCell.xib in Resources */,
 				FBE3F1ED1F4A5F6A00CAA684 /* Assets.xcassets in Resources */,
@@ -478,7 +468,6 @@
 				FBE3F1E91F47C91100CAA684 /* Main.storyboard in Resources */,
 				FB5729CA1F6F1B5F00CAA684 /* CampaignDetailAchievementsCell.xib in Resources */,
 				FB2237D81F8190E600CAA684 /* SelectCampaignTitleCell.xib in Resources */,
-				FB7A89C21F8576F100CAA684 /* CampaignDetailEventCollectionCell.xib in Resources */,
 				FB5729C01F6C73B900CAA684 /* CampaignDetailTitleCell.xib in Resources */,
 				FB23B6F41F044CFC00CAA684 /* LaunchScreen.storyboard in Resources */,
 				FB482DAA1F293C6600CAA684 /* AchievesInfoCell.xib in Resources */,
@@ -508,7 +497,6 @@
 				FB23B6FC1F04C40D00CAA684 /* Scenario.swift in Sources */,
 				FBD2DD141F67517000CAA684 /* CreateCamaignViewModel.swift in Sources */,
 				FBD2DD161F6863E900CAA684 /* DeleteCampaignViewModelFromModel.swift in Sources */,
-				FB7A89C41F85777D00CAA684 /* CampaignDetailEventCollectionCell.swift in Sources */,
 				FBD2DD041F620F4800CAA684 /* CreateCampaignViewController.swift in Sources */,
 				FBD2DD1F1F69CB3800CAA684 /* CampaignTitleCell.swift in Sources */,
 				FBD2DCFE1F61E7D900CAA684 /* FontDefinitions.swift in Sources */,
@@ -520,6 +508,7 @@
 				FB5729C81F6F022500CAA684 /* CampaignDetailPartyCell.swift in Sources */,
 				FB5729CC1F6F1BB800CAA684 /* CampaignDetailAchievementsCell.swift in Sources */,
 				FB5729D01F6F287700CAA684 /* CampaignDetailProsperityCell.swift in Sources */,
+				FB36438D1F8AAF9300CAA684 /* Event.swift in Sources */,
 				FB40EA141F4419CA00CAA684 /* ScenarioViewModel.swift in Sources */,
 				FB40EA0C1F43ACFF00CAA684 /* DashboardViewController.swift in Sources */,
 				FBE3F1EB1F47C92C00CAA684 /* ScenarioViewController.swift in Sources */,
@@ -535,7 +524,6 @@
 				FB4665951F2FDCEE00CAA684 /* ScenarioMainCell.swift in Sources */,
 				FB4665851F2E5C0700CAA684 /* RewardsInfoCell.swift in Sources */,
 				FB2237DA1F81916B00CAA684 /* SelectCampaignTitleCell.swift in Sources */,
-				FB7A89C01F8572C800CAA684 /* CampaignDetailCityEventsCell.swift in Sources */,
 				FB23B6EA1F044CFC00CAA684 /* AppDelegate.swift in Sources */,
 				FB2237D51F816B5500CAA684 /* SelectCampaignViewController.swift in Sources */,
 				FBD2DD081F625FEA00CAA684 /* CreateCampaignViewModelFromModel.swift in Sources */,
