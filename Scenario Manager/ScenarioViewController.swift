@@ -326,11 +326,6 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
         self.navigationItem.title = "\(selectedCampaign!.title) Scenarios"
         scenarioTableView.reloadData()
     }
-//    func setTextAttributes(fontName: String, fontSize: CGFloat, textColor: UIColor) -> [ String : Any ] {
-//        let fontStyle = UIFont(name: fontName, size: fontSize)
-//        let fontColor = textColor
-//        return [ NSFontAttributeName : fontStyle! , NSForegroundColorAttributeName : fontColor ]
-//    }
     func showSelectionAlert(status: String) {
         var alertTitle = String()
         if status == "disallowCompletion" {
@@ -364,12 +359,47 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
         filteredScenarios = scenarioSubset.filter { scenario in return scenario.title.lowercased().contains(searchText.lowercased()) || scenario.achieves.minimalDescription.lowercased().contains(searchText.lowercased()) || scenario.rewards.minimalDescription.lowercased().contains(searchText.lowercased()) || scenario.locationString.lowercased().contains(searchText.lowercased())}
         scenarioTableView.reloadData()
     }
+    fileprivate func setupSearch() {
+        //Set up searchController stuff
+        
+        searchController.searchBar.delegate = self
+        searchController.searchBar.barTintColor = colorDefinitions.scenarioTableViewSearchBarBarTintColor
+        searchController.searchBar.placeholder = "Search Scenarios, Rewards, Achievements"
+        searchController.searchBar.tintColor = colorDefinitions.detailTableViewHeaderTintColor
+        searchController.searchResultsUpdater = self
+        searchController.dimsBackgroundDuringPresentation = false
+        searchController.searchBar.sizeToFit()
+        searchController.searchBar.searchBarStyle = .default
+        searchController.searchBar.showsCancelButton = false
+        definesPresentationContext = true
+        scenarioTableView.tableHeaderView = searchController.searchBar
+        searchController.hidesNavigationBarDuringPresentation = false
+        
+    }
+    internal func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        if filteredScenarios.count != 0 || searchController.searchBar.text == "" {
+            scenarioTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+        }
+    }
+    // Called in styleUI()
+    func setTextFieldTintColor(to color: UIColor, for view: UIView) {
+        if view is UITextField {
+            view.tintColor = color
+        }
+        for subview in view.subviews {
+            setTextFieldTintColor(to: color, for: subview)
+        }
+    }
+    // viewDidLoad helper functions
     fileprivate func styleUI() {
         self.scenarioTableView.estimatedRowHeight = 100
         self.scenarioTableView.rowHeight = UITableViewAutomaticDimension
         self.navigationController?.navigationBar.tintColor = colorDefinitions.mainTextColor
         self.navigationController?.navigationBar.barTintColor = colorDefinitions.scenarioTableViewNavBarBarTintColor
         self.navigationController?.navigationBar.titleTextAttributes = [.font: UIFont(name: "Nyala", size: 26.0)!, .foregroundColor: colorDefinitions.mainTextColor]
+        
+        // See if we can set search field's cursor to a darker color than the Cancel button
+        self.setTextFieldTintColor(to: colorDefinitions.scenarioTitleFontColor, for: searchController.searchBar)
     }
     fileprivate func fillUI() {
         if !isViewLoaded {
@@ -388,28 +418,6 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
         viewModel.availableScenarios.bindAndFire { [unowned self] in self.availableScenarios = $0 }
         viewModel.completedScenarios.bindAndFire { [unowned self] in self.completedScenarios = $0 }
         viewModel.campaign.bindAndFire { [unowned self] in self.selectedCampaign = $0 }
-    }
-    fileprivate func setupSearch() {
-        //Set up searchController stuff
-
-        searchController.searchBar.delegate = self
-        searchController.searchBar.barTintColor = colorDefinitions.scenarioTableViewSearchBarBarTintColor
-        searchController.searchBar.placeholder = "Search Scenarios, Rewards, Achievements"
-        searchController.searchBar.tintColor = colorDefinitions.detailTableViewHeaderTintColor
-        searchController.searchResultsUpdater = self
-        searchController.dimsBackgroundDuringPresentation = false
-        searchController.searchBar.sizeToFit()
-        searchController.searchBar.searchBarStyle = .default
-        searchController.searchBar.showsCancelButton = false
-        definesPresentationContext = true
-        scenarioTableView.tableHeaderView = searchController.searchBar
-        searchController.hidesNavigationBarDuringPresentation = false
-
-    }
-    internal func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        if filteredScenarios.count != 0 || searchController.searchBar.text == "" {
-            scenarioTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
-        }
     }
     // Implement delegate methods for ScenarioPickerViewController
     func scenarioPickerViewControllerDidCancel(_ controller: ScenarioPickerViewController) {

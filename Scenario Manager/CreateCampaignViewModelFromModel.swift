@@ -35,7 +35,7 @@ enum SectionTypes: Int, CaseCountable {
 class CreateCampaignViewModelFromModel: NSObject {
     
     let dataModel: DataModel
-    var newCampaign = Campaign(title: "", parties: [], achievements: [:], prosperityCount: 0, sanctuaryDonations: 0, events: [], isUnlocked: [], requirementsMet: [], isCompleted: [], isCurrent: true)
+    var newCampaign = Campaign(title: "", parties: [], achievements: [:], prosperityCount: 0, sanctuaryDonations: 0, events: [], isUnlocked: [], requirementsMet: [], isCompleted: [], isCurrent: true, ancientTechCount: 0)
     var parties = [String:Party]()
     let numberOfSections = SectionTypes.caseCount
     let sections = [SectionTypes.Title, SectionTypes.Parties]
@@ -54,6 +54,7 @@ class CreateCampaignViewModelFromModel: NSObject {
     }
     fileprivate func createCampaign(title: String, parties: [Party]) {
         dataModel.createCampaign(title: title, isCurrent: true, parties: parties)
+        dataModel.saveCampaignsLocally()
     }
 }
 extension CreateCampaignViewModelFromModel: UITableViewDataSource, UITableViewDelegate {
@@ -131,6 +132,7 @@ extension CreateCampaignViewModelFromModel: CreateCampaignViewControllerDelegate
     }
     
     func createCampaignViewControllerDidFinishAdding(_ controller: CreateCampaignViewController) {
+        // Try setting vmDelegate here
         var selectedParties = [Party]()
         let myParties = Array(self.parties.values)
         for row in selectedRows {
@@ -144,8 +146,8 @@ extension CreateCampaignViewModelFromModel: CreateCampaignViewControllerDelegate
             // Present alert controller telling them to put a name in title field
         }
     }
-    
 }
+
 // provide a default implementation to count the cases for Int enums assuming starting at 0 and contiguous
 extension CaseCountable where Self : RawRepresentable, Self.RawValue == Int {
     // count the number of cases in the enum

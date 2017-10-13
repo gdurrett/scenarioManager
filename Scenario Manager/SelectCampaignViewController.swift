@@ -24,6 +24,7 @@ class SelectCampaignViewController: UIViewController {
             selectedCampaign = currentCampaign
         }
         delegate?.selectCampaignViewControllerDidFinishSelecting(self)
+        reloadDelegate?.reloadAfterDidFinishAdding()
     }
     
     // MARK: Global variables
@@ -35,7 +36,8 @@ class SelectCampaignViewController: UIViewController {
     var selectedIndex: Int = -1
     var selectedCampaign: String?
     weak var delegate: SelectCampaignViewControllerDelegate?
-
+    weak var reloadDelegate: CreateCampaignViewControllerReloadDelegate?
+    
     var campaigns: [String:Campaign]!
     var currentCampaign: String!
     let colorDefinitions = ColorDefinitions()

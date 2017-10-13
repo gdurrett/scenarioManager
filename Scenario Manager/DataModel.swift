@@ -77,6 +77,21 @@ class DataModel {
             }
         }
     }
+    var unavailableEvents: [Event] {
+        get {
+            return currentCampaign.events.filter { $0.isAvailable != true && $0.isCompleted != true }
+        }
+    }
+    var availableEvents: [Event] {
+        get {
+            return currentCampaign.events.filter { $0.isAvailable == true }
+        }
+    }
+    var completedEvents: [Event] {
+        get {
+            return currentCampaign.events.filter { $0.isCompleted == true }
+        }
+    }
     var currentParty: Party? {
         get {
             let filtered = parties.filter { pair in pair.value.isCurrent == true }
@@ -146,7 +161,6 @@ class DataModel {
             }
         } else {
         
-            
             let scenario44String = NSMutableAttributedString(string: "Open envelope ")
             let image44Attachment = NSTextAttachment()
             image44Attachment.image = UIImage(named: "spikyHeadGuy.png")
@@ -1940,1360 +1954,6 @@ class DataModel {
                 "Vengeance personal quest"              : false,
                 "Water Staff"                           : false
             ]
-            // Create Road Event objects and append to events array
-            let r1 = Event(
-                type: .road,
-                number: "01",
-                choice: "",
-                unlocks: "None",
-                isAvailable: true,
-                isCompleted: false
-            )
-            self.events.append(r1)
-            let r2 = Event(
-                type: .road,
-                number: "02",
-                choice: "",
-                unlocks: "None",
-                isAvailable: true,
-                isCompleted: false
-            )
-            self.events.append(r2)
-            let r3 = Event(
-                type: .road,
-                number: "03",
-                choice: "",
-                unlocks: "None",
-                isAvailable: true,
-                isCompleted: false
-            )
-            self.events.append(r3)
-            let r4 = Event(
-                type: .road,
-                number: "04",
-                choice: "",
-                unlocks: "None",
-                isAvailable: true,
-                isCompleted: false
-            )
-            self.events.append(r4)
-            let r5 = Event(
-                type: .road,
-                number: "05",
-                choice: "",
-                unlocks: "None",
-                isAvailable: true,
-                isCompleted: false
-            )
-            self.events.append(r5)
-            let r6 = Event(
-                type: .road,
-                number: "06",
-                choice: "",
-                unlocks: "None",
-                isAvailable: true,
-                isCompleted: false
-            )
-            self.events.append(r6)
-            let r7 = Event(
-                type: .road,
-                number: "07",
-                choice: "",
-                unlocks: "None",
-                isAvailable: true,
-                isCompleted: false
-            )
-            self.events.append(r7)
-            let r8 = Event(
-                type: .road,
-                number: "08",
-                choice: "",
-                unlocks: "None",
-                isAvailable: true,
-                isCompleted: false
-            )
-            self.events.append(r8)
-            let r9 = Event(
-                type: .road,
-                number: "09",
-                choice: "",
-                unlocks: "None",
-                isAvailable: true,
-                isCompleted: false
-            )
-            self.events.append(r9)
-            let r10 = Event(
-                type: .road,
-                number: "10",
-                choice: "",
-                unlocks: "None",
-                isAvailable: true,
-                isCompleted: false
-            )
-            self.events.append(r10)
-            let r11 = Event(
-                type: .road,
-                number: "11",
-                choice: "",
-                unlocks: "None",
-                isAvailable: true,
-                isCompleted: false
-            )
-            self.events.append(r11)
-            let r12 = Event(
-                type: .road,
-                number: "12",
-                choice: "",
-                unlocks: "None",
-                isAvailable: true,
-                isCompleted: false
-            )
-            self.events.append(r12)
-            let r13 = Event(
-                type: .road,
-                number: "13",
-                choice: "",
-                unlocks: "None",
-                isAvailable: true,
-                isCompleted: false
-            )
-            self.events.append(r13)
-            let r14 = Event(
-                type: .road,
-                number: "14",
-                choice: "",
-                unlocks: "None",
-                isAvailable: true,
-                isCompleted: false
-            )
-            self.events.append(r14)
-            let r15 = Event(
-                type: .road,
-                number: "15",
-                choice: "",
-                unlocks: "None",
-                isAvailable: true,
-                isCompleted: false
-            )
-            self.events.append(r15)
-            let r16 = Event(
-                type: .road,
-                number: "16",
-                choice: "",
-                unlocks: "None",
-                isAvailable: true,
-                isCompleted: false
-            )
-            self.events.append(r16)
-            let r17 = Event(
-                type: .road,
-                number: "17",
-                choice: "",
-                unlocks: "None",
-                isAvailable: true,
-                isCompleted: false
-            )
-            self.events.append(r17)
-            let r18 = Event(
-                type: .road,
-                number: "18",
-                choice: "",
-                unlocks: "None",
-                isAvailable: true,
-                isCompleted: false
-            )
-            
-            self.events.append(r18)
-            let r19 = Event(
-                type: .road,
-                number: "19",
-                choice: "",
-                unlocks: "None",
-                isAvailable: true,
-                isCompleted: false
-            )
-            self.events.append(r19)
-            let r20 = Event(
-                type: .road,
-                number: "20",
-                choice: "",
-                unlocks: "None",
-                isAvailable: true,
-                isCompleted: false
-            )
-            self.events.append(r20)
-            let r21 = Event(
-                type: .road,
-                number: "21",
-                choice: "",
-                unlocks: "None",
-                isAvailable: true,
-                isCompleted: false
-            )
-            self.events.append(r21)
-            let r22 = Event(
-                type: .road,
-                number: "22",
-                choice: "",
-                unlocks: "None",
-                isAvailable: true,
-                isCompleted: false
-            )
-            self.events.append(r22)
-            let r23 = Event(
-                type: .road,
-                number: "23",
-                choice: "",
-                unlocks: "None",
-                isAvailable: true,
-                isCompleted: false
-            )
-            self.events.append(r23)
-            let r24 = Event(
-                type: .road,
-                number: "24",
-                choice: "",
-                unlocks: "82",
-                isAvailable: true,
-                isCompleted: false
-            )
-            self.events.append(r24)
-            let r25 = Event(
-                type: .road,
-                number: "25",
-                choice: "",
-                unlocks: "None",
-                isAvailable: true,
-                isCompleted: false
-            )
-            self.events.append(r25)
-            let r26 = Event(
-                type: .road,
-                number: "26",
-                choice: "",
-                unlocks: "None",
-                isAvailable: true,
-                isCompleted: false
-            )
-            self.events.append(r26)
-            let r27 = Event(
-                type: .road,
-                number: "28",
-                choice: "",
-                unlocks: "None",
-                isAvailable: true,
-                isCompleted: false
-            )
-            self.events.append(r27)
-            let r28 = Event(
-                type: .road,
-                number: "28",
-                choice: "",
-                unlocks: "None",
-                isAvailable: true,
-                isCompleted: false
-            )
-            self.events.append(r28)
-            let r29 = Event(
-                type: .road,
-                number: "29",
-                choice: "",
-                unlocks: "None",
-                isAvailable: true,
-                isCompleted: false
-            )
-            self.events.append(r29)
-            let r30 = Event(
-                type: .road,
-                number: "30",
-                choice: "",
-                unlocks: "None",
-                isAvailable: true,
-                isCompleted: false
-            )
-            self.events.append(r30)
-            let r31 = Event(
-                type: .road,
-                number: "31",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(r31)
-            let r32 = Event(
-                type: .road,
-                number: "32",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(r32)
-            let r33 = Event(
-                type: .road,
-                number: "33",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(r33)
-            let r34 = Event(
-                type: .road,
-                number: "34",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(r34)
-            let r35 = Event(
-                type: .road,
-                number: "35",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(r35)
-            let r36 = Event(
-                type: .road,
-                number: "36",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(r36)
-            let r37 = Event(
-                type: .road,
-                number: "37",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(r37)
-            let r38 = Event(
-                type: .road,
-                number: "38",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(r38)
-            let r39 = Event(
-                type: .road,
-                number: "39",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(r39)
-            let r40 = Event(
-                type: .road,
-                number: "40",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(r40)
-            let r41 = Event(
-                type: .road,
-                number: "41",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(r41)
-            let r42 = Event(
-                type: .road,
-                number: "42",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(r42)
-            let r43 = Event(
-                type: .road,
-                number: "43",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(r43)
-            let r44 = Event(
-                type: .road,
-                number: "44",
-                choice: "",
-                unlocks: "90",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(r44)
-            let r45 = Event(
-                type: .road,
-                number: "45",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(r45)
-            let r46 = Event(
-                type: .road,
-                number: "46",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(r46)
-            let r47 = Event(
-                type: .road,
-                number: "47",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(r47)
-            let r48 = Event(
-                type: .road,
-                number: "48",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(r48)
-            let r49 = Event(
-                type: .road,
-                number: "49",
-                choice: "",
-                unlocks: "80",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(r49)
-            let r50 = Event(
-                type: .road,
-                number: "50",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(r50)
-            let r51 = Event(
-                type: .road,
-                number: "51",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(r51)
-            let r52 = Event(
-                type: .road,
-                number: "52",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(r52)
-            let r53 = Event(
-                type: .road,
-                number: "53",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(r53)
-            let r54 = Event(
-                type: .road,
-                number: "54",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(r54)
-            let r55 = Event(
-                type: .road,
-                number: "55",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(r55)
-            let r56 = Event(
-                type: .road,
-                number: "56",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(r56)
-            let r57 = Event(
-                type: .road,
-                number: "57",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(r57)
-            let r58 = Event(
-                type: .road,
-                number: "58",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(r58)
-            let r59 = Event(
-                type: .road,
-                number: "59",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(r59)
-            let r60 = Event(
-                type: .road,
-                number: "60",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(r60)
-            let r61 = Event(
-                type: .road,
-                number: "61",
-                choice: "",
-                unlocks: "85",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(r61)
-            let r62 = Event(
-                type: .road,
-                number: "62",
-                choice: "",
-                unlocks: "85",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(r62)
-            let r63 = Event(
-                type: .road,
-                number: "63",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(r63)
-            let r64 = Event(
-                type: .road,
-                number: "64",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(r64)
-            let r65 = Event(
-                type: .road,
-                number: "65",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(r65)
-            let r66 = Event(
-                type: .road,
-                number: "66",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(r66)
-            let r67 = Event(
-                type: .road,
-                number: "67",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(r67)
-            let r68 = Event(
-                type: .road,
-                number: "68",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(r68)
-            let r69 = Event(
-                type: .road,
-                number: "69",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(r69)
-            // Create City Event objects and append to events array
-            let c1 = Event(
-                type: .road,
-                number: "01",
-                choice: "",
-                unlocks: "None",
-                isAvailable: true,
-                isCompleted: false
-            )
-            self.events.append(c1)
-            let c2 = Event(
-                type: .road,
-                number: "02",
-                choice: "",
-                unlocks: "None",
-                isAvailable: true,
-                isCompleted: false
-            )
-            self.events.append(c2)
-            let c3 = Event(
-                type: .road,
-                number: "03",
-                choice: "",
-                unlocks: "None",
-                isAvailable: true,
-                isCompleted: false
-            )
-            self.events.append(c3)
-            let c4 = Event(
-                type: .road,
-                number: "04",
-                choice: "",
-                unlocks: "None",
-                isAvailable: true,
-                isCompleted: false
-            )
-            self.events.append(c4)
-            let c5 = Event(
-                type: .road,
-                number: "05",
-                choice: "",
-                unlocks: "None",
-                isAvailable: true,
-                isCompleted: false
-            )
-            self.events.append(c5)
-            let c6 = Event(
-                type: .road,
-                number: "06",
-                choice: "",
-                unlocks: "None",
-                isAvailable: true,
-                isCompleted: false
-            )
-            self.events.append(c6)
-            let c7 = Event(
-                type: .road,
-                number: "07",
-                choice: "",
-                unlocks: "None",
-                isAvailable: true,
-                isCompleted: false
-            )
-            self.events.append(c7)
-            let c8 = Event(
-                type: .road,
-                number: "08",
-                choice: "",
-                unlocks: "93",
-                isAvailable: true,
-                isCompleted: false
-            )
-            self.events.append(c8)
-            let c9 = Event(
-                type: .road,
-                number: "09",
-                choice: "",
-                unlocks: "None",
-                isAvailable: true,
-                isCompleted: false
-            )
-            self.events.append(c9)
-            let c10 = Event(
-                type: .road,
-                number: "10",
-                choice: "",
-                unlocks: "None",
-                isAvailable: true,
-                isCompleted: false
-            )
-            self.events.append(c10)
-            let c11 = Event(
-                type: .road,
-                number: "11",
-                choice: "",
-                unlocks: "None",
-                isAvailable: true,
-                isCompleted: false
-            )
-            self.events.append(c11)
-            let c12 = Event(
-                type: .road,
-                number: "12",
-                choice: "",
-                unlocks: "None",
-                isAvailable: true,
-                isCompleted: false
-            )
-            self.events.append(c12)
-            let c13 = Event(
-                type: .road,
-                number: "13",
-                choice: "",
-                unlocks: "None",
-                isAvailable: true,
-                isCompleted: false
-            )
-            self.events.append(c13)
-            let c14 = Event(
-                type: .road,
-                number: "14",
-                choice: "",
-                unlocks: "None",
-                isAvailable: true,
-                isCompleted: false
-            )
-            self.events.append(c14)
-            let c15 = Event(
-                type: .road,
-                number: "15",
-                choice: "",
-                unlocks: "None",
-                isAvailable: true,
-                isCompleted: false
-            )
-            self.events.append(c15)
-            let c16 = Event(
-                type: .road,
-                number: "16",
-                choice: "",
-                unlocks: "None",
-                isAvailable: true,
-                isCompleted: false
-            )
-            self.events.append(c16)
-            let c17 = Event(
-                type: .road,
-                number: "17",
-                choice: "",
-                unlocks: "81",
-                isAvailable: true,
-                isCompleted: false
-            )
-            self.events.append(c17)
-            let c18 = Event(
-                type: .road,
-                number: "18",
-                choice: "",
-                unlocks: "None",
-                isAvailable: true,
-                isCompleted: false
-            )
-            
-            self.events.append(c18)
-            let c19 = Event(
-                type: .road,
-                number: "19",
-                choice: "",
-                unlocks: "None",
-                isAvailable: true,
-                isCompleted: false
-            )
-            self.events.append(c19)
-            let c20 = Event(
-                type: .road,
-                number: "20",
-                choice: "",
-                unlocks: "None",
-                isAvailable: true,
-                isCompleted: false
-            )
-            self.events.append(c20)
-            let c21 = Event(
-                type: .road,
-                number: "21",
-                choice: "",
-                unlocks: "None",
-                isAvailable: true,
-                isCompleted: false
-            )
-            self.events.append(c21)
-            let c22 = Event(
-                type: .road,
-                number: "22",
-                choice: "",
-                unlocks: "None",
-                isAvailable: true,
-                isCompleted: false
-            )
-            self.events.append(c22)
-            let c23 = Event(
-                type: .road,
-                number: "23",
-                choice: "",
-                unlocks: "None",
-                isAvailable: true,
-                isCompleted: false
-            )
-            self.events.append(c23)
-            let c24 = Event(
-                type: .road,
-                number: "24",
-                choice: "",
-                unlocks: "82",
-                isAvailable: true,
-                isCompleted: false
-            )
-            self.events.append(c24)
-            let c25 = Event(
-                type: .road,
-                number: "25",
-                choice: "",
-                unlocks: "None",
-                isAvailable: true,
-                isCompleted: false
-            )
-            self.events.append(c25)
-            let c26 = Event(
-                type: .road,
-                number: "26",
-                choice: "",
-                unlocks: "None",
-                isAvailable: true,
-                isCompleted: false
-            )
-            self.events.append(c26)
-            let c27 = Event(
-                type: .road,
-                number: "28",
-                choice: "",
-                unlocks: "None",
-                isAvailable: true,
-                isCompleted: false
-            )
-            self.events.append(c27)
-            let c28 = Event(
-                type: .road,
-                number: "28",
-                choice: "",
-                unlocks: "None",
-                isAvailable: true,
-                isCompleted: false
-            )
-            self.events.append(c28)
-            let c29 = Event(
-                type: .road,
-                number: "29",
-                choice: "",
-                unlocks: "None",
-                isAvailable: true,
-                isCompleted: false
-            )
-            self.events.append(c29)
-            let c30 = Event(
-                type: .road,
-                number: "30",
-                choice: "",
-                unlocks: "None",
-                isAvailable: true,
-                isCompleted: false
-            )
-            self.events.append(c30)
-            let c31 = Event(
-                type: .road,
-                number: "31",
-                choice: "",
-                unlocks: "83",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(c31)
-            let c32 = Event(
-                type: .road,
-                number: "32",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(c32)
-            let c33 = Event(
-                type: .road,
-                number: "33",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(c33)
-            let c34 = Event(
-                type: .road,
-                number: "34",
-                choice: "",
-                unlocks: "78",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(c34)
-            let c35 = Event(
-                type: .road,
-                number: "35",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(c35)
-            let c36 = Event(
-                type: .road,
-                number: "36",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(c36)
-            let c37 = Event(
-                type: .road,
-                number: "37",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(c37)
-            let c38 = Event(
-                type: .road,
-                number: "38",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(c38)
-            let c39 = Event(
-                type: .road,
-                number: "39",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(c39)
-            let c40 = Event(
-                type: .road,
-                number: "40",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(c40)
-            let c41 = Event(
-                type: .road,
-                number: "41",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(c41)
-            let c42 = Event(
-                type: .road,
-                number: "42",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(c42)
-            let c43 = Event(
-                type: .road,
-                number: "43",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(c43)
-            let c44 = Event(
-                type: .road,
-                number: "44",
-                choice: "",
-                unlocks: "90",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(c44)
-            let c45 = Event(
-                type: .road,
-                number: "45",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(c45)
-            let c46 = Event(
-                type: .road,
-                number: "46",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(c46)
-            let c47 = Event(
-                type: .road,
-                number: "47",
-                choice: "",
-                unlocks: "87",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(c47)
-            let c48 = Event(
-                type: .road,
-                number: "48",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(c48)
-            let c49 = Event(
-                type: .road,
-                number: "49",
-                choice: "",
-                unlocks: "80",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(c49)
-            let c50 = Event(
-                type: .road,
-                number: "50",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(c50)
-            let c51 = Event(
-                type: .road,
-                number: "51",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(c51)
-            let c52 = Event(
-                type: .road,
-                number: "52",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(c52)
-            let c53 = Event(
-                type: .road,
-                number: "53",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(c53)
-            let c54 = Event(
-                type: .road,
-                number: "54",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(c54)
-            let c55 = Event(
-                type: .road,
-                number: "55",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(c55)
-            let c56 = Event(
-                type: .road,
-                number: "56",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(c56)
-            let c57 = Event(
-                type: .road,
-                number: "57",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(c57)
-            let c58 = Event(
-                type: .road,
-                number: "58",
-                choice: "",
-                unlocks: "91",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(c58)
-            let c59 = Event(
-                type: .road,
-                number: "59",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(c59)
-            let c60 = Event(
-                type: .road,
-                number: "60",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(c60)
-            let c61 = Event(
-                type: .road,
-                number: "61",
-                choice: "",
-                unlocks: "85",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(c61)
-            let c62 = Event(
-                type: .road,
-                number: "62",
-                choice: "",
-                unlocks: "85",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(c62)
-            let c63 = Event(
-                type: .road,
-                number: "63",
-                choice: "",
-                unlocks: "86",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(c63)
-            let c64 = Event(
-                type: .road,
-                number: "64",
-                choice: "",
-                unlocks: "89",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(c64)
-            let c65 = Event(
-                type: .road,
-                number: "65",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(c65)
-            let c66 = Event(
-                type: .road,
-                number: "66",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(c66)
-            let c67 = Event(
-                type: .road,
-                number: "67",
-                choice: "",
-                unlocks: "92",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(c67)
-            let c68 = Event(
-                type: .road,
-                number: "68",
-                choice: "",
-                unlocks: "88",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(c68)
-            let c69 = Event(
-                type: .road,
-                number: "69",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(c69)
-            let c70 = Event(
-                type: .road,
-                number: "70",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(c70)
-            let c71 = Event(
-                type: .road,
-                number: "71",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(c71)
-            let c72 = Event(
-                type: .road,
-                number: "72",
-                choice: "",
-                unlocks: "79",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(c72)
-            let c73 = Event(
-                type: .road,
-                number: "73",
-                choice: "",
-                unlocks: "84",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(c73)
-            let c74 = Event(
-                type: .road,
-                number: "74",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(c74)
-            let c75 = Event(
-                type: .road,
-                number: "75",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(c75)
-            let c76 = Event(
-                type: .road,
-                number: "76",
-                choice: "",
-                unlocks: "74",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(c76)
-            let c77 = Event(
-                type: .road,
-                number: "77",
-                choice: "",
-                unlocks: "75",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(c77)
-            let c78 = Event(
-                type: .road,
-                number: "78",
-                choice: "",
-                unlocks: "94",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(c78)
-            let c79 = Event(
-                type: .road,
-                number: "79",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(c79)
-            let c80 = Event(
-                type: .road,
-                number: "80",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(c80)
-            let c81 = Event(
-                type: .road,
-                number: "81",
-                choice: "",
-                unlocks: "None",
-                isAvailable: false,
-                isCompleted: false
-            )
-            self.events.append(c81)
             // Temp party object dictionary
             parties["Wrecking Crew"] = Party(name: "Wrecking Crew", characters: Array(Set(characters.values)), location: "Gloomhaven", achievements: partyAchievements, reputation: 0, isCurrent: false)
             parties["BungleHeads"] = Party(name: "BungleHeads", characters: Array(Set(characters.values)), location: "Gloomhaven", achievements: partyAchievements, reputation: 0, isCurrent: true)
@@ -3369,7 +2029,8 @@ class DataModel {
     // Campaign functions
     func createCampaign(title: String, isCurrent: Bool, parties: [Party]) {
         if (campaigns[title] == nil) {
-            let newCampaign = Campaign(title: title, parties: parties, achievements:[:], prosperityCount: 0, sanctuaryDonations: 0, events: self.events, isUnlocked: [], requirementsMet: [], isCompleted: [], isCurrent: isCurrent)
+            let newCampaign = Campaign(title: title, parties: parties, achievements:[:], prosperityCount: 0, sanctuaryDonations: 0, events: createEvents(), isUnlocked: [], requirementsMet: [], isCompleted: [], isCurrent: isCurrent, ancientTechCount: 0)
+            print("Added events: \(self.events)")
             for scenario in allScenarios {
                 if scenario.number == "1" {
                     newCampaign.isUnlocked.append(true)
@@ -3509,6 +2170,1365 @@ class DataModel {
         parties[party]?.isCurrent = true
     }
     // End party functions
+    // MARK: Create new events array
+    func createEvents() -> [Event] {
+        var newEvents = [Event]()
+        // Create Road Event objects and append to events array
+        let r1 = Event(
+            type: .road,
+            number: "Road 01",
+            choice: "",
+            unlocks: "None",
+            isAvailable: true,
+            isCompleted: false
+        )
+        newEvents.append(r1)
+        let r2 = Event(
+            type: .road,
+            number: "Road 02",
+            choice: "",
+            unlocks: "None",
+            isAvailable: true,
+            isCompleted: false
+        )
+        newEvents.append(r2)
+        let r3 = Event(
+            type: .road,
+            number: "Road 03",
+            choice: "",
+            unlocks: "None",
+            isAvailable: true,
+            isCompleted: false
+        )
+        newEvents.append(r3)
+        let r4 = Event(
+            type: .road,
+            number: "Road 04",
+            choice: "",
+            unlocks: "None",
+            isAvailable: true,
+            isCompleted: false
+        )
+        newEvents.append(r4)
+        let r5 = Event(
+            type: .road,
+            number: "Road 05",
+            choice: "",
+            unlocks: "None",
+            isAvailable: true,
+            isCompleted: false
+        )
+        newEvents.append(r5)
+        let r6 = Event(
+            type: .road,
+            number: "Road 06",
+            choice: "",
+            unlocks: "None",
+            isAvailable: true,
+            isCompleted: false
+        )
+        newEvents.append(r6)
+        let r7 = Event(
+            type: .road,
+            number: "Road 07",
+            choice: "",
+            unlocks: "None",
+            isAvailable: true,
+            isCompleted: false
+        )
+        newEvents.append(r7)
+        let r8 = Event(
+            type: .road,
+            number: "Road 08",
+            choice: "",
+            unlocks: "None",
+            isAvailable: true,
+            isCompleted: false
+        )
+        newEvents.append(r8)
+        let r9 = Event(
+            type: .road,
+            number: "Road 09",
+            choice: "",
+            unlocks: "None",
+            isAvailable: true,
+            isCompleted: false
+        )
+        newEvents.append(r9)
+        let r10 = Event(
+            type: .road,
+            number: "Road 10",
+            choice: "",
+            unlocks: "None",
+            isAvailable: true,
+            isCompleted: false
+        )
+        newEvents.append(r10)
+        let r11 = Event(
+            type: .road,
+            number: "Road 11",
+            choice: "",
+            unlocks: "None",
+            isAvailable: true,
+            isCompleted: false
+        )
+        newEvents.append(r11)
+        let r12 = Event(
+            type: .road,
+            number: "Road 12",
+            choice: "",
+            unlocks: "None",
+            isAvailable: true,
+            isCompleted: false
+        )
+        newEvents.append(r12)
+        let r13 = Event(
+            type: .road,
+            number: "Road 13",
+            choice: "",
+            unlocks: "None",
+            isAvailable: true,
+            isCompleted: false
+        )
+        newEvents.append(r13)
+        let r14 = Event(
+            type: .road,
+            number: "Road 14",
+            choice: "",
+            unlocks: "None",
+            isAvailable: true,
+            isCompleted: false
+        )
+        newEvents.append(r14)
+        let r15 = Event(
+            type: .road,
+            number: "Road 15",
+            choice: "",
+            unlocks: "None",
+            isAvailable: true,
+            isCompleted: false
+        )
+        newEvents.append(r15)
+        let r16 = Event(
+            type: .road,
+            number: "Road 16",
+            choice: "",
+            unlocks: "None",
+            isAvailable: true,
+            isCompleted: false
+        )
+        newEvents.append(r16)
+        let r17 = Event(
+            type: .road,
+            number: "Road 17",
+            choice: "",
+            unlocks: "None",
+            isAvailable: true,
+            isCompleted: false
+        )
+        newEvents.append(r17)
+        let r18 = Event(
+            type: .road,
+            number: "Road 18",
+            choice: "",
+            unlocks: "None",
+            isAvailable: true,
+            isCompleted: false
+        )
+        
+        newEvents.append(r18)
+        let r19 = Event(
+            type: .road,
+            number: "Road 19",
+            choice: "",
+            unlocks: "None",
+            isAvailable: true,
+            isCompleted: false
+        )
+        newEvents.append(r19)
+        let r20 = Event(
+            type: .road,
+            number: "Road 20",
+            choice: "",
+            unlocks: "None",
+            isAvailable: true,
+            isCompleted: false
+        )
+        newEvents.append(r20)
+        let r21 = Event(
+            type: .road,
+            number: "Road 21",
+            choice: "",
+            unlocks: "None",
+            isAvailable: true,
+            isCompleted: false
+        )
+        newEvents.append(r21)
+        let r22 = Event(
+            type: .road,
+            number: "Road 22",
+            choice: "",
+            unlocks: "None",
+            isAvailable: true,
+            isCompleted: false
+        )
+        newEvents.append(r22)
+        let r23 = Event(
+            type: .road,
+            number: "Road 23",
+            choice: "",
+            unlocks: "None",
+            isAvailable: true,
+            isCompleted: false
+        )
+        newEvents.append(r23)
+        let r24 = Event(
+            type: .road,
+            number: "Road 24",
+            choice: "",
+            unlocks: "82",
+            isAvailable: true,
+            isCompleted: false
+        )
+        newEvents.append(r24)
+        let r25 = Event(
+            type: .road,
+            number: "Road 25",
+            choice: "",
+            unlocks: "None",
+            isAvailable: true,
+            isCompleted: false
+        )
+        newEvents.append(r25)
+        let r26 = Event(
+            type: .road,
+            number: "Road 26",
+            choice: "",
+            unlocks: "None",
+            isAvailable: true,
+            isCompleted: false
+        )
+        newEvents.append(r26)
+        let r27 = Event(
+            type: .road,
+            number: "Road 27",
+            choice: "",
+            unlocks: "None",
+            isAvailable: true,
+            isCompleted: false
+        )
+        newEvents.append(r27)
+        let r28 = Event(
+            type: .road,
+            number: "Road 28",
+            choice: "",
+            unlocks: "None",
+            isAvailable: true,
+            isCompleted: false
+        )
+        newEvents.append(r28)
+        let r29 = Event(
+            type: .road,
+            number: "Road 29",
+            choice: "",
+            unlocks: "None",
+            isAvailable: true,
+            isCompleted: false
+        )
+        newEvents.append(r29)
+        let r30 = Event(
+            type: .road,
+            number: "Road 30",
+            choice: "",
+            unlocks: "None",
+            isAvailable: true,
+            isCompleted: false
+        )
+        newEvents.append(r30)
+        let r31 = Event(
+            type: .road,
+            number: "Road 31",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(r31)
+        let r32 = Event(
+            type: .road,
+            number: "Road 32",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(r32)
+        let r33 = Event(
+            type: .road,
+            number: "Road 33",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(r33)
+        let r34 = Event(
+            type: .road,
+            number: "Road 34",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(r34)
+        let r35 = Event(
+            type: .road,
+            number: "Road 35",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(r35)
+        let r36 = Event(
+            type: .road,
+            number: "Road 36",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(r36)
+        let r37 = Event(
+            type: .road,
+            number: "Road 37",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(r37)
+        let r38 = Event(
+            type: .road,
+            number: "Road 38",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(r38)
+        let r39 = Event(
+            type: .road,
+            number: "Road 39",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(r39)
+        let r40 = Event(
+            type: .road,
+            number: "Road 40",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(r40)
+        let r41 = Event(
+            type: .road,
+            number: "Road 41",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(r41)
+        let r42 = Event(
+            type: .road,
+            number: "Road 42",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(r42)
+        let r43 = Event(
+            type: .road,
+            number: "Road 43",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(r43)
+        let r44 = Event(
+            type: .road,
+            number: "Road 44",
+            choice: "",
+            unlocks: "90",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(r44)
+        let r45 = Event(
+            type: .road,
+            number: "Road 45",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(r45)
+        let r46 = Event(
+            type: .road,
+            number: "Road 46",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(r46)
+        let r47 = Event(
+            type: .road,
+            number: "Road 47",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(r47)
+        let r48 = Event(
+            type: .road,
+            number: "Road 48",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(r48)
+        let r49 = Event(
+            type: .road,
+            number: "Road 49",
+            choice: "",
+            unlocks: "80",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(r49)
+        let r50 = Event(
+            type: .road,
+            number: "Road 50",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(r50)
+        let r51 = Event(
+            type: .road,
+            number: "Road 51",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(r51)
+        let r52 = Event(
+            type: .road,
+            number: "Road 52",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(r52)
+        let r53 = Event(
+            type: .road,
+            number: "Road 53",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(r53)
+        let r54 = Event(
+            type: .road,
+            number: "Road 54",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(r54)
+        let r55 = Event(
+            type: .road,
+            number: "Road 55",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(r55)
+        let r56 = Event(
+            type: .road,
+            number: "Road 56",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(r56)
+        let r57 = Event(
+            type: .road,
+            number: "Road 57",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(r57)
+        let r58 = Event(
+            type: .road,
+            number: "Road 58",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(r58)
+        let r59 = Event(
+            type: .road,
+            number: "Road 59",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(r59)
+        let r60 = Event(
+            type: .road,
+            number: "Road 60",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(r60)
+        let r61 = Event(
+            type: .road,
+            number: "Road 61",
+            choice: "",
+            unlocks: "85",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(r61)
+        let r62 = Event(
+            type: .road,
+            number: "Road 62",
+            choice: "",
+            unlocks: "85",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(r62)
+        let r63 = Event(
+            type: .road,
+            number: "Road 63",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(r63)
+        let r64 = Event(
+            type: .road,
+            number: "Road 64",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(r64)
+        let r65 = Event(
+            type: .road,
+            number: "Road 65",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(r65)
+        let r66 = Event(
+            type: .road,
+            number: "Road 66",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(r66)
+        let r67 = Event(
+            type: .road,
+            number: "Road 67",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(r67)
+        let r68 = Event(
+            type: .road,
+            number: "Road 68",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(r68)
+        let r69 = Event(
+            type: .road,
+            number: "Road 69",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(r69)
+        // Create City Event objects and append to events array
+        let c1 = Event(
+            type: .city,
+            number: "City 01",
+            choice: "",
+            unlocks: "None",
+            isAvailable: true,
+            isCompleted: false
+        )
+        newEvents.append(c1)
+        let c2 = Event(
+            type: .city,
+            number: "City 02",
+            choice: "",
+            unlocks: "None",
+            isAvailable: true,
+            isCompleted: false
+        )
+        newEvents.append(c2)
+        let c3 = Event(
+            type: .city,
+            number: "City 03",
+            choice: "",
+            unlocks: "None",
+            isAvailable: true,
+            isCompleted: false
+        )
+        newEvents.append(c3)
+        let c4 = Event(
+            type: .city,
+            number: "City 04",
+            choice: "",
+            unlocks: "None",
+            isAvailable: true,
+            isCompleted: false
+        )
+        newEvents.append(c4)
+        let c5 = Event(
+            type: .city,
+            number: "City 05",
+            choice: "",
+            unlocks: "None",
+            isAvailable: true,
+            isCompleted: false
+        )
+        newEvents.append(c5)
+        let c6 = Event(
+            type: .city,
+            number: "City 06",
+            choice: "",
+            unlocks: "None",
+            isAvailable: true,
+            isCompleted: false
+        )
+        newEvents.append(c6)
+        let c7 = Event(
+            type: .city,
+            number: "City 07",
+            choice: "",
+            unlocks: "None",
+            isAvailable: true,
+            isCompleted: false
+        )
+        newEvents.append(c7)
+        let c8 = Event(
+            type: .city,
+            number: "City 08",
+            choice: "",
+            unlocks: "93",
+            isAvailable: true,
+            isCompleted: false
+        )
+        newEvents.append(c8)
+        let c9 = Event(
+            type: .city,
+            number: "City 09",
+            choice: "",
+            unlocks: "None",
+            isAvailable: true,
+            isCompleted: false
+        )
+        newEvents.append(c9)
+        let c10 = Event(
+            type: .city,
+            number: "City 10",
+            choice: "",
+            unlocks: "None",
+            isAvailable: true,
+            isCompleted: false
+        )
+        newEvents.append(c10)
+        let c11 = Event(
+            type: .city,
+            number: "City 11",
+            choice: "",
+            unlocks: "None",
+            isAvailable: true,
+            isCompleted: false
+        )
+        newEvents.append(c11)
+        let c12 = Event(
+            type: .city,
+            number: "City 12",
+            choice: "",
+            unlocks: "None",
+            isAvailable: true,
+            isCompleted: false
+        )
+        newEvents.append(c12)
+        let c13 = Event(
+            type: .city,
+            number: "City 13",
+            choice: "",
+            unlocks: "None",
+            isAvailable: true,
+            isCompleted: false
+        )
+        newEvents.append(c13)
+        let c14 = Event(
+            type: .city,
+            number: "City 14",
+            choice: "",
+            unlocks: "None",
+            isAvailable: true,
+            isCompleted: false
+        )
+        newEvents.append(c14)
+        let c15 = Event(
+            type: .city,
+            number: "City 15",
+            choice: "",
+            unlocks: "None",
+            isAvailable: true,
+            isCompleted: false
+        )
+        newEvents.append(c15)
+        let c16 = Event(
+            type: .city,
+            number: "City 16",
+            choice: "",
+            unlocks: "None",
+            isAvailable: true,
+            isCompleted: false
+        )
+        newEvents.append(c16)
+        let c17 = Event(
+            type: .city,
+            number: "City 17",
+            choice: "",
+            unlocks: "81",
+            isAvailable: true,
+            isCompleted: false
+        )
+        newEvents.append(c17)
+        let c18 = Event(
+            type: .city,
+            number: "City 18",
+            choice: "",
+            unlocks: "None",
+            isAvailable: true,
+            isCompleted: false
+        )
+        
+        newEvents.append(c18)
+        let c19 = Event(
+            type: .city,
+            number: "City 19",
+            choice: "",
+            unlocks: "None",
+            isAvailable: true,
+            isCompleted: false
+        )
+        newEvents.append(c19)
+        let c20 = Event(
+            type: .city,
+            number: "City 20",
+            choice: "",
+            unlocks: "None",
+            isAvailable: true,
+            isCompleted: false
+        )
+        newEvents.append(c20)
+        let c21 = Event(
+            type: .city,
+            number: "City 21",
+            choice: "",
+            unlocks: "None",
+            isAvailable: true,
+            isCompleted: false
+        )
+        newEvents.append(c21)
+        let c22 = Event(
+            type: .city,
+            number: "City 22",
+            choice: "",
+            unlocks: "None",
+            isAvailable: true,
+            isCompleted: false
+        )
+        newEvents.append(c22)
+        let c23 = Event(
+            type: .city,
+            number: "City 23",
+            choice: "",
+            unlocks: "None",
+            isAvailable: true,
+            isCompleted: false
+        )
+        newEvents.append(c23)
+        let c24 = Event(
+            type: .city,
+            number: "City 24",
+            choice: "",
+            unlocks: "82",
+            isAvailable: true,
+            isCompleted: false
+        )
+        newEvents.append(c24)
+        let c25 = Event(
+            type: .city,
+            number: "City 25",
+            choice: "",
+            unlocks: "None",
+            isAvailable: true,
+            isCompleted: false
+        )
+        newEvents.append(c25)
+        let c26 = Event(
+            type: .city,
+            number: "City 26",
+            choice: "",
+            unlocks: "None",
+            isAvailable: true,
+            isCompleted: false
+        )
+        newEvents.append(c26)
+        let c27 = Event(
+            type: .city,
+            number: "City 27",
+            choice: "",
+            unlocks: "None",
+            isAvailable: true,
+            isCompleted: false
+        )
+        newEvents.append(c27)
+        let c28 = Event(
+            type: .city,
+            number: "City 28",
+            choice: "",
+            unlocks: "None",
+            isAvailable: true,
+            isCompleted: false
+        )
+        newEvents.append(c28)
+        let c29 = Event(
+            type: .city,
+            number: "City 29",
+            choice: "",
+            unlocks: "None",
+            isAvailable: true,
+            isCompleted: false
+        )
+        newEvents.append(c29)
+        let c30 = Event(
+            type: .city,
+            number: "City 30",
+            choice: "",
+            unlocks: "None",
+            isAvailable: true,
+            isCompleted: false
+        )
+        newEvents.append(c30)
+        let c31 = Event(
+            type: .city,
+            number: "City 31",
+            choice: "",
+            unlocks: "83",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(c31)
+        let c32 = Event(
+            type: .city,
+            number: "City 32",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(c32)
+        let c33 = Event(
+            type: .city,
+            number: "City 33",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(c33)
+        let c34 = Event(
+            type: .city,
+            number: "City 34",
+            choice: "",
+            unlocks: "78",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(c34)
+        let c35 = Event(
+            type: .city,
+            number: "City 35",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(c35)
+        let c36 = Event(
+            type: .city,
+            number: "City 36",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(c36)
+        let c37 = Event(
+            type: .city,
+            number: "City 37",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(c37)
+        let c38 = Event(
+            type: .city,
+            number: "City 38",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(c38)
+        let c39 = Event(
+            type: .city,
+            number: "City 39",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(c39)
+        let c40 = Event(
+            type: .city,
+            number: "City 40",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(c40)
+        let c41 = Event(
+            type: .city,
+            number: "City 41",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(c41)
+        let c42 = Event(
+            type: .city,
+            number: "City 42",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(c42)
+        let c43 = Event(
+            type: .city,
+            number: "City 43",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(c43)
+        let c44 = Event(
+            type: .city,
+            number: "City 44",
+            choice: "",
+            unlocks: "90",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(c44)
+        let c45 = Event(
+            type: .city,
+            number: "City 45",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(c45)
+        let c46 = Event(
+            type: .city,
+            number: "City 46",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(c46)
+        let c47 = Event(
+            type: .city,
+            number: "City 47",
+            choice: "",
+            unlocks: "87",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(c47)
+        let c48 = Event(
+            type: .city,
+            number: "City 48",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(c48)
+        let c49 = Event(
+            type: .city,
+            number: "City 49",
+            choice: "",
+            unlocks: "80",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(c49)
+        let c50 = Event(
+            type: .city,
+            number: "City 50",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(c50)
+        let c51 = Event(
+            type: .city,
+            number: "City 51",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(c51)
+        let c52 = Event(
+            type: .city,
+            number: "City 52",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(c52)
+        let c53 = Event(
+            type: .city,
+            number: "City 53",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(c53)
+        let c54 = Event(
+            type: .city,
+            number: "City 54",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(c54)
+        let c55 = Event(
+            type: .city,
+            number: "City 55",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(c55)
+        let c56 = Event(
+            type: .city,
+            number: "City 56",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(c56)
+        let c57 = Event(
+            type: .city,
+            number: "City 57",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(c57)
+        let c58 = Event(
+            type: .city,
+            number: "City 58",
+            choice: "",
+            unlocks: "91",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(c58)
+        let c59 = Event(
+            type: .city,
+            number: "City 59",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(c59)
+        let c60 = Event(
+            type: .city,
+            number: "City 60",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(c60)
+        let c61 = Event(
+            type: .city,
+            number: "City 61",
+            choice: "",
+            unlocks: "85",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(c61)
+        let c62 = Event(
+            type: .city,
+            number: "City 62",
+            choice: "",
+            unlocks: "85",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(c62)
+        let c63 = Event(
+            type: .city,
+            number: "City 63",
+            choice: "",
+            unlocks: "86",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(c63)
+        let c64 = Event(
+            type: .city,
+            number: "City 64",
+            choice: "",
+            unlocks: "89",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(c64)
+        let c65 = Event(
+            type: .city,
+            number: "City 65",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(c65)
+        let c66 = Event(
+            type: .city,
+            number: "City 66",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(c66)
+        let c67 = Event(
+            type: .city,
+            number: "City 67",
+            choice: "",
+            unlocks: "92",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(c67)
+        let c68 = Event(
+            type: .city,
+            number: "City 68",
+            choice: "",
+            unlocks: "88",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(c68)
+        let c69 = Event(
+            type: .city,
+            number: "City 69",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(c69)
+        let c70 = Event(
+            type: .city,
+            number: "City 70",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(c70)
+        let c71 = Event(
+            type: .city,
+            number: "City 71",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(c71)
+        let c72 = Event(
+            type: .city,
+            number: "City 72",
+            choice: "",
+            unlocks: "79",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(c72)
+        let c73 = Event(
+            type: .city,
+            number: "City 73",
+            choice: "",
+            unlocks: "84",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(c73)
+        let c74 = Event(
+            type: .city,
+            number: "City 74",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(c74)
+        let c75 = Event(
+            type: .city,
+            number: "City 75",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(c75)
+        let c76 = Event(
+            type: .city,
+            number: "City 76",
+            choice: "",
+            unlocks: "74",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(c76)
+        let c77 = Event(
+            type: .city,
+            number: "City 77",
+            choice: "",
+            unlocks: "75",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(c77)
+        let c78 = Event(
+            type: .city,
+            number: "City 78",
+            choice: "",
+            unlocks: "94",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(c78)
+        let c79 = Event(
+            type: .city,
+            number: "City 79",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(c79)
+        let c80 = Event(
+            type: .city,
+            number: "City 80",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(c80)
+        let c81 = Event(
+            type: .city,
+            number: "City 81",
+            choice: "",
+            unlocks: "None",
+            isAvailable: false,
+            isCompleted: false
+        )
+        newEvents.append(c81)
+        return newEvents
+    }
     func resetAll() {
         for scenario in allScenarios {
             if scenario.number == "1" {

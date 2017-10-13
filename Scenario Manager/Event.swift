@@ -10,7 +10,7 @@ import Foundation
 
 class Event: NSObject, NSCoding {
     
-    enum eventType {
+    enum eventType: String {
         case road
         case city
     }
@@ -31,7 +31,7 @@ class Event: NSObject, NSCoding {
         self.isCompleted = isCompleted
     }
     required init?(coder aDecoder: NSCoder) {
-        type = aDecoder.decodeObject(forKey: "Type") as! eventType
+        type = eventType(rawValue: (aDecoder.decodeObject(forKey: "Type") as! String))!
         number = aDecoder.decodeObject(forKey: "Number") as! String
         choice = aDecoder.decodeObject(forKey: "Choice") as! String
         unlocks = aDecoder.decodeObject(forKey: "Unlocks") as! String
@@ -39,7 +39,7 @@ class Event: NSObject, NSCoding {
         isCompleted = aDecoder.decodeBool(forKey: "IsCompleted")
     }
     func encode(with aCoder: NSCoder) {
-        aCoder.encode(type, forKey: "Type")
+        aCoder.encode(type.rawValue, forKey: "Type")
         aCoder.encode(number, forKey: "Number")
         aCoder.encode(choice, forKey: "Choice")
         aCoder.encode(unlocks, forKey: "Unlocks")

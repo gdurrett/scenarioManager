@@ -56,7 +56,6 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
         }// else {
 //            dataModel.globalAchievements["Artifact: Recovered"] = false
 //        }
-        
         setRequirementsMet()
         // Test notification to reload Campaign Detail data after changes are made in Scenario VC
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "reloadData"), object: nil)
@@ -96,7 +95,6 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
                 dataModelAchievementsToChange = "global"
             } else {
                 dataModelAchievementsToChange = "party"
-                //partyOrCampaign = party.value.achievements
             }
             if ach == "REMOVE" {
                 remove = true
@@ -106,6 +104,8 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
                 if remove {
                     if dataModelAchievementsToChange == "global" {
                         dataModel.globalAchievements[ach]! = false
+                        // Check for Ancient Tech here?
+                        if ach == "Ancient Technology" {  } // downtick Ancient tech property
                         campaign.value.achievements[ach]! = false
                     } else {
                         dataModel.partyAchievements[ach]! = false
@@ -116,6 +116,7 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
                     if !(ach == "None") {
                         if dataModelAchievementsToChange == "global" {
                             dataModel.globalAchievements[ach]! = true
+                            if ach == "Ancient Technology" {  } // uptick Ancient tech property
                             campaign.value.achievements[ach]! = true
                         } else {
                             dataModel.partyAchievements[ach]! = true
@@ -127,6 +128,7 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
                 if remove {
                     if dataModelAchievementsToChange == "global" {
                         dataModel.globalAchievements[ach]! = true
+                        if ach == "Ancient Technology" {  } // uptick Ancient tech property
                         campaign.value.achievements[ach]! = true
                     } else {
                         dataModel.partyAchievements[ach]! = true
@@ -137,6 +139,7 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
                     if !(ach == "None") && !(myAchieves.contains(ach)){
                         if dataModelAchievementsToChange == "global" {
                             dataModel.globalAchievements[ach]! = false
+                            if ach == "Ancient Technology" {  } // downtick Ancient tech property
                             campaign.value.achievements[ach]! = false
                         } else {
                             dataModel.partyAchievements[ach]! = false

@@ -10,9 +10,12 @@ import UIKit
 
 protocol CampaignDetailViewControllerDelegate: class {
     func campaignDetailVCDidTapDelete(_ controller: CampaignDetailViewController)
+    func toggleSection(section: Int)
+    func showEventChoiceAlert(_ controller: CampaignDetailViewController)
+    func setEventOptionChoice(option: String)
 }
 
-class CampaignDetailViewController: UIViewController, CampaignDetailViewModelDelegate {
+class CampaignDetailViewController: UIViewController {
 
     @IBOutlet weak var campaignDetailTableView: UITableView!
 
@@ -23,12 +26,7 @@ class CampaignDetailViewController: UIViewController, CampaignDetailViewModelDel
         loadCreateCampaignViewController()
     }
     @IBAction func deleteCampaignAction(_ sender: Any) {
-        // Call back to viewModel
-        // check if we're only campaign and raise alert if so
-        //delegate.campaignDetailVCDidTapDelete(self)
         showConfirmDeletionAlert()
-//        updateAllSections()
-//        refreshAllSections()
     }
     weak var delegate: CampaignDetailViewControllerDelegate!
     
@@ -39,13 +37,20 @@ class CampaignDetailViewController: UIViewController, CampaignDetailViewModelDel
     override func viewDidLoad() {
         super.viewDidLoad()
         // Test
+        
+        viewModel.reloadEventsSection = { [weak self] (section: Int) in
+            self?.refreshEvents()
+            //self?.scrollToBottom()
+        }
+        viewModel.scrollEventsSection = { [weak self] () in
+            self?.scrollToBottom()
+        }
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.showEventChoiceAlert), name: NSNotification.Name(rawValue: "showEventChoiceAlert"), object: nil)
 
-        
-        viewModel.delegate = self
-        
         campaignDetailTableView?.dataSource = viewModel
         campaignDetailTableView?.delegate = viewModel
         
@@ -55,10 +60,13 @@ class CampaignDetailViewController: UIViewController, CampaignDetailViewModelDel
         campaignDetailTableView?.register(CampaignDetailDonationsCell.nib, forCellReuseIdentifier: CampaignDetailDonationsCell.identifier)
         campaignDetailTableView?.register(CampaignDetailPartyCell.nib, forCellReuseIdentifier: CampaignDetailPartyCell.identifier)
         campaignDetailTableView?.register(CampaignDetailAchievementsCell.nib, forCellReuseIdentifier: CampaignDetailAchievementsCell.identifier)
-        campaignDetailTableView?.register(CampaignDetailCityEventsCell.nib, forCellReuseIdentifier: CampaignDetailCityEventsCell.identifier)
+        campaignDetailTableView?.register(CampaignDetailEventCell.nib, forCellReuseIdentifier: CampaignDetailEventCell.identifier)
         
-        updateAllSections()
-        refreshAllSections()
+        // Register Custom header(s)
+        campaignDetailTableView?.register(CampaignDetailEventsHeader.nib, forCellReuseIdentifier: CampaignDetailEventsHeader.identifier)
+        
+//        updateAllSections()
+//        refreshAllSections()
         
         styleUI()
     }
@@ -110,22 +118,27 @@ extension CampaignDetailViewController: UITableViewDelegate {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        
         viewModel.updateAchievements()
         viewModel.updateCampaignTitle()
         viewModel.updateChecksToNextLevel()
         viewModel.updateProsperityLevel()
         viewModel.updateDonations()
         viewModel.updateParties()
+        viewModel.updateEvents()
         
         refreshAchievements()
         refreshCampaignTitle()
         refreshProsperityLevel()
         refreshDonations()
         refreshParties()
+        refreshEvents()
+        
+        self.navigationItem.title = ("\(self.viewModel.campaignTitle.value) Detail")
+
         
 //        updateAllSections()
 //        refreshAllSections()
-        print("In ViewWillAppear, I see: \(viewModel.eventItems!.titles)")
     }
     // Helper methods
     fileprivate func styleUI() {
@@ -134,7 +147,7 @@ extension CampaignDetailViewController: UITableViewDelegate {
         self.navigationController?.navigationBar.tintColor = colorDefinitions.mainTextColor
         self.navigationController?.navigationBar.barTintColor = colorDefinitions.scenarioTableViewNavBarBarTintColor
         self.navigationController?.navigationBar.titleTextAttributes = [.font: UIFont(name: "Nyala", size: 26.0)!, .foregroundColor: colorDefinitions.mainTextColor]
-        self.navigationItem.title = ("Campaign Detail")
+        self.navigationItem.title = ("\(self.viewModel.campaignTitle.value) Detail")
         self.campaignDetailTableView.backgroundView = UIImageView(image: UIImage(named: "campaignDetailTableViewBG"))
         self.campaignDetailTableView.backgroundView?.alpha = 0.25
     }
@@ -146,7 +159,7 @@ extension CampaignDetailViewController: UITableViewDelegate {
         viewModel.updateProsperityLevel()
         viewModel.updateDonations()
         viewModel.updateParties()
-        viewModel.updateCityEvents()
+        viewModel.updateEvents()
     }
     func refreshAllSections() {
         refreshAchievements()
@@ -154,7 +167,37 @@ extension CampaignDetailViewController: UITableViewDelegate {
         refreshProsperityLevel()
         refreshDonations()
         refreshParties()
-        refreshCityEvents()
+        refreshEvents()
+    }
+    // Currently dedicated to Events section
+    func scrollToBottom() {
+        var numberOfRows = Int()
+        switch self.viewModel.selectedEventsSegmentIndex {
+        case 0:
+        numberOfRows = self.viewModel.unavailableEvents.value.filter { $0.type.rawValue == self.viewModel.selectedEventType }.count
+        case 1:
+        numberOfRows = self.viewModel.availableEvents.value.filter { $0.type.rawValue == self.viewModel.selectedEventType }.count
+        case 2:
+        numberOfRows = self.viewModel.completedEvents.value.filter { $0.type.rawValue == self.viewModel.selectedEventType }.count
+        default:
+            break
+        }
+        if numberOfRows > 0 && numberOfRows < 5 {
+            DispatchQueue.main.async {
+                let indexPath = IndexPath(row: numberOfRows - 1, section: 5)
+                self.campaignDetailTableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+            }
+        } else if numberOfRows > 5 {
+            DispatchQueue.main.async {
+                let indexPath = IndexPath(row: 4, section: 5)
+                self.campaignDetailTableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+            }
+        } else {
+            DispatchQueue.main.async {
+                let indexPath = IndexPath(row: 0, section: 5)
+                self.campaignDetailTableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+            }
+        }
     }
     func refreshAchievements() {
         DispatchQueue.main.async {
@@ -181,12 +224,12 @@ extension CampaignDetailViewController: UITableViewDelegate {
             self.campaignDetailTableView.reloadSections([3], with: .none)
         }
     }
-    func refreshCityEvents() {
+    func refreshEvents() {
         DispatchQueue.main.async {
-//            print("I think viewModel has: \(self.viewModel.cityEventItems!.titles)")
-            self.campaignDetailTableView.reloadSections([5], with: .none)
+            self.campaignDetailTableView.reloadSections([5], with: .automatic)
         }
     }
+    
     fileprivate func showConfirmDeletionAlert () {
         let alertController = UIAlertController(title: "Delete current campaign?", message: "Clicking OK will delete the current campaign.", preferredStyle: .alert)
         let OKAction = UIAlertAction(title: "Delete", style: .default) { (action:UIAlertAction!) in
@@ -211,6 +254,7 @@ extension CampaignDetailViewController: UITableViewDelegate {
         // Give VC the current campaign so it can set checkmark.
         selectCampaignVC.currentCampaign = viewModel.campaignTitle.value
         selectCampaignVC.viewModel = CampaignViewModelFromModel(withDataModel: viewModel!.dataModel)
+        selectCampaignVC.reloadDelegate = self // Need to reloadData on entire table before returning here!
         selectCampaignVC.hidesBottomBarWhenPushed = true
         //self.navigationController!.pushViewController(selectCampaignVC, animated: true)
         self.navigationController!.present(selectCampaignVC, animated: true, completion: nil)
@@ -221,6 +265,8 @@ extension CampaignDetailViewController: UITableViewDelegate {
         // Give VC the current campaign so it can set checkmark.
         createCampaignVC.viewModel = CreateCampaignViewModelFromModel(withDataModel: viewModel!.dataModel)
         createCampaignVC.delegate = createCampaignVC.viewModel
+        // Test Test!
+        createCampaignVC.reloadDelegate = self // Need to reloadData on entire table before returning here!
         createCampaignVC.hidesBottomBarWhenPushed = true
         self.navigationController!.present(createCampaignVC, animated: true, completion: nil)
     }
@@ -236,5 +282,30 @@ extension CampaignDetailViewController: UITableViewDelegate {
         alertView.view.tintColor = colorDefinitions.scenarioAlertViewTintColor
         alertView.addAction(action)
         present(alertView, animated: true, completion: nil)
+    }
+    // Called by CampaignDetailViewModel
+    @objc func showEventChoiceAlert() {
+        let optionMenu = UIAlertController(title: nil, message: "Choose an option", preferredStyle: .actionSheet)
+        
+        let chooseOptionA = UIAlertAction(title: "Choose Option A", style: .default, handler: {
+            (alert: UIAlertAction!) -> Void in
+            self.delegate!.setEventOptionChoice(option: "A")
+        })
+        let chooseOptionB = UIAlertAction(title: "Choose Option B", style: .default, handler: {
+            (alert: UIAlertAction!) -> Void in
+            self.delegate!.setEventOptionChoice(option: "B")
+        })
+        
+        optionMenu.addAction(chooseOptionA)
+        optionMenu.addAction(chooseOptionB)
+        
+        optionMenu.view.tintColor = colorDefinitions.scenarioAlertViewTintColor
+        present(optionMenu, animated: true, completion: nil)
+    }
+}
+// Test Test!
+extension CampaignDetailViewController: CreateCampaignViewControllerReloadDelegate {
+    func reloadAfterDidFinishAdding() {
+        self.campaignDetailTableView.reloadData()
     }
 }
