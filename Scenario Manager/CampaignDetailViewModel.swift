@@ -50,6 +50,7 @@ class CampaignDetailViewModel: NSObject {
     var unavailableEvents: Dynamic<[Event]>
     var availableEvents: Dynamic<[Event]>
     var completedEvents: Dynamic<[Event]>
+    var ancientTechCount: Dynamic<Int>
     // Convert to dynamic later
     //var eventItems: CampaignDetailViewModelCampaignEventsItem?
     var headersToUpdate = [Int:UITableViewHeaderFooterView]()
@@ -66,7 +67,7 @@ class CampaignDetailViewModel: NSObject {
     var selectedEventType = "road"
     var textFieldReturningCellType: CampaignDetailViewModelItemType?
     var disableSwipe = false
-    
+    var gotTech = false // Used in cellForRow
     var reloadEventsSection: ((_ section: Int) -> Void)?
     var scrollEventsSection: (() -> Void)?
 
@@ -79,9 +80,9 @@ class CampaignDetailViewModel: NSObject {
         self.donations = Dynamic(dataModel.currentCampaign.sanctuaryDonations)
         self.parties = Dynamic(dataModel.currentParties)
         self.unavailableEvents = Dynamic(dataModel.unavailableEvents)
-        self.availableEvents = Dynamic(dataModel.completedEvents)
+        self.availableEvents = Dynamic(dataModel.availableEvents)
         self.completedEvents = Dynamic(dataModel.completedEvents)
-        
+        self.ancientTechCount = Dynamic(dataModel.currentCampaign.ancientTechCount)
         super.init()
         self.prosperityLevel = Dynamic(getProsperityLevel(count: dataModel.currentCampaign.prosperityCount))
         self.checksToNextLevel = Dynamic(getRemainingChecksUntilNextLevel(level: (getProsperityLevel(count: dataModel.currentCampaign.prosperityCount)), count: dataModel.currentCampaign.prosperityCount))
@@ -115,9 +116,14 @@ class CampaignDetailViewModel: NSObject {
         let localCompletedAchievements = campaign.achievements.filter { $0.value != false && $0.key != "None" && $0.key != "OR" }
         if localCompletedAchievements.isEmpty != true {
             for achievement in localCompletedAchievements {
-                achievementNames.append(SeparatedStrings(rowString: achievement.key))
+                if achievement.key.contains("Ancient Technology:1") || achievement.key.contains("Ancient Technology:2") || achievement.key.contains("Ancient Technology:3") || achievement.key.contains("Ancient Technology:4") || achievement.key.contains("Ancient Technology:5") {
+                    gotTech = true
+                } else {
+                    achievementNames.append(SeparatedStrings(rowString: achievement.key))
+                }
             }
         }
+        if gotTech == true { achievementNames.append(SeparatedStrings(rowString: "Ancient Technology")) }
         let achievementsItem = CampaignDetailViewModelCampaignAchievementsItem(achievements: achievementNames)
         items.append(achievementsItem)
         
@@ -218,6 +224,9 @@ class CampaignDetailViewModel: NSObject {
         self.completedEvents.value = dataModel.completedEvents
         self.availableEvents.value = dataModel.availableEvents
     }
+    func updateAncientTech() {
+        self.ancientTechCount.value = dataModel.currentCampaign.ancientTechCount
+    }
     func configureSwipeButton(for event: Event) {
         let eventTokens = event.number.components(separatedBy: " ")
         let eventInt = Int(eventTokens[1])
@@ -280,11 +289,20 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
         var returnValue = 0
         self.updateEvents()
         self.updateAchievements()
+        self.updateAncientTech()
         
         // May need an updateEvents() too?
         //let item = self.items[section]
         if self.items[section].type == .achievements {
-            return self.completedGlobalAchievements.value.count
+            if self.completedGlobalAchievements.value.count == 0 {
+                return 1
+            } else {
+                if self.dataModel.currentCampaign.ancientTechCount > 1 {
+                    return self.completedGlobalAchievements.value.count - (self.ancientTechCount.value - 1)
+                } else {
+                    return self.completedGlobalAchievements.value.count
+                }
+            }
         } else if self.items[section].type == .events {
             //probably bring this into local variable
             switch selectedEventsSegmentIndex {
@@ -374,11 +392,18 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
             if let _ = item as? CampaignDetailViewModelCampaignAchievementsItem, let cell = tableView.dequeueReusableCell(withIdentifier: CampaignDetailAchievementsCell.identifier, for: indexPath) as? CampaignDetailAchievementsCell {
                 cell.backgroundColor = UIColor.clear
                 var achievement = SeparatedStrings(rowString: "")
-                let tempAch = Array(self.completedGlobalAchievements.value.keys)
+                var tempAch = Array(self.completedGlobalAchievements.value.keys)
+                if tempAch.isEmpty { tempAch = ["No completed achievements"] }
                 var achNames = [SeparatedStrings]()
+                gotTech = false
                 for ach in tempAch {
-                    achNames.append(SeparatedStrings(rowString: ach))
+                    if ach.contains("Ancient Technology:1") || ach.contains("Ancient Technology:2") || ach.contains("Ancient Technology:3") || ach.contains("Ancient Technology:4") || ach.contains("Ancient Technology:5") {
+                        gotTech = true
+                    } else {
+                        achNames.append(SeparatedStrings(rowString: ach))
+                    }
                 }
+                if gotTech == true { achNames.append(SeparatedStrings(rowString: ("Ancient Technology (\(dataModel.currentCampaign.ancientTechCount))"))) }
                 achievement = achNames[indexPath.row]
                 cell.selectionStyle = .none
                 cell.item = achievement

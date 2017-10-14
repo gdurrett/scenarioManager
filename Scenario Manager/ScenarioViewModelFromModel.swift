@@ -21,6 +21,7 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
     var party: Dynamic<Party>
     let availableScenarios: Dynamic<[Scenario]>
     let completedScenarios: Dynamic<[Scenario]>
+    let ancientTechCount: Dynamic<Int>
     var selectedScenario: Scenario?
     var myAchieves = [String]()
     var scenarioMgrViewBGString = String()
@@ -36,7 +37,7 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
         self.party = Dynamic(dataModel.currentParty!)
         self.availableScenarios = Dynamic(dataModel.availableScenarios)
         self.completedScenarios = Dynamic(dataModel.completedScenarios)
-        
+        self.ancientTechCount = Dynamic(dataModel.currentCampaign.ancientTechCount)
     }
     // MARK: Helper functions
     func updateAvailableScenarios(scenario: Scenario, isCompleted: Bool) {
@@ -62,6 +63,15 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
         //Need to re-get after update. Using Dynamic vars!
         self.availableScenarios.value = dataModel.availableScenarios
         self.completedScenarios.value = dataModel.completedScenarios
+        // See if we can set current Tech count here
+        var techCount = 0
+        for item in self.completedScenarios.value {
+            if item.achieves.contains("Ancient Technology:1") || item.achieves.contains("Ancient Technology:2") || item.achieves.contains("Ancient Technology:3") || item.achieves.contains("Ancient Technology:4") || item.achieves.contains("Ancient Technology:5") {
+                techCount += 1
+            }
+        }
+        print(techCount)
+        self.dataModel.currentCampaign.ancientTechCount = techCount
         dataModel.saveCampaignsLocally()
         
     }
@@ -70,6 +80,7 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
         self.availableScenarios.value = dataModel.availableScenarios
         self.completedScenarios.value = dataModel.completedScenarios
         self.campaign.value = dataModel.currentCampaign
+        //self.ancientTechCount.value = dataModel.currentCampaign.ancientTechCount
         dataModel.saveCampaignsLocally()
         // Try force refresh here to solve first load from cloud issue?
     }
@@ -105,7 +116,6 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
                     if dataModelAchievementsToChange == "global" {
                         dataModel.globalAchievements[ach]! = false
                         // Check for Ancient Tech here?
-                        if ach == "Ancient Technology" {  } // downtick Ancient tech property
                         campaign.value.achievements[ach]! = false
                     } else {
                         dataModel.partyAchievements[ach]! = false
@@ -116,7 +126,6 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
                     if !(ach == "None") {
                         if dataModelAchievementsToChange == "global" {
                             dataModel.globalAchievements[ach]! = true
-                            if ach == "Ancient Technology" {  } // uptick Ancient tech property
                             campaign.value.achievements[ach]! = true
                         } else {
                             dataModel.partyAchievements[ach]! = true
@@ -128,7 +137,6 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
                 if remove {
                     if dataModelAchievementsToChange == "global" {
                         dataModel.globalAchievements[ach]! = true
-                        if ach == "Ancient Technology" {  } // uptick Ancient tech property
                         campaign.value.achievements[ach]! = true
                     } else {
                         dataModel.partyAchievements[ach]! = true
@@ -139,7 +147,6 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
                     if !(ach == "None") && !(myAchieves.contains(ach)){
                         if dataModelAchievementsToChange == "global" {
                             dataModel.globalAchievements[ach]! = false
-                            if ach == "Ancient Technology" {  } // downtick Ancient tech property
                             campaign.value.achievements[ach]! = false
                         } else {
                             dataModel.partyAchievements[ach]! = false

@@ -129,7 +129,11 @@ class ScenarioDetailViewModel: NSObject {
             items.append(rewardsItem)
         }
         var remove = false
+        // Prep achievements
         for achieve in scenario.achieves {
+            var achType = String()
+            let tempAch = Array(self.dataModel.globalAchievements.keys)
+            if tempAch.contains(achieve) { achType = "Global" } else { achType = "Party" }
             if achieve == "REMOVE" {
                 remove = true
                 continue
@@ -138,7 +142,11 @@ class ScenarioDetailViewModel: NSObject {
                 achieves.append(SeparatedStrings(rowString: "LOSE: " + achieve))
                 remove = false
             } else {
-                achieves.append(SeparatedStrings(rowString: achieve))
+                if achieve.prefix(18) == "Ancient Technology" {
+                    achieves.append(SeparatedStrings(rowString: "Ancient Technology - \(achType)"))
+                } else {
+                achieves.append(SeparatedStrings(rowString: "\(achieve) - \(achType)"))
+                }
             }
         }
         
