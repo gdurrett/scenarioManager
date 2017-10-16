@@ -46,7 +46,8 @@ class CampaignDetailViewModel: NSObject {
     var prosperityLevel: Dynamic<Int>
     var checksToNextLevel: Dynamic<Int>
     var donations: Dynamic<Int>
-    var parties: Dynamic<[String]>
+    var assignedParties: Dynamic<[String]>
+    var availableParties: Dynamic<[String]>
     var unavailableEvents: Dynamic<[Event]>
     var availableEvents: Dynamic<[Event]>
     var completedEvents: Dynamic<[Event]>
@@ -64,12 +65,12 @@ class CampaignDetailViewModel: NSObject {
     
     var selectedEvent: Event?
     var selectedEventsSegmentIndex = 1
-    var selectedPartiesSegmentIndex = 1
+    var selectedPartiesSegmentIndex = 0
     var selectedEventType = "road"
     var textFieldReturningCellType: CampaignDetailViewModelItemType?
     var disableSwipe = false
     var gotTech = false // Used in cellForRow
-    var reloadEventsSection: ((_ section: Int) -> Void)?
+    var reloadSection: ((_ section: Int) -> Void)?
     var scrollEventsSection: (() -> Void)?
 
     
@@ -79,7 +80,8 @@ class CampaignDetailViewModel: NSObject {
         self.prosperityLevel = Dynamic(0)
         self.checksToNextLevel = Dynamic(0)
         self.donations = Dynamic(dataModel.currentCampaign.sanctuaryDonations)
-        self.parties = Dynamic(dataModel.currentParties)
+        self.assignedParties = Dynamic(dataModel.assignedParties)
+        self.availableParties = Dynamic(dataModel.availableParties)
         self.unavailableEvents = Dynamic(dataModel.unavailableEvents)
         self.availableEvents = Dynamic(dataModel.availableEvents)
         self.completedEvents = Dynamic(dataModel.completedEvents)
@@ -217,8 +219,11 @@ class CampaignDetailViewModel: NSObject {
     func updateDonations() {
         self.donations.value = dataModel.currentCampaign.sanctuaryDonations
     }
-    func updateParties() {
-        self.parties.value = dataModel.currentParties
+    func updateAssignedParties() {
+        self.assignedParties.value = dataModel.assignedParties
+    }
+    func updateAvailableParties() {
+        self.availableParties.value = dataModel.availableParties
     }
     func updateEvents() {
         self.unavailableEvents.value = dataModel.unavailableEvents
@@ -289,6 +294,8 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         var returnValue = 0
         self.updateEvents()
+        self.updateAssignedParties()
+        self.updateAvailableParties()
         self.updateAchievements()
         self.updateAncientTech()
         
@@ -322,6 +329,15 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
                 } else {
                     returnValue = myCount
                 }
+            default:
+                break
+            }
+        } else if self.items[section].type == .parties {
+            switch selectedPartiesSegmentIndex {
+            case 0:
+                returnValue = self.assignedParties.value.count == 0 ? 1 : self.assignedParties.value.count
+            case 1:
+                returnValue = self.availableParties.value.count == 0 ? 1 : self.availableParties.value.count
             default:
                 break
             }
@@ -377,12 +393,19 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
                 //cell.delegate = self
                 cell.backgroundColor = UIColor.clear
                 var names = [SeparatedStrings]()
-                if parties.value.isEmpty != true {
-                    for name in parties.value {
-                        names.append(SeparatedStrings(rowString: name))
+                switch selectedPartiesSegmentIndex {
+                case 0:
+                    for party in self.assignedParties.value {
+                        names.append(SeparatedStrings(rowString: party))
                     }
-                } else {
-                    names.append(SeparatedStrings(rowString: "No parties assigned"))
+                    if names.isEmpty { names = [SeparatedStrings(rowString: "No parties assigned")]}
+                case 1:
+                    for party in self.availableParties.value {
+                        names.append(SeparatedStrings(rowString: party))
+                    }
+                    if names.isEmpty { names = [SeparatedStrings(rowString: "No parties available")]}
+                default:
+                    break
                 }
                 cell.selectionStyle = .none
                 let party = names[indexPath.row]
@@ -561,7 +584,7 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
             } else {
                 returnValue = [swipeToggleComplete, swipeToggleUnavailable]
             }
-        }
+        } // Check for section 3 here
         return returnValue
     }
     // Implemented due to possibility of an event row with no actual data (just a string saying "No completed events")
@@ -685,7 +708,6 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
         button.addTarget(self, action: #selector(self.hideUIStepperInCampaignProsperityCell(_:)), for: .touchUpInside)
     }
     @objc func showUIStepperInCampaignDonationsCell(_ button: UIButton) {
-        print("editing donations cell")
         button.setImage(UIImage(named: "icons8-Edit-40_selected"), for: .normal)
         let myCell = self.currentDonationsCell as! CampaignDetailDonationsCell
         myCell.myStepperOutlet.isHidden = false
@@ -703,7 +725,6 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
         button.setImage(UIImage(named: "icons8-Edit-40"), for: .normal)
     }
     @objc func hideUIStepperInCampaignDonationsCell(_ button: UIButton) {
-        print("done editing donations cell")
         let myCell = self.currentDonationsCell as! CampaignDetailDonationsCell
         myCell.myStepperOutlet.isHidden = true
         myCell.myStepperOutlet.isEnabled = false
@@ -736,13 +757,19 @@ extension CampaignDetailViewModel: SelectCampaignViewControllerDelegate, Campaig
         controller.dismiss(animated: true, completion: nil)
     }
     func toggleSection(section: Int) {
-        reloadEventsSection?(section)
+        reloadSection?(section)
     }
     func callScrollEventsSection() {
         scrollEventsSection?()
     }
     func campaignDetailVCDidTapDelete(_ controller: CampaignDetailViewController) {
         if dataModel.campaigns.count > 1 {
+            let campaignForParty = dataModel.campaigns[self.campaignTitle.value]
+            if !(campaignForParty?.parties?.isEmpty)! {
+                for party in (campaignForParty?.parties!)! {
+                        party.assignedTo = "None" // Make sure to set to None since we're deleting associated campaign.
+                }
+            }
             dataModel.campaigns.removeValue(forKey: self.campaignTitle.value)
             let myCampaign = Array(dataModel.campaigns.values)
             setCampaignActive(campaign: myCampaign.first!.title)

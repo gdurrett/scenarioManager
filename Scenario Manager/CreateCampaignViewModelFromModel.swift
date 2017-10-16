@@ -46,7 +46,9 @@ class CreateCampaignViewModelFromModel: NSObject {
     
     init(withDataModel dataModel: DataModel) {
         self.dataModel = dataModel
-        self.parties = dataModel.parties
+        for party in dataModel.availableParties {
+            self.parties[party] = dataModel.parties[party]
+        }
     }
 
     fileprivate func returnTextFieldPlaceholderText() -> String {
@@ -91,9 +93,15 @@ extension CreateCampaignViewModelFromModel: UITableViewDataSource, UITableViewDe
         case .Parties:
             let cell = tableView.dequeueReusableCell(withIdentifier: CreateCampaignPartyCell.identifier) as! CreateCampaignPartyCell
             let myParties = Array(self.parties.values)
+            var partyLabelText = String()
             //cell.accessoryType = selectedRows.contains(indexPath.row) ? .checkmark : .none
             cell.selectionStyle = .none
-            cell.createCampaignPartyLabel.text = myParties[indexPath.row].name
+            if self.parties.values.isEmpty {
+                partyLabelText = "No available parties"
+            } else {
+                partyLabelText = myParties[indexPath.row].name
+            }
+            cell.createCampaignPartyLabel.text = partyLabelText
             cell.backgroundView?.alpha = 0.25
             cell.selectedBackgroundView?.alpha = 0.65
             tableViewCell = cell
@@ -144,6 +152,9 @@ extension CreateCampaignViewModelFromModel: CreateCampaignViewControllerDelegate
             controller.dismiss(animated: true, completion: nil)
         } else {
             // Present alert controller telling them to put a name in title field
+        }
+        for party in selectedParties {
+            party.assignedTo = newCampaignTitle!
         }
     }
 }

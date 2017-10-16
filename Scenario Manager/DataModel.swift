@@ -51,12 +51,26 @@ class DataModel {
             return currentCampaign.achievements.filter { $0.value != false && $0.key != "None" && $0.key != "OR" }
         }
     }
-    var currentParties: [String] {
+    var assignedParties: [String] {
         get {
             var tempParties = [String]()
             if currentCampaign.parties?.isEmpty != true {
                 for party in currentCampaign.parties! {
                     tempParties.append(party.name)
+                }
+            } else {
+                tempParties.append("None")
+            }
+            return tempParties
+        }
+    }
+    var availableParties: [String] {
+        get {
+            var tempParties = [String]()
+            for party in self.parties {
+                if party.value.assignedTo == "None" {
+                    tempParties.append(party.key)
+                } else {
                 }
             }
             return tempParties
@@ -155,7 +169,6 @@ class DataModel {
             for party in parties {
                 if party.value.isCurrent == true {
                     loadParty(party: party.key)
-                    print("Setting party to: \(party.value.name)")
                     break
                 }
             }
@@ -2034,7 +2047,6 @@ class DataModel {
     func createCampaign(title: String, isCurrent: Bool, parties: [Party]) {
         if (campaigns[title] == nil) {
             let newCampaign = Campaign(title: title, parties: parties, achievements:[:], prosperityCount: 0, sanctuaryDonations: 0, events: createEvents(), isUnlocked: [], requirementsMet: [], isCompleted: [], isCurrent: isCurrent, ancientTechCount: 0)
-            print("Added events: \(self.events)")
             for scenario in allScenarios {
                 if scenario.number == "1" {
                     newCampaign.isUnlocked.append(true)

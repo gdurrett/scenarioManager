@@ -38,9 +38,12 @@ class CampaignDetailViewController: UIViewController {
         super.viewDidLoad()
         // Test
         
-        viewModel.reloadEventsSection = { [weak self] (section: Int) in
-            self?.refreshEvents()
-            //self?.scrollToBottom()
+        viewModel.reloadSection = { [weak self] (section: Int) in
+            if section == 3 {
+                self?.refreshParties()
+            } else if section == 5 {
+                self?.refreshEvents()
+            }
         }
         viewModel.scrollEventsSection = { [weak self] () in
             self?.scrollToBottom()
@@ -125,7 +128,8 @@ extension CampaignDetailViewController: UITableViewDelegate {
         viewModel.updateChecksToNextLevel()
         viewModel.updateProsperityLevel()
         viewModel.updateDonations()
-        viewModel.updateParties()
+        viewModel.updateAvailableParties()
+        viewModel.updateAssignedParties()
         viewModel.updateEvents()
         
         refreshAchievements()
@@ -135,8 +139,8 @@ extension CampaignDetailViewController: UITableViewDelegate {
         refreshParties()
         refreshEvents()
         
-        self.navigationItem.title = ("\(self.viewModel.campaignTitle.value) Detail")
-
+        //self.navigationItem.title = ("\(self.viewModel.campaignTitle.value) Detail")
+        self.updateNavTitle()
         
 //        updateAllSections()
 //        refreshAllSections()
@@ -159,7 +163,8 @@ extension CampaignDetailViewController: UITableViewDelegate {
         viewModel.updateChecksToNextLevel()
         viewModel.updateProsperityLevel()
         viewModel.updateDonations()
-        viewModel.updateParties()
+        viewModel.updateAvailableParties()
+        viewModel.updateAssignedParties()
         viewModel.updateEvents()
     }
     func refreshAllSections() {
@@ -230,13 +235,16 @@ extension CampaignDetailViewController: UITableViewDelegate {
             self.campaignDetailTableView.reloadSections([5], with: .automatic)
         }
     }
-    
+    func updateNavTitle() {
+        self.navigationItem.title = ("\(self.viewModel.campaignTitle.value) Detail")
+    }
     fileprivate func showConfirmDeletionAlert () {
         let alertController = UIAlertController(title: "Delete current campaign?", message: "Clicking OK will delete the current campaign.", preferredStyle: .alert)
         let OKAction = UIAlertAction(title: "Delete", style: .default) { (action:UIAlertAction!) in
             self.delegate.campaignDetailVCDidTapDelete(self)
             self.updateAllSections()
             self.refreshAllSections()
+            self.updateNavTitle()
         }
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (action:UIAlertAction!) in
@@ -264,6 +272,8 @@ extension CampaignDetailViewController: UITableViewDelegate {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let createCampaignVC = storyboard.instantiateViewController(withIdentifier: "CreateCampaignViewController") as! CreateCampaignViewController
         // Give VC the current campaign so it can set checkmark.
+        self.viewModel.updateAvailableParties()
+        self.viewModel.updateAssignedParties()
         createCampaignVC.viewModel = CreateCampaignViewModelFromModel(withDataModel: viewModel!.dataModel)
         createCampaignVC.delegate = createCampaignVC.viewModel
         // Test Test!
@@ -308,5 +318,6 @@ extension CampaignDetailViewController: UITableViewDelegate {
 extension CampaignDetailViewController: CreateCampaignViewControllerReloadDelegate {
     func reloadAfterDidFinishAdding() {
         self.campaignDetailTableView.reloadData()
+        self.updateNavTitle()
     }
 }

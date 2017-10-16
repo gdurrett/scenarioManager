@@ -69,21 +69,6 @@ class DashboardViewController: UIViewController, DeleteCampaignViewControllerDel
         self.navigationItem.title = "Dashboard"
         self.navigationController?.navigationBar.titleTextAttributes = [.font: UIFont(name: "Nyala", size: 26.0)!, .foregroundColor: colorDefinitions.mainTextColor]
     }
-
-    // Farm this out to separate object
-//    func setTextAttributes(fontName: String, fontSize: CGFloat, textColor: UIColor) -> [ String : Any ] {
-//        let fontStyle = UIFont(name: fontName, size: fontSize)
-//        let fontColor = textColor
-//        return [ NSFontAttributeName : fontStyle! , NSForegroundColorAttributeName : fontColor ]
-//    }
-    // Delegate methods for CreateCampaignViewController
-//    func createCampaignViewControllerDidCancel(_ controller: CreateCampaignViewController) {
-//        print("Did we get back here to cancel?")
-//        controller.navigationController?.popViewController(animated: true)
-//    }
-//    func createCampaignViewControllerDidFinishAdding(_ controller: CreateCampaignViewController) {
-//        controller.navigationController?.popViewController(animated: true)
-//    }
     
     // Delegate methods for DeleteCamaignViewController
     func deleteCampaignViewControllerDidCancel(_ controller: DeleteCampaignViewController) {

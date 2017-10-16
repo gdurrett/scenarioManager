@@ -70,7 +70,6 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
                 techCount += 1
             }
         }
-        print(techCount)
         self.dataModel.currentCampaign.ancientTechCount = techCount
         dataModel.saveCampaignsLocally()
         
