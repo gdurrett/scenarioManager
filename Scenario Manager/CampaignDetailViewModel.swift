@@ -64,6 +64,7 @@ class CampaignDetailViewModel: NSObject {
     
     var selectedEvent: Event?
     var selectedEventsSegmentIndex = 1
+    var selectedPartiesSegmentIndex = 1
     var selectedEventType = "road"
     var textFieldReturningCellType: CampaignDetailViewModelItemType?
     var disableSwipe = false
@@ -456,7 +457,7 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
         return self.items[section].sectionTitle
     }
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if self.items[section].sectionTitle == "Events" {
+        if self.items[section].sectionTitle == "Events" || self.items[section].sectionTitle == "Parties" {
             return 80
         } else {
             return 50
@@ -480,6 +481,13 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
             headerView.cityButton.addTarget(self, action: #selector(self.pressedCityButton(button:)), for: .touchUpInside)
             headerView.campaignDetailEventsHeaderTitle.text = "Events"
             // Return contentView of headerView so it doesn't disappear
+            return headerView.contentView
+        } else if self.items[section].sectionTitle == "Parties" {
+            let headerView = tableView.dequeueReusableCell(withIdentifier: "CampaignDetailPartiesHeader") as! CampaignDetailPartiesHeader
+            headerView.getSegment.addTarget(self, action: #selector(self.getPartySegmentControlValue(sender:)), for: .valueChanged)
+            headerView.getSegment.selectedSegmentIndex = self.selectedPartiesSegmentIndex
+            
+            headerView.campaignDetailPartiesHeaderTitle.text = "Parties"
             return headerView.contentView
         } else {
             let headerView = UIView(frame: CGRect(x:0, y:0, width: tableView.frame.size.width, height: tableView.frame.size.height))
@@ -649,6 +657,10 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
         self.selectedEventsSegmentIndex = sender.selectedSegmentIndex
         self.toggleSection(section: 5)
         self.scrollEventsSection!()
+    }
+    @objc func getPartySegmentControlValue(sender: UISegmentedControl) {
+        self.selectedPartiesSegmentIndex = sender.selectedSegmentIndex
+        self.toggleSection(section: 3)
     }
     @objc func enableTitleTextField(_ sender: UIButton) {
         let myCell = self.currentTitleCell as! CampaignDetailTitleCell

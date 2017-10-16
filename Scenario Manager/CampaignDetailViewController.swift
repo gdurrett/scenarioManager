@@ -64,6 +64,7 @@ class CampaignDetailViewController: UIViewController {
         
         // Register Custom header(s)
         campaignDetailTableView?.register(CampaignDetailEventsHeader.nib, forCellReuseIdentifier: CampaignDetailEventsHeader.identifier)
+        campaignDetailTableView?.register(CampaignDetailPartiesHeader.nib, forCellReuseIdentifier: CampaignDetailPartiesHeader.identifier)
         
 //        updateAllSections()
 //        refreshAllSections()

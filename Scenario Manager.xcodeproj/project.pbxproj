@@ -15,6 +15,8 @@
 		FB23B6FC1F04C40D00CAA684 /* Scenario.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB23B6FB1F04C40D00CAA684 /* Scenario.swift */; };
 		FB23B7021F0AB5ED00CAA684 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB23B7011F0AB5EC00CAA684 /* DataModel.swift */; };
 		FB36438D1F8AAF9300CAA684 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB36438C1F8AAF9300CAA684 /* Event.swift */; };
+		FB3D4F7E1F94374200CAA684 /* CampaignDetailPartiesHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB3D4F7D1F94374200CAA684 /* CampaignDetailPartiesHeader.swift */; };
+		FB3D4F801F945B8700CAA684 /* CampaignDetailPartiesHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB3D4F7F1F945A4A00CAA684 /* CampaignDetailPartiesHeader.xib */; };
 		FB40EA0A1F43967C00CAA684 /* ScenarioViewModelFromModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB40EA091F43967C00CAA684 /* ScenarioViewModelFromModel.swift */; };
 		FB40EA0C1F43ACFF00CAA684 /* DashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB40EA0B1F43ACFF00CAA684 /* DashboardViewController.swift */; };
 		FB40EA0F1F43AEDD00CAA684 /* UIStoryboard+Loader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB40EA0E1F43AEDD00CAA684 /* UIStoryboard+Loader.swift */; };
@@ -98,6 +100,8 @@
 		FB23B6FB1F04C40D00CAA684 /* Scenario.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scenario.swift; sourceTree = "<group>"; };
 		FB23B7011F0AB5EC00CAA684 /* DataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = DataModel.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		FB36438C1F8AAF9300CAA684 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		FB3D4F7D1F94374200CAA684 /* CampaignDetailPartiesHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignDetailPartiesHeader.swift; sourceTree = "<group>"; };
+		FB3D4F7F1F945A4A00CAA684 /* CampaignDetailPartiesHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = CampaignDetailPartiesHeader.xib; path = "/Users/gdurrett/Developer/Gloomhaven/scenarioManager/Scenario Manager/CampaignDetailPartiesHeader.xib"; sourceTree = "<absolute>"; };
 		FB40EA091F43967C00CAA684 /* ScenarioViewModelFromModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScenarioViewModelFromModel.swift; sourceTree = "<group>"; };
 		FB40EA0B1F43ACFF00CAA684 /* DashboardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashboardViewController.swift; sourceTree = "<group>"; };
 		FB40EA0E1F43AEDD00CAA684 /* UIStoryboard+Loader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIStoryboard+Loader.swift"; sourceTree = "<group>"; };
@@ -333,6 +337,8 @@
 			children = (
 				FB5DDF651F8C35CF00CAA684 /* CampaignDetailEventsHeader.xib */,
 				FB5DDF671F8C3A6200CAA684 /* CampaignDetailEventsHeader.swift */,
+				FB3D4F7F1F945A4A00CAA684 /* CampaignDetailPartiesHeader.xib */,
+				FB3D4F7D1F94374200CAA684 /* CampaignDetailPartiesHeader.swift */,
 			);
 			name = "TableView Headers";
 			sourceTree = "<group>";
@@ -497,6 +503,7 @@
 				FB7A89BA1F83FF5600CAA684 /* CreateCampaignPartyCell.xib in Resources */,
 				FB482DA61F293ABA00CAA684 /* UnlockedByInfoCell.xib in Resources */,
 				FB5729D21F6F8F1E00CAA684 /* CampaignDetailDonationsCell.xib in Resources */,
+				FB3D4F801F945B8700CAA684 /* CampaignDetailPartiesHeader.xib in Resources */,
 				FB4665931F2FA9FA00CAA684 /* LocationInfoCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -542,6 +549,7 @@
 				FBD2DD0E1F634D0600CAA684 /* CreateCampaignTitleCell.swift in Sources */,
 				FBD2DCFA1F5C945C00CAA684 /* Character.swift in Sources */,
 				FB46658F1F2F96B500CAA684 /* SummaryInfoCell.swift in Sources */,
+				FB3D4F7E1F94374200CAA684 /* CampaignDetailPartiesHeader.swift in Sources */,
 				FB482D991F27C51C00CAA684 /* ScenarioDetailViewController.swift in Sources */,
 				FBD2DD1C1F69A10200CAA684 /* CampaignViewModelFromModel.swift in Sources */,
 				FB482DAC1F293C9500CAA684 /* AchievesInfoCell.swift in Sources */,

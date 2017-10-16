@@ -1959,8 +1959,8 @@ class DataModel {
                 "Water Staff"                           : false
             ]
             // Temp party object dictionary
-            parties["Wrecking Crew"] = Party(name: "Wrecking Crew", characters: Array(Set(characters.values)), location: "Gloomhaven", achievements: partyAchievements, reputation: 0, isCurrent: false)
-            parties["BungleHeads"] = Party(name: "BungleHeads", characters: Array(Set(characters.values)), location: "Gloomhaven", achievements: partyAchievements, reputation: 0, isCurrent: true)
+            parties["Wrecking Crew"] = Party(name: "Wrecking Crew", characters: Array(Set(characters.values)), location: "Gloomhaven", achievements: partyAchievements, reputation: 0, isCurrent: false, assignedTo: "None")
+            parties["BungleHeads"] = Party(name: "BungleHeads", characters: Array(Set(characters.values)), location: "Gloomhaven", achievements: partyAchievements, reputation: 0, isCurrent: true, assignedTo: "None")
             
             // Temp character object dictionary
             characters["Snarklepuss"] = Character(name: "Snarklepuss", race: "Aesther", type: "Summoner", level: 4, isRetired: false)
@@ -2135,9 +2135,9 @@ class DataModel {
         self.myCloudKitMgr.privateDatabase.add(uploadOperation)
     }
     // Party functions
-    func createParty(name: String, characters: [Character], location: String, achievements: [String:Bool], reputation: Int, isCurrent: Bool) {
+    func createParty(name: String, characters: [Character], location: String, achievements: [String:Bool], reputation: Int, isCurrent: Bool, assignedTo: String = "None") {
         if (parties[name] == nil) {
-            let newParty = Party(name: name, characters: characters, location: location, achievements: [:], reputation: reputation, isCurrent: isCurrent)
+            let newParty = Party(name: name, characters: characters, location: location, achievements: [:], reputation: reputation, isCurrent: isCurrent, assignedTo: assignedTo)
             for achievement in partyAchievements {
                 if achievement.key == "None" || achievement.key == "OR" {
                     newParty.achievements[achievement.key] = true
