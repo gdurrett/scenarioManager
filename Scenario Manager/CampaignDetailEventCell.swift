@@ -26,6 +26,7 @@ class CampaignDetailEventCell: UITableViewCell {
             eventNameLabel?.font = fontDefinitions.detailTableViewNonTitleFont
             eventNameLabel?.textColor = colorDefinitions.scenarioTitleFontColor
             eventNameLabel?.text = "\(item.rowString!)"
+            self.isUserInteractionEnabled = false
         }
     }
     static var nib:UINib {

@@ -59,16 +59,20 @@ class CampaignDetailViewModel: NSObject {
     var currentTitleCell = UITableViewCell()
     var currentProsperityCell = UITableViewCell()
     var currentDonationsCell = UITableViewCell()
-
-    var myCompletedTitle = String()
+    var currentEventCell = CampaignDetailEventCell()
+    
+    var myCompletedEventTitle = String()
+    var myAssignedPartyTitle = String()
     var myLockedTitle = String()
     
     var selectedEvent: Event?
+    var selectedParty: String?
     var selectedEventsSegmentIndex = 1
     var selectedPartiesSegmentIndex = 0
     var selectedEventType = "road"
     var textFieldReturningCellType: CampaignDetailViewModelItemType?
-    var disableSwipe = false
+    var disableEventSwipe = false
+    var disablePartySwipe = false
     var gotTech = false // Used in cellForRow
     var reloadSection: ((_ section: Int) -> Void)?
     var scrollEventsSection: (() -> Void)?
@@ -233,20 +237,29 @@ class CampaignDetailViewModel: NSObject {
     func updateAncientTech() {
         self.ancientTechCount.value = dataModel.currentCampaign.ancientTechCount
     }
-    func configureSwipeButton(for event: Event) {
+    func configureEventSwipeButton(for event: Event) {
         let eventTokens = event.number.components(separatedBy: " ")
         let eventInt = Int(eventTokens[1])
         if event.isCompleted {
-            myCompletedTitle = "Set Uncompleted"
+            myCompletedEventTitle = "Set Uncompleted"
         } else if event.isAvailable && !event.isCompleted {
-            myCompletedTitle = "Set Completed"
+            myCompletedEventTitle = "Set Completed"
         } else {
-            myCompletedTitle = "Set Available"
+            myCompletedEventTitle = "Set Available"
         }
         if event.isAvailable && !event.isCompleted && eventInt! > 30 {
             myLockedTitle = "Set Unavailable"
         } else {
             myLockedTitle = ""
+        }
+    }
+    func configurePartySwipeButton(for partyName: String) {
+        if let party = dataModel.parties[partyName] {
+            if party.assignedTo == "None" {
+                myAssignedPartyTitle = "Assign"
+            } else {
+                myAssignedPartyTitle = "Unassign"
+            }
         }
     }
     // Method for CampaignProsperity cell
@@ -398,12 +411,12 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
                     for party in self.assignedParties.value {
                         names.append(SeparatedStrings(rowString: party))
                     }
-                    if names.isEmpty { names = [SeparatedStrings(rowString: "No parties assigned")]}
+                    if names.isEmpty { names = [SeparatedStrings(rowString: "No parties assigned")];self.disablePartySwipe = true } else { self.disablePartySwipe = false }
                 case 1:
                     for party in self.availableParties.value {
                         names.append(SeparatedStrings(rowString: party))
                     }
-                    if names.isEmpty { names = [SeparatedStrings(rowString: "No parties available")]}
+                    if names.isEmpty { names = [SeparatedStrings(rowString: "No parties available")]; self.disablePartySwipe = true } else { self.disablePartySwipe = false }
                 default:
                     break
                 }
@@ -437,6 +450,7 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
             if let _ = item as? CampaignDetailViewModelCampaignEventsItem, let cell = tableView.dequeueReusableCell(withIdentifier: CampaignDetailEventCell.identifier, for: indexPath) as? CampaignDetailEventCell {
                 var names = [SeparatedStrings]()
                 cell.backgroundColor = UIColor.clear
+                currentEventCell = cell
                 switch selectedEventsSegmentIndex {
                 case 0:
                     let tempArray = Array(self.unavailableEvents.value).filter { $0.type.rawValue == selectedEventType }
@@ -464,10 +478,12 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
                     } else {
                         eventName.rowString = "No completed City events"
                     }
-                    disableSwipe = true // Don't allow swipe action on this cell!
+                    print("Should be disabling event swipe")
+                    disableEventSwipe = true // Don't allow swipe action on this cell!
                 } else {
+                    print("Should be enabling event swipe")
                     eventName = names[indexPath.row]
-                    disableSwipe = false
+                    disableEventSwipe = false
                 }
                 cell.item = eventName
                 return cell
@@ -540,17 +556,17 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
             default:
                 break
             }
-            self.configureSwipeButton(for: event)
+            self.configureEventSwipeButton(for: event)
             self.selectedEvent = event
             
-            let swipeToggleComplete = UITableViewRowAction(style: .normal, title: self.myCompletedTitle) { action, index in
-                if self.myCompletedTitle == "Set Available" {
+            let swipeToggleComplete = UITableViewRowAction(style: .normal, title: self.myCompletedEventTitle) { action, index in
+                if self.myCompletedEventTitle == "Set Available" {
                     event.isAvailable = true // Set to available if unavailable
                     self.updateEvents()
                     self.dataModel.saveCampaignsLocally()
                     self.toggleSection(section: 5)
                     self.scrollEventsSection!()
-                } else if self.myCompletedTitle == "Set Completed" {
+                } else if self.myCompletedEventTitle == "Set Completed" {
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "showEventChoiceAlert"), object: nil)
                     event.isCompleted = true // Set to completed
                     event.isAvailable = false // But no longer available
@@ -584,16 +600,59 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
             } else {
                 returnValue = [swipeToggleComplete, swipeToggleUnavailable]
             }
-        } // Check for section 3 here
+        } else if sectionNumber == 3 {
+            var party = String()
+            switch selectedPartiesSegmentIndex {
+            case 0:
+                party = assignedParties.value[indexPath.row]
+            case 1:
+                party = availableParties.value[indexPath.row]
+            default:
+                break
+            }
+            configurePartySwipeButton(for: party)
+            self.selectedParty = party
+            let swipeToggleAssign = UITableViewRowAction(style: .normal, title: self.myAssignedPartyTitle) { action, index in
+                if self.myAssignedPartyTitle == "Assign" {
+                    self.dataModel.currentCampaign.parties!.append(self.dataModel.parties[party]!)
+                    self.dataModel.parties[party]!.assignedTo = self.campaignTitle.value
+                    self.updateAssignedParties()
+                    self.updateAvailableParties()
+                    self.dataModel.saveCampaignsLocally()
+                    self.toggleSection(section: 3)
+                } else {
+                    self.dataModel.currentCampaign.parties!.remove(at: indexPath.row)
+                    self.dataModel.parties[party]!.assignedTo = "None"
+                    self.updateAssignedParties()
+                    self.updateAvailableParties()
+                    self.dataModel.saveCampaignsLocally()
+                    self.toggleSection(section: 3)
+                }
+            }
+            swipeToggleAssign.backgroundColor = colorDefinitions.scenarioSwipeBGColor
+            returnValue = [swipeToggleAssign]
+        }
         return returnValue
     }
     // Implemented due to possibility of an event row with no actual data (just a string saying "No completed events")
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        if disableSwipe == false {
-            return true
+        var returnValue: Bool
+        if indexPath.section == 5 {
+            if disableEventSwipe == false {
+                returnValue = true
+            } else {
+                returnValue = false
+            }
+        } else if indexPath.section == 3 {
+            if disablePartySwipe == false {
+                returnValue = true
+            } else {
+                returnValue = false
+            }
         } else {
-            return false
+            returnValue = true
         }
+        return returnValue
     }
     // Delegate methods for textField in cell
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
