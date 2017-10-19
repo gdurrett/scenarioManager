@@ -20,7 +20,7 @@ class CampaignDetailProsperityCell: UITableViewCell {
                 return
             }
             let checksText = item.remainingChecksUntilNextLevel == 1 ? "check" : "checks"
-            campaignDetailProsperityLabel?.text = "\(item.level)  (\(item.remainingChecksUntilNextLevel) \(checksText) to next level)"
+            campaignDetailProsperityLabel?.text = "\(item.level)        (\(item.remainingChecksUntilNextLevel) \(checksText) to next level)"
         }
     }
     
@@ -46,7 +46,7 @@ class CampaignDetailProsperityCell: UITableViewCell {
             campaignDetailProsperityLabel?.font = fontDefinitions.detailTableViewNonTitleFont
             campaignDetailProsperityLabel?.textColor = colorDefinitions.scenarioTitleFontColor
             let checksText = item.remainingChecksUntilNextLevel == 1 ? "check" : "checks"
-            campaignDetailProsperityLabel?.text = "\(item.level)  (\(item.remainingChecksUntilNextLevel) \(checksText) to next level)"
+            campaignDetailProsperityLabel?.text = "\(item.level)          \(item.remainingChecksUntilNextLevel) \(checksText) to next level"
             
         }
     }

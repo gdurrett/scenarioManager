@@ -11,8 +11,7 @@ import UIKit
 protocol CampaignDetailViewControllerDelegate: class {
     func campaignDetailVCDidTapDelete(_ controller: CampaignDetailViewController)
     func toggleSection(section: Int)
-    func showEventChoiceAlert(_ controller: CampaignDetailViewController)
-    func setEventOptionChoice(option: String)
+    func setEventOptionChoice()
 }
 
 class CampaignDetailViewController: UIViewController {
@@ -29,17 +28,23 @@ class CampaignDetailViewController: UIViewController {
         showConfirmDeletionAlert()
     }
     weak var delegate: CampaignDetailViewControllerDelegate!
+    weak var delegateVM: CampaignDetailViewModel!
     
     var viewModel: CampaignDetailViewModel!
     let colorDefinitions = ColorDefinitions()
     let fontDefinitions = FontDefinitions()
+    // Vars for optionPicker
+    var optionPicker = UIPickerView()
+    var pickerData = [String]()
+    var myInputView = UIView()
+    var dummyTextField = UITextField()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Test
         
         viewModel.reloadSection = { [weak self] (section: Int) in
-            if section == 3 {
+            if section == 4 {
                 self?.refreshParties()
             } else if section == 5 {
                 self?.refreshEvents()
@@ -52,10 +57,13 @@ class CampaignDetailViewController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.showEventChoiceAlert), name: NSNotification.Name(rawValue: "showEventChoiceAlert"), object: nil)
-
+        //NotificationCenter.default.addObserver(self, selector: #selector(self.showEventChoiceAlert), name: NSNotification.Name(rawValue: "showEventChoiceAlert"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.showOptionPicker), name: NSNotification.Name(rawValue: "showEventChoiceAlert"), object: nil)
+        
         campaignDetailTableView?.dataSource = viewModel
         campaignDetailTableView?.delegate = viewModel
+        optionPicker.delegate = self.viewModel
+        optionPicker.dataSource = self.viewModel
         
         // Register Cells
         campaignDetailTableView?.register(CampaignDetailTitleCell.nib, forCellReuseIdentifier: CampaignDetailTitleCell.identifier)
@@ -150,7 +158,7 @@ extension CampaignDetailViewController: UITableViewDelegate {
         self.campaignDetailTableView.estimatedRowHeight = 80
         self.campaignDetailTableView.rowHeight = UITableViewAutomaticDimension
         self.navigationController?.navigationBar.tintColor = colorDefinitions.mainTextColor
-        self.navigationController?.navigationBar.barTintColor = colorDefinitions.scenarioTableViewNavBarBarTintColor
+        self.navigationController?.navigationBar.barTintColor = UIColor(hue: 46/360, saturation: 8/100, brightness: 100/100, alpha: 1.0)
         self.navigationController?.navigationBar.titleTextAttributes = [.font: UIFont(name: "Nyala", size: 26.0)!, .foregroundColor: colorDefinitions.mainTextColor]
         self.navigationItem.title = ("\(self.viewModel.campaignTitle.value) Detail")
         self.campaignDetailTableView.backgroundView = UIImageView(image: UIImage(named: "campaignDetailTableViewBG"))
@@ -227,7 +235,7 @@ extension CampaignDetailViewController: UITableViewDelegate {
     }
     func refreshParties() {
         DispatchQueue.main.async {
-            self.campaignDetailTableView.reloadSections([3], with: .none)
+            self.campaignDetailTableView.reloadSections([4], with: .none)
         }
     }
     func refreshEvents() {
@@ -295,23 +303,67 @@ extension CampaignDetailViewController: UITableViewDelegate {
         present(alertView, animated: true, completion: nil)
     }
     // Called by CampaignDetailViewModel
-    @objc func showEventChoiceAlert() {
-        let optionMenu = UIAlertController(title: nil, message: "Choose an option", preferredStyle: .actionSheet)
+//    @objc func showEventChoiceAlert() {
+//        let optionMenu = UIAlertController(title: nil, message: "Choose an option", preferredStyle: .actionSheet)
+//
+//        let chooseOptionA = UIAlertAction(title: "Choose Option A", style: .default, handler: {
+//            (alert: UIAlertAction!) -> Void in
+//            self.delegate!.setEventOptionChoice(option: "A")
+//        })
+//        let chooseOptionB = UIAlertAction(title: "Choose Option B", style: .default, handler: {
+//            (alert: UIAlertAction!) -> Void in
+//            self.delegate!.setEventOptionChoice(option: "B")
+//        })
+//
+//        optionMenu.addAction(chooseOptionA)
+//        optionMenu.addAction(chooseOptionB)
+//
+//        optionMenu.view.tintColor = colorDefinitions.scenarioAlertViewTintColor
+//        present(optionMenu, animated: true, completion: nil)
+//    }
+    @objc func showOptionPicker() {
+        optionPicker.layer.cornerRadius = 10
+        optionPicker.layer.masksToBounds = true
+        optionPicker.backgroundColor = UIColor.white.withAlphaComponent(0.9)
+        optionPicker.showsSelectionIndicator = true
         
-        let chooseOptionA = UIAlertAction(title: "Choose Option A", style: .default, handler: {
-            (alert: UIAlertAction!) -> Void in
-            self.delegate!.setEventOptionChoice(option: "A")
-        })
-        let chooseOptionB = UIAlertAction(title: "Choose Option B", style: .default, handler: {
-            (alert: UIAlertAction!) -> Void in
-            self.delegate!.setEventOptionChoice(option: "B")
-        })
+        // Try to set up toolbar
+        let toolBar = UIToolbar.init(frame: CGRect(x: 0, y: 0, width: self.view.frame.width - 40, height: 44))
+        toolBar.barStyle = UIBarStyle.default
+        toolBar.layer.cornerRadius = 10
+        toolBar.layer.masksToBounds = true
+        toolBar.tintColor = colorDefinitions.scenarioTitleFontColor
+        toolBar.barTintColor = colorDefinitions.scenarioSwipeFontColor
         
-        optionMenu.addAction(chooseOptionA)
-        optionMenu.addAction(chooseOptionB)
+        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.plain, target: self, action: #selector(setEventOptionChoice))
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.plain, target: self, action: #selector(eventOptionPickerDidTapCancel))
+        doneButton.setTitleTextAttributes([.font: UIFont(name: "Nyala", size: 24.0)!, .foregroundColor: colorDefinitions.mainTextColor], for: .normal)
+        cancelButton.setTitleTextAttributes([.font: UIFont(name: "Nyala", size: 24.0)!, .foregroundColor: colorDefinitions.mainTextColor], for: .normal)
+        toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
+        toolBar.isUserInteractionEnabled = true
         
-        optionMenu.view.tintColor = colorDefinitions.scenarioAlertViewTintColor
-        present(optionMenu, animated: true, completion: nil)
+        optionPicker.reloadAllComponents()
+        optionPicker.addSubview(toolBar)
+        myInputView = UIView.init(frame: CGRect(x: 20, y: 310, width: self.view.frame.width - 40, height: optionPicker.frame.size.height + 44))
+        optionPicker.frame = CGRect(x: 0, y: 0, width: myInputView.frame.width, height: 200)
+        myInputView.addSubview(optionPicker)
+        myInputView.addSubview(toolBar)
+        dummyTextField.inputView = myInputView
+        dummyTextField.isHidden = true
+        self.view.addSubview(dummyTextField)
+        self.view.addSubview(myInputView)
+    }
+    @objc func eventOptionPickerDidTapCancel() {
+        self.myInputView.removeFromSuperview()
+        self.optionPicker.removeFromSuperview()
+        pickerData.removeAll()
+    }
+    @objc func setEventOptionChoice() {
+        delegate.setEventOptionChoice()
+        self.myInputView.removeFromSuperview()
+        self.optionPicker.removeFromSuperview()
+        pickerData.removeAll()
     }
 }
 // Test Test!
@@ -321,3 +373,4 @@ extension CampaignDetailViewController: CreateCampaignViewControllerReloadDelega
         self.updateNavTitle()
     }
 }
+

@@ -55,7 +55,7 @@ class CampaignDetailEventsHeader: UITableViewCell {
         campaignDetailEventsHeaderTitle.font = fontDefinitions.detailTableViewHeaderFont
         campaignDetailEventsHeaderTitle.textColor = colorDefinitions.scenarioTitleFontColor
         
-        getSegment.layer.borderWidth = 1.2
+        getSegment.layer.borderWidth = 0.0
         getSegment.setTitleTextAttributes([NSAttributedStringKey.font: UIFont(name: "Nyala", size: 20.0)!, NSAttributedStringKey.foregroundColor: colorDefinitions.mainTextColor], for: .normal)
         
         roadButton.titleLabel?.font = fontDefinitions.detailTableViewNonTitleFont

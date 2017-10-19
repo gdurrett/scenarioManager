@@ -77,6 +77,16 @@ class CampaignDetailViewModel: NSObject {
     var reloadSection: ((_ section: Int) -> Void)?
     var scrollEventsSection: (() -> Void)?
 
+    var prosperityBonus: Int {
+        get {
+            return (dataModel.currentCampaign.sanctuaryDonations / 50) == 2 ? 1 : max((dataModel.currentCampaign.sanctuaryDonations / 50) - 1, 0)
+        }
+    }
+    
+    // Vars for optionPicker
+    var pickerData = ["A", "B"]
+    var didPick = false
+    var selectedEventOption = String()
     
     init(withCampaign campaign: Campaign) {
         self.completedGlobalAchievements = Dynamic(dataModel.completedGlobalAchievements)
@@ -105,19 +115,8 @@ class CampaignDetailViewModel: NSObject {
         items.append(prosperityItem)
         
         // Append donations amount to items
-        let donationsItem = CampaignDetailViewModelCampaignDonationsItem(amount: donations.value)
+        let donationsItem = CampaignDetailViewModelCampaignDonationsItem(amount: donations.value, prosperityBonusString: "")
         items.append(donationsItem)
-        
-        // Append party names to items
-        if campaign.parties?.isEmpty != true {
-            for party in campaign.parties! {
-                partyNames.append(SeparatedStrings(rowString: party.name))
-            }
-        } else {
-            self.partyNames.append(SeparatedStrings(rowString: ""))
-        }
-        let partyItem = CampaignDetailViewModelCampaignPartyItem(names: partyNames)
-        items.append(partyItem)
         
         // Append completed achievements to items
         let localCompletedAchievements = campaign.achievements.filter { $0.value != false && $0.key != "None" && $0.key != "OR" }
@@ -133,6 +132,18 @@ class CampaignDetailViewModel: NSObject {
         if gotTech == true { achievementNames.append(SeparatedStrings(rowString: "Ancient Technology")) }
         let achievementsItem = CampaignDetailViewModelCampaignAchievementsItem(achievements: achievementNames)
         items.append(achievementsItem)
+        
+        // Append party names to items
+        if campaign.parties?.isEmpty != true {
+            for party in campaign.parties! {
+                partyNames.append(SeparatedStrings(rowString: party.name))
+            }
+        } else {
+            self.partyNames.append(SeparatedStrings(rowString: ""))
+        }
+        let partyItem = CampaignDetailViewModelCampaignPartyItem(names: partyNames)
+        items.append(partyItem)
+
         
         // Append city event items
         for event in campaign.events {
@@ -262,7 +273,15 @@ class CampaignDetailViewModel: NSObject {
             }
         }
     }
-    // Method for CampaignProsperity cell
+    // Methods for CampaignProsperity cell
+    func updateCampaignProsperityCount(value: Int) {
+        let (level, count) = (self.updateProsperityCount(value: value))
+        let remainingChecks = self.getRemainingChecksUntilNextLevel(level: level, count: count)
+        let checksText = remainingChecks > 1 ? "checks" : "check"
+        if let cell = currentProsperityCell as? CampaignDetailProsperityCell {
+            cell.campaignDetailProsperityLabel.text = "\(level)          \(remainingChecks) \(checksText) to next level"
+        }
+    }
     func updateProsperityCount(value: Int) -> (Int, Int) {
         let count = dataModel.currentCampaign.prosperityCount
         if value == -1 && count == 0 {
@@ -274,9 +293,18 @@ class CampaignDetailViewModel: NSObject {
     }
     // Method for CampaignDonations cell
     func updateCampaignDonationsCount(value: Int) {
-        dataModel.currentCampaign.sanctuaryDonations += value
-        if let cell = currentDonationsCell as? CampaignDetailDonationsCell {
-            cell.campaignDetailDonationsLabel.text = "\(dataModel.currentCampaign.sanctuaryDonations)"
+        let tempDonationsAmount = dataModel.currentCampaign.sanctuaryDonations + value
+        if tempDonationsAmount < 0 {
+            // Don't let value go below 0
+        } else {
+            dataModel.currentCampaign.sanctuaryDonations += value
+            if let cell = currentDonationsCell as? CampaignDetailDonationsCell {
+                if dataModel.currentCampaign.sanctuaryDonations < 100 { // Don't show this until we've reached initial milestone
+                    cell.campaignDetailDonationsLabel.text = "\(dataModel.currentCampaign.sanctuaryDonations)"
+                } else {
+                    cell.campaignDetailDonationsLabel.text = "\(dataModel.currentCampaign.sanctuaryDonations)      prosperity bonus: +\(prosperityBonus)"
+                }
+            }
         }
     }
     // Method for Renaming Campaign Title
@@ -296,7 +324,6 @@ class CampaignDetailViewModel: NSObject {
             createSectionButton(forSection: section, inHeader: header)
         }
     }
-
 }
 extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, CampaignDetailTitleCellDelegate, CampaignDetailProsperityCellDelegate, CampaignDetailDonationsCellDelegate {
     
@@ -395,6 +422,11 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
             if let item = item as? CampaignDetailViewModelCampaignDonationsItem, let cell = tableView.dequeueReusableCell(withIdentifier: CampaignDetailDonationsCell.identifier, for: indexPath) as? CampaignDetailDonationsCell {
                 cell.backgroundColor = UIColor.clear
                 item.amount = donations.value
+                if dataModel.currentCampaign.sanctuaryDonations < 100 {
+                    item.prosperityBonusString = ""
+                } else {
+                    item.prosperityBonusString = "      prosperity bonus: +\(self.prosperityBonus)"
+                }
                 cell.delegate = self
                 cell.isActive = (self.isActiveCampaign == true ? true : false)
                 cell.item = item
@@ -478,10 +510,8 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
                     } else {
                         eventName.rowString = "No completed City events"
                     }
-                    print("Should be disabling event swipe")
                     disableEventSwipe = true // Don't allow swipe action on this cell!
                 } else {
-                    print("Should be enabling event swipe")
                     eventName = names[indexPath.row]
                     disableEventSwipe = false
                 }
@@ -534,7 +564,7 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
             headerTitleLabel.text = self.items[section].sectionTitle
             headerTitleLabel.font = fontDefinitions.detailTableViewHeaderFont
             headerTitleLabel.textColor = colorDefinitions.mainTextColor
-            headerView.backgroundColor = colorDefinitions.scenarioTableViewNavBarBarTintColor
+            headerView.backgroundColor = UIColor(hue: 46/360, saturation: 8/100, brightness: 100/100, alpha: 1.0)
             headerTitleLabel.sizeToFit()
             createSectionButton(forSection: section, inHeader: headerView)
             headerView.addSubview(headerTitleLabel)
@@ -568,6 +598,7 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
                     self.scrollEventsSection!()
                 } else if self.myCompletedEventTitle == "Set Completed" {
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "showEventChoiceAlert"), object: nil)
+                    
                     event.isCompleted = true // Set to completed
                     event.isAvailable = false // But no longer available
                     self.updateEvents()
@@ -600,7 +631,7 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
             } else {
                 returnValue = [swipeToggleComplete, swipeToggleUnavailable]
             }
-        } else if sectionNumber == 3 {
+        } else if sectionNumber == 4 {
             var party = String()
             switch selectedPartiesSegmentIndex {
             case 0:
@@ -619,14 +650,14 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
                     self.updateAssignedParties()
                     self.updateAvailableParties()
                     self.dataModel.saveCampaignsLocally()
-                    self.toggleSection(section: 3)
+                    self.toggleSection(section: 4)
                 } else {
                     self.dataModel.currentCampaign.parties!.remove(at: indexPath.row)
                     self.dataModel.parties[party]!.assignedTo = "None"
                     self.updateAssignedParties()
                     self.updateAvailableParties()
                     self.dataModel.saveCampaignsLocally()
-                    self.toggleSection(section: 3)
+                    self.toggleSection(section: 4)
                 }
             }
             swipeToggleAssign.backgroundColor = colorDefinitions.scenarioSwipeBGColor
@@ -643,7 +674,7 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
             } else {
                 returnValue = false
             }
-        } else if indexPath.section == 3 {
+        } else if indexPath.section == 4 {
             if disablePartySwipe == false {
                 returnValue = true
             } else {
@@ -680,14 +711,6 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
         event.number = eventString
         toggleSection(section: 5)
         self.dataModel.saveCampaignsLocally()
-    }
-    func updateCampaignProsperityCount(value: Int) {
-        let (level, count) = (self.updateProsperityCount(value: value))
-        let remainingChecks = self.getRemainingChecksUntilNextLevel(level: level, count: count)
-        let checksText = remainingChecks > 1 ? "checks" : "check"
-        if let cell = currentProsperityCell as? CampaignDetailProsperityCell {
-            cell.campaignDetailProsperityLabel.text = "\(level) (\(remainingChecks) \(checksText) to next level)"
-        }
     }
     func createSectionButton(forSection section: Int, inHeader header: UIView) {
         
@@ -742,7 +765,7 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
     }
     @objc func getPartySegmentControlValue(sender: UISegmentedControl) {
         self.selectedPartiesSegmentIndex = sender.selectedSegmentIndex
-        self.toggleSection(section: 3)
+        self.toggleSection(section: 4)
     }
     @objc func enableTitleTextField(_ sender: UIButton) {
         let myCell = self.currentTitleCell as! CampaignDetailTitleCell
@@ -837,16 +860,42 @@ extension CampaignDetailViewModel: SelectCampaignViewControllerDelegate, Campaig
             controller.showDisallowDeletionAlert()
         }
     }
-    func showEventChoiceAlert(_ controller: CampaignDetailViewController) {
-        controller.showEventChoiceAlert()
+    func showEventOptionPicker(_ controller: CampaignDetailViewController) {
+        controller.delegate = self
+        controller.showOptionPicker()
     }
-    func setEventOptionChoice(option: String) {
-        self.selectedEvent!.number.append(" - Option: \(option)")
+    func setEventOptionChoice() {
+        self.selectedEvent!.number.append(" - Option: \(selectedEventOption)")
         toggleSection(section: 5)
         self.dataModel.saveCampaignsLocally()
     }
 }
-
+// MARK: PickerView Delegate Methods
+extension CampaignDetailViewModel: UIPickerViewDelegate, UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return pickerData.count
+    }
+    // Get picker selection
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        didPick = true
+        selectedEventOption = row == 0 ? "A" : "B"
+    }
+    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView{
+        var label = view as! UILabel!
+        if label == nil {
+            label = UILabel()
+        }
+        
+        label?.font = UIFont(name: "Nyala", size: 24)!
+        label?.text =  ("\(selectedEvent!.number) - \(pickerData[row])")
+        label?.textAlignment = .center
+        return label!
+        
+    }
+}
 class CampaignDetailViewModelCampaignTitleItem: CampaignDetailViewModelItem {
     
     var type: CampaignDetailViewModelItemType {
@@ -954,9 +1003,11 @@ class CampaignDetailViewModelCampaignDonationsItem: CampaignDetailViewModelItem 
     }
     
     var amount: Int
+    var prosperityBonusString: String
     
-    init(amount: Int) {
+    init(amount: Int, prosperityBonusString: String) {
         self.amount = amount
+        self.prosperityBonusString = prosperityBonusString
     }
 }
 class CampaignDetailViewModelCampaignEventsItem: CampaignDetailViewModelItem {
@@ -976,11 +1027,8 @@ class CampaignDetailViewModelCampaignEventsItem: CampaignDetailViewModelItem {
     }
     
     var numbers: [SeparatedStrings]
-//    var choice: String
     
-//    init(numbers: [SeparatedStrings], choice: String) {
     init(numbers: [SeparatedStrings]) {
         self.numbers = numbers
-//        self.choice = choice
     }
 }

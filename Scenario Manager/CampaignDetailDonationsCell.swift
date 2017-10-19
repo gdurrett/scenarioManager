@@ -19,7 +19,7 @@ class CampaignDetailDonationsCell: UITableViewCell {
             guard let item = item as? CampaignDetailViewModelCampaignDonationsItem else {
                 return
             }
-            campaignDetailDonationsLabel?.text = "\(item.amount)"
+            campaignDetailDonationsLabel?.text = "\(item.amount)\(item.prosperityBonusString)"
         }
     }
     
@@ -43,19 +43,11 @@ class CampaignDetailDonationsCell: UITableViewCell {
             campaignDetailDonationsLabel?.sizeToFit()
             campaignDetailDonationsLabel?.font = fontDefinitions.detailTableViewNonTitleFont
             campaignDetailDonationsLabel?.textColor = colorDefinitions.scenarioTitleFontColor
-            campaignDetailDonationsLabel?.text = "\(item.amount)"
+            campaignDetailDonationsLabel?.text = "\(item.amount)\(item.prosperityBonusString)"
         }
     }
     var isActive: Bool? {
         didSet {
-//            if isActive == true {
-//                modifyDonationsCountStepperOutlet.isHidden = false
-//                modifyDonationsCountStepperOutlet.isEnabled = true
-//                modifyDonationsCountStepperOutlet.tintColor = colorDefinitions.mainTextColor
-//            } else {
-//                modifyDonationsCountStepperOutlet.isEnabled = false
-//                modifyDonationsCountStepperOutlet.isHidden = true
-//            }
         }
         
     }

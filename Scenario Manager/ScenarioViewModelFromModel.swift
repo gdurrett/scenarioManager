@@ -43,6 +43,7 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
     func updateAvailableScenarios(scenario: Scenario, isCompleted: Bool) {
         toggleUnlocks(for: scenario, to: isCompleted)
         let completed = allScenarios.filter { $0.isCompleted == true }
+        for title in completed { if title.title == "Temple of the Seer" { print("Uh oh, got temple!")}}
         myAchieves = completed.filter { $0.achieves != ["None"] }.flatMap { $0.achieves }
         setAchievements(atches: scenario.achieves, toggle: isCompleted)
         // Special case for when we've achieved Drake's Command and Drake's Treasure
@@ -79,8 +80,8 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
         self.availableScenarios.value = dataModel.availableScenarios
         self.completedScenarios.value = dataModel.completedScenarios
         self.campaign.value = dataModel.currentCampaign
-        //self.ancientTechCount.value = dataModel.currentCampaign.ancientTechCount
         dataModel.saveCampaignsLocally()
+        for scenario in self.completedScenarios.value { if scenario.title == "Temple of the Seer" { print("Uh oh once again!")}}
         // Try force refresh here to solve first load from cloud issue?
     }
     func updateLoadedCampaign() {
@@ -253,7 +254,15 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
         for scen in scenario.unlocks {
             if scen != "None" && scen != "ONEOF" {
                 let lookup = Int(scen)!-1
-                additionalTitles.append((name:(self.allScenarios[lookup].number), title:(self.allScenarios[lookup].title)))
+                //let title = self.allScenarios[lookup].title
+                if self.availableScenarios.value.contains(self.allScenarios[lookup]) || self.completedScenarios.value.contains(self.allScenarios[lookup])  {
+                    print("Should get to available for \(self)")
+                    continue
+                } else {
+                    additionalTitles.append((name:(self.allScenarios[lookup].number), title:(self.allScenarios[lookup].title)))
+                //additionalTitles.append((name:(self.allScenarios[lookup].number), title:(self.allScenarios[lookup].title)))
+                }
+                
             }
         }
         return additionalTitles

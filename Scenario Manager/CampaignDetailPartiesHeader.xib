@@ -5,7 +5,7 @@
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13174"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -20,7 +20,7 @@
                 <subviews>
                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="TnU-HE-FYl">
                         <rect key="frame" x="0.0" y="54" width="375" height="28"/>
-                        <color key="backgroundColor" red="0.99596214294433594" green="0.98086845874786377" blue="0.94509983062744141" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="backgroundColor" red="0.99592292308807373" green="0.98112046718597412" blue="0.92549145221710205" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="27" id="pDR-MA-QKW"/>
                         </constraints>
@@ -28,7 +28,7 @@
                             <segment title="Assigned"/>
                             <segment title="Available"/>
                         </segments>
-                        <color key="tintColor" red="0.24919084820000001" green="0.1929752334" blue="0.1351535955" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="tintColor" red="0.40769001841545105" green="0.34999006986618042" blue="0.27851516008377075" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     </segmentedControl>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cwq-48-225">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="51"/>

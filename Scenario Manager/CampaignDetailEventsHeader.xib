@@ -5,7 +5,7 @@
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13174"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -29,7 +29,7 @@
                             <segment title="Available"/>
                             <segment title="Completed"/>
                         </segments>
-                        <color key="tintColor" red="0.24919084820000001" green="0.1929752334" blue="0.1351535955" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="tintColor" red="0.40769001841545105" green="0.34999006986618042" blue="0.27851516008377075" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     </segmentedControl>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cwq-48-225">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="51"/>

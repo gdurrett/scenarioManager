@@ -15,7 +15,7 @@ extension ScenarioViewController: UISearchResultsUpdating {
         filterContentForSearchText(searchText: searchController.searchBar.text!)
     }
 }
-class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPickerViewControllerDelegate {
+class ScenarioViewController: UIViewController, UISearchBarDelegate {
 
     @IBOutlet weak var scenarioTableView: UITableView!
     
@@ -50,7 +50,12 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
     var myCompletedTitle: String?
     var myLockedTitle: String?
     var pickerData = [String]()
-    var pickedScenario: Scenario?
+    var didPick = false
+    var pickCount = 0
+    var pickedScenario: [String]?
+    var myInputView = UIView()
+    let scenarioPicker = UIPickerView()
+    let dummyTextField = UITextField()
     var filteredScenarios = [Scenario]()
     var scenario: Scenario!
     var imageForMainCell: UIImage!
@@ -83,7 +88,7 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
         
         //Try notification for tapped rows in ScenarioDetailViewController
         NotificationCenter.default.addObserver(self, selector: #selector(segueToDetailViewController), name: NSNotification.Name(rawValue: "segueToDetail"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(segueToScenarioPickerViewController), name: NSNotification.Name(rawValue: "segueToPicker"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(presentScenarioPickerViewController), name: NSNotification.Name(rawValue: "segueToPicker"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(showSelectionAlertViaNotify), name: NSNotification.Name(rawValue: "showSelectionAlert"), object: nil)
         
     }
@@ -185,11 +190,14 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
                         }
                     }
                 } else {
-                    self.scenario.isCompleted = true
-                    self.viewModel?.campaign.value.isCompleted[Int(self.scenario.number)! - 1] = true
+                    // self.scenario.isCompleted = true
+                    //self.viewModel?.campaign.value.isCompleted[Int(self.scenario.number)! - 1] = true
                     if self.scenario.unlocks[0] == "ONEOF" {
-                        self.performSegue(withIdentifier: "ShowScenarioPicker", sender: self.scenario)
+                        //self.performSegue(withIdentifier: "ShowScenarioPicker", sender: self.scenario)
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "segueToPicker"), object: nil, userInfo: ["Scenario": self.scenario])
                     } else {
+                        self.scenario.isCompleted = true // Test in here
+                        self.viewModel?.campaign.value.isCompleted[Int(self.scenario.number)! - 1] = true // Test in here
                         self.viewModel?.updateAvailableScenarios(scenario: self.scenario, isCompleted: true)
                         self.setSegmentTitles()
                         tableView.reloadData()
@@ -212,16 +220,9 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
     // Prepare for segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ShowScenarioDetail" {
-            //searchController.isActive = false
             let destinationVC = segue.destination as! ScenarioDetailViewController
             let viewModel = ScenarioDetailViewModel(withScenario: (self.viewModel?.selectedScenario!)!)
             destinationVC.viewModel = viewModel
-        } else if segue.identifier == "ShowScenarioPicker" {
-            let navigationController = segue.destination as! UINavigationController
-            let destinationVC = navigationController.topViewController as! ScenarioPickerViewController
-            destinationVC.delegate = self
-            destinationVC.scenario = sender as! Scenario
-            destinationVC.additionalTitles = viewModel!.getAdditionalTitles(for: destinationVC.scenario)
         }
     }
     
@@ -420,21 +421,33 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
         viewModel.campaign.bindAndFire { [unowned self] in self.selectedCampaign = $0 }
     }
     // Implement delegate methods for ScenarioPickerViewController
-    func scenarioPickerViewControllerDidCancel(_ controller: ScenarioPickerViewController) {
-        controller.scenario.isCompleted = false
-        viewModel?.updateAvailableScenarios(scenario: controller.scenario, isCompleted: false)
+    @objc func scenarioPickerViewControllerDidCancel(sender: UIBarButtonItem) {
+        self.scenario.isCompleted = false
+        viewModel!.selectedScenario!.isCompleted = false
+        //viewModel!.updateAvailableScenarios(scenario: viewModel!.selectedScenario!, isCompleted: false)
+        viewModel?.updateAvailableScenarios(scenario: scenario, isCompleted: false)
+        dummyTextField.removeFromSuperview()
+        myInputView.removeFromSuperview()
+        scenarioPicker.removeFromSuperview()
+        self.pickerData.removeAll()
         scenarioTableView.reloadData()
-        dismiss(animated: true, completion: nil)
     }
     
-    func scenarioPickerViewController(_ controller: ScenarioPickerViewController, didFinishPicking scenario: Scenario) {
-        if let pickedScenario = controller.pickedScenario?.components(separatedBy: " - ") {
-            scenario.unlocks = ["ONEOF", "\(pickedScenario[0])"]
+    @objc func scenarioPickerViewControllerDidTapDone(sender: UIButton) {
+        if !didPick {
+            scenarioPicker.selectRow(0, inComponent: 0, animated: true)
+            let row = scenarioPicker.selectedRow(inComponent: 0)
+            pickedScenario = pickerData[row].components(separatedBy: " - ")
+            scenario.unlocks = ["ONEOF", "\(pickedScenario![0])"]
         }
+        self.scenario.isCompleted = true // Test in here
+        self.viewModel?.campaign.value.isCompleted[Int(self.scenario.number)! - 1] = true // Test in here
         viewModel?.updateAvailableScenarios(scenario: scenario, isCompleted: true)
         self.setSegmentTitles()
+        myInputView.removeFromSuperview()
+        scenarioPicker.removeFromSuperview()
         scenarioTableView.reloadData()
-        dismiss(animated: true, completion: nil)
+        self.pickerData.removeAll()
     }
     
     @objc func segueToDetailViewController(_ notification: NSNotification) {
@@ -444,11 +457,11 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
             self.performSegue(withIdentifier: "ShowScenarioDetail", sender: scenarioTapped)
         }
     }
-    @objc func segueToScenarioPickerViewController(_ notification: NSNotification) {
+    @objc func presentScenarioPickerViewController(_ notification: NSNotification) {
         if let dict = notification.userInfo as NSDictionary? {
             let scenarioTapped = dict["Scenario"] as! Scenario
             viewModel?.selectedScenario = scenarioTapped
-            self.performSegue(withIdentifier: "ShowScenarioPicker", sender: scenarioTapped)
+            setUpScenarioPicker(for: scenarioTapped)
         }
     }
     @objc func showSelectionAlertViaNotify(_ notification: NSNotification) {
@@ -469,6 +482,52 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate, ScenarioPic
             alertView.addAction(action)
             present(alertView, animated: true, completion: nil)
         }
+    }
+    func setUpScenarioPicker(for scenario: Scenario) {
+        scenarioPicker.layer.cornerRadius = 10
+        scenarioPicker.layer.masksToBounds = true
+        scenarioPicker.backgroundColor = UIColor.white.withAlphaComponent(0.9)
+        scenarioPicker.showsSelectionIndicator = true
+        scenarioPicker.delegate = self
+        scenarioPicker.dataSource = self
+        
+        // Try to set up toolbar
+        let toolBar = UIToolbar.init(frame: CGRect(x: 0, y: 0, width: self.view.frame.width - 40, height: 44))
+        toolBar.barStyle = UIBarStyle.default
+        toolBar.layer.cornerRadius = 10
+        toolBar.layer.masksToBounds = true
+        toolBar.tintColor = colorDefinitions.scenarioTitleFontColor
+        toolBar.barTintColor = colorDefinitions.scenarioSwipeFontColor
+        //toolBar.sizeToFit()
+        
+        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.plain, target: self, action: #selector(ScenarioViewController.scenarioPickerViewControllerDidTapDone(sender:)))
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.plain, target: self, action: #selector(ScenarioViewController.scenarioPickerViewControllerDidCancel(sender:)))
+        doneButton.setTitleTextAttributes([.font: UIFont(name: "Nyala", size: 24.0)!, .foregroundColor: colorDefinitions.mainTextColor], for: .normal)
+        cancelButton.setTitleTextAttributes([.font: UIFont(name: "Nyala", size: 24.0)!, .foregroundColor: colorDefinitions.mainTextColor], for: .normal)
+        toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
+        toolBar.isUserInteractionEnabled = true
+        
+        var number = String()
+        var myTitle = String()
+        var additionalTitles = self.viewModel!.getAdditionalTitles(for: scenario)
+        for i in 0..<additionalTitles.count {
+            number = additionalTitles[i].0
+            myTitle = number + " - " + additionalTitles[i].1
+            
+            pickerData.append(myTitle)
+            scenarioPicker.reloadAllComponents()
+        }
+        
+        scenarioPicker.addSubview(toolBar)
+        myInputView = UIView.init(frame: CGRect(x: 20, y: 310, width: self.view.frame.width - 40, height: scenarioPicker.frame.size.height + 44))
+        scenarioPicker.frame = CGRect(x: 0, y: 0, width: myInputView.frame.width, height: 200)
+        myInputView.addSubview(scenarioPicker)
+        myInputView.addSubview(toolBar)
+        dummyTextField.inputView = myInputView
+        dummyTextField.isHidden = true
+        self.view.addSubview(dummyTextField)
+        self.view.addSubview(myInputView)
     }
 }
 // Test out an extension
@@ -562,5 +621,39 @@ extension ScenarioViewController: DataModelDelegate {
     }
     func restoreViewBGColor() {
         //
+    }
+}
+
+// MARK: PickerView Delegate Methods
+extension ScenarioViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return pickerData.count
+    }
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return pickerData[row]
+    }
+    // Get picker selection
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        // Need to fix multiple scrolls of picker...
+        didPick = true
+        pickedScenario = [""]
+        scenario.unlocks = ["ONEOF", "15", "17", "20"] // Try reset
+        pickedScenario = pickerData[row].components(separatedBy: " - ")
+        scenario.unlocks = ["ONEOF", "\(pickedScenario![0])"]
+    }
+    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView{
+        var label = view as! UILabel!
+        if label == nil {
+            label = UILabel()
+        }
+        
+        label?.font = UIFont(name: "Nyala", size: 24)!
+        label?.text =  pickerData[row]
+        label?.textAlignment = .center
+        return label!
+        
     }
 }
