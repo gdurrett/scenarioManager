@@ -215,7 +215,7 @@ extension CampaignDetailViewController: UITableViewDelegate {
     }
     func refreshAchievements() {
         DispatchQueue.main.async {
-            self.campaignDetailTableView.reloadSections([4], with: .none)
+            self.campaignDetailTableView.reloadSections([3], with: .none)
         }
     }
     func refreshCampaignTitle() {

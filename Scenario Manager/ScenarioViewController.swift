@@ -251,7 +251,7 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100.0
+        return 90.0
     }
     // Helper methods
     func makeCell(for tableView: UITableView) -> UITableViewCell {
@@ -393,7 +393,7 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate {
     }
     // viewDidLoad helper functions
     fileprivate func styleUI() {
-        self.scenarioTableView.estimatedRowHeight = 100
+        self.scenarioTableView.estimatedRowHeight = 90
         self.scenarioTableView.rowHeight = UITableViewAutomaticDimension
         self.navigationController?.navigationBar.tintColor = colorDefinitions.mainTextColor
         self.navigationController?.navigationBar.barTintColor = colorDefinitions.scenarioTableViewNavBarBarTintColor

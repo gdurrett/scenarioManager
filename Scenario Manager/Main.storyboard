@@ -263,7 +263,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView tag="2000" contentMode="scaleAspectFit" horizontalHuggingPriority="1000" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="jtW-wB-YNS">
-                                                    <rect key="frame" x="292" y="14" width="20" height="21"/>
+                                                    <rect key="frame" x="292" y="14" width="20" height="31"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="20" id="ssE-5M-Aln"/>
@@ -277,7 +277,7 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="bottomMargin" secondItem="jtW-wB-YNS" secondAttribute="bottom" constant="56.5" id="D1W-OS-HnO"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="jtW-wB-YNS" secondAttribute="bottom" constant="46.5" id="D1W-OS-HnO"/>
                                                 <constraint firstItem="7xM-Zh-2KA" firstAttribute="top" secondItem="35i-Pn-zZX" secondAttribute="topMargin" constant="3" id="Dd9-QP-MnZ"/>
                                                 <constraint firstItem="hzt-Ex-Q8R" firstAttribute="top" secondItem="7xM-Zh-2KA" secondAttribute="bottom" constant="1" id="Zio-Bz-kPY"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="jtW-wB-YNS" secondAttribute="trailing" id="aqJ-Hg-FGU"/>
