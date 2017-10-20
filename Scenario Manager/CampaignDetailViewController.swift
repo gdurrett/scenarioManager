@@ -273,7 +273,6 @@ extension CampaignDetailViewController: UITableViewDelegate {
         selectCampaignVC.viewModel = CampaignViewModelFromModel(withDataModel: viewModel!.dataModel)
         selectCampaignVC.reloadDelegate = self // Need to reloadData on entire table before returning here!
         selectCampaignVC.hidesBottomBarWhenPushed = true
-        //self.navigationController!.pushViewController(selectCampaignVC, animated: true)
         self.navigationController!.present(selectCampaignVC, animated: true, completion: nil)
     }
     fileprivate func loadCreateCampaignViewController() {

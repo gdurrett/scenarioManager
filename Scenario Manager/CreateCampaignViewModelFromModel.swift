@@ -88,6 +88,7 @@ extension CreateCampaignViewModelFromModel: UITableViewDataSource, UITableViewDe
             cell.configure(withViewModel: viewModel)
             cell.selectionStyle = .none
             cell.accessoryType = .none
+            cell.backgroundColor = UIColor.clear
             tableViewCell = cell
             titleCell = cell
         case .Parties:
@@ -102,8 +103,9 @@ extension CreateCampaignViewModelFromModel: UITableViewDataSource, UITableViewDe
                 partyLabelText = myParties[indexPath.row].name
             }
             cell.createCampaignPartyLabel.text = partyLabelText
-            cell.backgroundView?.alpha = 0.25
-            cell.selectedBackgroundView?.alpha = 0.65
+//            cell.backgroundView?.alpha = 0.25
+//            cell.selectedBackgroundView?.alpha = 0.65
+            cell.backgroundColor = UIColor.clear
             tableViewCell = cell
         }
         return tableViewCell

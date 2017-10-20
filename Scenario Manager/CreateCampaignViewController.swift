@@ -20,6 +20,8 @@ class CreateCampaignViewController: UIViewController {
     
     @IBOutlet weak var createCampaignTableView: UITableView!
     
+    @IBOutlet var createCampaignView: UIView!
+    
     @IBAction func save(_ sender: Any) {
         delegate?.createCampaignViewControllerDidFinishAdding(self)
         // Test Test!
@@ -67,11 +69,9 @@ class CreateCampaignViewController: UIViewController {
 
     // Helper methods
     fileprivate func styleUI() {
-        self.navigationItem.title = "Create Campaign"
-        self.createCampaignTableView.estimatedRowHeight = 100
-        self.createCampaignTableView.rowHeight = UITableViewAutomaticDimension
-        self.navigationController?.navigationBar.tintColor = colorDefinitions.mainTextColor
-        self.navigationController?.navigationBar.barTintColor = colorDefinitions.scenarioTableViewNavBarBarTintColor
-        self.navigationController?.navigationBar.titleTextAttributes = [.font: UIFont(name: "Nyala", size: 26.0)!, .foregroundColor: colorDefinitions.mainTextColor]
+        self.createCampaignView.backgroundColor = colorDefinitions.scenarioTableViewNavBarBarTintColor
+        self.createCampaignTableView.backgroundView = UIImageView(image: UIImage(named: "campaignDetailTableViewBG"))
+        self.createCampaignTableView.backgroundView?.alpha = 0.25
+
     }
 }

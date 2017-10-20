@@ -16,6 +16,8 @@ class SelectCampaignViewController: UIViewController {
     
     @IBOutlet weak var selectCampaignTableView: UITableView!
     
+    @IBOutlet var selectCampaignView: UIView!
+    
     @IBAction func selectCampaignCancelAction(_ sender: Any) {
         delegate?.selectCampaignViewControllerDidCancel(self)
     }
@@ -74,12 +76,9 @@ class SelectCampaignViewController: UIViewController {
         viewModel.campaigns.bindAndFire { [unowned self] in self.campaigns = $0 }
     }
     fileprivate func styleUI() {
-        self.navigationItem.title = "Set Current Campaign"
-        self.selectCampaignTableView.estimatedRowHeight = 100
-        self.selectCampaignTableView.rowHeight = UITableViewAutomaticDimension
-        self.navigationController?.navigationBar.tintColor = colorDefinitions.mainTextColor
-        self.navigationController?.navigationBar.barTintColor = colorDefinitions.scenarioTableViewNavBarBarTintColor
-        self.navigationController?.navigationBar.titleTextAttributes = [.font: UIFont(name: "Nyala", size: 26.0)!, .foregroundColor: colorDefinitions.mainTextColor]
+        self.selectCampaignView.backgroundColor = colorDefinitions.scenarioTableViewNavBarBarTintColor
+        self.selectCampaignTableView.backgroundView = UIImageView(image: UIImage(named: "campaignDetailTableViewBG"))
+        self.selectCampaignTableView.backgroundView?.alpha = 0.25
     }
     fileprivate func makeCell(for tableView: UITableView) -> UITableViewCell {
         let cellIdentifier = "SelectCampaignTitleCell"
@@ -123,8 +122,9 @@ extension SelectCampaignViewController: UITableViewDataSource, UITableViewDelega
             cell.accessoryType = .none
         }
         configureCheckmark(for: cell, activeStatus: myCampaigns[indexPath.row].title == currentCampaign)
-        cell.backgroundView?.alpha = 0.25
-        cell.selectedBackgroundView?.alpha = 0.65
+        //cell.backgroundView?.alpha = 0.25
+        //cell.selectedBackgroundView?.alpha = 0.65
+        cell.backgroundColor = UIColor.clear
         return cell as! SelectCampaignTitleCell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

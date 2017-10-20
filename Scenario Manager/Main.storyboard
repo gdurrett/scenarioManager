@@ -208,6 +208,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="createCampaignTableView" destination="Wim-f5-iJe" id="hFf-6K-Vtz"/>
+                        <outlet property="createCampaignView" destination="zIV-iu-w7K" id="xUA-XO-FEr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BgC-uA-yHx" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -395,8 +396,8 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Set Current Campaign" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="11W-pN-LZ9">
-                                <rect key="frame" x="65.5" y="23" width="189" height="21.5"/>
-                                <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="23"/>
+                                <rect key="frame" x="61.5" y="25" width="197.5" height="22.5"/>
+                                <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="24"/>
                                 <color key="textColor" red="0.18834416568279266" green="0.18834488093852997" blue="0.18834643065929413" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -421,12 +422,13 @@
                             <constraint firstItem="Lbh-vO-09M" firstAttribute="top" secondItem="M10-Uo-M4e" secondAttribute="bottom" id="cLZ-TF-1mA"/>
                             <constraint firstAttribute="trailing" secondItem="M10-Uo-M4e" secondAttribute="trailing" id="cfQ-Ls-1Xo"/>
                             <constraint firstItem="nac-Cx-q5T" firstAttribute="trailing" secondItem="Tlb-dx-pMz" secondAttribute="trailingMargin" id="e81-2N-APt"/>
-                            <constraint firstItem="11W-pN-LZ9" firstAttribute="top" secondItem="QVv-jw-f80" secondAttribute="bottom" constant="3" id="mgy-NU-mPA"/>
+                            <constraint firstItem="11W-pN-LZ9" firstAttribute="top" secondItem="QVv-jw-f80" secondAttribute="bottom" constant="5" id="mgy-NU-mPA"/>
                             <constraint firstItem="lkG-hU-Kgv" firstAttribute="leading" secondItem="Tlb-dx-pMz" secondAttribute="leadingMargin" id="zEy-mg-Dg1"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="selectCampaignTableView" destination="M10-Uo-M4e" id="QVp-9V-JMh"/>
+                        <outlet property="selectCampaignView" destination="Tlb-dx-pMz" id="IJX-bi-wy6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gfb-ad-CK1" userLabel="First Responder" sceneMemberID="firstResponder"/>
