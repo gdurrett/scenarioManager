@@ -58,7 +58,7 @@ class CampaignDetailViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
         //NotificationCenter.default.addObserver(self, selector: #selector(self.showEventChoiceAlert), name: NSNotification.Name(rawValue: "showEventChoiceAlert"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.showOptionPicker), name: NSNotification.Name(rawValue: "showEventChoiceAlert"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.showOptionPicker), name: NSNotification.Name(rawValue: "showEventChoiceOptionPicker"), object: nil)
         
         campaignDetailTableView?.dataSource = viewModel
         campaignDetailTableView?.delegate = viewModel

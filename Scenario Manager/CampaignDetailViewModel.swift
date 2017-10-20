@@ -597,7 +597,7 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
                     self.toggleSection(section: 5)
                     self.scrollEventsSection!()
                 } else if self.myCompletedEventTitle == "Set Completed" {
-                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "showEventChoiceAlert"), object: nil)
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "showEventChoiceOptionPicker"), object: nil)
                     
                     event.isCompleted = true // Set to completed
                     event.isAvailable = false // But no longer available
@@ -606,7 +606,7 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
                     self.toggleSection(section: 5)
                     self.scrollEventsSection!()
                 } else {
-                    event.isCompleted = false // Set back to available
+                    event.isCompleted = false // Set uncompleted if completed
                     event.isAvailable = true
                     self.stripOptionChoiceFromEventName(event: event)
                     self.updateEvents()
@@ -864,9 +864,16 @@ extension CampaignDetailViewModel: SelectCampaignViewControllerDelegate, Campaig
         controller.delegate = self
         controller.showOptionPicker()
     }
+    // Delegate method called from CampaignDetailVC
     func setEventOptionChoice() {
+        
         self.selectedEvent!.number.append(" - Option: \(selectedEventOption)")
         toggleSection(section: 5)
+        // Test scenario unlock here?
+        // Add unlockedByChoice: String to Event object
+        // Check if selectedEventOption == selectedEvent.unlockedByChoice, and if so
+        // try to set dataModel.getScenario(selectedEvent.unlocks).isUnlocked = true
+        // Then need to updateScenarios most likely
         self.dataModel.saveCampaignsLocally()
     }
 }
@@ -888,14 +895,13 @@ extension CampaignDetailViewModel: UIPickerViewDelegate, UIPickerViewDataSource 
         if label == nil {
             label = UILabel()
         }
-        
         label?.font = UIFont(name: "Nyala", size: 24)!
         label?.text =  ("\(selectedEvent!.number) - \(pickerData[row])")
         label?.textAlignment = .center
         return label!
-        
     }
 }
+// MARK ViewModelItem Classes
 class CampaignDetailViewModelCampaignTitleItem: CampaignDetailViewModelItem {
     
     var type: CampaignDetailViewModelItemType {
