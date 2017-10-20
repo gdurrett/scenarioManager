@@ -22,15 +22,10 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate {
     @IBAction func scenarioFilterAction(_ sender: Any) {
         switch scenarioFilterOutlet.selectedSegmentIndex {
         case 0:
-            //self.navigationItem.title = ("\(scenarioFilterOutlet.titleForSegment(at: 0)!) Scenarios")
-            //self.navigationItem.title = "All Scenarios"
             self.navigationItem.title = "\(selectedCampaign!.title) Scenarios"
         case 1:
-            //self.navigationItem.title = ("\(scenarioFilterOutlet.titleForSegment(at: 1)!) Scenarios")
-            //self.navigationItem.title = "Available Scenarios"
             self.navigationItem.title = "\(selectedCampaign!.title) Scenarios"
         case 2:
-            //self.navigationItem.title = "Completed Scenarios"
             self.navigationItem.title = "\(selectedCampaign!.title) Scenarios"
         default:
             break
@@ -79,7 +74,6 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate {
         // Set up UI
         fillUI()
         styleUI()
-        //scenarioTableView.reloadData()
 
         // Change titles on segmented controller
         setSegmentTitles()
@@ -106,7 +100,6 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate {
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        //NotificationCenter.default.post(name: NSNotification.Name(rawValue: "triggerSegue"), object: nil)
     }
     // Set up swipe functionality
     func tableView(_ tableView: UITableView, editActionsForRowAt: IndexPath) -> [UITableViewRowAction]? {
@@ -190,8 +183,6 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate {
                         }
                     }
                 } else {
-                    // self.scenario.isCompleted = true
-                    //self.viewModel?.campaign.value.isCompleted[Int(self.scenario.number)! - 1] = true
                     if self.scenario.unlocks[0] == "ONEOF" {
                         //self.performSegue(withIdentifier: "ShowScenarioPicker", sender: self.scenario)
                         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "segueToPicker"), object: nil, userInfo: ["Scenario": self.scenario])
@@ -232,8 +223,6 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate {
         if searchController.isActive && searchController.searchBar.text != "" {
             scenario = filteredScenarios[indexPath.row]
         } else {
-            //            scenario = dataModel.allScenarios[indexPath.row]
-            //        }
             //Make sure to draw from proper filter for our indexPath based on segment selection
             switch(scenarioFilterOutlet.selectedSegmentIndex) {
             case 0:
@@ -414,7 +403,6 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate {
         // We definitely have the setup done now
         self.allScenarios = viewModel.allScenarios
         self.selectedCampaign = viewModel.campaign.value
-//        self.navigationItem.title = "\(selectedCampaign!.title) Scenarios"
         // Call our Dynamic bindAndFire method when these are gotten
         viewModel.availableScenarios.bindAndFire { [unowned self] in self.availableScenarios = $0 }
         viewModel.completedScenarios.bindAndFire { [unowned self] in self.completedScenarios = $0 }
@@ -424,7 +412,6 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate {
     @objc func scenarioPickerViewControllerDidCancel(sender: UIBarButtonItem) {
         self.scenario.isCompleted = false
         viewModel!.selectedScenario!.isCompleted = false
-        //viewModel!.updateAvailableScenarios(scenario: viewModel!.selectedScenario!, isCompleted: false)
         viewModel?.updateAvailableScenarios(scenario: scenario, isCompleted: false)
         dummyTextField.removeFromSuperview()
         myInputView.removeFromSuperview()
@@ -438,8 +425,10 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate {
             scenarioPicker.selectRow(0, inComponent: 0, animated: true)
             let row = scenarioPicker.selectedRow(inComponent: 0)
             pickedScenario = pickerData[row].components(separatedBy: " - ")
+            print("Think I picked this in tapDone: \(pickedScenario!)")
             scenario.unlocks = ["ONEOF", "\(pickedScenario![0])"]
         }
+        print("Bypassing didnt' pick?")
         self.scenario.isCompleted = true // Test in here
         self.viewModel?.campaign.value.isCompleted[Int(self.scenario.number)! - 1] = true // Test in here
         viewModel?.updateAvailableScenarios(scenario: scenario, isCompleted: true)
@@ -498,11 +487,10 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate {
         toolBar.layer.masksToBounds = true
         toolBar.tintColor = colorDefinitions.scenarioTitleFontColor
         toolBar.barTintColor = colorDefinitions.scenarioSwipeFontColor
-        //toolBar.sizeToFit()
         
-        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.plain, target: self, action: #selector(ScenarioViewController.scenarioPickerViewControllerDidTapDone(sender:)))
+        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.plain, target: self, action: #selector(scenarioPickerViewControllerDidTapDone(sender:)))
         let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
-        let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.plain, target: self, action: #selector(ScenarioViewController.scenarioPickerViewControllerDidCancel(sender:)))
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.plain, target: self, action: #selector(scenarioPickerViewControllerDidCancel(sender:)))
         doneButton.setTitleTextAttributes([.font: UIFont(name: "Nyala", size: 24.0)!, .foregroundColor: colorDefinitions.mainTextColor], for: .normal)
         cancelButton.setTitleTextAttributes([.font: UIFont(name: "Nyala", size: 24.0)!, .foregroundColor: colorDefinitions.mainTextColor], for: .normal)
         toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
@@ -518,7 +506,8 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate {
             pickerData.append(myTitle)
             scenarioPicker.reloadAllComponents()
         }
-        
+        // Make sure to reset didPick!
+        self.didPick = false
         scenarioPicker.addSubview(toolBar)
         myInputView = UIView.init(frame: CGRect(x: 20, y: 310, width: self.view.frame.width - 40, height: scenarioPicker.frame.size.height + 44))
         scenarioPicker.frame = CGRect(x: 0, y: 0, width: myInputView.frame.width, height: 200)
@@ -548,8 +537,6 @@ extension ScenarioViewController: UITableViewDataSource, UITableViewDelegate {
         if searchController.isActive && searchController.searchBar.text != "" {
             returnValue = filteredScenarios.count
         } else {
-            //            returnValue = dataModel.allScenarios.count
-            //        }
             switch(scenarioFilterOutlet.selectedSegmentIndex) {
             case 0:
                 returnValue = allScenarios.count
@@ -642,6 +629,7 @@ extension ScenarioViewController: UIPickerViewDelegate, UIPickerViewDataSource {
         pickedScenario = [""]
         scenario.unlocks = ["ONEOF", "15", "17", "20"] // Try reset
         pickedScenario = pickerData[row].components(separatedBy: " - ")
+        print("Think I picked: \(pickedScenario!)")
         scenario.unlocks = ["ONEOF", "\(pickedScenario![0])"]
     }
     func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView{

@@ -394,10 +394,10 @@
                                     <action selector="selectCampaignCancelAction:" destination="Dxr-ab-bP8" eventType="touchUpInside" id="0cu-F4-EFc"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select Campaign" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="11W-pN-LZ9">
-                                <rect key="frame" x="81" y="23" width="158" height="24"/>
-                                <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="26"/>
-                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Set Current Campaign" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="11W-pN-LZ9">
+                                <rect key="frame" x="65.5" y="23" width="189" height="21.5"/>
+                                <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="23"/>
+                                <color key="textColor" red="0.18834416568279266" green="0.18834488093852997" blue="0.18834643065929413" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nac-Cx-q5T">

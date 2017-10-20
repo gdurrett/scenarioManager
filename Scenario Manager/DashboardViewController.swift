@@ -10,7 +10,7 @@ import UIKit
 import CloudKit
 
 //class DashboardViewController: UIViewController, CreateCampaignViewControllerDelegate, DeleteCampaignViewControllerDelegate {
-class DashboardViewController: UIViewController, DeleteCampaignViewControllerDelegate {
+class DashboardViewController: UIViewController {
 
     var progressHUD: ProgressHUD!
     
@@ -70,20 +70,6 @@ class DashboardViewController: UIViewController, DeleteCampaignViewControllerDel
         self.navigationController?.navigationBar.titleTextAttributes = [.font: UIFont(name: "Nyala", size: 26.0)!, .foregroundColor: colorDefinitions.mainTextColor]
     }
     
-    // Delegate methods for DeleteCamaignViewController
-    func deleteCampaignViewControllerDidCancel(_ controller: DeleteCampaignViewController) {
-        controller.navigationController?.popViewController(animated: true)
-    }
-    func deleteCampaignViewControllerDidFinishDeleting(_ controller: DeleteCampaignViewController) {
-        controller.navigationController?.popViewController(animated: true)
-    }
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == "ShowScenarioManager" {
-//            let destinationVC = segue.destination as! ScenarioViewController
-//            let viewModel = ScenarioViewModelFromModel(withDataModel: dataModel!)
-//            destinationVC.viewModel = viewModel
-//        }
-//    }
     // MARK: Private
     fileprivate func confirmDataModelReset () {
         let alertController = UIAlertController(title: "Reset Scenario status to default?", message: "Clicking OK will set Scenario status back to initial state, both locally and in iCloud (if available).", preferredStyle: .alert)

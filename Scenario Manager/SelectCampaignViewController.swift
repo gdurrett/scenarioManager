@@ -51,7 +51,6 @@ class SelectCampaignViewController: UIViewController {
 
         viewModel?.updateAvailableCampaigns()
         fillUI()
-        //self.selectCampaignTableView.reloadData()
         styleUI()
 
     }
@@ -75,7 +74,7 @@ class SelectCampaignViewController: UIViewController {
         viewModel.campaigns.bindAndFire { [unowned self] in self.campaigns = $0 }
     }
     fileprivate func styleUI() {
-        self.navigationItem.title = "Select Campaign"
+        self.navigationItem.title = "Set Current Campaign"
         self.selectCampaignTableView.estimatedRowHeight = 100
         self.selectCampaignTableView.rowHeight = UITableViewAutomaticDimension
         self.navigationController?.navigationBar.tintColor = colorDefinitions.mainTextColor
@@ -129,16 +128,11 @@ extension SelectCampaignViewController: UITableViewDataSource, UITableViewDelega
         return cell as! SelectCampaignTitleCell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        if let cell = tableView.cellForRow(at: indexPath) {
-//            cell.accessoryType = .checkmark
-//        }
         selectedIndex = indexPath.row
         tableView.reloadData()
     }
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-//        if let cell = tableView.cellForRow(at: indexPath) {
-//            cell.accessoryType = .none
-//        }
+
     }
 }
 

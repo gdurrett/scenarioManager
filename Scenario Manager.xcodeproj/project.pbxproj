@@ -19,8 +19,6 @@
 		FB3D4F801F945B8700CAA684 /* CampaignDetailPartiesHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB3D4F7F1F945A4A00CAA684 /* CampaignDetailPartiesHeader.xib */; };
 		FB40EA0A1F43967C00CAA684 /* ScenarioViewModelFromModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB40EA091F43967C00CAA684 /* ScenarioViewModelFromModel.swift */; };
 		FB40EA0C1F43ACFF00CAA684 /* DashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB40EA0B1F43ACFF00CAA684 /* DashboardViewController.swift */; };
-		FB40EA0F1F43AEDD00CAA684 /* UIStoryboard+Loader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB40EA0E1F43AEDD00CAA684 /* UIStoryboard+Loader.swift */; };
-		FB40EA111F43B28100CAA684 /* UIViewController+Subview.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB40EA101F43B28100CAA684 /* UIViewController+Subview.swift */; };
 		FB40EA141F4419CA00CAA684 /* ScenarioViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB40EA131F4419CA00CAA684 /* ScenarioViewModel.swift */; };
 		FB40EA191F45552B00CAA684 /* Dynamic.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB40EA181F45552B00CAA684 /* Dynamic.swift */; };
 		FB4665851F2E5C0700CAA684 /* RewardsInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB4665841F2E5C0700CAA684 /* RewardsInfoCell.swift */; };
@@ -58,7 +56,6 @@
 		FB5DDF631F8BE5B600CAA684 /* CampaignDetailEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5DDF621F8BE5B600CAA684 /* CampaignDetailEventCell.swift */; };
 		FB5DDF661F8C35CF00CAA684 /* CampaignDetailEventsHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB5DDF651F8C35CF00CAA684 /* CampaignDetailEventsHeader.xib */; };
 		FB5DDF681F8C3A6200CAA684 /* CampaignDetailEventsHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5DDF671F8C3A6200CAA684 /* CampaignDetailEventsHeader.swift */; };
-		FB7521A41F207A2F00CAA684 /* ScenarioPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB7521A31F207A2F00CAA684 /* ScenarioPickerViewController.swift */; };
 		FB7A89BA1F83FF5600CAA684 /* CreateCampaignPartyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB7A89B91F83FF5600CAA684 /* CreateCampaignPartyCell.xib */; };
 		FB7A89BC1F83FF8F00CAA684 /* CreateCampaignPartyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB7A89BB1F83FF8F00CAA684 /* CreateCampaignPartyCell.swift */; };
 		FBCE875D1F57F4C200CAA684 /* PirataOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FBCE875C1F57F4C200CAA684 /* PirataOne-Regular.ttf */; };
@@ -78,7 +75,6 @@
 		FBD2DD0E1F634D0600CAA684 /* CreateCampaignTitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD2DD0D1F634D0600CAA684 /* CreateCampaignTitleCell.swift */; };
 		FBD2DD141F67517000CAA684 /* CreateCamaignViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD2DD131F67517000CAA684 /* CreateCamaignViewModel.swift */; };
 		FBD2DD161F6863E900CAA684 /* DeleteCampaignViewModelFromModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD2DD151F6863E900CAA684 /* DeleteCampaignViewModelFromModel.swift */; };
-		FBD2DD181F68674600CAA684 /* DeleteCampaignViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD2DD171F68674600CAA684 /* DeleteCampaignViewController.swift */; };
 		FBD2DD1A1F699ED100CAA684 /* CampaignViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD2DD191F699ED100CAA684 /* CampaignViewController.swift */; };
 		FBD2DD1C1F69A10200CAA684 /* CampaignViewModelFromModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD2DD1B1F69A10200CAA684 /* CampaignViewModelFromModel.swift */; };
 		FBD2DD1F1F69CB3800CAA684 /* CampaignTitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD2DD1E1F69CB3800CAA684 /* CampaignTitleCell.swift */; };
@@ -104,8 +100,6 @@
 		FB3D4F7F1F945A4A00CAA684 /* CampaignDetailPartiesHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = CampaignDetailPartiesHeader.xib; path = "/Users/gdurrett/Developer/Gloomhaven/scenarioManager/Scenario Manager/CampaignDetailPartiesHeader.xib"; sourceTree = "<absolute>"; };
 		FB40EA091F43967C00CAA684 /* ScenarioViewModelFromModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScenarioViewModelFromModel.swift; sourceTree = "<group>"; };
 		FB40EA0B1F43ACFF00CAA684 /* DashboardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashboardViewController.swift; sourceTree = "<group>"; };
-		FB40EA0E1F43AEDD00CAA684 /* UIStoryboard+Loader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIStoryboard+Loader.swift"; sourceTree = "<group>"; };
-		FB40EA101F43B28100CAA684 /* UIViewController+Subview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Subview.swift"; sourceTree = "<group>"; };
 		FB40EA131F4419CA00CAA684 /* ScenarioViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScenarioViewModel.swift; sourceTree = "<group>"; };
 		FB40EA181F45552B00CAA684 /* Dynamic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dynamic.swift; sourceTree = "<group>"; };
 		FB4665841F2E5C0700CAA684 /* RewardsInfoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RewardsInfoCell.swift; sourceTree = "<group>"; };
@@ -144,7 +138,6 @@
 		FB5DDF651F8C35CF00CAA684 /* CampaignDetailEventsHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CampaignDetailEventsHeader.xib; sourceTree = "<group>"; };
 		FB5DDF671F8C3A6200CAA684 /* CampaignDetailEventsHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignDetailEventsHeader.swift; sourceTree = "<group>"; };
 		FB65F5171F4F365800CAA684 /* Scenario Manager.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Scenario Manager.entitlements"; sourceTree = "<group>"; };
-		FB7521A31F207A2F00CAA684 /* ScenarioPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScenarioPickerViewController.swift; sourceTree = "<group>"; };
 		FB7A89B91F83FF5600CAA684 /* CreateCampaignPartyCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CreateCampaignPartyCell.xib; sourceTree = "<group>"; };
 		FB7A89BB1F83FF8F00CAA684 /* CreateCampaignPartyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCampaignPartyCell.swift; sourceTree = "<group>"; };
 		FBCE875C1F57F4C200CAA684 /* PirataOne-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PirataOne-Regular.ttf"; sourceTree = "<group>"; };
@@ -164,7 +157,6 @@
 		FBD2DD0D1F634D0600CAA684 /* CreateCampaignTitleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateCampaignTitleCell.swift; sourceTree = "<group>"; };
 		FBD2DD131F67517000CAA684 /* CreateCamaignViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateCamaignViewModel.swift; sourceTree = "<group>"; };
 		FBD2DD151F6863E900CAA684 /* DeleteCampaignViewModelFromModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeleteCampaignViewModelFromModel.swift; sourceTree = "<group>"; };
-		FBD2DD171F68674600CAA684 /* DeleteCampaignViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeleteCampaignViewController.swift; sourceTree = "<group>"; };
 		FBD2DD191F699ED100CAA684 /* CampaignViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CampaignViewController.swift; sourceTree = "<group>"; };
 		FBD2DD1B1F69A10200CAA684 /* CampaignViewModelFromModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CampaignViewModelFromModel.swift; sourceTree = "<group>"; };
 		FBD2DD1E1F69CB3800CAA684 /* CampaignTitleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CampaignTitleCell.swift; sourceTree = "<group>"; };
@@ -231,8 +223,6 @@
 		FB40EA0D1F43AEB200CAA684 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				FB40EA0E1F43AEDD00CAA684 /* UIStoryboard+Loader.swift */,
-				FB40EA101F43B28100CAA684 /* UIViewController+Subview.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -260,11 +250,9 @@
 				FBD2DD191F699ED100CAA684 /* CampaignViewController.swift */,
 				FBE3F1EA1F47C92C00CAA684 /* ScenarioViewController.swift */,
 				FB482D981F27C51C00CAA684 /* ScenarioDetailViewController.swift */,
-				FB7521A31F207A2F00CAA684 /* ScenarioPickerViewController.swift */,
 				FB40EA0B1F43ACFF00CAA684 /* DashboardViewController.swift */,
 				FBCE87691F5A066F00CAA684 /* CampaignManagerTabBarController.swift */,
 				FBD2DD031F620F4800CAA684 /* CreateCampaignViewController.swift */,
-				FBD2DD171F68674600CAA684 /* DeleteCampaignViewController.swift */,
 				FB5729C31F6C806800CAA684 /* CampaignDetailViewController.swift */,
 				FB2237D41F816B5500CAA684 /* SelectCampaignViewController.swift */,
 			);
@@ -519,7 +507,6 @@
 				FB5729BE1F6C732600CAA684 /* CampaignDetailTitleCell.swift in Sources */,
 				FB482DA41F29385B00CAA684 /* UnlocksInfoCell.swift in Sources */,
 				FBD2DD011F6203F800CAA684 /* ProgressHUD.swift in Sources */,
-				FB40EA0F1F43AEDD00CAA684 /* UIStoryboard+Loader.swift in Sources */,
 				FB40EA0A1F43967C00CAA684 /* ScenarioViewModelFromModel.swift in Sources */,
 				FB4665891F2E667F00CAA684 /* RequirementsInfoCell.swift in Sources */,
 				FB482D9F1F29359000CAA684 /* ScenarioTitleCell.swift in Sources */,
@@ -531,7 +518,6 @@
 				FBD2DD041F620F4800CAA684 /* CreateCampaignViewController.swift in Sources */,
 				FBD2DD1F1F69CB3800CAA684 /* CampaignTitleCell.swift in Sources */,
 				FBD2DCFE1F61E7D900CAA684 /* FontDefinitions.swift in Sources */,
-				FB7521A41F207A2F00CAA684 /* ScenarioPickerViewController.swift in Sources */,
 				FBD2DD1A1F699ED100CAA684 /* CampaignViewController.swift in Sources */,
 				FB7A89BC1F83FF8F00CAA684 /* CreateCampaignPartyCell.swift in Sources */,
 				FB5729C21F6C74CD00CAA684 /* CampaignDetailViewModel.swift in Sources */,
@@ -561,11 +547,9 @@
 				FBD2DD081F625FEA00CAA684 /* CreateCampaignViewModelFromModel.swift in Sources */,
 				FB4665911F2FA98C00CAA684 /* LocationInfoCell.swift in Sources */,
 				FBCE87641F59EBE400CAA684 /* CloudKitMgr.swift in Sources */,
-				FBD2DD181F68674600CAA684 /* DeleteCampaignViewController.swift in Sources */,
 				FBD2DD211F6ADD8E00CAA684 /* Party.swift in Sources */,
 				FB23B7021F0AB5ED00CAA684 /* DataModel.swift in Sources */,
 				FB5729C41F6C806800CAA684 /* CampaignDetailViewController.swift in Sources */,
-				FB40EA111F43B28100CAA684 /* UIViewController+Subview.swift in Sources */,
 				FBD2DD061F625F6500CAA684 /* CampaignViewModel.swift in Sources */,
 				FBD2DCF81F5C935B00CAA684 /* Campaign.swift in Sources */,
 				FB482DA81F293B2300CAA684 /* UnlockedByInfoCell.swift in Sources */,
@@ -636,6 +620,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -685,6 +670,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VALIDATE_PRODUCT = YES;

@@ -1518,7 +1518,7 @@ class DataModel {
                 rewards: [NSAttributedString(string: "10 Gold Each"), NSAttributedString(string: "+2 Prosperity")],
                 summary: "Goal: Kill all enemies and keep the ship afloat.\n\nMerchant Gavin has hired you to put an end to the sea piracy that's destroying his business. Board one of his ships and let the pirates come to you, then finish them off for good.",
                 locationString: "I-14, Misty Sea",
-                isManuallyUnlockable: false,
+                isManuallyUnlockable: true,
                 mainCellBGImage: "scenarioMgrMap74"
             )
             allScenarios.append(row73Scenario)
@@ -1536,7 +1536,7 @@ class DataModel {
                 rewards: [NSAttributedString(string: "60 Gold Each")],
                 summary: "Goal: Dig up all graves and kill the Bloated Regent.\n\nNotorious fence Red Nick thinks you will make great grave robbers. Apparently there's much loot to be pilfered from a cemetary out on the east side of the Corpsewood, assuming the job isn't beneath you.",
                 locationString: "G-12, Corpsewood",
-                isManuallyUnlockable: false,
+                isManuallyUnlockable: true,
                 mainCellBGImage: "scenarioMgrMap75"
             )
             allScenarios.append(row74Scenario)

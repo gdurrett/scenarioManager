@@ -22,8 +22,6 @@ protocol CampaignDetailViewModelItem {
     var type: CampaignDetailViewModelItemType { get }
     var sectionTitle: String { get }
     var rowCount: Int { get }
-    var isCollapsible: Bool { get }
-    var isCollapsed: Bool { get set }
 }
 
 class CampaignDetailViewModel: NSObject {
@@ -37,7 +35,6 @@ class CampaignDetailViewModel: NSObject {
     var newAchievementNames = [SeparatedStrings]()
     var eventNumbers = [SeparatedStrings]()
     var isActiveCampaign: Bool?
-//    var prosperityLevel = Int()
     var remainingChecksUntilNextLevel = Int()
     var level = Int()
     var sanctuaryDonations = Int()
@@ -53,7 +50,6 @@ class CampaignDetailViewModel: NSObject {
     var completedEvents: Dynamic<[Event]>
     var ancientTechCount: Dynamic<Int>
     // Convert to dynamic later
-    //var eventItems: CampaignDetailViewModelCampaignEventsItem?
     var headersToUpdate = [Int:UITableViewHeaderFooterView]()
     var storedOffsets = [Int: CGFloat]()
     var currentTitleCell = UITableViewCell()
@@ -907,8 +903,6 @@ class CampaignDetailViewModelCampaignTitleItem: CampaignDetailViewModelItem {
     var type: CampaignDetailViewModelItemType {
         return .campaignTitle
     }
-    var isCollapsed = false
-    var isCollapsible = false
     
     var sectionTitle: String {
         return "Campaign Title"
@@ -929,8 +923,6 @@ class CampaignDetailViewModelCampaignPartyItem: CampaignDetailViewModelItem {
     var type: CampaignDetailViewModelItemType {
         return .parties
     }
-    var isCollapsed = false
-    var isCollapsible = false
     
     var sectionTitle: String {
         return "Parties"
@@ -951,9 +943,7 @@ class CampaignDetailViewModelCampaignAchievementsItem: CampaignDetailViewModelIt
     var type: CampaignDetailViewModelItemType {
         return .achievements
     }
-    var isCollapsed = false
-    var isCollapsible = false
-    
+
     var sectionTitle: String {
         return "Global Achievements"
     }
@@ -973,8 +963,6 @@ class CampaignDetailViewModelCampaignProsperityItem: CampaignDetailViewModelItem
     var type: CampaignDetailViewModelItemType {
         return .prosperity
     }
-    var isCollapsed = false
-    var isCollapsible = false
     
     var sectionTitle: String {
         return "Prosperity"
@@ -997,8 +985,6 @@ class CampaignDetailViewModelCampaignDonationsItem: CampaignDetailViewModelItem 
     var type: CampaignDetailViewModelItemType {
         return .donations
     }
-    var isCollapsed = false
-    var isCollapsible = false
     
     var sectionTitle: String {
         return "Sanctuary Donations"
@@ -1021,9 +1007,7 @@ class CampaignDetailViewModelCampaignEventsItem: CampaignDetailViewModelItem {
     var type: CampaignDetailViewModelItemType {
         return .events
     }
-    var isCollapsed = true
-    var isCollapsible = true
-    
+
     var sectionTitle: String {
         return "Events"
     }

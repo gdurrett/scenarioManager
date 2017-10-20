@@ -58,9 +58,6 @@ class CreateCampaignViewController: UIViewController {
         
         styleUI()
         
-//        createCampaignTableView?.tableFooterView = UIView(frame: .zero)
-//        createCampaignTableView?.separatorStyle = .none
-        
     }
 
     override func didReceiveMemoryWarning() {
