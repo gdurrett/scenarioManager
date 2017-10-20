@@ -382,6 +382,7 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate {
     }
     // viewDidLoad helper functions
     fileprivate func styleUI() {
+        self.scenarioFilterOutlet.selectedSegmentIndex = 1
         self.scenarioTableView.estimatedRowHeight = 90
         self.scenarioTableView.rowHeight = UITableViewAutomaticDimension
         self.navigationController?.navigationBar.tintColor = colorDefinitions.mainTextColor

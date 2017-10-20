@@ -160,7 +160,8 @@ extension CampaignDetailViewController: UITableViewDelegate {
         self.navigationController?.navigationBar.tintColor = colorDefinitions.mainTextColor
         self.navigationController?.navigationBar.barTintColor = UIColor(hue: 46/360, saturation: 8/100, brightness: 100/100, alpha: 1.0)
         self.navigationController?.navigationBar.titleTextAttributes = [.font: UIFont(name: "Nyala", size: 26.0)!, .foregroundColor: colorDefinitions.mainTextColor]
-        self.navigationItem.title = ("\(self.viewModel.campaignTitle.value) Detail")
+        //self.navigationItem.title = ("\(self.viewModel.campaignTitle.value) Detail")
+        self.navigationItem.title = "Current Campaign"
         self.campaignDetailTableView.backgroundView = UIImageView(image: UIImage(named: "campaignDetailTableViewBG"))
         self.campaignDetailTableView.backgroundView?.alpha = 0.25
     }
@@ -244,7 +245,8 @@ extension CampaignDetailViewController: UITableViewDelegate {
         }
     }
     func updateNavTitle() {
-        self.navigationItem.title = ("\(self.viewModel.campaignTitle.value) Detail")
+        //self.navigationItem.title = ("\(self.viewModel.campaignTitle.value) Detail")
+        self.navigationItem.title = "Current Campaign"
     }
     fileprivate func showConfirmDeletionAlert () {
         let alertController = UIAlertController(title: "Delete current campaign?", message: "Clicking OK will delete the current campaign.", preferredStyle: .alert)
