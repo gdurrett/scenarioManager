@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13174"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="PartyDetailNameCell" customModule="Scenario_Manager" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="81"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Srk-C6-tgU">
+                    <rect key="frame" x="16" y="25" width="42" height="31"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hhp-xI-RUX">
+                    <rect key="frame" x="16" y="25" width="42" height="30"/>
+                    <nil key="textColor"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <accessibility key="accessibilityConfiguration" identifier="PartyDetailNameCell"/>
+            <constraints>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="Srk-C6-tgU" secondAttribute="bottom" constant="25" id="6Zs-83-pRk"/>
+                <constraint firstItem="hhp-xI-RUX" firstAttribute="top" secondItem="Srk-C6-tgU" secondAttribute="top" id="KGI-w7-WFG"/>
+                <constraint firstItem="Srk-C6-tgU" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="25" id="Kqt-8S-CYj"/>
+                <constraint firstItem="hhp-xI-RUX" firstAttribute="leading" secondItem="Srk-C6-tgU" secondAttribute="leading" id="nTd-ta-ESd"/>
+                <constraint firstItem="hhp-xI-RUX" firstAttribute="trailing" secondItem="Srk-C6-tgU" secondAttribute="trailing" id="uRX-de-aIj"/>
+                <constraint firstItem="Srk-C6-tgU" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="zaF-k1-aSh"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="partyDetailNameLabel" destination="Srk-C6-tgU" id="xiG-HH-uN5"/>
+                <outlet property="partyDetailNameTextField" destination="hhp-xI-RUX" id="nl7-za-6EF"/>
+            </connections>
+        </view>
+    </objects>
+</document>

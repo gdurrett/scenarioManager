@@ -12,6 +12,7 @@ protocol CampaignDetailViewControllerDelegate: class {
     func campaignDetailVCDidTapDelete(_ controller: CampaignDetailViewController)
     func toggleSection(section: Int)
     func setEventOptionChoice()
+    func setPartyChoice()
 }
 
 class CampaignDetailViewController: UIViewController {
@@ -33,11 +34,16 @@ class CampaignDetailViewController: UIViewController {
     var viewModel: CampaignDetailViewModel!
     let colorDefinitions = ColorDefinitions()
     let fontDefinitions = FontDefinitions()
-    // Vars for optionPicker
-    var optionPicker = UIPickerView()
-    var pickerData = [String]()
-    var myInputView = UIView()
-    var dummyTextField = UITextField()
+    // Vars for eventOptionPicker
+    var eventOptionPicker = UIPickerView()
+    var eventOptionPickerData = [String]()
+    var myEventOptionInputView = UIView()
+    var eventOptionDummyTextField = UITextField()
+    // Vars for partyPicker
+    var partyPicker = UIPickerView()
+    var partyPickerData = [String]()
+    var myPartyPickerInputView = UIView()
+    var partyPickerDummyTextField = UITextField()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,13 +63,16 @@ class CampaignDetailViewController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
-        //NotificationCenter.default.addObserver(self, selector: #selector(self.showEventChoiceAlert), name: NSNotification.Name(rawValue: "showEventChoiceAlert"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.showOptionPicker), name: NSNotification.Name(rawValue: "showEventChoiceOptionPicker"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.showPartyPicker), name: NSNotification.Name(rawValue: "showPartyPicker"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.showEventOptionPicker), name: NSNotification.Name(rawValue: "showEventChoiceOptionPicker"), object: nil)
         
         campaignDetailTableView?.dataSource = viewModel
         campaignDetailTableView?.delegate = viewModel
-        optionPicker.delegate = self.viewModel
-        optionPicker.dataSource = self.viewModel
+        eventOptionPicker.delegate = self.viewModel
+        eventOptionPicker.dataSource = self.viewModel
+        partyPicker.delegate = self.viewModel
+        partyPicker.dataSource = self.viewModel
         
         // Register Cells
         campaignDetailTableView?.register(CampaignDetailTitleCell.nib, forCellReuseIdentifier: CampaignDetailTitleCell.identifier)
@@ -322,11 +331,12 @@ extension CampaignDetailViewController: UITableViewDelegate {
 //        optionMenu.view.tintColor = colorDefinitions.scenarioAlertViewTintColor
 //        present(optionMenu, animated: true, completion: nil)
 //    }
-    @objc func showOptionPicker() {
-        optionPicker.layer.cornerRadius = 10
-        optionPicker.layer.masksToBounds = true
-        optionPicker.backgroundColor = UIColor.white.withAlphaComponent(0.9)
-        optionPicker.showsSelectionIndicator = true
+    @objc func showEventOptionPicker() {
+        eventOptionPicker.tag = 5
+        eventOptionPicker.layer.cornerRadius = 10
+        eventOptionPicker.layer.masksToBounds = true
+        eventOptionPicker.backgroundColor = UIColor.white.withAlphaComponent(0.9)
+        eventOptionPicker.showsSelectionIndicator = true
         
         // Try to set up toolbar
         let toolBar = UIToolbar.init(frame: CGRect(x: 0, y: 0, width: self.view.frame.width - 40, height: 44))
@@ -344,27 +354,71 @@ extension CampaignDetailViewController: UITableViewDelegate {
         toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
         toolBar.isUserInteractionEnabled = true
         
-        optionPicker.reloadAllComponents()
-        optionPicker.addSubview(toolBar)
-        myInputView = UIView.init(frame: CGRect(x: 20, y: 310, width: self.view.frame.width - 40, height: optionPicker.frame.size.height + 44))
-        optionPicker.frame = CGRect(x: 0, y: 0, width: myInputView.frame.width, height: 200)
-        myInputView.addSubview(optionPicker)
-        myInputView.addSubview(toolBar)
-        dummyTextField.inputView = myInputView
-        dummyTextField.isHidden = true
-        self.view.addSubview(dummyTextField)
-        self.view.addSubview(myInputView)
+        eventOptionPicker.reloadAllComponents()
+        eventOptionPicker.addSubview(toolBar)
+        myEventOptionInputView = UIView.init(frame: CGRect(x: 20, y: 310, width: self.view.frame.width - 40, height: eventOptionPicker.frame.size.height + 44))
+        eventOptionPicker.frame = CGRect(x: 0, y: 0, width: myEventOptionInputView.frame.width, height: 200)
+        myEventOptionInputView.addSubview(eventOptionPicker)
+        myEventOptionInputView.addSubview(toolBar)
+        eventOptionDummyTextField.inputView = myEventOptionInputView
+        eventOptionDummyTextField.isHidden = true
+        self.view.addSubview(eventOptionDummyTextField)
+        self.view.addSubview(myEventOptionInputView)
     }
     @objc func eventOptionPickerDidTapCancel() {
-        self.myInputView.removeFromSuperview()
-        self.optionPicker.removeFromSuperview()
-        pickerData.removeAll()
+        self.myEventOptionInputView.removeFromSuperview()
+        self.eventOptionPicker.removeFromSuperview()
+        eventOptionPickerData.removeAll()
     }
     @objc func setEventOptionChoice() {
         delegate.setEventOptionChoice()
-        self.myInputView.removeFromSuperview()
-        self.optionPicker.removeFromSuperview()
-        pickerData.removeAll()
+        self.myEventOptionInputView.removeFromSuperview()
+        self.eventOptionPicker.removeFromSuperview()
+        eventOptionPickerData.removeAll()
+    }
+    @objc func showPartyPicker() {
+        partyPicker.tag = 10
+        partyPicker.layer.cornerRadius = 10
+        partyPicker.layer.masksToBounds = true
+        partyPicker.backgroundColor = UIColor.white.withAlphaComponent(0.9)
+        partyPicker.showsSelectionIndicator = true
+        
+        let toolBar = UIToolbar.init(frame: CGRect(x: 0, y: 0, width: self.view.frame.width - 40, height: 44))
+        toolBar.barStyle = UIBarStyle.default
+        toolBar.layer.cornerRadius = 10
+        toolBar.layer.masksToBounds = true
+        toolBar.tintColor = colorDefinitions.scenarioTitleFontColor
+        toolBar.barTintColor = colorDefinitions.scenarioSwipeFontColor
+        
+        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.plain, target: self, action: #selector(setPartyChoice))
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.plain, target: self, action: #selector(partyPickerDidTapCancel))
+        doneButton.setTitleTextAttributes([.font: UIFont(name: "Nyala", size: 24.0)!, .foregroundColor: colorDefinitions.mainTextColor], for: .normal)
+        cancelButton.setTitleTextAttributes([.font: UIFont(name: "Nyala", size: 24.0)!, .foregroundColor: colorDefinitions.mainTextColor], for: .normal)
+        toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
+        toolBar.isUserInteractionEnabled = true
+        
+        partyPicker.reloadAllComponents()
+        partyPicker.addSubview(toolBar)
+        myPartyPickerInputView = UIView.init(frame: CGRect(x: 20, y: 310, width: self.view.frame.width - 40, height: partyPicker.frame.size.height + 44))
+        partyPicker.frame = CGRect(x: 0, y: 0, width: myPartyPickerInputView.frame.width, height: 200)
+        myPartyPickerInputView.addSubview(partyPicker)
+        myPartyPickerInputView.addSubview(toolBar)
+        partyPickerDummyTextField.inputView = myPartyPickerInputView
+        partyPickerDummyTextField.isHidden = true
+        self.view.addSubview(partyPickerDummyTextField)
+        self.view.addSubview(myPartyPickerInputView)
+    }
+    @objc func partyPickerDidTapCancel() {
+        self.myPartyPickerInputView.removeFromSuperview()
+        self.partyPicker.removeFromSuperview()
+        partyPickerData.removeAll()
+    }
+    @objc func setPartyChoice() {
+        delegate.setPartyChoice()
+        self.myPartyPickerInputView.removeFromSuperview()
+        self.partyPicker.removeFromSuperview()
+        partyPickerData.removeAll()
     }
 }
 // Test Test!

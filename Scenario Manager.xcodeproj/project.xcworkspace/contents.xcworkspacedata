@@ -2,9 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:/Users/gdurrett/Developer/Gloomhaven/scenarioManager/Scenario Manager/CampaignDetailPartiesHeader.xib">
-   </FileRef>
-   <FileRef
       location = "self:Scenario Manager.xcodeproj">
    </FileRef>
 </Workspace>

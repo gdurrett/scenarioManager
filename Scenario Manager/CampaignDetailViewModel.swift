@@ -17,7 +17,9 @@ enum CampaignDetailViewModelItemType {
     case donations
     case events
 }
-
+protocol CampaignDetailPartyUpdaterDelegate: class {
+    func reloadTableAfterSetPartyCurrent()
+}
 protocol CampaignDetailViewModelItem {
     var type: CampaignDetailViewModelItemType { get }
     var sectionTitle: String { get }
@@ -49,6 +51,7 @@ class CampaignDetailViewModel: NSObject {
     var availableEvents: Dynamic<[Event]>
     var completedEvents: Dynamic<[Event]>
     var ancientTechCount: Dynamic<Int>
+    var currentParty: Dynamic<Party>
     // Convert to dynamic later
     var headersToUpdate = [Int:UITableViewHeaderFooterView]()
     var storedOffsets = [Int: CGFloat]()
@@ -56,6 +59,7 @@ class CampaignDetailViewModel: NSObject {
     var currentProsperityCell = UITableViewCell()
     var currentDonationsCell = UITableViewCell()
     var currentEventCell = CampaignDetailEventCell()
+    var currentPartyCell = CampaignDetailPartyCell()
     
     var myCompletedEventTitle = String()
     var myAssignedPartyTitle = String()
@@ -73,16 +77,25 @@ class CampaignDetailViewModel: NSObject {
     var reloadSection: ((_ section: Int) -> Void)?
     var scrollEventsSection: (() -> Void)?
 
+    var selectedIndex: Int = 0 //For checkmarked row
     var prosperityBonus: Int {
         get {
             return (dataModel.currentCampaign.sanctuaryDonations / 50) == 2 ? 1 : max((dataModel.currentCampaign.sanctuaryDonations / 50) - 1, 0)
         }
     }
     
-    // Vars for optionPicker
-    var pickerData = ["A", "B"]
-    var didPick = false
+    // Try party reload delegate
+    weak var partyReloadDelegate: CampaignDetailPartyUpdaterDelegate?
+    
+    // Vars for eventOptionPicker
+    var eventOptionPickerData = ["A", "B"]
+    var eventOptionPickerDidPick = false
     var selectedEventOption = String()
+    
+    // Vars for partyPicker
+    var partyPickerData = [String]()
+    var partyPickerDidPick = false
+    var selectedPartyOption = String()
     
     init(withCampaign campaign: Campaign) {
         self.completedGlobalAchievements = Dynamic(dataModel.completedGlobalAchievements)
@@ -96,11 +109,16 @@ class CampaignDetailViewModel: NSObject {
         self.availableEvents = Dynamic(dataModel.availableEvents)
         self.completedEvents = Dynamic(dataModel.completedEvents)
         self.ancientTechCount = Dynamic(dataModel.currentCampaign.ancientTechCount)
+        self.currentParty = Dynamic(dataModel.currentParty)
         super.init()
         self.prosperityLevel = Dynamic(getProsperityLevel(count: dataModel.currentCampaign.prosperityCount))
         self.checksToNextLevel = Dynamic(getRemainingChecksUntilNextLevel(level: (getProsperityLevel(count: dataModel.currentCampaign.prosperityCount)), count: dataModel.currentCampaign.prosperityCount))
         
         self.isActiveCampaign = campaign.isCurrent
+        
+        // Set data for partyPicker
+        self.partyPickerData = Array(dataModel.parties.keys)
+        //self.partyPickerData = ["Test 1", "Test 2"]
         
         // Append campaign title to items
         let titleItem = CampaignDetailViewModelCampaignTitleItem(title: campaignTitle.value)
@@ -133,6 +151,7 @@ class CampaignDetailViewModel: NSObject {
         if campaign.parties?.isEmpty != true {
             for party in campaign.parties! {
                 partyNames.append(SeparatedStrings(rowString: party.name))
+                print("Appending party: \(party.name)")
             }
         } else {
             self.partyNames.append(SeparatedStrings(rowString: ""))
@@ -235,6 +254,9 @@ class CampaignDetailViewModel: NSObject {
     }
     func updateAvailableParties() {
         self.availableParties.value = dataModel.availableParties
+    }
+    func updateCurrentParty() {
+        self.currentParty.value = dataModel.currentParty
     }
     func updateEvents() {
         self.unavailableEvents.value = dataModel.unavailableEvents
@@ -393,8 +415,6 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
                 currentTitleCell = cell
                 // Set text field to hidden until edit is requested
                 cell.campaignDetailTitleTextField.isHidden = true
-                
-                //viewModel?.campaignTitle =
                 cell.selectionStyle = .none
                 cell.delegate = self
                 // Give proper status to isActive button in this cell
@@ -432,24 +452,10 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
         case .parties:
             if let _ = item as? CampaignDetailViewModelCampaignPartyItem, let cell = tableView.dequeueReusableCell(withIdentifier: CampaignDetailPartyCell.identifier, for: indexPath) as? CampaignDetailPartyCell {
                 //cell.delegate = self
+                currentPartyCell = cell
                 cell.backgroundColor = UIColor.clear
-                var names = [SeparatedStrings]()
-                switch selectedPartiesSegmentIndex {
-                case 0:
-                    for party in self.assignedParties.value {
-                        names.append(SeparatedStrings(rowString: party))
-                    }
-                    if names.isEmpty { names = [SeparatedStrings(rowString: "No parties assigned")];self.disablePartySwipe = true } else { self.disablePartySwipe = false }
-                case 1:
-                    for party in self.availableParties.value {
-                        names.append(SeparatedStrings(rowString: party))
-                    }
-                    if names.isEmpty { names = [SeparatedStrings(rowString: "No parties available")]; self.disablePartySwipe = true } else { self.disablePartySwipe = false }
-                default:
-                    break
-                }
                 cell.selectionStyle = .none
-                let party = names[indexPath.row]
+                let party = SeparatedStrings(rowString: self.currentParty.value.name)
                 cell.item = party
                 return cell
             }
@@ -522,7 +528,7 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
         return self.items[section].sectionTitle
     }
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if self.items[section].sectionTitle == "Events" || self.items[section].sectionTitle == "Parties" {
+        if self.items[section].sectionTitle == "Events" {
             return 80
         } else {
             return 50
@@ -547,13 +553,13 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
             headerView.campaignDetailEventsHeaderTitle.text = "Events"
             // Return contentView of headerView so it doesn't disappear
             return headerView.contentView
-        } else if self.items[section].sectionTitle == "Parties" {
-            let headerView = tableView.dequeueReusableCell(withIdentifier: "CampaignDetailPartiesHeader") as! CampaignDetailPartiesHeader
-            headerView.getSegment.addTarget(self, action: #selector(self.getPartySegmentControlValue(sender:)), for: .valueChanged)
-            headerView.getSegment.selectedSegmentIndex = self.selectedPartiesSegmentIndex
-            
-            headerView.campaignDetailPartiesHeaderTitle.text = "Parties"
-            return headerView.contentView
+//        } else if self.items[section].sectionTitle == "Parties" {
+//            let headerView = tableView.dequeueReusableCell(withIdentifier: "CampaignDetailPartiesHeader") as! CampaignDetailPartiesHeader
+//            headerView.getSegment.addTarget(self, action: #selector(self.getPartySegmentControlValue(sender:)), for: .valueChanged)
+//            headerView.getSegment.selectedSegmentIndex = self.selectedPartiesSegmentIndex
+//
+//            headerView.campaignDetailPartiesHeaderTitle.text = "Parties"
+//            return headerView.contentView
         } else {
             let headerView = UIView(frame: CGRect(x:0, y:0, width: tableView.frame.size.width, height: tableView.frame.size.height))
             let headerTitleLabel = UILabel(frame: CGRect(x:16, y:15, width: 42, height: 21))
@@ -594,7 +600,6 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
                     self.scrollEventsSection!()
                 } else if self.myCompletedEventTitle == "Set Completed" {
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "showEventChoiceOptionPicker"), object: nil)
-                    
                     event.isCompleted = true // Set to completed
                     event.isAvailable = false // But no longer available
                     self.updateEvents()
@@ -627,38 +632,41 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
             } else {
                 returnValue = [swipeToggleComplete, swipeToggleUnavailable]
             }
-        } else if sectionNumber == 4 {
-            var party = String()
-            switch selectedPartiesSegmentIndex {
-            case 0:
-                party = assignedParties.value[indexPath.row]
-            case 1:
-                party = availableParties.value[indexPath.row]
-            default:
-                break
-            }
-            configurePartySwipeButton(for: party)
-            self.selectedParty = party
-            let swipeToggleAssign = UITableViewRowAction(style: .normal, title: self.myAssignedPartyTitle) { action, index in
-                if self.myAssignedPartyTitle == "Assign" {
-                    self.dataModel.currentCampaign.parties!.append(self.dataModel.parties[party]!)
-                    self.dataModel.parties[party]!.assignedTo = self.campaignTitle.value
-                    self.updateAssignedParties()
-                    self.updateAvailableParties()
-                    self.dataModel.saveCampaignsLocally()
-                    self.toggleSection(section: 4)
-                } else {
-                    self.dataModel.currentCampaign.parties!.remove(at: indexPath.row)
-                    self.dataModel.parties[party]!.assignedTo = "None"
-                    self.updateAssignedParties()
-                    self.updateAvailableParties()
-                    self.dataModel.saveCampaignsLocally()
-                    self.toggleSection(section: 4)
-                }
-            }
-            swipeToggleAssign.backgroundColor = colorDefinitions.scenarioSwipeBGColor
-            returnValue = [swipeToggleAssign]
         }
+//        } else if sectionNumber == 4 {
+//            var party = String()
+//            switch selectedPartiesSegmentIndex {
+//            case 0:
+//                party = assignedParties.value[indexPath.row]
+//            case 1:
+//                party = availableParties.value[indexPath.row]
+//            default:
+//                break
+//            }
+//            configurePartySwipeButton(for: party)
+//            //self.selectedParty = party
+//            let swipeToggleAssign = UITableViewRowAction(style: .normal, title: self.myAssignedPartyTitle) { action, index in
+//                if self.myAssignedPartyTitle == "Assign" {
+//                    self.dataModel.currentCampaign.parties!.append(self.dataModel.parties[party]!)
+//                    self.dataModel.parties[party]!.assignedTo = self.campaignTitle.value
+//                    self.updateAssignedParties()
+//                    self.updateAvailableParties()
+//                    self.dataModel.saveCampaignsLocally()
+//                    self.toggleSection(section: 4)
+//                } else {
+//                    self.dataModel.currentCampaign.parties!.remove(at: indexPath.row)
+//                    self.dataModel.parties[party]!.assignedTo = "None"
+//                    print("Unassigning \(self.dataModel.parties[party]!.name)")
+//                    self.updateAssignedParties()
+//                    self.updateAvailableParties()
+//                    self.dataModel.saveCampaignsLocally()
+//                    self.toggleSection(section: 4)
+//                }
+//            }
+//            swipeToggleAssign.backgroundColor = colorDefinitions.scenarioSwipeBGColor
+//            returnValue = [swipeToggleAssign]
+//        }
+        
         return returnValue
     }
     // Implemented due to possibility of an event row with no actual data (just a string saying "No completed events")
@@ -680,6 +688,21 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
             returnValue = true
         }
         return returnValue
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        if indexPath.section == 4 && selectedPartiesSegmentIndex == 0 {
+//            var party = String()
+//            switch selectedPartiesSegmentIndex {
+//            case 0:
+//                party = assignedParties.value[indexPath.row]
+//            case 1:
+//                party = availableParties.value[indexPath.row]
+//            default:
+//                break
+//            }
+//            print("Selected party: \(party)")
+//        }
+        print("Getting to didSelect?")
     }
     // Delegate methods for textField in cell
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -734,10 +757,21 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
                 button.addTarget(self, action: #selector(self.enableTitleTextField(_:)), for: .touchUpInside)
                 header.addSubview(button)
             case .parties:
-                button.isEnabled = false
+                button.setImage(UIImage(named: "icons8-Edit-40"), for: .normal)
+                button.isEnabled = true
+                button.addTarget(self, action: #selector(self.showPartyPicker(button:)), for: .touchUpInside)
+                header.addSubview(button)
             case .events:
                 break
             }
+    }
+    fileprivate func configureCheckmark(for cell: UITableViewCell, activeStatus: Bool) {
+        if activeStatus == true {
+            cell.accessoryType = .checkmark
+        }
+    }
+    @objc func showPartyPicker(button: UIButton) {
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "showPartyPicker"), object: nil)
     }
     @objc func pressedRoadButton(button: UIButton) {
         selectedEventType = "road"
@@ -761,6 +795,7 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
     }
     @objc func getPartySegmentControlValue(sender: UISegmentedControl) {
         self.selectedPartiesSegmentIndex = sender.selectedSegmentIndex
+        print("Setting Segment Index to: \(sender.selectedSegmentIndex)")
         self.toggleSection(section: 4)
     }
     @objc func enableTitleTextField(_ sender: UIButton) {
@@ -856,35 +891,58 @@ extension CampaignDetailViewModel: SelectCampaignViewControllerDelegate, Campaig
             controller.showDisallowDeletionAlert()
         }
     }
-    func showEventOptionPicker(_ controller: CampaignDetailViewController) {
-        controller.delegate = self
-        controller.showOptionPicker()
-    }
-    // Delegate method called from CampaignDetailVC
+//    func showEventOptionPicker(_ controller: CampaignDetailViewController) {
+//        controller.delegate = self
+//        controller.showEventOptionPicker()
+//    }
+    // Delegate methods called from CampaignDetailVC
     func setEventOptionChoice() {
-        
         self.selectedEvent!.number.append(" - Option: \(selectedEventOption)")
         toggleSection(section: 5)
-        // Test scenario unlock here?
-        // Add unlockedByChoice: String to Event object
-        // Check if selectedEventOption == selectedEvent.unlockedByChoice, and if so
-        // try to set dataModel.getScenario(selectedEvent.unlocks).isUnlocked = true
-        // Then need to updateScenarios most likely
+        self.dataModel.saveCampaignsLocally()
+    }
+    func setPartyChoice() {
+        for party in dataModel.parties {
+            if party.value.name == selectedPartyOption {
+                dataModel.parties[selectedPartyOption]!.isCurrent = true
+            } else {
+                party.value.isCurrent = false
+            }
+        }
+        updateCurrentParty()
+        toggleSection(section: 4)
         self.dataModel.saveCampaignsLocally()
     }
 }
 // MARK: PickerView Delegate Methods
 extension CampaignDetailViewModel: UIPickerViewDelegate, UIPickerViewDataSource {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
+        var returnValue = Int()
+        if pickerView.tag == 5 {
+            returnValue = 1
+        } else if pickerView.tag == 10 {
+            returnValue = 1
+        }
+        return returnValue
     }
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return pickerData.count
+        var returnValue = Int()
+        if pickerView.tag == 5 {
+            returnValue = eventOptionPickerData.count
+        } else if pickerView.tag == 10 {
+            returnValue = partyPickerData.count
+        }
+        return returnValue
     }
     // Get picker selection
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        didPick = true
-        selectedEventOption = row == 0 ? "A" : "B"
+        if pickerView.tag == 5 {
+            eventOptionPickerDidPick = true
+            selectedEventOption = row == 0 ? "A" : "B"
+        } else if pickerView.tag == 10 {
+            partyPickerDidPick = true
+            selectedPartyOption = partyPickerData[row]
+        }
     }
     func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView{
         var label = view as! UILabel!
@@ -892,8 +950,15 @@ extension CampaignDetailViewModel: UIPickerViewDelegate, UIPickerViewDataSource 
             label = UILabel()
         }
         label?.font = UIFont(name: "Nyala", size: 24)!
-        label?.text =  ("\(selectedEvent!.number) - \(pickerData[row])")
         label?.textAlignment = .center
+        if pickerView.tag == 5 {
+            print("Getting to tag 5?")
+            label?.text =  ("\(selectedEvent!.number) - \(eventOptionPickerData[row])")
+        } else if pickerView.tag == 10 {
+            label?.text = ("\(partyPickerData[row])")
+            print("Getting here?")
+        }
+
         return label!
     }
 }
@@ -925,7 +990,7 @@ class CampaignDetailViewModelCampaignPartyItem: CampaignDetailViewModelItem {
     }
     
     var sectionTitle: String {
-        return "Parties"
+        return "Active Party"
     }
     
     var rowCount: Int {

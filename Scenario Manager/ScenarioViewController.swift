@@ -78,8 +78,8 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate {
         // Change titles on segmented controller
         setSegmentTitles()
         setupSearch()
-        scenarioTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
-        
+        //scenarioTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+        self.scenarioTableView.setContentOffset(CGPoint(x: 0, y: 20), animated: true)
         //Try notification for tapped rows in ScenarioDetailViewController
         NotificationCenter.default.addObserver(self, selector: #selector(segueToDetailViewController), name: NSNotification.Name(rawValue: "segueToDetail"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(presentScenarioPickerViewController), name: NSNotification.Name(rawValue: "segueToPicker"), object: nil)
@@ -97,6 +97,7 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate {
         viewModel?.updateAvailableScenarios()
         self.setSegmentTitles()
         self.scenarioTableView.reloadData()
+        self.scenarioTableView.setContentOffset(CGPoint(x: 0, y: self.searchController.searchBar.frame.height), animated: true)
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)

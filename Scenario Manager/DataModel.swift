@@ -51,6 +51,11 @@ class DataModel {
             return currentCampaign.achievements.filter { $0.value != false && $0.key != "None" && $0.key != "OR" }
         }
     }
+    var completedPartyAchievements: [String:Bool] {
+        get {
+            return currentParty.achievements.filter { $0.value != false && $0.key != "None" && $0.key != "OR" }
+        }
+    }
     var assignedParties: [String] {
         get {
             var tempParties = [String]()
@@ -76,6 +81,32 @@ class DataModel {
             return tempParties
         }
     }
+    var assignedCharacters: [String] {
+        get {
+            var tempCharacters = [String]()
+            if currentParty.characters.isEmpty != true {
+                for character in currentParty.characters {
+                    tempCharacters.append(character.name)
+                }
+            } else {
+                tempCharacters.append("None")
+            }
+            return tempCharacters
+        }
+    }
+    var availableCharacters: [String] {
+        get {
+            var tempCharacters = [String]()
+            for character in self.characters {
+                if character.value.assignedTo == "None" {
+                    tempCharacters.append(character.key)
+                } else {
+                    
+                }
+            }
+            return tempCharacters
+        }
+    }
     var currentCampaign: Campaign {
         get {
             let filtered = campaigns.filter { pair in pair.value.isCurrent == true }
@@ -85,10 +116,27 @@ class DataModel {
             } else {
                 if self.campaigns["Default"] == nil {
                     print("Am I fucking adding from here?!")
-                    createCampaign(title: "Default", isCurrent: true, parties: [])
+                    createParty(name: "Default", characters: [], location: "Gloomhaven", achievements: [:], reputation: 0, isCurrent: true, assignedTo: "Default")
+                    createCampaign(title: "Default", isCurrent: true, parties: [parties["Default"]!])
                 }
                 return campaigns["Default"]!
             }
+        }
+    }
+    var assignedCampaign: String { // campaign assigned to currentParty
+        get {
+            return currentParty.assignedTo
+        }
+    }
+    var availableCampaigns: [String] {
+        get {
+            var tempCampaignTitles = [String]()
+            for campaign in self.campaigns {
+                if campaign.value.parties!.isEmpty {
+                    tempCampaignTitles.append(campaign.value.title)
+                }
+            }
+            return tempCampaignTitles
         }
     }
     var unavailableEvents: [Event] {
@@ -106,14 +154,16 @@ class DataModel {
             return currentCampaign.events.filter { $0.isCompleted == true }
         }
     }
-    var currentParty: Party? {
+    var currentParty: Party! {
         get {
             let filtered = parties.filter { pair in pair.value.isCurrent == true }
             if let myParty = filtered.values.first  {
+                print("Returning \(myParty.name)")
                 return myParty
             } else {
                 if self.parties["Default"] == nil {
-                    createParty(name: "Default", characters: [], location: "Gloomhaven", achievements: [:], reputation: 0, isCurrent: true)
+                    print("Creating party?")
+                    createParty(name: "Default", characters: [], location: "Gloomhaven", achievements: [:], reputation: 0, isCurrent: true, assignedTo: "Default")
                 }
                 return parties["Default"]
             }
@@ -1976,9 +2026,9 @@ class DataModel {
             parties["BungleHeads"] = Party(name: "BungleHeads", characters: Array(Set(characters.values)), location: "Gloomhaven", achievements: partyAchievements, reputation: 0, isCurrent: true, assignedTo: "None")
             
             // Temp character object dictionary
-            characters["Snarklepuss"] = Character(name: "Snarklepuss", race: "Aesther", type: "Summoner", level: 4, isRetired: false)
-            characters["Homegirl"] = Character(name: "Homegirl", race: "Inox", type: "Brute", level: 5, isRetired: false)
-            characters["Stryker"] = Character(name: "Stryker", race: "Inox", type: "Berserker", level: 6, isRetired: false)
+            characters["Snarklepuss"] = Character(name: "Snarklepuss", race: "Aesther", type: "Summoner", level: 4, isRetired: false, assignedTo: "None")
+            characters["Homegirl"] = Character(name: "Homegirl", race: "Inox", type: "Brute", level: 5, isRetired: false, assignedTo: "None")
+            characters["Stryker"] = Character(name: "Stryker", race: "Inox", type: "Berserker", level: 6, isRetired: false, assignedTo: "None")
             
             // Create iCloud private DB schema if no plist exists. Logic will change.
             checkIfCampaignRecordExists() {
@@ -2147,7 +2197,7 @@ class DataModel {
         self.myCloudKitMgr.privateDatabase.add(uploadOperation)
     }
     // Party functions
-    func createParty(name: String, characters: [Character], location: String, achievements: [String:Bool], reputation: Int, isCurrent: Bool, assignedTo: String = "None") {
+    func createParty(name: String, characters: [Character], location: String, achievements: [String:Bool], reputation: Int, isCurrent: Bool, assignedTo: String) {
         if (parties[name] == nil) {
             let newParty = Party(name: name, characters: characters, location: location, achievements: [:], reputation: reputation, isCurrent: isCurrent, assignedTo: assignedTo)
             for achievement in partyAchievements {

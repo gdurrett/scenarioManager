@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol CampaignDetailProsperityCellDelegate {
+protocol CampaignDetailProsperityCellDelegate: class {
     func updateCampaignProsperityCount(value: Int)
 }
 
@@ -35,7 +35,7 @@ class CampaignDetailProsperityCell: UITableViewCell {
     
     let colorDefinitions = ColorDefinitions()
     let fontDefinitions = FontDefinitions()
-    var delegate: CampaignDetailProsperityCellDelegate?
+    weak var delegate: CampaignDetailProsperityCellDelegate?
     
     var item: CampaignDetailViewModelItem? {
         didSet {

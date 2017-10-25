@@ -22,22 +22,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedStringKey.font: globalButtonFont], for: .normal)
         let scenarioViewModel = ScenarioViewModelFromModel(withDataModel: dataModel)
         let campaignDetailViewModel = CampaignDetailViewModel(withCampaign: dataModel.currentCampaign)
+        let partyDetailViewModel = PartyDetailViewModel(withParty: dataModel.currentParty)
         
         if let tabBarController: UITabBarController = self.window!.rootViewController as? CampaignManagerTabBarController { // Set up top-level controller
             
-            let navController1 = tabBarController.viewControllers?[2] as! UINavigationController
-            let controller1 = navController1.viewControllers[0] as! DashboardViewController
-            controller1.dataModel = dataModel
-            controller1.viewModel = scenarioViewModel
+            let navController1 = tabBarController.viewControllers?[1] as! UINavigationController
+            let controller1 = navController1.viewControllers[0] as! PartyDetailViewController
+            controller1.viewModel = partyDetailViewModel
             
             // Set up Campaign Detail view controller
             let navController2 = tabBarController.viewControllers?[0] as? UINavigationController
             let controller2 = navController2?.viewControllers[0] as! CampaignDetailViewController
             controller2.viewModel = campaignDetailViewModel
             controller2.delegate = campaignDetailViewModel
+            // See if we can set reload 
+            campaignDetailViewModel.partyReloadDelegate = controller1
             
             // Set up Scenario view controller
-            let navController3 = tabBarController.viewControllers?[1] as? UINavigationController
+            let navController3 = tabBarController.viewControllers?[2] as? UINavigationController
             let controller3 = navController3?.viewControllers[0] as! ScenarioViewController
             controller3.viewModel = scenarioViewModel
 
