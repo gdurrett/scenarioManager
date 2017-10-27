@@ -422,7 +422,6 @@ extension CampaignDetailViewController: UITableViewDelegate {
     }
     @objc func setPartyChoice() {
         if !delegate.partyPickerDidPick {
-            print("Getting to didn't pick?")
             partyPicker.selectRow(0, inComponent: 0, animated: true)
             delegate.selectedPartyOption = delegate.partyPickerData[0]
         }

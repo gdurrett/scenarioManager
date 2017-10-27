@@ -46,7 +46,6 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
     func updateAvailableScenarios(scenario: Scenario, isCompleted: Bool) {
         toggleUnlocks(for: scenario, to: isCompleted)
         let completed = allScenarios.filter { $0.isCompleted == true }
-        for title in completed { if title.title == "Temple of the Seer" { print("Uh oh, got temple!")}}
         myAchieves = completed.filter { $0.achieves != ["None"] }.flatMap { $0.achieves }
         setAchievements(atches: scenario.achieves, toggle: isCompleted)
         // Special case for when we've achieved Drake's Command and Drake's Treasure
@@ -84,7 +83,6 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
         self.completedScenarios.value = dataModel.completedScenarios
         self.campaign.value = dataModel.currentCampaign
         dataModel.saveCampaignsLocally()
-        for scenario in self.completedScenarios.value { if scenario.title == "Temple of the Seer" { print("Uh oh once again!")}}
         // Try force refresh here to solve first load from cloud issue?
     }
     func updateLoadedCampaign() {
@@ -135,8 +133,6 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
                             dataModel.globalAchievements[ach]! = true
                             campaign.value.achievements[ach]! = true
                         } else {
-                            //dataModel.partyAchievements[ach]! = true
-                            print("Setting \(ach) to true for \(dataModel.currentParty.name)")
                             dataModel.currentParty.achievements[ach]! = true // Test!
                             party.value.achievements[ach]! = true
                         }
@@ -158,7 +154,6 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
                             dataModel.globalAchievements[ach]! = false
                             campaign.value.achievements[ach]! = false
                         } else {
-                            //dataModel.partyAchievements[ach]! = false
                             dataModel.currentParty.achievements[ach]! = false
                             party.value.achievements[ach]! = false
                         }
@@ -168,7 +163,6 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
         }
     }
     @objc func setRequirementsMet() {
-    //let combinedAchievementDicts = dataModel.globalAchievements.reduce(dataModel.partyAchievements) { r, e in var r = r; r[e.0] = e.1; return r }
         
     let combinedAchievementDicts = dataModel.globalAchievements.reduce(dataModel.currentParty.achievements) { r, e in var r = r; r[e.0] = e.1; return r }
         for scenario in allScenarios {
@@ -181,18 +175,15 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
                     if combinedAchievementDicts[ach]! == bool {
                         scenario.requirementsMet = true
                         campaign.value.requirementsMet[Int(scenario.number)! - 1] = true
-                        //print("Setting requirementsMet to true for \([Int(scenario.number)!])")
                         break
                     }
                 } else if combinedAchievementDicts[ach]! != bool && !scenario.isCompleted {
                     scenario.requirementsMet = false
                     campaign.value.requirementsMet[Int(scenario.number)! - 1] = false
-                    //print("Setting requirementsMet to false for \([Int(scenario.number)!])")
                     break
                 } else {
                     scenario.requirementsMet = true
                     campaign.value.requirementsMet[Int(scenario.number)! - 1] = true
-                    //print("Setting requirementsMet to true for \([Int(scenario.number)!])")
                 }
             }
         }

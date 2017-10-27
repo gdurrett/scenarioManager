@@ -120,10 +120,8 @@ class DataModel {
                 return myCampaign
             } else {
                 if self.campaigns["Default"] == nil {
-                    print("Am I fucking adding from here?!")
-//                    createParty(name: "Default", characters: [], location: "Gloomhaven", achievements: [:], reputation: 0, isCurrent: true, assignedTo: "Default")
-                    //createCampaign(title: "Default", isCurrent: true, parties: [parties["Default"]!])
-                    createCampaign(title: "Default", isCurrent: true, parties: [parties["Wrecking Crew"]!])
+                    createParty(name: "Default", characters: [], location: "Gloomhaven", achievements: [:], reputation: 0, isCurrent: true, assignedTo: "Default")
+                    createCampaign(title: "Default", isCurrent: true, parties: [parties["Default"]!])
                 }
                 return campaigns["Default"]!
             }
@@ -167,18 +165,18 @@ class DataModel {
                 return myParty
             } else {
                 if self.parties["Default"] == nil {
-                    //createParty(name: "Default", characters: [], location: "Gloomhaven", achievements: createPartyAchievements(), reputation: 0, isCurrent: true, assignedTo: "Default")
+                    createParty(name: "Default", characters: [], location: "Gloomhaven", achievements: createPartyAchievements(), reputation: 0, isCurrent: true, assignedTo: "Default")
                 }
                 return parties["Default"]
             }
         }
         set {
-            setCurrentParty(party: newValue)
-//            let filtered = parties.filter { pair in pair.value.isCurrent == true }
-//            if let myParty = filtered.values.first {
-//                loadParty(party: myParty.name)
-//                currentParty.achievements = myParty.achievements //Test
-//            }
+            //setCurrentParty(party: newValue)
+            for thisParty in self.parties.values {
+                thisParty.isCurrent = false
+            }
+            newValue.isCurrent = true
+            loadParty(party: newValue.name)
         }
     }
     
@@ -1996,49 +1994,9 @@ class DataModel {
                 "Water-Breathing"                       : false
             ]
             
-//            partyAchievements = [
-//                "None"                                  : true,
-//                "OR"                                    : true,
-//                "A Demon's Errand"                      : false,
-//                "A Map to Treasure"                     : false,
-//                "Across the Divide"                     : false,
-//                "An Invitation"                         : false,
-//                "Bad Business"                          : false,
-//                "Bravery"                               : false,
-//                "Dark Bounty"                           : false,
-//                "Debt Collection"                       : false,
-//                "Finding the Cure personal quest"       : false,
-//                "First Steps"                           : false,
-//                "Fish's Aid"                            : false,
-//                "Following Clues"                       : false,
-//                "Grave Job"                             : false,
-//                "High Sea Escort"                       : false,
-//                "Jekserah's Plans"                      : false,
-//                "Seeker of Xorn personal quest"         : false,
-//                "Staff of Xorn item equipped"           : false,
-//                "Redthorn's Aid"                        : false,
-//                "Sin-Ra"                                : false,
-//                "Stonebreaker's Censer"                 : false,
-//                "Take Back the Trees personal quest"    : false,
-//                "The Drake's Command"                   : false,
-//                "The Drake's Treasure"                  : false,
-//                "The Fall of Man personal quest"        : false,
-//                "The Poison's Source"                   : false,
-//                "The Scepter and the Voice"             : false,
-//                "The Voice's Command"                   : false,
-//                "The Voice's Treasure"                  : false,
-//                "Through the Nest"                      : false,
-//                "Through the Ruins"                     : false,
-//                "Through the Trench"                    : false,
-//                "Tremors"                               : false,
-//                "Vengeance personal quest"              : false,
-//                "Water Staff"                           : false
-//            ]
             // Temp party object dictionary
-            //parties["Wrecking Crew"] = Party(name: "Wrecking Crew", characters: Array(Set(characters.values)), location: "Gloomhaven", achievements: partyAchievements, reputation: 0, isCurrent: false, assignedTo: "Default")
-            //parties["BungleHeads"] = Party(name: "BungleHeads", characters: Array(Set(characters.values)), location: "Gloomhaven", achievements: partyAchievements, reputation: 0, isCurrent: true, assignedTo: "Default")
-            createParty(name: "Wrecking Crew", characters: Array(Set(characters.values)), location: "Gloomhaven", achievements: createPartyAchievements(), reputation: 0, isCurrent: true, assignedTo: "None")
-            createParty(name: "Blasters", characters: Array(Set(characters.values)), location: "Gloomhaven", achievements: createPartyAchievements(), reputation: 0, isCurrent: false, assignedTo: "None")
+//            createParty(name: "Wrecking Crew", characters: Array(Set(characters.values)), location: "Gloomhaven", achievements: createPartyAchievements(), reputation: 0, isCurrent: true, assignedTo: "None")
+//            createParty(name: "Blasters", characters: Array(Set(characters.values)), location: "Gloomhaven", achievements: createPartyAchievements(), reputation: 0, isCurrent: false, assignedTo: "None")
             // Temp character object dictionary
             characters["Snarklepuss"] = Character(name: "Snarklepuss", race: "Aesther", type: "Summoner", level: 4, isRetired: false, assignedTo: "None")
             characters["Homegirl"] = Character(name: "Homegirl", race: "Inox", type: "Brute", level: 5, isRetired: false, assignedTo: "None")
@@ -2065,8 +2023,6 @@ class DataModel {
         
         print("Documents folder is \(documentsDirectory())")
         print("Data file path is \(dataFilePath())")
-        print("Blasters: \(parties["Blasters"]!.achievements)")
-        print("Wrecking Crew: \(parties["Wrecking Crew"]!.achievements)")
     }
     func setCurrentParty(party: Party) {
         for thisParty in self.parties.values {
@@ -2074,14 +2030,7 @@ class DataModel {
         }
         party.isCurrent = true
         loadParty(party: party.name)
-        print("Who's current? \(self.currentParty.name)")
 
-//        let filtered = parties.filter { pair in pair.value.isCurrent == true }
-//        if let myParty = filtered.values.first {
-//            loadParty(party: myParty.name)
-//            currentParty.achievements = myParty.achievements //Test
-//            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "loadParty"), object: nil) // Trigger setRequirementsMetForCurrentParty in Scenario VM
-//        }
     }
     func documentsDirectory() -> URL {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
@@ -2249,18 +2198,11 @@ class DataModel {
     func loadParty(party: String) {
         
         if let requestedParty = parties[party] {
-        //if let requestedParty = parties["Blasters"] {
-            //updateLocalPartyIsCurrent(party: requestedParty.name)
-            print("Loading up \(party)")
             for achievement in partyAchievements.keys {
                 let newStatus = requestedParty.achievements[achievement]
-                
                 self.partyAchievements[achievement] = newStatus
-                print("In load, setting \(achievement) to \(newStatus!)")
             }
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "loadParty"), object: nil) // Trigger setRequirementsMetForCurrentParty in Scenario VM
-
-            //updateLocalPartyIsCurrent(party: requestedParty.name)
         } else {
             print("No such party exists")
         }

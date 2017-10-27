@@ -427,10 +427,8 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate {
             scenarioPicker.selectRow(0, inComponent: 0, animated: true)
             let row = scenarioPicker.selectedRow(inComponent: 0)
             pickedScenario = pickerData[row].components(separatedBy: " - ")
-            print("Think I picked this in tapDone: \(pickedScenario!)")
             scenario.unlocks = ["ONEOF", "\(pickedScenario![0])"]
         }
-        print("Bypassing didnt' pick?")
         self.scenario.isCompleted = true // Test in here
         self.viewModel?.campaign.value.isCompleted[Int(self.scenario.number)! - 1] = true // Test in here
         viewModel?.updateAvailableScenarios(scenario: scenario, isCompleted: true)
@@ -631,7 +629,6 @@ extension ScenarioViewController: UIPickerViewDelegate, UIPickerViewDataSource {
         pickedScenario = [""]
         scenario.unlocks = ["ONEOF", "15", "17", "20"] // Try reset
         pickedScenario = pickerData[row].components(separatedBy: " - ")
-        print("Think I picked: \(pickedScenario!)")
         scenario.unlocks = ["ONEOF", "\(pickedScenario![0])"]
     }
     func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView{
