@@ -38,6 +38,9 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
         self.availableScenarios = Dynamic(dataModel.availableScenarios)
         self.completedScenarios = Dynamic(dataModel.completedScenarios)
         self.ancientTechCount = Dynamic(dataModel.currentCampaign.ancientTechCount)
+        super.init()
+        // Listener for when we load a different party
+        NotificationCenter.default.addObserver(self, selector: #selector(setRequirementsMetForCurrentParty), name: NSNotification.Name(rawValue: "loadParty"), object: nil)
     }
     // MARK: Helper functions
     func updateAvailableScenarios(scenario: Scenario, isCompleted: Bool) {
@@ -87,6 +90,9 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
     func updateLoadedCampaign() {
         dataModel.loadCampaign(campaign: dataModel.currentCampaign.title)
     }
+    func updateCurrentParty() {
+        self.party.value = dataModel.currentParty
+    }
     func increaseProsperityCount() {
         dataModel.currentCampaign.prosperityCount += 1
         dataModel.saveCampaignsLocally()
@@ -99,7 +105,7 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
         dataModel.currentCampaign.sanctuaryDonations += 10
     }
     func setAchievements(atches: [String], toggle: Bool) {
-
+        
         var remove = false
         for ach in atches {
             if dataModel.globalAchievements.keys.contains(ach) {
@@ -118,7 +124,8 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
                         // Check for Ancient Tech here?
                         campaign.value.achievements[ach]! = false
                     } else {
-                        dataModel.partyAchievements[ach]! = false
+                        //dataModel.partyAchievements[ach]! = false
+                        dataModel.currentParty.achievements[ach] = false
                         party.value.achievements[ach]! = false
                     }
                     remove = false
@@ -128,7 +135,9 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
                             dataModel.globalAchievements[ach]! = true
                             campaign.value.achievements[ach]! = true
                         } else {
-                            dataModel.partyAchievements[ach]! = true
+                            //dataModel.partyAchievements[ach]! = true
+                            print("Setting \(ach) to true for \(dataModel.currentParty.name)")
+                            dataModel.currentParty.achievements[ach]! = true // Test!
                             party.value.achievements[ach]! = true
                         }
                     }
@@ -149,7 +158,8 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
                             dataModel.globalAchievements[ach]! = false
                             campaign.value.achievements[ach]! = false
                         } else {
-                            dataModel.partyAchievements[ach]! = false
+                            //dataModel.partyAchievements[ach]! = false
+                            dataModel.currentParty.achievements[ach]! = false
                             party.value.achievements[ach]! = false
                         }
                     }
@@ -157,9 +167,12 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
             }
         }
     }
-    func setRequirementsMet() {
-    let combinedAchievementDicts = dataModel.globalAchievements.reduce(dataModel.partyAchievements) { r, e in var r = r; r[e.0] = e.1; return r }
+    @objc func setRequirementsMet() {
+    //let combinedAchievementDicts = dataModel.globalAchievements.reduce(dataModel.partyAchievements) { r, e in var r = r; r[e.0] = e.1; return r }
+        
+    let combinedAchievementDicts = dataModel.globalAchievements.reduce(dataModel.currentParty.achievements) { r, e in var r = r; r[e.0] = e.1; return r }
         for scenario in allScenarios {
+            //print("Checking requirements for \(scenario.number)")
             let orPresent = scenario.requirements["OR"] == true
             var tempRequirementsArray = scenario.requirements
             tempRequirementsArray.removeValue(forKey: "OR")
@@ -168,9 +181,41 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
                     if combinedAchievementDicts[ach]! == bool {
                         scenario.requirementsMet = true
                         campaign.value.requirementsMet[Int(scenario.number)! - 1] = true
+                        //print("Setting requirementsMet to true for \([Int(scenario.number)!])")
                         break
                     }
                 } else if combinedAchievementDicts[ach]! != bool && !scenario.isCompleted {
+                    scenario.requirementsMet = false
+                    campaign.value.requirementsMet[Int(scenario.number)! - 1] = false
+                    //print("Setting requirementsMet to false for \([Int(scenario.number)!])")
+                    break
+                } else {
+                    scenario.requirementsMet = true
+                    campaign.value.requirementsMet[Int(scenario.number)! - 1] = true
+                    //print("Setting requirementsMet to true for \([Int(scenario.number)!])")
+                }
+            }
+        }
+        updateAvailableScenarios()
+    }
+    // Test for loadParty - look only at uncompleted scenarios in the current campaign, apply current party's achievements to determine available scenarios
+    @objc func setRequirementsMetForCurrentParty() {
+        updateCurrentParty()
+    let combinedAchievementDicts = dataModel.globalAchievements.reduce(dataModel.currentParty.achievements) { r, e in var r = r; r[e.0] = e.1; return r }
+        for scenario in allScenarios {
+            let orPresent = scenario.requirements["OR"] == true
+            var tempRequirementsArray = scenario.requirements
+            tempRequirementsArray.removeValue(forKey: "OR")
+            for (ach, bool) in tempRequirementsArray {
+
+                if orPresent {
+                    if combinedAchievementDicts[ach]! == bool {
+                        scenario.requirementsMet = true
+                        campaign.value.requirementsMet[Int(scenario.number)! - 1] = true
+                        break
+                    }
+                } else if combinedAchievementDicts[ach]! != bool {
+                    if ach == "Jekserah's Plans" { print("Setting to false for Jecksy") }
                     scenario.requirementsMet = false
                     campaign.value.requirementsMet[Int(scenario.number)! - 1] = false
                     break

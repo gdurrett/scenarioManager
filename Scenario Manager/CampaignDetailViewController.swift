@@ -13,6 +13,9 @@ protocol CampaignDetailViewControllerDelegate: class {
     func toggleSection(section: Int)
     func setEventOptionChoice()
     func setPartyChoice()
+    var partyPickerDidPick: Bool { get set }
+    var selectedPartyOption: String { get set }
+    var partyPickerData: [String] { get set }
 }
 
 class CampaignDetailViewController: UIViewController {
@@ -399,6 +402,9 @@ extension CampaignDetailViewController: UITableViewDelegate {
         toolBar.isUserInteractionEnabled = true
         
         partyPicker.reloadAllComponents()
+        partyPicker.selectRow(0, inComponent: 0, animated: true)
+        // Need to reset didPick
+        delegate.partyPickerDidPick = false
         partyPicker.addSubview(toolBar)
         myPartyPickerInputView = UIView.init(frame: CGRect(x: 20, y: 310, width: self.view.frame.width - 40, height: partyPicker.frame.size.height + 44))
         partyPicker.frame = CGRect(x: 0, y: 0, width: myPartyPickerInputView.frame.width, height: 200)
@@ -412,9 +418,14 @@ extension CampaignDetailViewController: UITableViewDelegate {
     @objc func partyPickerDidTapCancel() {
         self.myPartyPickerInputView.removeFromSuperview()
         self.partyPicker.removeFromSuperview()
-        partyPickerData.removeAll()
+        //partyPickerData.removeAll()
     }
     @objc func setPartyChoice() {
+        if !delegate.partyPickerDidPick {
+            print("Getting to didn't pick?")
+            partyPicker.selectRow(0, inComponent: 0, animated: true)
+            delegate.selectedPartyOption = delegate.partyPickerData[0]
+        }
         delegate.setPartyChoice()
         self.myPartyPickerInputView.removeFromSuperview()
         self.partyPicker.removeFromSuperview()

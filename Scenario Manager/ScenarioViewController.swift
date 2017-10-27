@@ -22,11 +22,11 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate {
     @IBAction func scenarioFilterAction(_ sender: Any) {
         switch scenarioFilterOutlet.selectedSegmentIndex {
         case 0:
-            self.navigationItem.title = "\(selectedCampaign!.title) Scenarios"
+            self.navigationItem.title = "\(selectedCampaign!.title) - \(self.viewModel!.party.value.name)"
         case 1:
-            self.navigationItem.title = "\(selectedCampaign!.title) Scenarios"
+            self.navigationItem.title = "\(selectedCampaign!.title) - \(self.viewModel!.party.value.name)"
         case 2:
-            self.navigationItem.title = "\(selectedCampaign!.title) Scenarios"
+            self.navigationItem.title = "\(selectedCampaign!.title) - \(self.viewModel!.party.value.name)"
         default:
             break
         }
@@ -92,7 +92,7 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationItem.title = ("\(self.selectedCampaign!.title) Scenarios")
+        self.navigationItem.title = ("\(self.selectedCampaign!.title) - \(self.viewModel!.party.value.name)")
         viewModel?.updateLoadedCampaign()
         viewModel?.updateAvailableScenarios()
         self.setSegmentTitles()
@@ -314,7 +314,7 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate {
         scenarioFilterOutlet.setTitle("Completed (\(completedScenarios.count))", forSegmentAt: 2)
         scenarioFilterOutlet.setTitleTextAttributes([NSAttributedStringKey.font: UIFont(name: "Nyala", size: 20.0)!, NSAttributedStringKey.foregroundColor: colorDefinitions.mainTextColor], for: .normal)
         scenarioFilterOutlet.backgroundColor = colorDefinitions.scenarioSegmentedControlBGColor
-        self.navigationItem.title = "\(selectedCampaign!.title) Scenarios"
+        self.navigationItem.title = "\(selectedCampaign!.title) - \(self.viewModel!.party.value.name)"
         scenarioTableView.reloadData()
     }
     func showSelectionAlert(status: String) {
@@ -388,7 +388,7 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate {
         self.scenarioTableView.rowHeight = UITableViewAutomaticDimension
         self.navigationController?.navigationBar.tintColor = colorDefinitions.mainTextColor
         self.navigationController?.navigationBar.barTintColor = colorDefinitions.scenarioTableViewNavBarBarTintColor
-        self.navigationController?.navigationBar.titleTextAttributes = [.font: UIFont(name: "Nyala", size: 26.0)!, .foregroundColor: colorDefinitions.mainTextColor]
+        self.navigationController?.navigationBar.titleTextAttributes = [.font: UIFont(name: "Nyala", size: 22.0)!, .foregroundColor: colorDefinitions.mainTextColor]
         
         // See if we can set search field's cursor to a darker color than the Cancel button
         self.setTextFieldTintColor(to: colorDefinitions.scenarioTitleFontColor, for: searchController.searchBar)

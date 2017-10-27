@@ -94,7 +94,7 @@ class CampaignDetailViewModel: NSObject {
     
     // Vars for partyPicker
     var partyPickerData = [String]()
-    var partyPickerDidPick = false
+    var partyPickerDidPick: Bool = false
     var selectedPartyOption = String()
     
     init(withCampaign campaign: Campaign) {
@@ -902,13 +902,19 @@ extension CampaignDetailViewModel: SelectCampaignViewControllerDelegate, Campaig
         self.dataModel.saveCampaignsLocally()
     }
     func setPartyChoice() {
-        for party in dataModel.parties {
-            if party.value.name == selectedPartyOption {
-                dataModel.parties[selectedPartyOption]!.isCurrent = true
-            } else {
-                party.value.isCurrent = false
-            }
-        }
+        //var myParty = Party(name: "Temp", characters: [], location: "Gloomhaven", achievements: [:], reputation: 0, isCurrent: true, assignedTo: "")
+//        for party in dataModel.parties {
+//            if party.value.name == selectedPartyOption {
+//                myParty = party.value
+//                dataModel.parties[selectedPartyOption]!.isCurrent = true
+//            } else {
+//                party.value.isCurrent = false
+//            }
+//        }
+        
+        print("Setting \(dataModel.parties[selectedPartyOption]!.name) isCurrent to true")
+        //self.dataModel.saveCampaignsLocally()
+        dataModel.currentParty = dataModel.parties[selectedPartyOption] // See if we can do the 'set'
         updateCurrentParty()
         toggleSection(section: 4)
         self.dataModel.saveCampaignsLocally()
@@ -952,11 +958,9 @@ extension CampaignDetailViewModel: UIPickerViewDelegate, UIPickerViewDataSource 
         label?.font = UIFont(name: "Nyala", size: 24)!
         label?.textAlignment = .center
         if pickerView.tag == 5 {
-            print("Getting to tag 5?")
             label?.text =  ("\(selectedEvent!.number) - \(eventOptionPickerData[row])")
         } else if pickerView.tag == 10 {
             label?.text = ("\(partyPickerData[row])")
-            print("Getting here?")
         }
 
         return label!
