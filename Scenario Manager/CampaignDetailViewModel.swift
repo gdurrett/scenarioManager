@@ -111,8 +111,8 @@ class CampaignDetailViewModel: NSObject {
         self.ancientTechCount = Dynamic(dataModel.currentCampaign.ancientTechCount)
         self.currentParty = Dynamic(dataModel.currentParty)
         super.init()
-        self.prosperityLevel = Dynamic(getProsperityLevel(count: dataModel.currentCampaign.prosperityCount))
-        self.checksToNextLevel = Dynamic(getRemainingChecksUntilNextLevel(level: (getProsperityLevel(count: dataModel.currentCampaign.prosperityCount)), count: dataModel.currentCampaign.prosperityCount))
+        self.prosperityLevel = Dynamic(getProsperityLevel(count: dataModel.currentCampaign.prosperityCount + self.prosperityBonus))
+        self.checksToNextLevel = Dynamic(getRemainingChecksUntilNextLevel(level: (getProsperityLevel(count: dataModel.currentCampaign.prosperityCount + self.prosperityBonus)), count: dataModel.currentCampaign.prosperityCount + self.prosperityBonus))
         
         self.isActiveCampaign = campaign.isCurrent
         
@@ -125,7 +125,7 @@ class CampaignDetailViewModel: NSObject {
         items.append(titleItem)
         
         // Append prosperity level to items
-        let prosperityItem = CampaignDetailViewModelCampaignProsperityItem(level: getProsperityLevel(count: campaign.prosperityCount), remainingChecksUntilNextLevel: getRemainingChecksUntilNextLevel(level: (getProsperityLevel(count: campaign.prosperityCount)), count: campaign.prosperityCount))
+        let prosperityItem = CampaignDetailViewModelCampaignProsperityItem(level: getProsperityLevel(count: campaign.prosperityCount + self.prosperityBonus), remainingChecksUntilNextLevel: getRemainingChecksUntilNextLevel(level: (getProsperityLevel(count: campaign.prosperityCount + self.prosperityBonus)), count: campaign.prosperityCount + self.prosperityBonus))
         items.append(prosperityItem)
         
         // Append donations amount to items
@@ -223,15 +223,15 @@ class CampaignDetailViewModel: NSObject {
     func getSanctuaryDonations(campaign: Campaign) -> Int {
         return campaign.sanctuaryDonations
     }
-    func getCompletedAchievements(campaign: Campaign) -> [SeparatedStrings] {
-        let localCompletedAchievements = campaign.achievements.filter { $0.value != false && $0.key != "None" && $0.key != "OR" }
-        if localCompletedAchievements.isEmpty != true {
-            for achievement in localCompletedAchievements {
-                achievementNames.append(SeparatedStrings(rowString: achievement.key))
-            }
-        }
-        return achievementNames
-    }
+//    func getCompletedAchievements(campaign: Campaign) -> [SeparatedStrings] {
+//        let localCompletedAchievements = campaign.achievements.filter { $0.value != false && $0.key != "None" && $0.key != "OR" }
+//        if localCompletedAchievements.isEmpty != true {
+//            for achievement in localCompletedAchievements {
+//                achievementNames.append(SeparatedStrings(rowString: achievement.key))
+//            }
+//        }
+//        return achievementNames
+//    }
 
     // See if we can accurately update ourself with completed achievements
     func updateAchievements() {
@@ -241,10 +241,10 @@ class CampaignDetailViewModel: NSObject {
         self.campaignTitle.value = dataModel.currentCampaign.title
     }
     func updateProsperityLevel() {
-        self.prosperityLevel.value = getProsperityLevel(count: dataModel.currentCampaign.prosperityCount)
+        self.prosperityLevel.value = getProsperityLevel(count: dataModel.currentCampaign.prosperityCount + prosperityBonus)
     }
     func updateChecksToNextLevel() {
-        self.checksToNextLevel.value = getRemainingChecksUntilNextLevel(level: (getProsperityLevel(count: dataModel.currentCampaign.prosperityCount)), count: dataModel.currentCampaign.prosperityCount)
+        self.checksToNextLevel.value = getRemainingChecksUntilNextLevel(level: (getProsperityLevel(count: dataModel.currentCampaign.prosperityCount + self.prosperityBonus)), count: dataModel.currentCampaign.prosperityCount + self.prosperityBonus)
     }
     func updateDonations() {
         self.donations.value = dataModel.currentCampaign.sanctuaryDonations
@@ -296,17 +296,19 @@ class CampaignDetailViewModel: NSObject {
         let (level, count) = (self.updateProsperityCount(value: value))
         let remainingChecks = self.getRemainingChecksUntilNextLevel(level: level, count: count)
         let checksText = remainingChecks > 1 ? "checks" : "check"
+        // Try updating to catch prosperityBonus increments
+        self.updateChecksToNextLevel()
         if let cell = currentProsperityCell as? CampaignDetailProsperityCell {
             cell.campaignDetailProsperityLabel.text = "\(level)          \(remainingChecks) \(checksText) to next level"
         }
     }
     func updateProsperityCount(value: Int) -> (Int, Int) {
-        let count = dataModel.currentCampaign.prosperityCount
+        let count = dataModel.currentCampaign.prosperityCount + self.prosperityBonus
         if value == -1 && count == 0 {
-            return (getProsperityLevel(count: dataModel.currentCampaign.prosperityCount), 0)
+            return (getProsperityLevel(count: dataModel.currentCampaign.prosperityCount + self.prosperityBonus), 0)
         } else {
             dataModel.currentCampaign.prosperityCount += value
-            return (getProsperityLevel(count: dataModel.currentCampaign.prosperityCount), dataModel.currentCampaign.prosperityCount)
+            return (getProsperityLevel(count: dataModel.currentCampaign.prosperityCount + self.prosperityBonus), dataModel.currentCampaign.prosperityCount + prosperityBonus)
         }
     }
     // Method for CampaignDonations cell
@@ -426,10 +428,10 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
             if let item = item as? CampaignDetailViewModelCampaignProsperityItem, let cell = tableView.dequeueReusableCell(withIdentifier: CampaignDetailProsperityCell.identifier, for: indexPath) as? CampaignDetailProsperityCell {
                 cell.backgroundColor = UIColor.clear
                 // Give proper status to isActive button in this cell
-                item.level = prosperityLevel.value
+                self.updateChecksToNextLevel()
+                item.level = prosperityLevel.value //+ self.prosperityBonus
                 item.remainingChecksUntilNextLevel = checksToNextLevel.value
                 cell.delegate = self
-                //cell.isActive = (isActiveCampaign == true ? true : false)
                 cell.item = item
                 currentProsperityCell = cell
                 return cell
@@ -464,7 +466,7 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
                 cell.backgroundColor = UIColor.clear
                 var achievement = SeparatedStrings(rowString: "")
                 var tempAch = Array(self.completedGlobalAchievements.value.keys)
-                if tempAch.isEmpty { tempAch = ["No completed achievements"] }
+                if tempAch.isEmpty { tempAch = ["No completed global achievements"] }
                 var achNames = [SeparatedStrings]()
                 gotTech = false
                 for ach in tempAch {
@@ -633,40 +635,6 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
                 returnValue = [swipeToggleComplete, swipeToggleUnavailable]
             }
         }
-//        } else if sectionNumber == 4 {
-//            var party = String()
-//            switch selectedPartiesSegmentIndex {
-//            case 0:
-//                party = assignedParties.value[indexPath.row]
-//            case 1:
-//                party = availableParties.value[indexPath.row]
-//            default:
-//                break
-//            }
-//            configurePartySwipeButton(for: party)
-//            //self.selectedParty = party
-//            let swipeToggleAssign = UITableViewRowAction(style: .normal, title: self.myAssignedPartyTitle) { action, index in
-//                if self.myAssignedPartyTitle == "Assign" {
-//                    self.dataModel.currentCampaign.parties!.append(self.dataModel.parties[party]!)
-//                    self.dataModel.parties[party]!.assignedTo = self.campaignTitle.value
-//                    self.updateAssignedParties()
-//                    self.updateAvailableParties()
-//                    self.dataModel.saveCampaignsLocally()
-//                    self.toggleSection(section: 4)
-//                } else {
-//                    self.dataModel.currentCampaign.parties!.remove(at: indexPath.row)
-//                    self.dataModel.parties[party]!.assignedTo = "None"
-//                    print("Unassigning \(self.dataModel.parties[party]!.name)")
-//                    self.updateAssignedParties()
-//                    self.updateAvailableParties()
-//                    self.dataModel.saveCampaignsLocally()
-//                    self.toggleSection(section: 4)
-//                }
-//            }
-//            swipeToggleAssign.backgroundColor = colorDefinitions.scenarioSwipeBGColor
-//            returnValue = [swipeToggleAssign]
-//        }
-        
         return returnValue
     }
     // Implemented due to possibility of an event row with no actual data (just a string saying "No completed events")
@@ -702,7 +670,6 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
 //            }
 //            print("Selected party: \(party)")
 //        }
-        print("Getting to didSelect?")
     }
     // Delegate methods for textField in cell
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -836,6 +803,7 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
         button.isSelected = false
         button.addTarget(self, action: #selector(self.showUIStepperInCampaignProsperityCell(_:)), for: .touchUpInside)
         button.setImage(UIImage(named: "icons8-Edit-40"), for: .normal)
+        dataModel.saveCampaignsLocally()
     }
     @objc func hideUIStepperInCampaignDonationsCell(_ button: UIButton) {
         let myCell = self.currentDonationsCell as! CampaignDetailDonationsCell
@@ -845,6 +813,10 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
         button.isSelected = false
         button.addTarget(self, action: #selector(self.showUIStepperInCampaignDonationsCell(_:)), for: .touchUpInside)
         button.setImage(UIImage(named: "icons8-Edit-40"), for: .normal)
+        self.updateChecksToNextLevel()
+        self.updateProsperityLevel()
+        toggleSection(section: 1)
+        dataModel.saveCampaignsLocally()
     }
     @objc func editEvents(_ button: UIButton) {
         self.toggleSection(section: 5)
@@ -857,6 +829,7 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
         button.setImage(UIImage(named: "icons8-Edit-40"), for: .normal)
         button.removeTarget(self, action: #selector(self.doneEditingEvents(_:)), for: .touchUpInside)
         button.addTarget(self, action: #selector(self.editEvents(_:)), for: .touchUpInside)
+        dataModel.saveCampaignsLocally()
     }
 }
 

@@ -47,6 +47,7 @@ class PartyDetailViewModel: NSObject {
     var myAssignedPartyTitle = String()
     var selectedCampaignSegmentIndex = 0
     var reloadSection: ((_ section: Int) -> Void)?
+    var textFieldReturningCellType: PartyDetailViewModelItemType?
     
     init(withParty party: Party) {
         self.completedPartyAchievements = Dynamic(dataModel.completedPartyAchievements)
@@ -93,6 +94,9 @@ class PartyDetailViewModel: NSObject {
     func updateReputationValue() {
         self.reputation.value = dataModel.currentParty.reputation
     }
+    func updateAchievements() {
+        self.completedPartyAchievements.value = dataModel.completedPartyAchievements
+    }
     func getShopPriceModifier(modifier: Int) -> Int {
         var myModifier = 0
         switch self.reputation.value {
@@ -123,9 +127,17 @@ class PartyDetailViewModel: NSObject {
         }
         return myModifier
     }
+    // Method for Renaming Campaign Title
+    func renameParty(oldTitle: String, newTitle: String) {
+        if dataModel.parties[newTitle] == nil && oldTitle != newTitle { // Don't do anything if it's the same title or if there's already a party with the new title name
+            dataModel.parties.changeKey(from: oldTitle, to: newTitle)
+            dataModel.currentParty.name = newTitle
+            dataModel.saveCampaignsLocally()
+        }
+    }
 }
 // MARK: Tableview Delegate and Datasource extension. Other cell delegate methods.
-extension PartyDetailViewModel: UITableViewDataSource, UITableViewDelegate, PartyDetailReputationCellDelegate {
+extension PartyDetailViewModel: UITableViewDataSource, UITableViewDelegate, PartyDetailReputationCellDelegate, UITextFieldDelegate {
     // MARK: TableView DataSource methods
     func numberOfSections(in tableView: UITableView) -> Int {
         return self.items.count
@@ -133,7 +145,8 @@ extension PartyDetailViewModel: UITableViewDataSource, UITableViewDelegate, Part
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //var returnValue = 0
-
+        self.updateAchievements()
+        
         if self.items[section].type == .achievements {
             if self.completedPartyAchievements.value.count == 0 {
                 return 1
@@ -177,6 +190,21 @@ extension PartyDetailViewModel: UITableViewDataSource, UITableViewDelegate, Part
                 cell.item = item.assignedCampaign
                 return cell
             }
+        case .achievements:
+            if let _ = item as? PartyDetailViewModelPartyAchievementsItem, let cell = tableView.dequeueReusableCell(withIdentifier: PartyDetailAchievementsCell.identifier, for: indexPath) as? PartyDetailAchievementsCell {
+                cell.backgroundColor = UIColor.clear
+                var achievement = SeparatedStrings(rowString: "")
+                var tempAch = Array(self.completedPartyAchievements.value.keys)
+                if tempAch.isEmpty { tempAch = ["No completed party achievements"] }
+                var achNames = [SeparatedStrings]()
+                for ach in tempAch {
+                    achNames.append(SeparatedStrings(rowString: ach))
+                }
+                achievement = achNames[indexPath.row]
+                cell.selectionStyle = .none
+                cell.item = achievement
+                return cell
+            }
         default:
             break
         }
@@ -194,13 +222,6 @@ extension PartyDetailViewModel: UITableViewDataSource, UITableViewDelegate, Part
 //        }
     }
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        if self.items[section].sectionTitle == "Campaign" {
-//            let headerView = tableView.dequeueReusableCell(withIdentifier: "PartyDetailAssignedCampaignHeader") as! PartyDetailAssignedCampaignHeader
-//            headerView.getSegment.addTarget(self, action: #selector(self.getAssignedCampaignControlValue(sender:)), for: .valueChanged)
-//            headerView.getSegment.selectedSegmentIndex = self.selectedCampaignSegmentIndex
-//            headerView.partyDetailAssignedCampaignHeaderTitle.text = "Campaign"
-//            return headerView.contentView
-//        } else {
             let headerView = UIView(frame: CGRect(x:0, y:0, width: tableView.frame.size.width, height: tableView.frame.size.height))
             let headerTitleLabel = UILabel(frame: CGRect(x:16, y:15, width: 42, height: 21))
             headerTitleLabel.text = self.items[section].sectionTitle
@@ -208,10 +229,42 @@ extension PartyDetailViewModel: UITableViewDataSource, UITableViewDelegate, Part
             headerTitleLabel.textColor = colorDefinitions.mainTextColor
             headerView.backgroundColor = UIColor(hue: 46/360, saturation: 8/100, brightness: 100/100, alpha: 1.0)
             headerTitleLabel.sizeToFit()
-            //createSectionButton(forSection: section, inHeader: headerView)
+            createSectionButton(forSection: section, inHeader: headerView)
             headerView.addSubview(headerTitleLabel)
             return headerView
        // }
+    }
+    // Create section buttons
+    func createSectionButton(forSection section: Int, inHeader header: UIView) {
+        
+        let button = UIButton(frame: CGRect(x: 330, y: 14, width: 25, height: 25))  // create button
+        
+        let itemType = self.items[section].type
+        
+        switch itemType {
+            
+        case .partyName:
+            button.setImage(UIImage(named: "icons8-Edit-40"), for: .normal)
+            button.isEnabled = true
+            button.addTarget(self, action: #selector(self.enableTitleTextField(_:)), for: .touchUpInside)
+            header.addSubview(button)
+        case .reputation:
+            button.setImage(UIImage(named: "icons8-Edit-40"), for: .normal)
+            button.isEnabled = true
+            button.addTarget(self, action: #selector(self.showUIStepperInPartyReputationCell(_:)), for: .touchUpInside)
+            header.addSubview(button)
+            break //Temporary!
+        case .achievements:
+            break
+        case .assignedCampaign:
+            break //Temporary!
+        case .characters:
+//            button.setImage(UIImage(named: "icons8-Edit-40"), for: .normal)
+//            button.isEnabled = true
+//            button.addTarget(self, action: #selector(self.showPartyPicker(button:)), for: .touchUpInside)
+//            header.addSubview(button)
+            break //Temporary!
+        }
     }
     // MARK: PartyReputationCell Delegate methods
     func updatePartyReputationCount(value: Int) {
@@ -227,11 +280,59 @@ extension PartyDetailViewModel: UITableViewDataSource, UITableViewDelegate, Part
         }
     }
     // MARK: selector methods
-    @objc func getAssignedCampaignControlValue(sender: UISegmentedControl) {
-        self.selectedCampaignSegmentIndex = sender.selectedSegmentIndex
-        self.toggleSection(section: 2)
+    @objc func enableTitleTextField(_ sender: UIButton) {
+        let myCell = self.currentPartyCell as! PartyDetailNameCell
+        let myTextField = myCell.partyDetailNameTextField!
+        myTextField.delegate = self
+        let oldText = myCell.partyDetailNameLabel.text
+        myTextField.text = oldText
+        myTextField.font = fontDefinitions.detailTableViewTitleFont
+        myTextField.becomeFirstResponder()
+        myTextField.selectedTextRange = myCell.partyDetailNameTextField.textRange(from: myCell.partyDetailNameTextField.beginningOfDocument, to: myCell.partyDetailNameTextField.endOfDocument)
+        myCell.partyDetailNameLabel.isHidden = true
+        myTextField.isHidden = false
+        self.textFieldReturningCellType = .partyName
+    }
+    @objc func showUIStepperInPartyReputationCell(_ button: UIButton) {
+        button.setImage(UIImage(named: "icons8-Edit-40_selected"), for: .normal)
+        let myCell = self.currentReputationCell as! PartyDetailReputationCell
+        myCell.myStepperOutlet.isHidden = false
+        myCell.myStepperOutlet.isEnabled = true
+        myCell.myStepperOutlet.tintColor = colorDefinitions.mainTextColor
+        button.isEnabled = true
+        button.addTarget(self, action: #selector(self.hideUIStepperInPartyReputationCell(_:)), for: .touchUpInside)
+    }
+    @objc func hideUIStepperInPartyReputationCell(_ button: UIButton) {
+        let myCell = self.currentReputationCell as! PartyDetailReputationCell
+        myCell.myStepperOutlet.isHidden = true
+        myCell.myStepperOutlet.isEnabled = false
+        button.isSelected = false
+        button.addTarget(self, action: #selector(self.showUIStepperInPartyReputationCell(_:)), for: .touchUpInside)
+        button.setImage(UIImage(named: "icons8-Edit-40"), for: .normal)
+        dataModel.saveCampaignsLocally()
+    }
+    
+    // Delegate methods for textField in cell
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        switch self.textFieldReturningCellType! {
+        case .partyName:
+            let myCell = self.currentPartyCell as! PartyDetailNameCell
+            let myLabel = myCell.partyDetailNameLabel
+            let oldTitle = myLabel!.text!
+            if textField.text != "" {
+                myLabel?.text = textField.text
+                textField.isHidden = true
+                self.renameParty(oldTitle: oldTitle, newTitle: textField.text!)
+            }
+            myLabel?.isHidden = false
+        default:
+            break
+        }
+        return true
     }
 }
+
 // MARK: ViewModelItem Classes
 class PartyDetailViewModelPartyNameItem: PartyDetailViewModelItem {
     

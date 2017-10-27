@@ -53,7 +53,9 @@ class CampaignDetailViewController: UIViewController {
         // Test
         
         viewModel.reloadSection = { [weak self] (section: Int) in
-            if section == 4 {
+            if section == 1 {
+                self?.refreshProsperityLevel()
+            } else if section == 4 {
                 self?.refreshParties()
             } else if section == 5 {
                 self?.refreshEvents()

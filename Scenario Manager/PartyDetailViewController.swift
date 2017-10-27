@@ -34,14 +34,13 @@ class PartyDetailViewController: UIViewController {
         super.viewDidLoad()
 
         // var for toggleSection in viewModel
-        viewModel.reloadSection = { [weak self] (section: Int) in
-            if section == 4 {
-                self?.refreshCurrentParty()
-            }
+//        viewModel.reloadSection = { [weak self] (section: Int) in
+//            if section == 4 {
+//                self?.refreshCurrentParty()
 //            } else if section == 5 {
 //                self?.refreshEvents()
 //            }
-        }
+//        }
         
         // Set up UITableViewDelegate
         partyDetailTableView?.dataSource = viewModel
@@ -51,6 +50,7 @@ class PartyDetailViewController: UIViewController {
         partyDetailTableView?.register(PartyDetailNameCell.nib, forCellReuseIdentifier: PartyDetailNameCell.identifier)
         partyDetailTableView?.register(PartyDetailReputationCell.nib, forCellReuseIdentifier: PartyDetailReputationCell.identifier)
         partyDetailTableView?.register(PartyDetailAssignedCampaignCell.nib, forCellReuseIdentifier: PartyDetailAssignedCampaignCell.identifier)
+        partyDetailTableView?.register(PartyDetailAchievementsCell.nib, forCellReuseIdentifier: PartyDetailAchievementsCell.identifier)
         
         // Register headers
         partyDetailTableView?.register(PartyDetailAssignedCampaignHeader.nib, forCellReuseIdentifier: PartyDetailAssignedCampaignHeader.identifier)
@@ -84,17 +84,29 @@ extension PartyDetailViewController: UITableViewDelegate {
         super.viewWillAppear(true)
         // Call updates and refreshes here
         //viewModel.updateAssignedCampaign()
+        viewModel.updateAchievements()
         viewModel.updateCurrentParty()
         viewModel.updateReputationValue()
         
+        refreshAchievements()
         //refreshAssignedCampaign()
         refreshCurrentParty()
+        refreshReputation()
     }
     
     func refreshCurrentParty() {
         DispatchQueue.main.async {
             self.partyDetailTableView.reloadSections([0], with: .none)
+        }
+    }
+    func refreshReputation() {
+        DispatchQueue.main.async {
             self.partyDetailTableView.reloadSections([1], with: .none)
+        }
+    }
+    func refreshAchievements() {
+        DispatchQueue.main.async {
+            self.partyDetailTableView.reloadSections([4], with: .none)
         }
     }
     
