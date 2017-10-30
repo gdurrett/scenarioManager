@@ -22,6 +22,7 @@ class PartyDetailViewController: UIViewController {
     }
     
     @IBAction func createPartyAction(_ sender: Any) {
+        
     }
     
     //weak var delegate: PartyDetailViewControllerDelegate!
@@ -41,7 +42,8 @@ class PartyDetailViewController: UIViewController {
 //                self?.refreshEvents()
 //            }
 //        }
-        
+        // Set up observers
+        NotificationCenter.default.addObserver(self, selector: #selector(self.loadSelectCharacterViewController), name: NSNotification.Name(rawValue: "showSelectCharacterVC"), object: nil)
         // Set up UITableViewDelegate
         partyDetailTableView?.dataSource = viewModel
         partyDetailTableView?.delegate = viewModel
@@ -50,6 +52,7 @@ class PartyDetailViewController: UIViewController {
         partyDetailTableView?.register(PartyDetailNameCell.nib, forCellReuseIdentifier: PartyDetailNameCell.identifier)
         partyDetailTableView?.register(PartyDetailReputationCell.nib, forCellReuseIdentifier: PartyDetailReputationCell.identifier)
         partyDetailTableView?.register(PartyDetailAssignedCampaignCell.nib, forCellReuseIdentifier: PartyDetailAssignedCampaignCell.identifier)
+        partyDetailTableView?.register(PartyDetailAssignedCharactersCell.nib, forCellReuseIdentifier: PartyDetailAssignedCharactersCell.identifier)
         partyDetailTableView?.register(PartyDetailAchievementsCell.nib, forCellReuseIdentifier: PartyDetailAchievementsCell.identifier)
         
         // Register headers
@@ -83,15 +86,18 @@ extension PartyDetailViewController: UITableViewDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         // Call updates and refreshes here
-        //viewModel.updateAssignedCampaign()
-        viewModel.updateAchievements()
         viewModel.updateCurrentParty()
         viewModel.updateReputationValue()
-        
-        refreshAchievements()
+        viewModel.updateAssignedCampaign()
+        viewModel.updateAssignedCharacters()
+        viewModel.updateAchievements()
+
+        //refreshCurrentParty()
+        //refreshReputation()
+        //refreshAssignedCharacters()
+        //refreshAchievements()
         //refreshAssignedCampaign()
-        refreshCurrentParty()
-        refreshReputation()
+        self.partyDetailTableView.reloadData()
     }
     
     func refreshCurrentParty() {
@@ -104,12 +110,16 @@ extension PartyDetailViewController: UITableViewDelegate {
             self.partyDetailTableView.reloadSections([1], with: .none)
         }
     }
+    func refreshAssignedCharacters() {
+        DispatchQueue.main.async {
+            self.partyDetailTableView.reloadSections([3], with: .none)
+        }
+    }
     func refreshAchievements() {
         DispatchQueue.main.async {
             self.partyDetailTableView.reloadSections([4], with: .none)
         }
     }
-    
     fileprivate func styleUI() {
         self.partyDetailTableView.estimatedRowHeight = 80
         self.partyDetailTableView.rowHeight = UITableViewAutomaticDimension
@@ -120,10 +130,29 @@ extension PartyDetailViewController: UITableViewDelegate {
         self.partyDetailTableView.backgroundView = UIImageView(image: UIImage(named: "campaignDetailTableViewBG"))
         self.partyDetailTableView.backgroundView?.alpha = 0.25
     }
+    // MARK: Action Methods
+    @objc func loadSelectCharacterViewController() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let selectCharacterVC = storyboard.instantiateViewController(withIdentifier: "SelectCharacterViewController") as! SelectCharacterViewController
+        selectCharacterVC.delegate = viewModel
+        selectCharacterVC.availableCharacters = self.viewModel.availableCharacters.value
+        selectCharacterVC.viewModel = self.viewModel
+        selectCharacterVC.hidesBottomBarWhenPushed = true
+        self.navigationController!.present(selectCharacterVC, animated: true, completion: nil)
+    }
 }
 extension PartyDetailViewController: CampaignDetailPartyUpdaterDelegate {
     func reloadTableAfterSetPartyCurrent() {
         if let myTableView = self.partyDetailTableView {
+            myTableView.reloadData()
+        }
+    }
+}
+extension PartyDetailViewController: SelectCharacterViewControllerReloadDelegate {
+    func reloadAfterDidFinishSelecting() {
+        if let myTableView = self.partyDetailTableView {
+            //self.viewModel.updateAssignedCharacters()
+            print("Calling reload?")
             myTableView.reloadData()
         }
     }

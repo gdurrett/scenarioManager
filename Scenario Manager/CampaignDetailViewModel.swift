@@ -117,8 +117,8 @@ class CampaignDetailViewModel: NSObject {
         self.isActiveCampaign = campaign.isCurrent
         
         // Set data for partyPicker
-        self.partyPickerData = Array(dataModel.parties.keys)
-        //self.partyPickerData = ["Test 1", "Test 2"]
+        self.updateAssignedParties()
+        self.partyPickerData = Array(self.assignedParties.value)
         
         // Append campaign title to items
         let titleItem = CampaignDetailViewModelCampaignTitleItem(title: campaignTitle.value)
@@ -355,7 +355,6 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
         var returnValue = 0
         self.updateEvents()
         self.updateAssignedParties()
-        self.updateAvailableParties()
         self.updateAchievements()
         self.updateAncientTech()
         
@@ -864,10 +863,6 @@ extension CampaignDetailViewModel: SelectCampaignViewControllerDelegate, Campaig
             controller.showDisallowDeletionAlert()
         }
     }
-//    func showEventOptionPicker(_ controller: CampaignDetailViewController) {
-//        controller.delegate = self
-//        controller.showEventOptionPicker()
-//    }
     // Delegate methods called from CampaignDetailVC
     func setEventOptionChoice() {
         self.selectedEvent!.number.append(" - Option: \(selectedEventOption)")
@@ -875,18 +870,6 @@ extension CampaignDetailViewModel: SelectCampaignViewControllerDelegate, Campaig
         self.dataModel.saveCampaignsLocally()
     }
     func setPartyChoice() {
-        //var myParty = Party(name: "Temp", characters: [], location: "Gloomhaven", achievements: [:], reputation: 0, isCurrent: true, assignedTo: "")
-//        for party in dataModel.parties {
-//            if party.value.name == selectedPartyOption {
-//                myParty = party.value
-//                dataModel.parties[selectedPartyOption]!.isCurrent = true
-//            } else {
-//                party.value.isCurrent = false
-//            }
-//        }
-        
-        print("Setting \(dataModel.parties[selectedPartyOption]!.name) isCurrent to true")
-        //self.dataModel.saveCampaignsLocally()
         dataModel.currentParty = dataModel.parties[selectedPartyOption] // See if we can do the 'set'
         updateCurrentParty()
         toggleSection(section: 4)

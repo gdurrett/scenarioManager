@@ -15,7 +15,7 @@ class Character: NSObject, NSCoding {
     var type: String
     var level: Double
     var isRetired: Bool
-    var assignedTo: String
+    var assignedTo: String?
     
     init(name: String, race: String, type: String, level: Double, isRetired: Bool, assignedTo: String) {
         self.name = name
@@ -32,7 +32,7 @@ class Character: NSObject, NSCoding {
         type = aDecoder.decodeObject(forKey: "Type") as! String
         level = aDecoder.decodeDouble(forKey: "Level")
         isRetired = aDecoder.decodeBool(forKey: "IsRetired")
-        assignedTo = aDecoder.decodeObject(forKey: "AssignedTo") as! String
+        assignedTo = aDecoder.decodeObject(forKey: "AssignedTo") as? String
     }
     
     func encode(with aCoder: NSCoder) {

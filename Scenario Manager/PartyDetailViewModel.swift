@@ -38,8 +38,9 @@ class PartyDetailViewModel: NSObject {
     var completedPartyAchievements: Dynamic<[String:Bool]>
     var partyName: Dynamic<String>
     var reputation: Dynamic<Int>
-    var availableCharacters: Dynamic<[String]>
-    var assignedCharacters: Dynamic<[String]>
+    var availableCharacters: Dynamic<[Character]>
+    var assignedCharacters: Dynamic<[Character]>
+    var allCharacters: Dynamic<[String]>
     // Other
     var currentPartyCell = UITableViewCell()
     var currentReputationCell = UITableViewCell()
@@ -48,6 +49,7 @@ class PartyDetailViewModel: NSObject {
     var selectedCampaignSegmentIndex = 0
     var reloadSection: ((_ section: Int) -> Void)?
     var textFieldReturningCellType: PartyDetailViewModelItemType?
+    var assignedCharacterNames = [SeparatedStrings]()
     
     init(withParty party: Party) {
         self.completedPartyAchievements = Dynamic(dataModel.completedPartyAchievements)
@@ -55,8 +57,9 @@ class PartyDetailViewModel: NSObject {
         self.assignedCampaign = Dynamic(dataModel.assignedCampaign) //String
         self.availableCampaigns = Dynamic(dataModel.availableCampaigns) // [String]
         self.reputation = Dynamic(dataModel.currentParty.reputation) //Int
-        self.availableCharacters = Dynamic(dataModel.availableCharacters) // [String]
-        self.assignedCharacters = Dynamic(dataModel.assignedCharacters) // [String]
+        self.availableCharacters = Dynamic(dataModel.availableCharacters) // [Character]
+        self.assignedCharacters = Dynamic(dataModel.assignedCharacters) // [Character]
+        self.allCharacters = Dynamic(Array(dataModel.characters.keys)) // [String]
         super.init()
         
         // Append party name to items
@@ -69,7 +72,14 @@ class PartyDetailViewModel: NSObject {
         let assignedCampaignItem = PartyDetailViewModelPartyCampaignItem(assignedCampaign: self.assignedCampaign.value)
         items.append(assignedCampaignItem)
         // Append assigned characters to items
-        let characterNamesItem = PartyDetailViewModelPartyCharactersItem(names: characterNames)
+        if self.assignedCharacters.value.isEmpty != true {
+            for characterName in self.assignedCharacters.value {
+                assignedCharacterNames.append(SeparatedStrings(rowString: characterName.name))
+            }
+        } else {
+            assignedCharacterNames.append(SeparatedStrings(rowString: "No characters assigned"))
+        }
+        let characterNamesItem = PartyDetailViewModelPartyCharactersItem(names: assignedCharacterNames)
         items.append(characterNamesItem)
         // Append party achievements
         let localCompletedAchievements = party.achievements.filter { $0.value != false && $0.key != "None" && $0.key != "OR" }
@@ -96,6 +106,15 @@ class PartyDetailViewModel: NSObject {
     }
     func updateAchievements() {
         self.completedPartyAchievements.value = dataModel.completedPartyAchievements
+    }
+    func updateCharacters() {
+        self.allCharacters.value = Array(dataModel.characters.keys)
+    }
+    func updateAssignedCharacters() {
+        self.assignedCharacters.value = Array(dataModel.assignedCharacters)
+    }
+    func updateAvailableCharacters() {
+        self.availableCharacters.value = Array(dataModel.availableCharacters)
     }
     func getShopPriceModifier(modifier: Int) -> Int {
         var myModifier = 0
@@ -132,6 +151,12 @@ class PartyDetailViewModel: NSObject {
         if dataModel.parties[newTitle] == nil && oldTitle != newTitle { // Don't do anything if it's the same title or if there's already a party with the new title name
             dataModel.parties.changeKey(from: oldTitle, to: newTitle)
             dataModel.currentParty.name = newTitle
+            //Test pick up new name for characters assigned
+            for character in dataModel.assignedCharacters {
+                if character.assignedTo == oldTitle {
+                    character.assignedTo = newTitle
+                }
+            }
             dataModel.saveCampaignsLocally()
         }
     }
@@ -153,10 +178,16 @@ extension PartyDetailViewModel: UITableViewDataSource, UITableViewDelegate, Part
             } else {
                 return self.completedPartyAchievements.value.count
             }
+        } else if self.items[section].type == .characters {
+            if self.assignedCharacters.value.count == 0 {
+                return 1
+            } else {
+                return self.assignedCharacters.value.count
+            }
         } else {
-            return self.items[section].rowCount
+                return self.items[section].rowCount
+            }
         }
-    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let item = self.items[indexPath.section]
@@ -190,6 +221,16 @@ extension PartyDetailViewModel: UITableViewDataSource, UITableViewDelegate, Part
                 cell.item = item.assignedCampaign
                 return cell
             }
+        case .characters:
+            if let _ = item as? PartyDetailViewModelPartyCharactersItem, let cell = tableView.dequeueReusableCell(withIdentifier: PartyDetailAssignedCharactersCell.identifier, for: indexPath) as? PartyDetailAssignedCharactersCell {
+                cell.backgroundColor = UIColor.clear
+                if self.assignedCharacters.value.isEmpty {
+                    cell.item = SeparatedStrings(rowString: "No assigned characters")
+                } else {
+                    cell.item = SeparatedStrings(rowString: self.assignedCharacters.value[indexPath.row].name)
+                }
+                return cell
+            }
         case .achievements:
             if let _ = item as? PartyDetailViewModelPartyAchievementsItem, let cell = tableView.dequeueReusableCell(withIdentifier: PartyDetailAchievementsCell.identifier, for: indexPath) as? PartyDetailAchievementsCell {
                 cell.backgroundColor = UIColor.clear
@@ -205,8 +246,6 @@ extension PartyDetailViewModel: UITableViewDataSource, UITableViewDelegate, Part
                 cell.item = achievement
                 return cell
             }
-        default:
-            break
         }
         return UITableViewCell()
     }
@@ -259,11 +298,10 @@ extension PartyDetailViewModel: UITableViewDataSource, UITableViewDelegate, Part
         case .assignedCampaign:
             break //Temporary!
         case .characters:
-//            button.setImage(UIImage(named: "icons8-Edit-40"), for: .normal)
-//            button.isEnabled = true
-//            button.addTarget(self, action: #selector(self.showPartyPicker(button:)), for: .touchUpInside)
-//            header.addSubview(button)
-            break //Temporary!
+            button.setImage(UIImage(named: "icons8-Edit-40"), for: .normal)
+            button.isEnabled = true
+            button.addTarget(self, action: #selector(self.loadSelectCharacterViewController(_:)), for: .touchUpInside)
+            header.addSubview(button)
         }
     }
     // MARK: PartyReputationCell Delegate methods
@@ -311,6 +349,10 @@ extension PartyDetailViewModel: UITableViewDataSource, UITableViewDelegate, Part
         button.setImage(UIImage(named: "icons8-Edit-40"), for: .normal)
         dataModel.saveCampaignsLocally()
     }
+    @objc func loadSelectCharacterViewController(_ button: UIButton) {
+        // Alert here if there are no characters
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "showSelectCharacterVC"), object: nil)
+    }
     
     // Delegate methods for textField in cell
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -332,7 +374,34 @@ extension PartyDetailViewModel: UITableViewDataSource, UITableViewDelegate, Part
         return true
     }
 }
-
+// MARK: Select Character delegate methods
+extension PartyDetailViewModel: SelectCharacterViewControllerDelegate {
+    func selectCharacterViewControllerDidCancel(_ controller: SelectCharacterViewController) {
+        controller.dismiss(animated: true, completion: nil)
+    }
+    func selectCharacterViewControllerDidFinishSelecting(_ controller: SelectCharacterViewController) {
+        // Need to gather array of selected characters here
+        print(self.partyName.value)
+        if !controller.selectedCharacters.isEmpty {
+            for character in controller.selectedCharacters {
+                dataModel.characters[character.name]!.assignedTo = self.partyName.value
+                updateCharacters()
+                updateAssignedCharacters()
+                toggleSection(section: 3)
+            }
+        }
+        if !controller.unassignedCharacters.isEmpty {
+            for character in controller.unassignedCharacters {
+                dataModel.characters[character.name]!.assignedTo = "None"
+            }
+            updateCharacters()
+            updateAssignedCharacters()
+            updateAvailableCharacters()
+        }
+        dataModel.saveCampaignsLocally()
+        controller.dismiss(animated: true, completion: nil)
+    }
+}
 // MARK: ViewModelItem Classes
 class PartyDetailViewModelPartyNameItem: PartyDetailViewModelItem {
     

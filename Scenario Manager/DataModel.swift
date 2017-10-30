@@ -86,29 +86,37 @@ class DataModel {
             return tempParties
         }
     }
-    var assignedCharacters: [String] {
+    var assignedCharacters: [Character] {
         get {
-            var tempCharacters = [String]()
-            if currentParty.characters.isEmpty != true {
-                for character in currentParty.characters {
-                    tempCharacters.append(character.name)
+            var tempCharacters = [Character]()
+//            if currentParty.characters.isEmpty != true {
+//                for character in currentParty.characters {
+//                    tempCharacters.append(character)
+//                }
+//            } else {
+//                //
+//            }
+            for character in characters.values {
+                if character.assignedTo != "None" {
+                    print("In dataModel, assignedTo for \(character.name) is \(character.assignedTo)")
+                    tempCharacters.append(character)
                 }
-            } else {
-                tempCharacters.append("None")
             }
+            print("Returning \(tempCharacters) for assignedCharacters")
             return tempCharacters
         }
     }
-    var availableCharacters: [String] {
+    var availableCharacters: [Character] {
         get {
-            var tempCharacters = [String]()
-            for character in self.characters {
-                if character.value.assignedTo == "None" {
-                    tempCharacters.append(character.key)
+            var tempCharacters = [Character]()
+            for character in self.characters.values {
+                if character.assignedTo == "None" {
+                    tempCharacters.append(character)
                 } else {
                     
                 }
             }
+            print("Returning \(tempCharacters) for availableCharacters")
             return tempCharacters
         }
     }
@@ -122,6 +130,9 @@ class DataModel {
                 if self.campaigns["Default"] == nil {
                     createParty(name: "Default", characters: [], location: "Gloomhaven", achievements: [:], reputation: 0, isCurrent: true, assignedTo: "Default")
                     createCampaign(title: "Default", isCurrent: true, parties: [parties["Default"]!])
+                    characters["Snarklepuss"] = Character(name: "Snarklepuss", race: "Aesther", type: "Summoner", level: 4, isRetired: false, assignedTo: "None")
+                    characters["Homegirl"] = Character(name: "Homegirl", race: "Inox", type: "Brute", level: 5, isRetired: false, assignedTo: "None")
+                    characters["Stryker"] = Character(name: "Stryker", race: "Inox", type: "Berserker", level: 6, isRetired: false, assignedTo: "None")
                 }
                 return campaigns["Default"]!
             }
@@ -203,8 +214,8 @@ class DataModel {
     var parties = [String: Party]()
     
     // Characters
-    var characters = [String: Character]()
-    
+    var characters = [String : Character]()
+
     // Get a CloudKit object
     let myCloudKitMgr = CloudKitMgr()
     
@@ -213,7 +224,9 @@ class DataModel {
     let defaultUnlocks = [ "13" : ["ONEOF", "15", "17", "20"] ]
     
     private init() {
-        
+        // Temp character object dictionary
+
+
         let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
         let url = NSURL(fileURLWithPath: path)
         let filePath = url.appendingPathComponent("Scenarios.plist")?.path
@@ -2023,6 +2036,7 @@ class DataModel {
         
         print("Documents folder is \(documentsDirectory())")
         print("Data file path is \(dataFilePath())")
+        print("Characters: \(self.characters.count)")
     }
     func setCurrentParty(party: Party) {
         for thisParty in self.parties.values {
@@ -2046,6 +2060,7 @@ class DataModel {
 //        archiver.encode(achievements, forKey: "Achievements")
         archiver.encode(campaigns, forKey: "Campaigns")
         archiver.encode(parties, forKey: "Parties")
+        archiver.encode(characters, forKey: "Characters")
         archiver.finishEncoding()
         data.write(to: dataFilePath(), atomically: true)
     }
@@ -2057,6 +2072,7 @@ class DataModel {
 //            achievements = unarchiver.decodeObject(forKey: "Achievements") as! [ String : Bool ]
             campaigns = unarchiver.decodeObject(forKey: "Campaigns") as! [ String: Campaign ]
             parties = unarchiver.decodeObject(forKey: "Parties") as! [ String:Party ]
+            characters = unarchiver.decodeObject(forKey: "Characters") as! [ String:Character ]
             unarchiver.finishDecoding()
         }
 
