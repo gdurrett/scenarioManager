@@ -157,6 +157,7 @@ class PartyDetailViewModel: NSObject {
                     character.assignedTo = newTitle
                 }
             }
+            
             dataModel.saveCampaignsLocally()
         }
     }
@@ -216,9 +217,10 @@ extension PartyDetailViewModel: UITableViewDataSource, UITableViewDelegate, Part
                 return cell
             }
         case .assignedCampaign:
-            if let item = item as? PartyDetailViewModelPartyCampaignItem, let cell = tableView.dequeueReusableCell(withIdentifier: PartyDetailAssignedCampaignCell.identifier, for: indexPath) as? PartyDetailAssignedCampaignCell {
+            if let _ = item as? PartyDetailViewModelPartyCampaignItem, let cell = tableView.dequeueReusableCell(withIdentifier: PartyDetailAssignedCampaignCell.identifier, for: indexPath) as? PartyDetailAssignedCampaignCell {
                 cell.backgroundColor = UIColor.clear
-                cell.item = item.assignedCampaign
+                cell.item = self.assignedCampaign.value
+                //cell.item = item.assignedCampaign
                 return cell
             }
         case .characters:

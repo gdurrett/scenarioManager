@@ -10,8 +10,12 @@ import UIKit
 
 class CreateCampaignPartyCell: UITableViewCell {
 
-    @IBOutlet weak var createCampaignPartyLabel: UILabel!
+    @IBOutlet weak var createCampaignPartyNameTextField: UITextField!
     
+    func configure(withViewModel viewModel: CreateCampaignPartyNameCellViewModel) {
+        createCampaignPartyNameTextField.sizeToFit()
+        createCampaignPartyNameTextField.placeholder = viewModel.createCampaignPartyNameTextFieldPlaceholder
+    }
     
     static var nib:UINib {
         return UINib(nibName: identifier, bundle: nil)
@@ -24,7 +28,7 @@ class CreateCampaignPartyCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        createCampaignPartyLabel.sizeToFit()
+        //createCampaignPartyNameTextField.sizeToFit()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

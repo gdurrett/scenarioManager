@@ -152,15 +152,16 @@ extension CampaignDetailViewController: UITableViewDelegate {
         viewModel.updateDonations()
         viewModel.updateAvailableParties()
         viewModel.updateAssignedParties()
+        viewModel.updateCurrentParty()
         viewModel.updateEvents()
         
-        refreshAchievements()
-        refreshCampaignTitle()
-        refreshProsperityLevel()
-        refreshDonations()
-        refreshParties()
-        refreshEvents()
-        
+//        refreshAchievements()
+//        refreshCampaignTitle()
+//        refreshProsperityLevel()
+//        refreshDonations()
+//        refreshParties()
+//        refreshEvents()
+        self.campaignDetailTableView.reloadData()
         //self.navigationItem.title = ("\(self.viewModel.campaignTitle.value) Detail")
         self.updateNavTitle()
         
@@ -191,12 +192,13 @@ extension CampaignDetailViewController: UITableViewDelegate {
         viewModel.updateEvents()
     }
     func refreshAllSections() {
-        refreshAchievements()
-        refreshCampaignTitle()
-        refreshProsperityLevel()
-        refreshDonations()
-        refreshParties()
-        refreshEvents()
+//        refreshAchievements()
+//        refreshCampaignTitle()
+//        refreshProsperityLevel()
+//        refreshDonations()
+//        refreshParties()
+//        refreshEvents()
+        self.campaignDetailTableView.reloadData()
     }
     // Currently dedicated to Events section
     func scrollToBottom() {

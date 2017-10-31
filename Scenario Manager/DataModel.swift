@@ -97,12 +97,10 @@ class DataModel {
 //                //
 //            }
             for character in characters.values {
-                if character.assignedTo != "None" {
-                    print("In dataModel, assignedTo for \(character.name) is \(character.assignedTo)")
+                if character.assignedTo == self.currentParty.name {
                     tempCharacters.append(character)
                 }
             }
-            print("Returning \(tempCharacters) for assignedCharacters")
             return tempCharacters
         }
     }
@@ -116,7 +114,6 @@ class DataModel {
                     
                 }
             }
-            print("Returning \(tempCharacters) for availableCharacters")
             return tempCharacters
         }
     }
@@ -127,14 +124,16 @@ class DataModel {
             if let myCampaign = filtered.values.first {
                 return myCampaign
             } else {
-                if self.campaigns["Default"] == nil {
-                    createParty(name: "Default", characters: [], location: "Gloomhaven", achievements: [:], reputation: 0, isCurrent: true, assignedTo: "Default")
-                    createCampaign(title: "Default", isCurrent: true, parties: [parties["Default"]!])
-                    characters["Snarklepuss"] = Character(name: "Snarklepuss", race: "Aesther", type: "Summoner", level: 4, isRetired: false, assignedTo: "None")
-                    characters["Homegirl"] = Character(name: "Homegirl", race: "Inox", type: "Brute", level: 5, isRetired: false, assignedTo: "None")
-                    characters["Stryker"] = Character(name: "Stryker", race: "Inox", type: "Berserker", level: 6, isRetired: false, assignedTo: "None")
+                if self.campaigns["MyCampaign"] == nil {
+                    createDefaultCampaign()
+                    createDefaultCharacters()
+//                    createParty(name: "Default", characters: [], location: "Gloomhaven", achievements: [:], reputation: 0, isCurrent: true, assignedTo: "Default")
+//                    createCampaign(title: "Default", isCurrent: true, parties: [parties["Default"]!])
+//                    characters["Snarklepuss"] = Character(name: "Snarklepuss", race: "Aesther", type: "Summoner", level: 4, isRetired: false, assignedTo: "None")
+//                    characters["Homegirl"] = Character(name: "Homegirl", race: "Inox", type: "Brute", level: 5, isRetired: false, assignedTo: "None")
+//                    characters["Stryker"] = Character(name: "Stryker", race: "Inox", type: "Berserker", level: 6, isRetired: false, assignedTo: "None")
                 }
-                return campaigns["Default"]!
+                return campaigns["MyCampaign"]!
             }
         }
     }
@@ -175,10 +174,10 @@ class DataModel {
             if let myParty = filtered.values.first  {
                 return myParty
             } else {
-                if self.parties["Default"] == nil {
-                    createParty(name: "Default", characters: [], location: "Gloomhaven", achievements: createPartyAchievements(), reputation: 0, isCurrent: true, assignedTo: "Default")
+                if self.parties["MyParty"] == nil {
+                    createParty(name: "MyParty", characters: [], location: "Gloomhaven", achievements: createPartyAchievements(), reputation: 0, isCurrent: true, assignedTo: "MyCampaign")
                 }
-                return parties["Default"]
+                return parties["MyParty"]
             }
         }
         set {
@@ -2007,14 +2006,6 @@ class DataModel {
                 "Water-Breathing"                       : false
             ]
             
-            // Temp party object dictionary
-//            createParty(name: "Wrecking Crew", characters: Array(Set(characters.values)), location: "Gloomhaven", achievements: createPartyAchievements(), reputation: 0, isCurrent: true, assignedTo: "None")
-//            createParty(name: "Blasters", characters: Array(Set(characters.values)), location: "Gloomhaven", achievements: createPartyAchievements(), reputation: 0, isCurrent: false, assignedTo: "None")
-            // Temp character object dictionary
-            characters["Snarklepuss"] = Character(name: "Snarklepuss", race: "Aesther", type: "Summoner", level: 4, isRetired: false, assignedTo: "None")
-            characters["Homegirl"] = Character(name: "Homegirl", race: "Inox", type: "Brute", level: 5, isRetired: false, assignedTo: "None")
-            characters["Stryker"] = Character(name: "Stryker", race: "Inox", type: "Berserker", level: 6, isRetired: false, assignedTo: "None")
-            
             // Create iCloud private DB schema if no plist exists. Logic will change.
             checkIfCampaignRecordExists() {
                 result in
@@ -2027,7 +2018,8 @@ class DataModel {
                 } else { // No cloud schema, no local plist -> create new default campaign
                     // Need to make sure it's not that we just can't contact the container (due to authentication issues, e.g.) If that's the case, we need to give user a way to try again before overwriting Cloud
                     print("Attempting to create CK Schema")
-                    self.createCampaign(title: "Default", isCurrent: true, parties: [])
+                    self.createCampaign(title: "MyCampaign", isCurrent: true, parties: [self.createDefaultParty()])
+                    self.createDefaultCharacters()
                     self.saveCampaignsLocally()
                     self.updateCampaignRecords()
                 }
@@ -2217,6 +2209,7 @@ class DataModel {
             for achievement in partyAchievements.keys {
                 let newStatus = requestedParty.achievements[achievement]
                 self.partyAchievements[achievement] = newStatus
+                updateLocalPartyIsCurrent(party: party)
             }
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "loadParty"), object: nil) // Trigger setRequirementsMetForCurrentParty in Scenario VM
         } else {
@@ -3629,6 +3622,20 @@ class DataModel {
         )
         newEvents.append(c81)
         return newEvents
+    }
+    func createDefaultCampaign() {
+        //createCampaign(title: "MyCampaign", isCurrent: true, parties: [parties["MyParty"]!])
+        createCampaign(title: "MyCampaign", isCurrent: true, parties: [createDefaultParty()])
+    }
+    func createDefaultParty() -> Party {
+        createParty(name: "MyParty", characters: [], location: "Gloomhaven", achievements: [:], reputation: 0, isCurrent: true, assignedTo: "MyCampaign")
+        return self.parties["MyParty"]!
+    }
+    func createDefaultCharacters() {
+        characters["Character1"] = Character(name: "Character1", race: "Vermling", type: "Mindthief", level: 1, isRetired: false, assignedTo: "MyParty")
+        characters["Character2"] = Character(name: "Character2", race: "Inox", type: "Brute", level: 1, isRetired: false, assignedTo: "MyParty")
+        characters["Character3"] = Character(name: "Character3", race: "Savvas", type: "Cragheart", level: 1, isRetired: false, assignedTo: "MyParty")
+        characters["Character4"] = Character(name: "Character4", race: "Orchid", type: "Spellweaver", level: 1, isRetired: false, assignedTo: "MyParty")
     }
     func resetAll() {
         for scenario in allScenarios {

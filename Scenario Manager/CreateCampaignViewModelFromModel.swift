@@ -23,6 +23,15 @@ struct CreateCampaignTitleCellViewModel {
         self.campaignTitleTextFieldPlaceholder = "Enter Campaign Title"
     }
 }
+struct CreateCampaignPartyNameCellViewModel {
+    
+    let createCampaignPartyNameTextFieldPlaceholder: String
+    
+    init() {
+        self.createCampaignPartyNameTextFieldPlaceholder = "Enter Party Name"
+    }
+    
+}
 
 enum SectionTypes: Int, CaseCountable {
     
@@ -40,6 +49,9 @@ class CreateCampaignViewModelFromModel: NSObject {
     let numberOfSections = SectionTypes.caseCount
     let sections = [SectionTypes.Title, SectionTypes.Parties]
     var titleCell: CreateCampaignTitleCell?
+    var newCampaignTitle: String?
+    var partyNameCell: CreateCampaignPartyCell?
+    var newPartyName: String?
     let colorDefinitions = ColorDefinitions()
     let fontDefinitions = FontDefinitions()
     var selectedRows = [Int]()
@@ -58,6 +70,13 @@ class CreateCampaignViewModelFromModel: NSObject {
         dataModel.createCampaign(title: title, isCurrent: true, parties: parties)
         dataModel.saveCampaignsLocally()
     }
+    fileprivate func createParty(name: String) {
+        dataModel.createParty(name: name, characters: [], location: "Gloomhaven", achievements: [:], reputation: 0, isCurrent: true, assignedTo: (newCampaignTitle!))
+        print("Creating new party \(name) assigned to \(newCampaignTitle!)")
+        dataModel.currentParty = dataModel.parties[name]
+        dataModel.currentCampaign.parties!.append(dataModel.parties[name]!)
+        dataModel.saveCampaignsLocally()
+    }
 }
 extension CreateCampaignViewModelFromModel: UITableViewDataSource, UITableViewDelegate {
     
@@ -67,14 +86,15 @@ extension CreateCampaignViewModelFromModel: UITableViewDataSource, UITableViewDe
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
         //Temporary
-        let sectionType = sections[section]
-        switch sectionType {
-        case .Title:
-            return 1
-        case .Parties:
-            return parties.count == 0 ? 1 : parties.count
-        }
+//        let sectionType = sections[section]
+//        switch sectionType {
+//        case .Title:
+//            return 1
+//        case .Parties:
+//            return parties.count == 0 ? 1 : parties.count
+//        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -92,33 +112,26 @@ extension CreateCampaignViewModelFromModel: UITableViewDataSource, UITableViewDe
             tableViewCell = cell
             titleCell = cell
         case .Parties:
+            let viewModel = CreateCampaignPartyNameCellViewModel()
             let cell = tableView.dequeueReusableCell(withIdentifier: CreateCampaignPartyCell.identifier) as! CreateCampaignPartyCell
-            let myParties = Array(self.parties.values)
-            var partyLabelText = String()
-            //cell.accessoryType = selectedRows.contains(indexPath.row) ? .checkmark : .none
+            cell.configure(withViewModel: viewModel)
             cell.selectionStyle = .none
-            if self.parties.values.isEmpty {
-                partyLabelText = "No available parties"
-            } else {
-                partyLabelText = myParties[indexPath.row].name
-            }
-            cell.createCampaignPartyLabel.text = partyLabelText
-//            cell.backgroundView?.alpha = 0.25
-//            cell.selectedBackgroundView?.alpha = 0.65
+            cell.accessoryType = .none
             cell.backgroundColor = UIColor.clear
             tableViewCell = cell
+            partyNameCell = cell
         }
         return tableViewCell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if self.selectedRows.contains(indexPath.row) {
-            tableView.cellForRow(at: indexPath)?.accessoryType = .none
-            self.selectedRows = self.selectedRows.filter { $0 != indexPath.row }
-        } else {
-            tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
-            self.selectedRows.append(indexPath.row)
-        }
-        tableView.reloadData()
+//        if self.selectedRows.contains(indexPath.row) {
+//            tableView.cellForRow(at: indexPath)?.accessoryType = .none
+//            self.selectedRows = self.selectedRows.filter { $0 != indexPath.row }
+//        } else {
+//            tableView.cellForRow(at: indexPath)?.accessoryType = .none
+//            self.selectedRows.append(indexPath.row)
+//        }
+//        tableView.reloadData()
     }
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         let sectionType = sections[section]
@@ -126,7 +139,7 @@ extension CreateCampaignViewModelFromModel: UITableViewDataSource, UITableViewDe
         case .Title:
             return "Name new campaign"
         case .Parties:
-            return "Assign parties to new campaign"
+            return "Name new party"
         }
     }
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
@@ -143,20 +156,18 @@ extension CreateCampaignViewModelFromModel: CreateCampaignViewControllerDelegate
     
     func createCampaignViewControllerDidFinishAdding(_ controller: CreateCampaignViewController) {
         // Try setting vmDelegate here
-        var selectedParties = [Party]()
-        let myParties = Array(self.parties.values)
-        for row in selectedRows {
-            selectedParties.append(myParties[row])
-        }
-        let newCampaignTitle = titleCell?.campaignTitleTextField.text
+        newCampaignTitle = titleCell?.campaignTitleTextField.text
         if newCampaignTitle != "" {
-            self.createCampaign(title: newCampaignTitle!, parties: selectedParties)
-            controller.dismiss(animated: true, completion: nil)
+            self.createCampaign(title: newCampaignTitle!, parties: [])
         } else {
             // Present alert controller telling them to put a name in title field
         }
-        for party in selectedParties {
-            party.assignedTo = newCampaignTitle!
+        newPartyName = partyNameCell?.createCampaignPartyNameTextField.text
+        if newPartyName != "" {
+            self.createParty(name: newPartyName!)
+            controller.dismiss(animated: true, completion: nil)
+        } else {
+            // Present alert controller
         }
     }
 }
