@@ -46,7 +46,7 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate {
     var myLockedTitle: String?
     var pickerData = [String]()
     var didPick = false
-    var pickCount = 0
+    //var pickCount = 0
     var pickedScenario: [String]?
     var myInputView = UIView()
     let scenarioPicker = UIPickerView()
@@ -388,7 +388,7 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate {
         self.scenarioTableView.rowHeight = UITableViewAutomaticDimension
         self.navigationController?.navigationBar.tintColor = colorDefinitions.mainTextColor
         self.navigationController?.navigationBar.barTintColor = colorDefinitions.scenarioTableViewNavBarBarTintColor
-        self.navigationController?.navigationBar.titleTextAttributes = [.font: UIFont(name: "Nyala", size: 22.0)!, .foregroundColor: colorDefinitions.mainTextColor]
+        self.navigationController?.navigationBar.titleTextAttributes = [.font: UIFont(name: "Nyala", size: 26.0)!, .foregroundColor: colorDefinitions.mainTextColor]
         
         // See if we can set search field's cursor to a darker color than the Cancel button
         self.setTextFieldTintColor(to: colorDefinitions.scenarioTitleFontColor, for: searchController.searchBar)
@@ -636,7 +636,6 @@ extension ScenarioViewController: UIPickerViewDelegate, UIPickerViewDataSource {
         if label == nil {
             label = UILabel()
         }
-        
         label?.font = UIFont(name: "Nyala", size: 24)!
         label?.text =  pickerData[row]
         label?.textAlignment = .center

@@ -34,7 +34,7 @@ class CampaignDetailViewModel: NSObject {
     var items = [CampaignDetailViewModelItem]()
     var partyNames = [SeparatedStrings]()
     var achievementNames = [SeparatedStrings]()
-    var newAchievementNames = [SeparatedStrings]()
+    //var newAchievementNames = [SeparatedStrings]()
     var eventNumbers = [SeparatedStrings]()
     var isActiveCampaign: Bool?
     var remainingChecksUntilNextLevel = Int()
@@ -656,19 +656,19 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
             switch itemType {
                 
             case .prosperity:
-                button.setImage(UIImage(named: "icons8-Edit-40"), for: .normal)
+                button.setImage(UIImage(named: "quill-drawing-a-line_unselected"), for: .normal)
                 button.isEnabled = true
                 button.addTarget(self, action: #selector(self.showUIStepperInCampaignProsperityCell(_:)), for: .touchUpInside)
                 header.addSubview(button)
             case .donations:
-                button.setImage(UIImage(named: "icons8-Edit-40"), for: .normal)
+                button.setImage(UIImage(named: "quill-drawing-a-line_unselected"), for: .normal)
                 button.isEnabled = true
                 button.addTarget(self, action: #selector(self.showUIStepperInCampaignDonationsCell(_:)), for: .touchUpInside)
                 header.addSubview(button)
             case .achievements:
                 break
             case .campaignTitle:
-                button.setImage(UIImage(named: "icons8-Edit-40"), for: .normal)
+                button.setImage(UIImage(named: "quill-drawing-a-line_unselected"), for: .normal)
                 button.isEnabled = true
                 button.addTarget(self, action: #selector(self.enableTitleTextField(_:)), for: .touchUpInside)
                 header.addSubview(button)
@@ -722,7 +722,7 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
         self.textFieldReturningCellType = .campaignTitle
     }
     @objc func showUIStepperInCampaignProsperityCell(_ button: UIButton) {
-        button.setImage(UIImage(named: "icons8-Edit-40_selected"), for: .normal)
+        button.setImage(UIImage(named: "quill-drawing-a-line_selected"), for: .normal)
         let myCell = self.currentProsperityCell as! CampaignDetailProsperityCell
         myCell.myStepperOutlet.isHidden = false
         myCell.myStepperOutlet.isEnabled = true
@@ -731,7 +731,7 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
         button.addTarget(self, action: #selector(self.hideUIStepperInCampaignProsperityCell(_:)), for: .touchUpInside)
     }
     @objc func showUIStepperInCampaignDonationsCell(_ button: UIButton) {
-        button.setImage(UIImage(named: "icons8-Edit-40_selected"), for: .normal)
+        button.setImage(UIImage(named: "quill-drawing-a-line_selected"), for: .normal)
         let myCell = self.currentDonationsCell as! CampaignDetailDonationsCell
         myCell.myStepperOutlet.isHidden = false
         myCell.myStepperOutlet.isEnabled = true
@@ -745,7 +745,7 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
         myCell.myStepperOutlet.isEnabled = false
         button.isSelected = false
         button.addTarget(self, action: #selector(self.showUIStepperInCampaignProsperityCell(_:)), for: .touchUpInside)
-        button.setImage(UIImage(named: "icons8-Edit-40"), for: .normal)
+        button.setImage(UIImage(named: "quill-drawing-a-line_unselected"), for: .normal)
         dataModel.saveCampaignsLocally()
     }
     @objc func hideUIStepperInCampaignDonationsCell(_ button: UIButton) {
@@ -755,7 +755,7 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
         myCell.myStepperOutlet.tintColor = colorDefinitions.mainTextColor
         button.isSelected = false
         button.addTarget(self, action: #selector(self.showUIStepperInCampaignDonationsCell(_:)), for: .touchUpInside)
-        button.setImage(UIImage(named: "icons8-Edit-40"), for: .normal)
+        button.setImage(UIImage(named: "quill-drawing-a-line_unselected"), for: .normal)
         self.updateChecksToNextLevel()
         self.updateProsperityLevel()
         toggleSection(section: 1)
@@ -763,13 +763,13 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
     }
     @objc func editEvents(_ button: UIButton) {
         self.toggleSection(section: 5)
-        button.setImage(UIImage(named: "icons8-Edit-40_selected"), for: .normal)
+        button.setImage(UIImage(named: "quill-drawing-a-line_selected"), for: .normal)
         button.removeTarget(self, action: #selector(self.editEvents(_:)), for: .touchUpInside)
         button.addTarget(self, action: #selector(self.doneEditingEvents(_:)), for: .touchUpInside)
     }
     @objc func doneEditingEvents(_ button: UIButton) {
         self.toggleSection(section: 5)
-        button.setImage(UIImage(named: "icons8-Edit-40"), for: .normal)
+        button.setImage(UIImage(named: "quill-drawing-a-line_unselected"), for: .normal)
         button.removeTarget(self, action: #selector(self.doneEditingEvents(_:)), for: .touchUpInside)
         button.addTarget(self, action: #selector(self.editEvents(_:)), for: .touchUpInside)
         dataModel.saveCampaignsLocally()

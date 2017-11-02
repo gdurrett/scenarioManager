@@ -16,7 +16,8 @@ protocol CampaignDetailViewControllerDelegate: class {
 }
 
 class CampaignDetailViewController: UIViewController {
-
+    @IBOutlet var campaignDetailView: UIView!
+    
     @IBOutlet weak var campaignDetailTableView: UITableView!
 
     @IBAction func selectCampaignAction(_ sender: Any) {
@@ -143,6 +144,9 @@ extension CampaignDetailViewController: UITableViewDelegate {
 
         self.campaignDetailTableView.reloadData()
         self.updateNavTitle()
+        
+        // Try scrolling back to top when coming back to this screen
+        self.campaignDetailTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: UITableViewScrollPosition.top, animated: true)
         
     }
     // Helper methods

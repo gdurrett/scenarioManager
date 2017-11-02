@@ -54,6 +54,7 @@ class PartyDetailViewController: UIViewController {
         partyDetailTableView?.register(PartyDetailAssignedCampaignHeader.nib, forCellReuseIdentifier: PartyDetailAssignedCampaignHeader.identifier)
         styleUI()
     }
+    
     // MARK: Helper methods
     func updateAllSections() {
         viewModel.updateCurrentPartyName()
@@ -141,12 +142,10 @@ extension PartyDetailViewController: UITableViewDelegate {
         viewModel.updateAssignedCharacters()
         viewModel.updateAchievements()
 
-        //refreshCurrentParty()
-        //refreshReputation()
-        //refreshAssignedCharacters()
-        //refreshAchievements()
-        //refreshAssignedCampaign()
         self.partyDetailTableView.reloadData()
+        
+        // Test scroll to top
+        self.partyDetailTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: UITableViewScrollPosition.top, animated: true)
     }
     
     func refreshCurrentParty() {

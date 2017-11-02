@@ -62,11 +62,6 @@ class CreateCampaignViewController: UIViewController {
         
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
     // Helper methods
     fileprivate func styleUI() {
         self.createCampaignView.backgroundColor = colorDefinitions.scenarioTableViewNavBarBarTintColor

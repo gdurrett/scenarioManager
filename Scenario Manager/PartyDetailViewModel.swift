@@ -304,12 +304,12 @@ extension PartyDetailViewModel: UITableViewDataSource, UITableViewDelegate, Part
         switch itemType {
             
         case .partyName:
-            button.setImage(UIImage(named: "icons8-Edit-40"), for: .normal)
+            button.setImage(UIImage(named: "quill-drawing-a-line_unselected"), for: .normal)
             button.isEnabled = true
             button.addTarget(self, action: #selector(self.enableTitleTextField(_:)), for: .touchUpInside)
             header.addSubview(button)
         case .reputation:
-            button.setImage(UIImage(named: "icons8-Edit-40"), for: .normal)
+            button.setImage(UIImage(named: "quill-drawing-a-line_unselected"), for: .normal)
             button.isEnabled = true
             button.addTarget(self, action: #selector(self.showUIStepperInPartyReputationCell(_:)), for: .touchUpInside)
             header.addSubview(button)
@@ -319,7 +319,7 @@ extension PartyDetailViewModel: UITableViewDataSource, UITableViewDelegate, Part
         case .assignedCampaign:
             break //Temporary!
         case .characters:
-            button.setImage(UIImage(named: "icons8-Edit-40"), for: .normal)
+            button.setImage(UIImage(named: "quill-drawing-a-line_unselected"), for: .normal)
             button.isEnabled = true
             button.addTarget(self, action: #selector(self.loadSelectCharacterViewController(_:)), for: .touchUpInside)
             header.addSubview(button)
@@ -353,7 +353,7 @@ extension PartyDetailViewModel: UITableViewDataSource, UITableViewDelegate, Part
         self.textFieldReturningCellType = .partyName
     }
     @objc func showUIStepperInPartyReputationCell(_ button: UIButton) {
-        button.setImage(UIImage(named: "icons8-Edit-40_selected"), for: .normal)
+        button.setImage(UIImage(named: "quill-drawing-a-line_selected"), for: .normal)
         let myCell = self.currentReputationCell as! PartyDetailReputationCell
         myCell.myStepperOutlet.isHidden = false
         myCell.myStepperOutlet.isEnabled = true
@@ -367,7 +367,7 @@ extension PartyDetailViewModel: UITableViewDataSource, UITableViewDelegate, Part
         myCell.myStepperOutlet.isEnabled = false
         button.isSelected = false
         button.addTarget(self, action: #selector(self.showUIStepperInPartyReputationCell(_:)), for: .touchUpInside)
-        button.setImage(UIImage(named: "icons8-Edit-40"), for: .normal)
+        button.setImage(UIImage(named: "quill-drawing-a-line_unselected"), for: .normal)
         dataModel.saveCampaignsLocally()
     }
     @objc func loadSelectCharacterViewController(_ button: UIButton) {

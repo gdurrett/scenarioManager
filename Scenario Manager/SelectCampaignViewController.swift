@@ -118,8 +118,6 @@ extension SelectCampaignViewController: UITableViewDataSource, UITableViewDelega
             cell.accessoryType = .none
         }
         configureCheckmark(for: cell, activeStatus: myCampaigns[indexPath.row].title == currentCampaign)
-        //cell.backgroundView?.alpha = 0.25
-        //cell.selectedBackgroundView?.alpha = 0.65
         cell.backgroundColor = UIColor.clear
         return cell as! SelectCampaignTitleCell
     }

@@ -108,7 +108,6 @@ class SelectCharacterViewController: UIViewController {
         
         self.availableCharacters = viewModel.availableCharacters.value
         self.assignedCharacters = viewModel.assignedCharacters.value
-        //viewModel.availableCharacters.bindAndFire { [unowned self] in self.availableCharacters = $0 }
     }
     fileprivate func styleUI() {
         self.selectCharacterView.backgroundColor = colorDefinitions.scenarioTableViewNavBarBarTintColor
@@ -135,7 +134,6 @@ extension SelectCharacterViewController: UITableViewDelegate, UITableViewDataSou
     // MARK: - Table view data source
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
 

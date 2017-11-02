@@ -39,10 +39,6 @@ class ScenarioDetailViewController: UIViewController {
 
     }
 
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        //NotificationCenter.default.post(name: NSNotification.Name(rawValue: "triggerSegue"), object: nil)
-    }
     func setTableViewBGImage() {
         
         switch viewModel.locationString[1] {
