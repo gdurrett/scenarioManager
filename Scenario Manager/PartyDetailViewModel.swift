@@ -41,6 +41,8 @@ class PartyDetailViewModel: NSObject {
     var availableCharacters: Dynamic<[Character]>
     var assignedCharacters: Dynamic<[Character]>
     var allCharacters: Dynamic<[String]>
+    var assignedParties: Dynamic<[Party]?>
+    var currentParty: Dynamic<Party>
     // Other
     var currentPartyCell = UITableViewCell()
     var currentReputationCell = UITableViewCell()
@@ -60,6 +62,8 @@ class PartyDetailViewModel: NSObject {
         self.availableCharacters = Dynamic(dataModel.availableCharacters) // [Character]
         self.assignedCharacters = Dynamic(dataModel.assignedCharacters) // [Character]
         self.allCharacters = Dynamic(Array(dataModel.characters.keys)) // [String]
+        self.assignedParties = Dynamic(dataModel.assignedParties)
+        self.currentParty = Dynamic(dataModel.currentParty)
         super.init()
         
         // Append party name to items
@@ -95,7 +99,7 @@ class PartyDetailViewModel: NSObject {
     func toggleSection(section: Int) {
         reloadSection?(section)
     }
-    func updateCurrentParty() {
+    func updateCurrentPartyName() {
         self.partyName.value = dataModel.currentParty.name
     }
     func updateAssignedCampaign() {
@@ -115,6 +119,14 @@ class PartyDetailViewModel: NSObject {
     }
     func updateAvailableCharacters() {
         self.availableCharacters.value = Array(dataModel.availableCharacters)
+    }
+    func updateAssignedParties() {
+        if dataModel.assignedParties != nil {
+            self.assignedParties.value = Array(dataModel.assignedParties!)
+        }
+    }
+    func updateCurrentParty() {
+        self.currentParty.value = dataModel.currentParty
     }
     func getShopPriceModifier(modifier: Int) -> Int {
         var myModifier = 0
@@ -146,18 +158,25 @@ class PartyDetailViewModel: NSObject {
         }
         return myModifier
     }
-    // Method for Renaming Campaign Title
+    // Method for setting current party
+    func setPartyActive(party: String) {
+        //dataModel.loadParty(party: party)
+        dataModel.currentParty = dataModel.parties[party]
+        dataModel.saveCampaignsLocally()
+    }
+    // Method for Renaming Party
     func renameParty(oldTitle: String, newTitle: String) {
         if dataModel.parties[newTitle] == nil && oldTitle != newTitle { // Don't do anything if it's the same title or if there's already a party with the new title name
             dataModel.parties.changeKey(from: oldTitle, to: newTitle)
             dataModel.currentParty.name = newTitle
             //Test pick up new name for characters assigned
-            for character in dataModel.assignedCharacters {
+            //for character in dataModel.assignedCharacters {
+            for character in self.assignedCharacters.value {
+
                 if character.assignedTo == oldTitle {
                     character.assignedTo = newTitle
                 }
             }
-            
             dataModel.saveCampaignsLocally()
         }
     }
@@ -352,10 +371,12 @@ extension PartyDetailViewModel: UITableViewDataSource, UITableViewDelegate, Part
         dataModel.saveCampaignsLocally()
     }
     @objc func loadSelectCharacterViewController(_ button: UIButton) {
-        // Alert here if there are no characters
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "showSelectCharacterVC"), object: nil)
+        if self.availableCharacters.value.isEmpty == true && self.assignedCharacters.value.isEmpty == true {
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "showNoCharactersAlert"), object: nil)
+        } else {
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "showSelectCharacterVC"), object: nil)
+        }
     }
-    
     // Delegate methods for textField in cell
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
@@ -383,7 +404,6 @@ extension PartyDetailViewModel: SelectCharacterViewControllerDelegate {
     }
     func selectCharacterViewControllerDidFinishSelecting(_ controller: SelectCharacterViewController) {
         // Need to gather array of selected characters here
-        print(self.partyName.value)
         if !controller.selectedCharacters.isEmpty {
             for character in controller.selectedCharacters {
                 dataModel.characters[character.name]!.assignedTo = self.partyName.value
@@ -402,6 +422,39 @@ extension PartyDetailViewModel: SelectCharacterViewControllerDelegate {
         }
         dataModel.saveCampaignsLocally()
         controller.dismiss(animated: true, completion: nil)
+    }
+}
+extension PartyDetailViewModel: SelectPartyViewControllerDelegate {
+    func selectPartyViewControllerDidCancel(_ controller: SelectPartyViewController) {
+        controller.dismiss(animated: true, completion: nil)
+    }
+    func selectPartyViewControllerDidFinishSelecting(_ controller: SelectPartyViewController) {
+        dataModel.currentParty = controller.selectedParty
+        self.updateCurrentPartyName()
+        self.updateAssignedParties()
+        //self.updateAvailableParties()
+        self.dataModel.saveCampaignsLocally()
+        controller.dismiss(animated: true, completion: nil)
+    }
+}
+extension PartyDetailViewModel: PartyDetailViewControllerDelegate {
+    func partyDetailVCDidTapDelete(_ controller: PartyDetailViewController) {
+        let currentParty = dataModel.currentParty.name
+        if dataModel.assignedParties!.count > 1 {
+            for character in dataModel.characters {
+                if character.value.assignedTo == dataModel.currentParty.name {
+                    character.value.assignedTo = "None"
+                }
+            }
+            dataModel.parties.removeValue(forKey: currentParty)
+            dataModel.currentCampaign.parties = dataModel.currentCampaign.parties!.filter { $0.name != currentParty }
+            let myParties = Array(dataModel.parties)
+            myParties[0].value.isCurrent = true
+            setPartyActive(party: myParties[0].value.name)
+            controller.partyDetailTableView.reloadData()
+        } else {
+            controller.showDisallowDeletionAlert()
+        }
     }
 }
 // MARK: ViewModelItem Classes

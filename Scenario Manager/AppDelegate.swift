@@ -29,6 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let navController1 = tabBarController.viewControllers?[1] as! UINavigationController
             let controller1 = navController1.viewControllers[0] as! PartyDetailViewController
             controller1.viewModel = partyDetailViewModel
+            controller1.delegate = partyDetailViewModel
             
             // Set up Campaign Detail view controller
             let navController2 = tabBarController.viewControllers?[0] as? UINavigationController

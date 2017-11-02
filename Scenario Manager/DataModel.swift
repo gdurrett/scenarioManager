@@ -61,25 +61,26 @@ class DataModel {
 //            return currentParty.achievements
 //        }
 //    }
-    var assignedParties: [String] {
+    var assignedParties: [Party]? {
         get {
-            var tempParties = [String]()
+            var tempParties = [Party]()
             if currentCampaign.parties?.isEmpty != true {
                 for party in currentCampaign.parties! {
-                    tempParties.append(party.name)
+                    tempParties.append(party)
                 }
             } else {
-                tempParties.append("None")
+                return nil
+                //tempParties.append(Party(name: "None", characters: [], location: "Gloomhaven", achievements: [:], reputation: 0, isCurrent: false, assignedTo: "None"))
             }
             return tempParties
         }
     }
-    var availableParties: [String] {
+    var availableParties: [Party]? {
         get {
-            var tempParties = [String]()
+            var tempParties = [Party]()
             for party in self.parties {
                 if party.value.assignedTo == "None" {
-                    tempParties.append(party.key)
+                    tempParties.append(party.value)
                 } else {
                 }
             }
@@ -89,13 +90,6 @@ class DataModel {
     var assignedCharacters: [Character] {
         get {
             var tempCharacters = [Character]()
-//            if currentParty.characters.isEmpty != true {
-//                for character in currentParty.characters {
-//                    tempCharacters.append(character)
-//                }
-//            } else {
-//                //
-//            }
             for character in characters.values {
                 if character.assignedTo == self.currentParty.name {
                     tempCharacters.append(character)
@@ -127,11 +121,6 @@ class DataModel {
                 if self.campaigns["MyCampaign"] == nil {
                     createDefaultCampaign()
                     createDefaultCharacters()
-//                    createParty(name: "Default", characters: [], location: "Gloomhaven", achievements: [:], reputation: 0, isCurrent: true, assignedTo: "Default")
-//                    createCampaign(title: "Default", isCurrent: true, parties: [parties["Default"]!])
-//                    characters["Snarklepuss"] = Character(name: "Snarklepuss", race: "Aesther", type: "Summoner", level: 4, isRetired: false, assignedTo: "None")
-//                    characters["Homegirl"] = Character(name: "Homegirl", race: "Inox", type: "Brute", level: 5, isRetired: false, assignedTo: "None")
-//                    characters["Stryker"] = Character(name: "Stryker", race: "Inox", type: "Berserker", level: 6, isRetired: false, assignedTo: "None")
                 }
                 return campaigns["MyCampaign"]!
             }
@@ -181,7 +170,6 @@ class DataModel {
             }
         }
         set {
-            //setCurrentParty(party: newValue)
             for thisParty in self.parties.values {
                 thisParty.isCurrent = false
             }
@@ -2204,7 +2192,6 @@ class DataModel {
         }
     }
     func loadParty(party: String) {
-        
         if let requestedParty = parties[party] {
             for achievement in partyAchievements.keys {
                 let newStatus = requestedParty.achievements[achievement]
@@ -3634,8 +3621,8 @@ class DataModel {
     func createDefaultCharacters() {
         characters["Character1"] = Character(name: "Character1", race: "Vermling", type: "Mindthief", level: 1, isRetired: false, assignedTo: "MyParty")
         characters["Character2"] = Character(name: "Character2", race: "Inox", type: "Brute", level: 1, isRetired: false, assignedTo: "MyParty")
-        characters["Character3"] = Character(name: "Character3", race: "Savvas", type: "Cragheart", level: 1, isRetired: false, assignedTo: "MyParty")
-        characters["Character4"] = Character(name: "Character4", race: "Orchid", type: "Spellweaver", level: 1, isRetired: false, assignedTo: "MyParty")
+        characters["Character3"] = Character(name: "Character3", race: "Savvas", type: "Cragheart", level: 1, isRetired: false, assignedTo: "None")
+        characters["Character4"] = Character(name: "Character4", race: "Orchid", type: "Spellweaver", level: 1, isRetired: false, assignedTo: "None")
     }
     func resetAll() {
         for scenario in allScenarios {

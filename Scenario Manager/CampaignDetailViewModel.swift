@@ -45,8 +45,8 @@ class CampaignDetailViewModel: NSObject {
     var prosperityLevel: Dynamic<Int>
     var checksToNextLevel: Dynamic<Int>
     var donations: Dynamic<Int>
-    var assignedParties: Dynamic<[String]>
-    var availableParties: Dynamic<[String]>
+    var assignedParties: Dynamic<[Party]?>
+    var availableParties: Dynamic<[Party]?>
     var unavailableEvents: Dynamic<[Event]>
     var availableEvents: Dynamic<[Event]>
     var completedEvents: Dynamic<[Event]>
@@ -92,11 +92,6 @@ class CampaignDetailViewModel: NSObject {
     var eventOptionPickerDidPick = false
     var selectedEventOption = String()
     
-    // Vars for partyPicker
-    var partyPickerData = [String]()
-    var partyPickerDidPick: Bool = false
-    var selectedPartyOption = String()
-    
     init(withCampaign campaign: Campaign) {
         self.completedGlobalAchievements = Dynamic(dataModel.completedGlobalAchievements)
         self.campaignTitle = Dynamic(dataModel.currentCampaign.title)
@@ -116,10 +111,6 @@ class CampaignDetailViewModel: NSObject {
         
         self.isActiveCampaign = campaign.isCurrent
         
-        // Set data for partyPicker
-        //self.updateAssignedParties()
-        self.partyPickerData = Array(self.assignedParties.value)
-        
         // Append campaign title to items
         let titleItem = CampaignDetailViewModelCampaignTitleItem(title: campaignTitle.value)
         items.append(titleItem)
@@ -131,6 +122,9 @@ class CampaignDetailViewModel: NSObject {
         // Append donations amount to items
         let donationsItem = CampaignDetailViewModelCampaignDonationsItem(amount: donations.value, prosperityBonusString: "")
         items.append(donationsItem)
+        
+        let partyItem = CampaignDetailViewModelCampaignPartyItem(names: [SeparatedStrings(rowString: self.currentParty.value.name)])
+        items.append(partyItem)
         
         // Append completed achievements to items
         let localCompletedAchievements = campaign.achievements.filter { $0.value != false && $0.key != "None" && $0.key != "OR" }
@@ -146,19 +140,6 @@ class CampaignDetailViewModel: NSObject {
         if gotTech == true { achievementNames.append(SeparatedStrings(rowString: "Ancient Technology")) }
         let achievementsItem = CampaignDetailViewModelCampaignAchievementsItem(achievements: achievementNames)
         items.append(achievementsItem)
-        
-        // Append party names to items
-        if campaign.parties?.isEmpty != true {
-            for party in campaign.parties! {
-                partyNames.append(SeparatedStrings(rowString: party.name))
-                print("Appending party: \(party.name)")
-            }
-        } else {
-            self.partyNames.append(SeparatedStrings(rowString: ""))
-        }
-        let partyItem = CampaignDetailViewModelCampaignPartyItem(names: partyNames)
-        items.append(partyItem)
-
         
         // Append city event items
         for event in campaign.events {
@@ -223,17 +204,7 @@ class CampaignDetailViewModel: NSObject {
     func getSanctuaryDonations(campaign: Campaign) -> Int {
         return campaign.sanctuaryDonations
     }
-//    func getCompletedAchievements(campaign: Campaign) -> [SeparatedStrings] {
-//        let localCompletedAchievements = campaign.achievements.filter { $0.value != false && $0.key != "None" && $0.key != "OR" }
-//        if localCompletedAchievements.isEmpty != true {
-//            for achievement in localCompletedAchievements {
-//                achievementNames.append(SeparatedStrings(rowString: achievement.key))
-//            }
-//        }
-//        return achievementNames
-//    }
 
-    // See if we can accurately update ourself with completed achievements
     func updateAchievements() {
         self.completedGlobalAchievements.value = dataModel.completedGlobalAchievements
     }
@@ -366,8 +337,6 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
         self.updateAchievements()
         self.updateAncientTech()
         
-        // May need an updateEvents() too?
-        //let item = self.items[section]
         if self.items[section].type == .achievements {
             if self.completedGlobalAchievements.value.count == 0 {
                 return 1
@@ -400,14 +369,7 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
                 break
             }
         } else if self.items[section].type == .parties {
-            switch selectedPartiesSegmentIndex {
-            case 0:
-                returnValue = self.assignedParties.value.count == 0 ? 1 : self.assignedParties.value.count
-            case 1:
-                returnValue = self.availableParties.value.count == 0 ? 1 : self.availableParties.value.count
-            default:
-                break
-            }
+            returnValue = 1
         } else {
             returnValue = self.items[section].rowCount
         }
@@ -562,13 +524,6 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
             headerView.campaignDetailEventsHeaderTitle.text = "Events"
             // Return contentView of headerView so it doesn't disappear
             return headerView.contentView
-//        } else if self.items[section].sectionTitle == "Parties" {
-//            let headerView = tableView.dequeueReusableCell(withIdentifier: "CampaignDetailPartiesHeader") as! CampaignDetailPartiesHeader
-//            headerView.getSegment.addTarget(self, action: #selector(self.getPartySegmentControlValue(sender:)), for: .valueChanged)
-//            headerView.getSegment.selectedSegmentIndex = self.selectedPartiesSegmentIndex
-//
-//            headerView.campaignDetailPartiesHeaderTitle.text = "Parties"
-//            return headerView.contentView
         } else {
             let headerView = UIView(frame: CGRect(x:0, y:0, width: tableView.frame.size.width, height: tableView.frame.size.height))
             let headerTitleLabel = UILabel(frame: CGRect(x:16, y:15, width: 42, height: 21))
@@ -609,8 +564,6 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
                     self.scrollEventsSection!()
                 } else if self.myCompletedEventTitle == "Set Completed" {
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "showEventChoiceOptionPicker"), object: nil)
-                    event.isCompleted = true // Set to completed
-                    event.isAvailable = false // But no longer available
                     self.updateEvents()
                     self.dataModel.saveCampaignsLocally()
                     self.toggleSection(section: 5)
@@ -665,18 +618,7 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
         return returnValue
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        if indexPath.section == 4 && selectedPartiesSegmentIndex == 0 {
-//            var party = String()
-//            switch selectedPartiesSegmentIndex {
-//            case 0:
-//                party = assignedParties.value[indexPath.row]
-//            case 1:
-//                party = availableParties.value[indexPath.row]
-//            default:
-//                break
-//            }
-//            print("Selected party: \(party)")
-//        }
+        //
     }
     // Delegate methods for textField in cell
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -731,10 +673,7 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
                 button.addTarget(self, action: #selector(self.enableTitleTextField(_:)), for: .touchUpInside)
                 header.addSubview(button)
             case .parties:
-                button.setImage(UIImage(named: "icons8-Edit-40"), for: .normal)
-                button.isEnabled = true
-                button.addTarget(self, action: #selector(self.showPartyPicker(button:)), for: .touchUpInside)
-                header.addSubview(button)
+                break
             case .events:
                 break
             }
@@ -743,9 +682,6 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
         if activeStatus == true {
             cell.accessoryType = .checkmark
         }
-    }
-    @objc func showPartyPicker(button: UIButton) {
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "showPartyPicker"), object: nil)
     }
     @objc func pressedRoadButton(button: UIButton) {
         selectedEventType = "road"
@@ -841,6 +777,7 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
 }
 
 extension CampaignDetailViewModel: SelectCampaignViewControllerDelegate, CampaignDetailViewControllerDelegate {
+
     func selectCampaignViewControllerDidCancel(_ controller: SelectCampaignViewController) {
         controller.dismiss(animated: true, completion: nil)
     }
@@ -860,9 +797,6 @@ extension CampaignDetailViewModel: SelectCampaignViewControllerDelegate, Campaig
         if dataModel.campaigns.count > 1 {
             let campaignForParty = dataModel.campaigns[self.campaignTitle.value]
             if !(campaignForParty?.parties?.isEmpty)! {
-//                for party in (campaignForParty?.parties!)! {
-//                        party.assignedTo = "None" // Make sure to set to None since we're deleting associated campaign.
-//                }
                 campaignForParty?.parties!.removeAll() // If campaign goes, party has to go too
             }
             dataModel.campaigns.removeValue(forKey: self.campaignTitle.value)
@@ -875,15 +809,11 @@ extension CampaignDetailViewModel: SelectCampaignViewControllerDelegate, Campaig
     }
     // Delegate methods called from CampaignDetailVC
     func setEventOptionChoice() {
+        if eventOptionPickerDidPick == false { selectedEventOption = "A" }
         self.selectedEvent!.number.append(" - Option: \(selectedEventOption)")
+        self.selectedEvent!.isCompleted = true // Set to completed
+        self.selectedEvent!.isAvailable = false // But no longer available
         toggleSection(section: 5)
-        self.dataModel.saveCampaignsLocally()
-    }
-    func setPartyChoice() {
-        if partyPickerDidPick == false { self.selectedPartyOption = self.assignedParties.value[0] }
-        dataModel.currentParty = dataModel.parties[selectedPartyOption] // See if we can do the 'set'
-        updateCurrentParty()
-        toggleSection(section: 4)
         self.dataModel.saveCampaignsLocally()
     }
 }
@@ -893,8 +823,6 @@ extension CampaignDetailViewModel: UIPickerViewDelegate, UIPickerViewDataSource 
         var returnValue = Int()
         if pickerView.tag == 5 {
             returnValue = 1
-        } else if pickerView.tag == 10 {
-            returnValue = 1
         }
         return returnValue
     }
@@ -902,10 +830,6 @@ extension CampaignDetailViewModel: UIPickerViewDelegate, UIPickerViewDataSource 
         var returnValue = Int()
         if pickerView.tag == 5 {
             returnValue = eventOptionPickerData.count
-        } else if pickerView.tag == 10 {
-            returnValue = self.assignedParties.value.count
-            print(self.assignedParties.value)
-            //returnValue = partyPickerData.count
         }
         return returnValue
     }
@@ -914,11 +838,6 @@ extension CampaignDetailViewModel: UIPickerViewDelegate, UIPickerViewDataSource 
         if pickerView.tag == 5 {
             eventOptionPickerDidPick = true
             selectedEventOption = row == 0 ? "A" : "B"
-        } else if pickerView.tag == 10 {
-            partyPickerDidPick = true
-            selectedPartyOption = self.assignedParties.value[row]
-            print("Selected: \(self.assignedParties.value[row])")
-            //selectedPartyOption = partyPickerData[row]
         }
     }
     func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView{
@@ -930,9 +849,6 @@ extension CampaignDetailViewModel: UIPickerViewDelegate, UIPickerViewDataSource 
         label?.textAlignment = .center
         if pickerView.tag == 5 {
             label?.text =  ("\(selectedEvent!.number) - \(eventOptionPickerData[row])")
-        } else if pickerView.tag == 10 {
-            label?.text = (self.assignedParties.value[row])
-            //label?.text = ("\(partyPickerData[row])")
         }
 
         return label!

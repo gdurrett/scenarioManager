@@ -68,8 +68,9 @@ class SelectCharacterViewController: UIViewController {
         selectCharacterTableView.dataSource = self
         selectCharacterTableView?.register(SelectCharacterTitleCell.nib, forCellReuseIdentifier: SelectCharacterTitleCell.identifier)
         
-        viewModel?.updateCharacters()
+        // viewModel?.updateCharacters() - Test removal!
         viewModel?.updateAssignedCharacters()
+        viewModel?.updateAvailableCharacters()
         
         fillUI()
         styleUI()
@@ -78,13 +79,23 @@ class SelectCharacterViewController: UIViewController {
             // Shouldn't get this far with alert in PartyDetailVM
         } else if assignedCharacters == nil {
             print("assigned is nil?")
+            for character in availableCharacters! {
+                print("Available: \(character.name)")
+            }
             combinedCharacters = availableCharacters
         } else if availableCharacters == nil {
             print("available is nil?")
+            for character in assignedCharacters! {
+                print("Assigned: \(character.name)")
+            }
             combinedCharacters = assignedCharacters
         } else {
             combinedCharacters = availableCharacters! + assignedCharacters!
+            for character in combinedCharacters! {
+                print("Combined: \(character.name)")
+            }
         }
+
     }
 
     fileprivate func fillUI() {
@@ -97,13 +108,7 @@ class SelectCharacterViewController: UIViewController {
         
         self.availableCharacters = viewModel.availableCharacters.value
         self.assignedCharacters = viewModel.assignedCharacters.value
-        viewModel.availableCharacters.bindAndFire { [unowned self] in
-            self.availableCharacters = $0 }
-        //viewModel.assignedCharacters.bindAndFire { [unowned self] in
-        //    self.assignedCharacters = $0
-        //}
-        //print("Available?: \(availableCharacters!.minimalDescription)")
-        //print("Assigned?: \(assignedCharacters!.minimalDescription)")
+        //viewModel.availableCharacters.bindAndFire { [unowned self] in self.availableCharacters = $0 }
     }
     fileprivate func styleUI() {
         self.selectCharacterView.backgroundColor = colorDefinitions.scenarioTableViewNavBarBarTintColor
@@ -146,17 +151,13 @@ extension SelectCharacterViewController: UITableViewDelegate, UITableViewDataSou
         if self.combinedCharacters![indexPath.row].assignedTo == viewModel!.partyName.value {
             cell.accessoryType = .checkmark
         }
-        //cell.accessoryType = cell.isSelected ? .checkmark : .none
-        print(cell.accessoryType.rawValue)
         cell.selectionStyle = .none
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("Triggering didSelect?")
         tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
     }
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        print("Shouldn'g be triggering...")
         tableView.cellForRow(at: indexPath)?.accessoryType = .none
     }
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {

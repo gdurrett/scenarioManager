@@ -9,23 +9,25 @@
 import UIKit
 
 protocol PartyDetailViewControllerDelegate: class {
-    
+    func partyDetailVCDidTapDelete(_ controller: PartyDetailViewController)
 }
 class PartyDetailViewController: UIViewController {
 
     @IBOutlet weak var partyDetailTableView: UITableView!
     
     @IBAction func selectPartyAction(_ sender: Any) {
+        loadSelectPartyViewController()
     }
     
     @IBAction func deletePartyAction(_ sender: Any) {
+        showConfirmDeletionAlert()
     }
     
     @IBAction func createPartyAction(_ sender: Any) {
-        
+        loadCreatePartyViewController()
     }
     
-    //weak var delegate: PartyDetailViewControllerDelegate!
+    weak var delegate: PartyDetailViewControllerDelegate!
     
     var viewModel: PartyDetailViewModel!
     let colorDefinitions = ColorDefinitions()
@@ -34,16 +36,9 @@ class PartyDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // var for toggleSection in viewModel
-//        viewModel.reloadSection = { [weak self] (section: Int) in
-//            if section == 4 {
-//                self?.refreshCurrentParty()
-//            } else if section == 5 {
-//                self?.refreshEvents()
-//            }
-//        }
         // Set up observers
         NotificationCenter.default.addObserver(self, selector: #selector(self.loadSelectCharacterViewController), name: NSNotification.Name(rawValue: "showSelectCharacterVC"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.showNoCharactersAlert), name: NSNotification.Name(rawValue: "showNoCharactersAlert"), object: nil)
         // Set up UITableViewDelegate
         partyDetailTableView?.dataSource = viewModel
         partyDetailTableView?.delegate = viewModel
@@ -59,12 +54,66 @@ class PartyDetailViewController: UIViewController {
         partyDetailTableView?.register(PartyDetailAssignedCampaignHeader.nib, forCellReuseIdentifier: PartyDetailAssignedCampaignHeader.identifier)
         styleUI()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    // MARK: Helper methods
+    func updateAllSections() {
+        viewModel.updateCurrentPartyName()
+        viewModel.updateAssignedCampaign()
+        viewModel.updateReputationValue()
+        viewModel.updateAchievements()
+        viewModel.updateCharacters()
+        viewModel.updateAssignedCharacters()
+        viewModel.updateAvailableCharacters()
+        viewModel.updateAssignedParties()
+        viewModel.updateCurrentParty()
     }
-
+    func refreshAllSections() {
+        self.partyDetailTableView.reloadData()
+    }
+    //MARK: Action Methods
+    fileprivate func loadSelectPartyViewController() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let selectPartyVC = storyboard.instantiateViewController(withIdentifier: "SelectPartyViewController") as! SelectPartyViewController
+        selectPartyVC.delegate = viewModel
+        // Give VC the current campaign so it can set checkmark.
+        viewModel.updateAssignedParties()
+        viewModel.updateCurrentParty()
+        selectPartyVC.assignedParties = viewModel.assignedParties.value!
+        selectPartyVC.viewModel = self.viewModel
+        //selectCampaignVC.reloadDelegate = self // Need to reloadData on entire table before returning here!
+        selectPartyVC.hidesBottomBarWhenPushed = true
+        self.navigationController!.present(selectPartyVC, animated: true, completion: nil)
+    }
+    // Called when pressing delete button
+    fileprivate func showConfirmDeletionAlert () {
+        let alertController = UIAlertController(title: "Delete current party?", message: "Clicking OK will delete the current party.", preferredStyle: .alert)
+        let OKAction = UIAlertAction(title: "Delete", style: .default) { (action:UIAlertAction!) in
+            self.delegate.partyDetailVCDidTapDelete(self)
+            self.updateAllSections()
+            self.refreshAllSections()
+            //self.updateNavTitle()
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (action:UIAlertAction!) in
+        }
+        alertController.view.tintColor = colorDefinitions.scenarioAlertViewTintColor
+        alertController.addAction(cancelAction)
+        alertController.addAction(OKAction)
+        
+        self.present(alertController, animated: true, completion:nil)
+    }
+    // Called by PartyDetailViewModel delegate method
+    func showDisallowDeletionAlert() {
+        let alertTitle = "Cannot delete only party!"
+        let alertView = UIAlertController(
+            title: alertTitle,
+            message: "Create a new party before deleting this one.",
+            preferredStyle: .alert)
+        
+        let action = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil)
+        alertView.view.tintColor = colorDefinitions.scenarioAlertViewTintColor
+        alertView.addAction(action)
+        present(alertView, animated: true, completion: nil)
+    }
 }
 extension PartyDetailViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -86,7 +135,7 @@ extension PartyDetailViewController: UITableViewDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         // Call updates and refreshes here
-        viewModel.updateCurrentParty()
+        viewModel.updateCurrentPartyName()
         viewModel.updateReputationValue()
         viewModel.updateAssignedCampaign()
         viewModel.updateAssignedCharacters()
@@ -135,10 +184,27 @@ extension PartyDetailViewController: UITableViewDelegate {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let selectCharacterVC = storyboard.instantiateViewController(withIdentifier: "SelectCharacterViewController") as! SelectCharacterViewController
         selectCharacterVC.delegate = viewModel
-        selectCharacterVC.availableCharacters = self.viewModel.availableCharacters.value
         selectCharacterVC.viewModel = self.viewModel
         selectCharacterVC.hidesBottomBarWhenPushed = true
         self.navigationController!.present(selectCharacterVC, animated: true, completion: nil)
+    }
+    fileprivate func loadCreatePartyViewController() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let createPartyVC = storyboard.instantiateViewController(withIdentifier: "CreatePartyViewController") as! CreatePartyViewController
+        createPartyVC.viewModel = CreatePartyViewModel(withDataModel: viewModel!.dataModel)
+        createPartyVC.delegate = createPartyVC.viewModel
+        createPartyVC.hidesBottomBarWhenPushed = true
+        self.navigationController!.present(createPartyVC, animated: true, completion: nil)
+    }
+    @objc fileprivate func showNoCharactersAlert() {
+        let alertController = UIAlertController(title: "There are no available characters!", message: "Create new characters on the Characters tab, or unassign characters from another party.", preferredStyle: .alert)
+        
+        let cancelAction = UIAlertAction(title: "Okay", style: .cancel) { (action:UIAlertAction!) in
+        }
+        alertController.view.tintColor = colorDefinitions.scenarioAlertViewTintColor
+        alertController.addAction(cancelAction)
+        
+        self.present(alertController, animated: true, completion:nil)
     }
 }
 extension PartyDetailViewController: CampaignDetailPartyUpdaterDelegate {
@@ -152,7 +218,6 @@ extension PartyDetailViewController: SelectCharacterViewControllerReloadDelegate
     func reloadAfterDidFinishSelecting() {
         if let myTableView = self.partyDetailTableView {
             //self.viewModel.updateAssignedCharacters()
-            print("Calling reload?")
             myTableView.reloadData()
         }
     }

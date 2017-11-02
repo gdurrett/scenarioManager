@@ -206,7 +206,6 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
                         break
                     }
                 } else if combinedAchievementDicts[ach]! != bool {
-                    if ach == "Jekserah's Plans" { print("Setting to false for Jecksy") }
                     scenario.requirementsMet = false
                     campaign.value.requirementsMet[Int(scenario.number)! - 1] = false
                     break

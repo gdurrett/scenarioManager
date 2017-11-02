@@ -58,9 +58,9 @@ class CreateCampaignViewModelFromModel: NSObject {
     
     init(withDataModel dataModel: DataModel) {
         self.dataModel = dataModel
-        for party in dataModel.availableParties {
-            self.parties[party] = dataModel.parties[party]
-        }
+//        for party in dataModel.availableParties {
+//            self.parties[party] = dataModel.parties[party]
+//        }
     }
 
     fileprivate func returnTextFieldPlaceholderText() -> String {

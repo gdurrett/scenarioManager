@@ -78,6 +78,13 @@
 		FBCE87611F58764300CAA684 /* HTOWERT.TTF in Resources */ = {isa = PBXBuildFile; fileRef = FBCE87601F58764300CAA684 /* HTOWERT.TTF */; };
 		FBCE87641F59EBE400CAA684 /* CloudKitMgr.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBCE87631F59EBE400CAA684 /* CloudKitMgr.swift */; };
 		FBCE876A1F5A066F00CAA684 /* CampaignManagerTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBCE87691F5A066F00CAA684 /* CampaignManagerTabBarController.swift */; };
+		FBCFBC241FA9298E00CAA684 /* CreatePartyPartyNameCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FBCFBC231FA9298E00CAA684 /* CreatePartyPartyNameCell.xib */; };
+		FBCFBC261FA929E900CAA684 /* CreatePartyPartyNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBCFBC251FA929E900CAA684 /* CreatePartyPartyNameCell.swift */; };
+		FBCFBC281FA92B6200CAA684 /* CreatePartyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBCFBC271FA92B6200CAA684 /* CreatePartyViewModel.swift */; };
+		FBCFBC2A1FA930F200CAA684 /* CreatePartyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBCFBC291FA930F200CAA684 /* CreatePartyViewController.swift */; };
+		FBCFBC2D1FAA473100CAA684 /* SelectPartyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FBCFBC2C1FAA473100CAA684 /* SelectPartyTableViewCell.xib */; };
+		FBCFBC2F1FAA47B000CAA684 /* SelectPartyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBCFBC2E1FAA47B000CAA684 /* SelectPartyTableViewCell.swift */; };
+		FBCFBC311FAA4BF600CAA684 /* SelectPartyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBCFBC301FAA4BF600CAA684 /* SelectPartyViewController.swift */; };
 		FBD2DCF81F5C935B00CAA684 /* Campaign.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD2DCF71F5C935B00CAA684 /* Campaign.swift */; };
 		FBD2DCFA1F5C945C00CAA684 /* Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD2DCF91F5C945C00CAA684 /* Character.swift */; };
 		FBD2DCFC1F61E28B00CAA684 /* ColorDefinitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD2DCFB1F61E28B00CAA684 /* ColorDefinitions.swift */; };
@@ -177,6 +184,13 @@
 		FBCE87601F58764300CAA684 /* HTOWERT.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = HTOWERT.TTF; sourceTree = "<group>"; };
 		FBCE87631F59EBE400CAA684 /* CloudKitMgr.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudKitMgr.swift; sourceTree = "<group>"; };
 		FBCE87691F5A066F00CAA684 /* CampaignManagerTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CampaignManagerTabBarController.swift; sourceTree = "<group>"; };
+		FBCFBC231FA9298E00CAA684 /* CreatePartyPartyNameCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CreatePartyPartyNameCell.xib; sourceTree = "<group>"; };
+		FBCFBC251FA929E900CAA684 /* CreatePartyPartyNameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePartyPartyNameCell.swift; sourceTree = "<group>"; };
+		FBCFBC271FA92B6200CAA684 /* CreatePartyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePartyViewModel.swift; sourceTree = "<group>"; };
+		FBCFBC291FA930F200CAA684 /* CreatePartyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePartyViewController.swift; sourceTree = "<group>"; };
+		FBCFBC2C1FAA473100CAA684 /* SelectPartyTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelectPartyTableViewCell.xib; sourceTree = "<group>"; };
+		FBCFBC2E1FAA47B000CAA684 /* SelectPartyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPartyTableViewCell.swift; sourceTree = "<group>"; };
+		FBCFBC301FAA4BF600CAA684 /* SelectPartyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPartyViewController.swift; sourceTree = "<group>"; };
 		FBD2DCF71F5C935B00CAA684 /* Campaign.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Campaign.swift; sourceTree = "<group>"; };
 		FBD2DCF91F5C945C00CAA684 /* Character.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Character.swift; sourceTree = "<group>"; };
 		FBD2DCFB1F61E28B00CAA684 /* ColorDefinitions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorDefinitions.swift; sourceTree = "<group>"; };
@@ -264,18 +278,19 @@
 		FB40EA121F44164200CAA684 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				FB40EA181F45552B00CAA684 /* Dynamic.swift */,
-				FB482D9A1F27DBA400CAA684 /* ScenarioDetailViewModel.swift */,
-				FB40EA131F4419CA00CAA684 /* ScenarioViewModel.swift */,
-				FB40EA091F43967C00CAA684 /* ScenarioViewModelFromModel.swift */,
+				FBC880C21FA3DDE200CAA684 /* CharacterViewModel.swift */,
+				FBCFBC271FA92B6200CAA684 /* CreatePartyViewModel.swift */,
+				FB5729C11F6C74CD00CAA684 /* CampaignDetailViewModel.swift */,
 				FBD2DD051F625F6500CAA684 /* CampaignViewModel.swift */,
 				FBD2DD1B1F69A10200CAA684 /* CampaignViewModelFromModel.swift */,
 				FBD2DD131F67517000CAA684 /* CreateCamaignViewModel.swift */,
 				FBD2DD071F625FEA00CAA684 /* CreateCampaignViewModelFromModel.swift */,
 				FBD2DD151F6863E900CAA684 /* DeleteCampaignViewModelFromModel.swift */,
-				FB5729C11F6C74CD00CAA684 /* CampaignDetailViewModel.swift */,
+				FB40EA181F45552B00CAA684 /* Dynamic.swift */,
 				FBEB4B671F9D4FEA00CAA684 /* PartyDetailViewModel.swift */,
-				FBC880C21FA3DDE200CAA684 /* CharacterViewModel.swift */,
+				FB482D9A1F27DBA400CAA684 /* ScenarioDetailViewModel.swift */,
+				FB40EA131F4419CA00CAA684 /* ScenarioViewModel.swift */,
+				FB40EA091F43967C00CAA684 /* ScenarioViewModelFromModel.swift */,
 			);
 			name = ViewModel;
 			sourceTree = "<group>";
@@ -293,6 +308,8 @@
 				FB482D981F27C51C00CAA684 /* ScenarioDetailViewController.swift */,
 				FB2237D41F816B5500CAA684 /* SelectCampaignViewController.swift */,
 				FBC880C01FA3DD4300CAA684 /* SelectCharacterViewController.swift */,
+				FBCFBC291FA930F200CAA684 /* CreatePartyViewController.swift */,
+				FBCFBC301FAA4BF600CAA684 /* SelectPartyViewController.swift */,
 			);
 			name = CampaignManager;
 			sourceTree = "<group>";
@@ -329,6 +346,8 @@
 		FB482DA21F29380B00CAA684 /* TableView Cells */ = {
 			isa = PBXGroup;
 			children = (
+				FBCFBC2B1FAA471400CAA684 /* SelectPartyTableViewCells */,
+				FBCFBC221FA9296500CAA684 /* CreatePartyTableViewCells */,
 				FB5729BA1F6C728E00CAA684 /* CampaignDetailTableViewCells */,
 				FBD2DD0C1F634C0800CAA684 /* CreateCampaignTableViewCells */,
 				FB884F841F9E4C4700CAA684 /* PartyDetailTableViewCells */,
@@ -406,6 +425,24 @@
 				FBCE875C1F57F4C200CAA684 /* PirataOne-Regular.ttf */,
 			);
 			name = FontFiles;
+			sourceTree = "<group>";
+		};
+		FBCFBC221FA9296500CAA684 /* CreatePartyTableViewCells */ = {
+			isa = PBXGroup;
+			children = (
+				FBCFBC231FA9298E00CAA684 /* CreatePartyPartyNameCell.xib */,
+				FBCFBC251FA929E900CAA684 /* CreatePartyPartyNameCell.swift */,
+			);
+			name = CreatePartyTableViewCells;
+			sourceTree = "<group>";
+		};
+		FBCFBC2B1FAA471400CAA684 /* SelectPartyTableViewCells */ = {
+			isa = PBXGroup;
+			children = (
+				FBCFBC2C1FAA473100CAA684 /* SelectPartyTableViewCell.xib */,
+				FBCFBC2E1FAA47B000CAA684 /* SelectPartyTableViewCell.swift */,
+			);
+			name = SelectPartyTableViewCells;
 			sourceTree = "<group>";
 		};
 		FBD2DCFF1F62039400CAA684 /* StyleDefinitions */ = {
@@ -537,10 +574,12 @@
 			files = (
 				FBA014251F9EB08D00CAA684 /* PartyDetailAssignedCampaignCell.xib in Resources */,
 				FB46658D1F2F964C00CAA684 /* SummaryInfoCell.xib in Resources */,
+				FBCFBC241FA9298E00CAA684 /* CreatePartyPartyNameCell.xib in Resources */,
 				FBC880C61FA3E9D300CAA684 /* SelectCharacterTitleCell.xib in Resources */,
 				FB4665871F2E5C5900CAA684 /* RewardsInfoCell.xib in Resources */,
 				FBE3F1ED1F4A5F6A00CAA684 /* Assets.xcassets in Resources */,
 				FBCE875D1F57F4C200CAA684 /* PirataOne-Regular.ttf in Resources */,
+				FBCFBC2D1FAA473100CAA684 /* SelectPartyTableViewCell.xib in Resources */,
 				FBC880BD1FA3B5F600CAA684 /* PartyDetailAchievementsCell.xib in Resources */,
 				FBCE87611F58764300CAA684 /* HTOWERT.TTF in Resources */,
 				FB5729CE1F6F282400CAA684 /* CampaignDetailProsperityCell.xib in Resources */,
@@ -582,6 +621,7 @@
 				FBD2DD011F6203F800CAA684 /* ProgressHUD.swift in Sources */,
 				FB40EA0A1F43967C00CAA684 /* ScenarioViewModelFromModel.swift in Sources */,
 				FBA014211F9EA4A200CAA684 /* PartyDetailAssignedCampaignHeader.swift in Sources */,
+				FBCFBC261FA929E900CAA684 /* CreatePartyPartyNameCell.swift in Sources */,
 				FB4665891F2E667F00CAA684 /* RequirementsInfoCell.swift in Sources */,
 				FB482D9F1F29359000CAA684 /* ScenarioTitleCell.swift in Sources */,
 				FB23B6FC1F04C40D00CAA684 /* Scenario.swift in Sources */,
@@ -598,12 +638,15 @@
 				FBA014231F9EB05700CAA684 /* PartyDetailAssignedCampaignCell.swift in Sources */,
 				FB7A89BC1F83FF8F00CAA684 /* CreateCampaignPartyCell.swift in Sources */,
 				FB5729C21F6C74CD00CAA684 /* CampaignDetailViewModel.swift in Sources */,
+				FBCFBC2F1FAA47B000CAA684 /* SelectPartyTableViewCell.swift in Sources */,
 				FB40EA191F45552B00CAA684 /* Dynamic.swift in Sources */,
 				FB5729C81F6F022500CAA684 /* CampaignDetailPartyCell.swift in Sources */,
 				FBC880C31FA3DDE200CAA684 /* CharacterViewModel.swift in Sources */,
+				FBCFBC311FAA4BF600CAA684 /* SelectPartyViewController.swift in Sources */,
 				FB5729CC1F6F1BB800CAA684 /* CampaignDetailAchievementsCell.swift in Sources */,
 				FB5729D01F6F287700CAA684 /* CampaignDetailProsperityCell.swift in Sources */,
 				FB36438D1F8AAF9300CAA684 /* Event.swift in Sources */,
+				FBCFBC2A1FA930F200CAA684 /* CreatePartyViewController.swift in Sources */,
 				FB40EA141F4419CA00CAA684 /* ScenarioViewModel.swift in Sources */,
 				FB40EA0C1F43ACFF00CAA684 /* DashboardViewController.swift in Sources */,
 				FBE3F1EB1F47C92C00CAA684 /* ScenarioViewController.swift in Sources */,
@@ -635,6 +678,7 @@
 				FB23B7021F0AB5ED00CAA684 /* DataModel.swift in Sources */,
 				FB5729C41F6C806800CAA684 /* CampaignDetailViewController.swift in Sources */,
 				FBD2DD061F625F6500CAA684 /* CampaignViewModel.swift in Sources */,
+				FBCFBC281FA92B6200CAA684 /* CreatePartyViewModel.swift in Sources */,
 				FBD2DCF81F5C935B00CAA684 /* Campaign.swift in Sources */,
 				FB482DA81F293B2300CAA684 /* UnlockedByInfoCell.swift in Sources */,
 			);

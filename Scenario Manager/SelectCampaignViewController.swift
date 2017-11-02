@@ -57,10 +57,6 @@ class SelectCampaignViewController: UIViewController {
 
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     // Helper methods
     fileprivate func fillUI() {
         if !isViewLoaded {

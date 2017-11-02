@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13174"/>
+        <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -483,6 +484,156 @@
             </objects>
             <point key="canvasLocation" x="2801" y="293"/>
         </scene>
+        <!--Create Party View Controller-->
+        <scene sceneID="Q20-EU-XgT">
+            <objects>
+                <viewController storyboardIdentifier="CreatePartyViewController" id="Hbc-NS-sMj" customClass="CreatePartyViewController" customModule="Scenario_Manager" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="hC6-95-ZTh"/>
+                        <viewControllerLayoutGuide type="bottom" id="Zog-OR-B8M"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="WEr-jQ-yVa">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="znb-1Z-RKc">
+                                <rect key="frame" x="0.0" y="67" width="320" height="502"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create Party" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UMx-W7-Qfk">
+                                <rect key="frame" x="103" y="27" width="115" height="23"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="115" id="rAv-Vg-Kaq"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="24"/>
+                                <color key="textColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n2h-2j-NvJ">
+                                <rect key="frame" x="245" y="22" width="59" height="33"/>
+                                <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="22"/>
+                                <state key="normal" title="Save">
+                                    <color key="titleColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
+                                <connections>
+                                    <action selector="save:" destination="Hbc-NS-sMj" eventType="touchUpInside" id="xED-yh-HxC"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wcn-MK-iLO">
+                                <rect key="frame" x="16" y="24" width="54" height="33"/>
+                                <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="22"/>
+                                <state key="normal" title="Cancel">
+                                    <color key="titleColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
+                                <connections>
+                                    <action selector="cancel:" destination="Hbc-NS-sMj" eventType="touchUpInside" id="bLb-aI-X9z"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="znb-1Z-RKc" firstAttribute="top" secondItem="UMx-W7-Qfk" secondAttribute="bottom" constant="17" id="1nI-Jo-F4K"/>
+                            <constraint firstItem="wcn-MK-iLO" firstAttribute="top" secondItem="hC6-95-ZTh" secondAttribute="bottom" constant="4" id="Kjn-Xq-hg1"/>
+                            <constraint firstItem="UMx-W7-Qfk" firstAttribute="centerX" secondItem="znb-1Z-RKc" secondAttribute="centerX" id="NSN-oN-5C1"/>
+                            <constraint firstItem="wcn-MK-iLO" firstAttribute="leading" secondItem="WEr-jQ-yVa" secondAttribute="leading" constant="16" id="OhM-Z1-OCV"/>
+                            <constraint firstItem="UMx-W7-Qfk" firstAttribute="firstBaseline" secondItem="n2h-2j-NvJ" secondAttribute="baseline" id="Quh-Qm-0tS"/>
+                            <constraint firstAttribute="trailing" secondItem="znb-1Z-RKc" secondAttribute="trailing" id="Uat-pB-k3i"/>
+                            <constraint firstItem="UMx-W7-Qfk" firstAttribute="top" secondItem="hC6-95-ZTh" secondAttribute="bottom" constant="7" id="YWK-ec-hcU"/>
+                            <constraint firstItem="UMx-W7-Qfk" firstAttribute="centerY" secondItem="n2h-2j-NvJ" secondAttribute="centerY" id="ZlS-CS-tMD"/>
+                            <constraint firstItem="znb-1Z-RKc" firstAttribute="leading" secondItem="WEr-jQ-yVa" secondAttribute="leading" id="bRE-uv-Vid"/>
+                            <constraint firstItem="UMx-W7-Qfk" firstAttribute="leading" secondItem="wcn-MK-iLO" secondAttribute="trailing" constant="33" id="gGt-7i-Cwu"/>
+                            <constraint firstItem="n2h-2j-NvJ" firstAttribute="top" secondItem="hC6-95-ZTh" secondAttribute="bottom" constant="2" id="hsP-yj-Vfx"/>
+                            <constraint firstItem="Zog-OR-B8M" firstAttribute="top" secondItem="znb-1Z-RKc" secondAttribute="bottom" constant="-1" id="jfX-10-zsy"/>
+                            <constraint firstItem="znb-1Z-RKc" firstAttribute="top" secondItem="hC6-95-ZTh" secondAttribute="bottom" constant="47" id="n9Z-27-7T5"/>
+                            <constraint firstAttribute="trailing" secondItem="n2h-2j-NvJ" secondAttribute="trailing" constant="16" id="nmF-ZZ-EWf"/>
+                            <constraint firstItem="n2h-2j-NvJ" firstAttribute="leading" secondItem="UMx-W7-Qfk" secondAttribute="trailing" constant="27" id="pVW-pb-BR6"/>
+                            <constraint firstItem="UMx-W7-Qfk" firstAttribute="firstBaseline" secondItem="n2h-2j-NvJ" secondAttribute="firstBaseline" id="yJX-dl-2jq"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="createPartyTableView" destination="znb-1Z-RKc" id="N1e-Vi-8HR"/>
+                        <outlet property="createPartyView" destination="WEr-jQ-yVa" id="tdX-Hb-4lj"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aJz-GE-9Oh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3688.125" y="537.67605633802816"/>
+        </scene>
+        <!--Select Party View Controller-->
+        <scene sceneID="Rqg-vA-9An">
+            <objects>
+                <viewController storyboardIdentifier="SelectPartyViewController" id="7Zj-K4-zf3" customClass="SelectPartyViewController" customModule="Scenario_Manager" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="aeX-i5-kWj"/>
+                        <viewControllerLayoutGuide type="bottom" id="bp5-GR-U3q"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="MRw-Mw-jIo">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Xks-2R-Lr9">
+                                <rect key="frame" x="0.0" y="66.5" width="320" height="501.5"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1O2-93-8pB">
+                                <rect key="frame" x="15" y="20" width="60" height="30.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="60" id="qmU-nG-EI0"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="22"/>
+                                <state key="normal" title="Cancel">
+                                    <color key="titleColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
+                                <connections>
+                                    <action selector="selectPartyCancelAction:" destination="7Zj-K4-zf3" eventType="touchUpInside" id="sRf-s3-0D3"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jas-3F-Y6R">
+                                <rect key="frame" x="244" y="19" width="60" height="33.5"/>
+                                <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="22"/>
+                                <state key="normal" title="Done">
+                                    <color key="titleColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
+                                <connections>
+                                    <action selector="selectPartyDoneAction:" destination="7Zj-K4-zf3" eventType="touchUpInside" id="2v6-Hn-aLB"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select Party" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xq4-cL-3wh">
+                                <rect key="frame" x="83" y="24" width="153" height="21.5"/>
+                                <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="24"/>
+                                <color key="textColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="1O2-93-8pB" firstAttribute="leading" secondItem="MRw-Mw-jIo" secondAttribute="leadingMargin" constant="-1" id="19I-Of-dJ0"/>
+                            <constraint firstItem="1O2-93-8pB" firstAttribute="centerY" secondItem="Jas-3F-Y6R" secondAttribute="centerY" id="1V7-hf-joX"/>
+                            <constraint firstItem="1O2-93-8pB" firstAttribute="top" secondItem="aeX-i5-kWj" secondAttribute="bottom" id="1w0-2s-ad2"/>
+                            <constraint firstItem="1O2-93-8pB" firstAttribute="centerY" secondItem="Xq4-cL-3wh" secondAttribute="centerY" id="A8G-1j-V3J"/>
+                            <constraint firstItem="Jas-3F-Y6R" firstAttribute="leading" secondItem="Xq4-cL-3wh" secondAttribute="trailing" constant="8" symbolic="YES" id="HuF-cu-Mxj"/>
+                            <constraint firstItem="Xks-2R-Lr9" firstAttribute="top" secondItem="1O2-93-8pB" secondAttribute="bottom" constant="16" id="Ute-nw-K7A"/>
+                            <constraint firstItem="Jas-3F-Y6R" firstAttribute="trailing" secondItem="MRw-Mw-jIo" secondAttribute="trailingMargin" id="VRl-gs-AIx"/>
+                            <constraint firstItem="Jas-3F-Y6R" firstAttribute="baseline" secondItem="Xq4-cL-3wh" secondAttribute="firstBaseline" id="bCp-mm-SNI"/>
+                            <constraint firstItem="Xq4-cL-3wh" firstAttribute="firstBaseline" secondItem="Jas-3F-Y6R" secondAttribute="firstBaseline" id="dzk-P4-lAn"/>
+                            <constraint firstItem="Xq4-cL-3wh" firstAttribute="centerX" secondItem="MRw-Mw-jIo" secondAttribute="centerX" id="fv8-m9-fY4"/>
+                            <constraint firstItem="Xq4-cL-3wh" firstAttribute="leading" secondItem="1O2-93-8pB" secondAttribute="trailing" constant="8" symbolic="YES" id="h2V-9n-bX7"/>
+                            <constraint firstItem="Xq4-cL-3wh" firstAttribute="centerX" secondItem="Xks-2R-Lr9" secondAttribute="centerX" id="hDK-WY-B8S"/>
+                            <constraint firstItem="Xks-2R-Lr9" firstAttribute="leading" secondItem="MRw-Mw-jIo" secondAttribute="leading" id="jQJ-20-Zuo"/>
+                            <constraint firstItem="Xks-2R-Lr9" firstAttribute="top" secondItem="Jas-3F-Y6R" secondAttribute="bottom" constant="14" id="pEY-EU-a9k"/>
+                            <constraint firstItem="Xks-2R-Lr9" firstAttribute="bottom" secondItem="bp5-GR-U3q" secondAttribute="top" id="saS-HT-RRP"/>
+                            <constraint firstItem="Xq4-cL-3wh" firstAttribute="top" secondItem="aeX-i5-kWj" secondAttribute="bottom" constant="4" id="yul-GM-fro"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="selectPartyTableView" destination="Xks-2R-Lr9" id="zuo-xC-GIS"/>
+                        <outlet property="selectPartyView" destination="MRw-Mw-jIo" id="Zmm-7m-Sqv"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="B6i-GQ-VIi" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4410" y="217.6056338028169"/>
+        </scene>
         <!--Select Character View Controller-->
         <scene sceneID="qvX-VW-403">
             <objects>
@@ -496,7 +647,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="PIr-27-osT">
-                                <rect key="frame" x="0.0" y="61" width="320" height="507"/>
+                                <rect key="frame" x="0.0" y="61" width="320" height="502"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select Characters" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NjB-jK-IYv">
@@ -540,7 +691,7 @@
                             <constraint firstItem="Zbv-v0-W4b" firstAttribute="baseline" secondItem="JHf-Wv-Vpb" secondAttribute="baseline" constant="0.5" id="ezP-Wo-8NB"/>
                             <constraint firstItem="PIr-27-osT" firstAttribute="leading" secondItem="tF1-s3-Q5U" secondAttribute="leading" id="pkz-Ds-riT"/>
                             <constraint firstItem="PIr-27-osT" firstAttribute="top" secondItem="Zbv-v0-W4b" secondAttribute="bottom" constant="8" symbolic="YES" id="scu-E1-veG"/>
-                            <constraint firstItem="br2-zx-Y2S" firstAttribute="top" secondItem="PIr-27-osT" secondAttribute="bottom" id="wfx-gP-8pw"/>
+                            <constraint firstItem="br2-zx-Y2S" firstAttribute="top" secondItem="PIr-27-osT" secondAttribute="bottom" constant="5" id="wfx-gP-8pw"/>
                         </constraints>
                     </view>
                     <connections>
@@ -550,7 +701,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aPy-iE-djT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3652.5" y="294.71830985915494"/>
+            <point key="canvasLocation" x="3699" y="-167"/>
         </scene>
     </scenes>
     <resources>
