@@ -123,16 +123,6 @@ extension CreateCampaignViewModelFromModel: UITableViewDataSource, UITableViewDe
         }
         return tableViewCell
     }
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        if self.selectedRows.contains(indexPath.row) {
-//            tableView.cellForRow(at: indexPath)?.accessoryType = .none
-//            self.selectedRows = self.selectedRows.filter { $0 != indexPath.row }
-//        } else {
-//            tableView.cellForRow(at: indexPath)?.accessoryType = .none
-//            self.selectedRows.append(indexPath.row)
-//        }
-//        tableView.reloadData()
-    }
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         let sectionType = sections[section]
         switch sectionType {

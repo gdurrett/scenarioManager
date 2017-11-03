@@ -53,6 +53,20 @@ class PartyDetailViewModel: NSObject {
     var textFieldReturningCellType: PartyDetailViewModelItemType?
     var assignedCharacterNames = [SeparatedStrings]()
     
+    var partyScenarioLevel: Int {
+        get {
+            var sumOfLevels = Double()
+            let numberOfCharacters = Double(assignedCharacters.value.count)
+            for character in self.assignedCharacters.value {
+                sumOfLevels += character.level
+            }
+            if numberOfCharacters == 0 {
+                return 1
+            } else {
+                return Int(round((sumOfLevels/numberOfCharacters)/2))
+            }
+        }
+    }
     init(withParty party: Party) {
         self.completedPartyAchievements = Dynamic(dataModel.completedPartyAchievements)
         self.partyName = Dynamic(dataModel.currentParty.name)
@@ -66,8 +80,9 @@ class PartyDetailViewModel: NSObject {
         self.currentParty = Dynamic(dataModel.currentParty)
         super.init()
         
+        
         // Append party name to items
-        let partyNameItem = PartyDetailViewModelPartyNameItem(name: partyName.value)
+        let partyNameItem = PartyDetailViewModelPartyNameItem(name: partyName.value, normalScenarioLevel: ("scenario level: \(self.partyScenarioLevel)"))
         items.append(partyNameItem)
         // Append party reputation to items
         let reputationItem = PartyDetailViewModelPartyReputationItem(reputation: reputation.value, modifier: getShopPriceModifier(modifier: reputation.value))
@@ -215,7 +230,9 @@ extension PartyDetailViewModel: UITableViewDataSource, UITableViewDelegate, Part
         case .partyName:
             if let item = item as? PartyDetailViewModelPartyNameItem, let cell = tableView.dequeueReusableCell(withIdentifier: PartyDetailNameCell.identifier, for: indexPath) as? PartyDetailNameCell {
                 cell.backgroundColor = UIColor.clear
-                item.name = partyName.value
+                //item.name = partyName.value
+                item.name = ("\(partyName.value)")
+                item.normalScenarioLevel = ("scenario level: \(partyScenarioLevel)")
                 // Set global party name cell to this cell
                 currentPartyCell = cell
                 // Set text field to hidden until edit is requested
@@ -473,9 +490,11 @@ class PartyDetailViewModelPartyNameItem: PartyDetailViewModelItem {
     }
     
     var name: String
+    var normalScenarioLevel: String
     
-    init(name: String) {
+    init(name: String, normalScenarioLevel: String) {
         self.name = name
+        self.normalScenarioLevel = normalScenarioLevel
     }
 }
 class PartyDetailViewModelPartyCharactersItem: PartyDetailViewModelItem {

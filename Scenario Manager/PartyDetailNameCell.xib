@@ -28,6 +28,12 @@
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qiy-gz-DOK">
+                    <rect key="frame" x="310" y="30" width="42" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <accessibility key="accessibilityConfiguration" identifier="PartyDetailNameCell"/>
@@ -35,7 +41,10 @@
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="Srk-C6-tgU" secondAttribute="bottom" constant="25" id="6Zs-83-pRk"/>
                 <constraint firstItem="hhp-xI-RUX" firstAttribute="top" secondItem="Srk-C6-tgU" secondAttribute="top" id="KGI-w7-WFG"/>
                 <constraint firstItem="Srk-C6-tgU" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="25" id="Kqt-8S-CYj"/>
+                <constraint firstItem="qiy-gz-DOK" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="30" id="coA-qd-jPl"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="qiy-gz-DOK" secondAttribute="trailing" constant="23" id="mKy-rN-E3i"/>
                 <constraint firstItem="hhp-xI-RUX" firstAttribute="leading" secondItem="Srk-C6-tgU" secondAttribute="leading" id="nTd-ta-ESd"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="qiy-gz-DOK" secondAttribute="bottom" constant="30" id="tKs-ne-PcO"/>
                 <constraint firstItem="hhp-xI-RUX" firstAttribute="trailing" secondItem="Srk-C6-tgU" secondAttribute="trailing" id="uRX-de-aIj"/>
                 <constraint firstItem="Srk-C6-tgU" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="zaF-k1-aSh"/>
             </constraints>
@@ -44,6 +53,7 @@
             <connections>
                 <outlet property="partyDetailNameLabel" destination="Srk-C6-tgU" id="xiG-HH-uN5"/>
                 <outlet property="partyDetailNameTextField" destination="hhp-xI-RUX" id="nl7-za-6EF"/>
+                <outlet property="partyDetailScenarioLevel" destination="qiy-gz-DOK" id="DnU-dI-fHR"/>
             </connections>
         </view>
     </objects>

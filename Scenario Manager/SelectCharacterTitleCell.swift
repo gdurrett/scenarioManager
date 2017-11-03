@@ -11,6 +11,8 @@ import UIKit
 class SelectCharacterTitleCell: UITableViewCell {
     @IBOutlet weak var selectCharacterTitleCellTitleLabel: UILabel!
     
+    @IBOutlet weak var selectCharacterTitleCellCharacterInfo: UILabel!
+    
     let colorDefinitions = ColorDefinitions()
     let fontDefinitions = FontDefinitions()
     
@@ -18,6 +20,9 @@ class SelectCharacterTitleCell: UITableViewCell {
         self.selectCharacterTitleCellTitleLabel.sizeToFit()
         self.selectCharacterTitleCellTitleLabel.font = fontDefinitions.detailTableViewTitleFont
         self.selectCharacterTitleCellTitleLabel.textColor = colorDefinitions.scenarioTitleFontColor
+        self.selectCharacterTitleCellCharacterInfo.sizeToFit()
+        self.selectCharacterTitleCellCharacterInfo.font = fontDefinitions.scenarioSwipeFont
+        self.selectCharacterTitleCellCharacterInfo.textColor = colorDefinitions.scenarioTitleFontColor
     }
     static var nib:UINib {
         return UINib(nibName: identifier, bundle: nil)

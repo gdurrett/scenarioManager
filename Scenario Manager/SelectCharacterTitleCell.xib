@@ -22,17 +22,27 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <label opaque="NO" userInteractionEnabled="NO" tag="3600" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ibe-o7-ozh">
+                    <rect key="frame" x="185" y="30" width="42" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <accessibility key="accessibilityConfiguration" identifier="SelectCharacterTitleCell"/>
             <constraints>
+                <constraint firstItem="Ibe-o7-ozh" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="185" id="HHJ-Tr-VZw"/>
                 <constraint firstItem="Nm7-Nf-P1U" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="K7P-rA-8pi"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="Nm7-Nf-P1U" secondAttribute="bottom" constant="29" id="gyD-MH-p9R"/>
                 <constraint firstItem="Nm7-Nf-P1U" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="30" id="ifR-hp-q1Q"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="Ibe-o7-ozh" secondAttribute="bottom" constant="29" id="qsb-Km-RyL"/>
+                <constraint firstItem="Ibe-o7-ozh" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="30" id="tfD-8M-3X3"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <connections>
+                <outlet property="selectCharacterTitleCellCharacterInfo" destination="Ibe-o7-ozh" id="Zs3-nC-JzM"/>
                 <outlet property="selectCharacterTitleCellTitleLabel" destination="Nm7-Nf-P1U" id="QY5-jE-WUw"/>
             </connections>
         </view>

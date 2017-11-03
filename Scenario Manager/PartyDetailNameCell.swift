@@ -15,6 +15,8 @@ class PartyDetailNameCell: UITableViewCell {
     
     @IBOutlet weak var partyDetailNameTextField: UITextField!
     
+    @IBOutlet weak var partyDetailScenarioLevel: UILabel!
+    
     let colorDefinitions = ColorDefinitions()
     let fontDefinitions = FontDefinitions()
     
@@ -27,6 +29,11 @@ class PartyDetailNameCell: UITableViewCell {
             partyDetailNameLabel?.font = fontDefinitions.detailTableViewTitleFont
             partyDetailNameLabel?.textColor = colorDefinitions.scenarioTitleFontColor
             partyDetailNameLabel?.text = "\(item.name)"
+            
+            partyDetailScenarioLevel?.sizeToFit()
+            partyDetailScenarioLevel?.font = fontDefinitions.detailTableViewNonTitleFont
+            partyDetailScenarioLevel?.textColor = colorDefinitions.scenarioTitleFontColor
+            partyDetailScenarioLevel?.text = ("\(item.normalScenarioLevel)")
         }
     }
     static var nib:UINib {

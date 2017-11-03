@@ -78,22 +78,11 @@ class SelectCharacterViewController: UIViewController {
         if assignedCharacters == nil && availableCharacters == nil {
             // Shouldn't get this far with alert in PartyDetailVM
         } else if assignedCharacters == nil {
-            print("assigned is nil?")
-            for character in availableCharacters! {
-                print("Available: \(character.name)")
-            }
             combinedCharacters = availableCharacters
         } else if availableCharacters == nil {
-            print("available is nil?")
-            for character in assignedCharacters! {
-                print("Assigned: \(character.name)")
-            }
             combinedCharacters = assignedCharacters
         } else {
             combinedCharacters = availableCharacters! + assignedCharacters!
-            for character in combinedCharacters! {
-                print("Combined: \(character.name)")
-            }
         }
 
     }
@@ -129,6 +118,10 @@ class SelectCharacterViewController: UIViewController {
         label.text = character.name
         label.sizeToFit()
     }
+    fileprivate func configureCharacterInfo(for cell: UITableViewCell, with character: Character) {
+        let label = cell.viewWithTag(3600) as! UILabel
+        label.text = ("level \(Int(character.level)) \(character.type)")
+    }
 }
 extension SelectCharacterViewController: UITableViewDelegate, UITableViewDataSource {
     // MARK: - Table view data source
@@ -146,6 +139,7 @@ extension SelectCharacterViewController: UITableViewDelegate, UITableViewDataSou
         let cell = makeCell(for: tableView)
         cell.backgroundColor = UIColor.clear
         configureTitle(for: cell, with: combinedCharacters![indexPath.row])
+        configureCharacterInfo(for: cell, with: combinedCharacters![indexPath.row])
         if self.combinedCharacters![indexPath.row].assignedTo == viewModel!.partyName.value {
             cell.accessoryType = .checkmark
         }

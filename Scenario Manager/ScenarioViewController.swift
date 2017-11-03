@@ -153,7 +153,6 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate {
                                 self.viewModel?.updateAvailableScenarios(scenario: self.scenario, isCompleted: false)
                                 self.setSegmentTitles()
                                 tableView.reloadData()
-                                
                             } else {
                                 //NOT okay to mark uncompleted
                                 self.showSelectionAlert(status: "")
@@ -185,7 +184,6 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate {
                     }
                 } else {
                     if self.scenario.unlocks[0] == "ONEOF" {
-                        //self.performSegue(withIdentifier: "ShowScenarioPicker", sender: self.scenario)
                         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "segueToPicker"), object: nil, userInfo: ["Scenario": self.scenario])
                     } else {
                         self.scenario.isCompleted = true // Test in here
