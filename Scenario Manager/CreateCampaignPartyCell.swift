@@ -11,9 +11,13 @@ import UIKit
 class CreateCampaignPartyCell: UITableViewCell {
 
     @IBOutlet weak var createCampaignPartyNameTextField: UITextField!
+    let colorDefinitions = ColorDefinitions()
+    let fontDefinitions = FontDefinitions()
     
     func configure(withViewModel viewModel: CreateCampaignPartyNameCellViewModel) {
         createCampaignPartyNameTextField.sizeToFit()
+        createCampaignPartyNameTextField?.font = fontDefinitions.detailTableViewTitleFont
+        createCampaignPartyNameTextField?.textColor = colorDefinitions.scenarioTitleFontColor
         createCampaignPartyNameTextField.placeholder = viewModel.createCampaignPartyNameTextFieldPlaceholder
     }
     

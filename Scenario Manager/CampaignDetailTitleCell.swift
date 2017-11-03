@@ -29,7 +29,7 @@ class CampaignDetailTitleCell: UITableViewCell {
                 return
             }
             campaignDetailTitleLabel?.sizeToFit()
-            campaignDetailTitleLabel?.font = fontDefinitions.detailTableViewNonTitleFont
+            campaignDetailTitleLabel?.font = fontDefinitions.detailTableViewTitleFont
             campaignDetailTitleLabel?.textColor = colorDefinitions.scenarioTitleFontColor
             campaignDetailTitleLabel?.text = "\(item.title)"
         }

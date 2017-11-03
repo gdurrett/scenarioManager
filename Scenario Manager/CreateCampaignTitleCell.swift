@@ -11,9 +11,13 @@ import UIKit
 class CreateCampaignTitleCell: UITableViewCell {
     
     @IBOutlet weak var campaignTitleTextField: UITextField!
+    let colorDefinitions = ColorDefinitions()
+    let fontDefinitions = FontDefinitions()
     
     func configure(withViewModel viewModel: CreateCampaignTitleCellViewModel) {
         campaignTitleTextField.sizeToFit()
+        campaignTitleTextField?.font = fontDefinitions.detailTableViewTitleFont
+        campaignTitleTextField?.textColor = colorDefinitions.scenarioTitleFontColor
         campaignTitleTextField.placeholder = viewModel.campaignTitleTextFieldPlaceholder
     }
     
