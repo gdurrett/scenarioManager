@@ -70,6 +70,7 @@ class SelectPartyViewController: UIViewController {
         self.selectPartyView.backgroundColor = colorDefinitions.scenarioTableViewNavBarBarTintColor
         self.selectPartyTableView.backgroundView = UIImageView(image: UIImage(named: "campaignDetailTableViewBG"))
         self.selectPartyTableView.backgroundView?.alpha = 0.25
+        self.selectPartyTableView.separatorInset = .zero
     }
     fileprivate func makeCell(for tableView: UITableView) -> UITableViewCell {
         let cellIdentifier = "SelectPartyTableViewCell"

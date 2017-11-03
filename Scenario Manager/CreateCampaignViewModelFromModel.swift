@@ -87,16 +87,10 @@ extension CreateCampaignViewModelFromModel: UITableViewDataSource, UITableViewDe
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
-        //Temporary
-//        let sectionType = sections[section]
-//        switch sectionType {
-//        case .Title:
-//            return 1
-//        case .Parties:
-//            return parties.count == 0 ? 1 : parties.count
-//        }
     }
-    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 50
+    }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let sectionType = sections[indexPath.section]
         var tableViewCell: UITableViewCell
@@ -110,6 +104,7 @@ extension CreateCampaignViewModelFromModel: UITableViewDataSource, UITableViewDe
             cell.accessoryType = .none
             cell.backgroundColor = UIColor.clear
             tableViewCell = cell
+            cell.separatorInset = .zero
             titleCell = cell
         case .Parties:
             let viewModel = CreateCampaignPartyNameCellViewModel()

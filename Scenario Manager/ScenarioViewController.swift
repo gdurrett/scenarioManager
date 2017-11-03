@@ -140,6 +140,9 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate {
             if self.myCompletedTitle == "Unavailable" {
                 self.showSelectionAlert(status: "disallowCompletion")
                 tableView.reloadRows(at: [index], with: .right)
+            } else if self.myCompletedTitle == "Cannot set uncompleted" {
+                self.showSelectionAlert(status: "disallowUncompletion")
+                tableView.reloadRows(at: [index], with: .right)
             } else {
                 if self.scenario.isCompleted {
                     if (self.viewModel?.areAnyUnlocksCompleted(scenario: self.scenario))! {
@@ -262,10 +265,12 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate {
         
     }
     func configureSwipeButton(for scenario: Scenario) {
-        if scenario.isCompleted {
+        if scenario.isCompleted && self.viewModel!.campaign.value.parties!.count < 2  {
             myCompletedTitle = "Set Uncompleted"
-        } else if scenario.isUnlocked && scenario.requirementsMet  {
+        } else if scenario.isUnlocked && scenario.requirementsMet && scenario.isCompleted == false  {
             myCompletedTitle = "Set Completed"
+        } else if self.viewModel!.campaign.value.parties!.count > 1 {
+            myCompletedTitle = "Cannot set uncompleted"
         } else {
             myCompletedTitle = "Unavailable"
         }
@@ -319,8 +324,10 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate {
         var alertTitle = String()
         if status == "disallowCompletion" {
             alertTitle = "Cannot set to Completed!"
+        } else if status == "disallowUncompletion" {
+            alertTitle = "Cannot set to Uncompleted with more than one party in campaign!"
         } else {
-            alertTitle = "Cannot set to Uncompleted!"
+            alertTitle = "Cannot set to Uncompleted due to a subsequent scenario being completed!"
         }
         let alertView = UIAlertController(
             title: alertTitle,
@@ -387,7 +394,7 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate {
         self.navigationController?.navigationBar.tintColor = colorDefinitions.mainTextColor
         self.navigationController?.navigationBar.barTintColor = colorDefinitions.scenarioTableViewNavBarBarTintColor
         self.navigationController?.navigationBar.titleTextAttributes = [.font: UIFont(name: "Nyala", size: 26.0)!, .foregroundColor: colorDefinitions.mainTextColor]
-        
+        self.scenarioTableView.separatorInset = .zero
         // See if we can set search field's cursor to a darker color than the Cancel button
         self.setTextFieldTintColor(to: colorDefinitions.scenarioTitleFontColor, for: searchController.searchBar)
     }

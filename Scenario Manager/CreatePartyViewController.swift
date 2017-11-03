@@ -53,6 +53,8 @@ class CreatePartyViewController: UIViewController {
         self.createPartyView.backgroundColor = colorDefinitions.scenarioTableViewNavBarBarTintColor
         self.createPartyTableView.backgroundView = UIImageView(image: UIImage(named: "campaignDetailTableViewBG"))
         self.createPartyTableView.backgroundView?.alpha = 0.25
+        //self.createPartyTableView.separatorInset = .zero // Get rid of offset to left for tableview!
+        self.createPartyTableView.separatorStyle = .none
     }
 
 }

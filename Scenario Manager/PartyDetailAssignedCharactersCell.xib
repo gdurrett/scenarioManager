@@ -22,17 +22,27 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <label opaque="NO" userInteractionEnabled="NO" tag="3700" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Aua-Y7-1CN">
+                    <rect key="frame" x="185" y="33" width="42" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <accessibility key="accessibilityConfiguration" identifier="PartyDetailAssignedCharactersCell"/>
             <constraints>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="Qad-9k-ILi" secondAttribute="bottom" constant="20" id="MwO-3M-gHg"/>
+                <constraint firstItem="Aua-Y7-1CN" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="185" id="Pve-Ot-id1"/>
                 <constraint firstItem="Qad-9k-ILi" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="Swd-B6-hgm"/>
+                <constraint firstItem="Aua-Y7-1CN" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="33" id="V9z-q7-sEZ"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="Aua-Y7-1CN" secondAttribute="bottom" constant="32" id="YSU-Va-Yig"/>
                 <constraint firstItem="Qad-9k-ILi" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="20" id="hqG-4v-uXx"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <connections>
+                <outlet property="partyDetailAssignedCharacterInfo" destination="Aua-Y7-1CN" id="1pi-7e-fg6"/>
                 <outlet property="partyDetailAssignedCharacterLabel" destination="Qad-9k-ILi" id="W5V-WD-K3A"/>
             </connections>
         </view>

@@ -12,6 +12,8 @@ class PartyDetailAssignedCharactersCell: UITableViewCell {
     
     @IBOutlet weak var partyDetailAssignedCharacterLabel: UILabel!
     
+    @IBOutlet weak var partyDetailAssignedCharacterInfo: UILabel!
+    
     let colorDefinitions = ColorDefinitions()
     let fontDefinitions = FontDefinitions()
     
@@ -24,6 +26,9 @@ class PartyDetailAssignedCharactersCell: UITableViewCell {
             partyDetailAssignedCharacterLabel?.font = fontDefinitions.detailTableViewNonTitleFont
             partyDetailAssignedCharacterLabel?.textColor = colorDefinitions.scenarioTitleFontColor
             partyDetailAssignedCharacterLabel?.text = "\(item.rowString!)"
+            partyDetailAssignedCharacterInfo?.sizeToFit()
+            partyDetailAssignedCharacterInfo?.font = fontDefinitions.scenarioSwipeFont
+            partyDetailAssignedCharacterInfo?.textColor = colorDefinitions.scenarioTitleFontColor
         }
     }
     

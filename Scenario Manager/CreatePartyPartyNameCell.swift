@@ -11,9 +11,13 @@ import UIKit
 class CreatePartyPartyNameCell: UITableViewCell {
     
     @IBOutlet weak var createPartyNameTextField: UITextField!
+    let colorDefinitions = ColorDefinitions()
+    let fontDefinitions = FontDefinitions()
     
     func configure(withViewModel viewModel: CreatePartyPartyNameCellViewModel) {
         createPartyNameTextField.sizeToFit()
+        createPartyNameTextField?.font = fontDefinitions.detailTableViewTitleFont
+        createPartyNameTextField?.textColor = colorDefinitions.scenarioTitleFontColor
         createPartyNameTextField.placeholder = viewModel.createPartyNameTextFieldPlaceholder
     }
     
@@ -28,6 +32,7 @@ class CreatePartyPartyNameCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(UIView.endEditing(_:))))
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

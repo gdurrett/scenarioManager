@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13174"/>
-        <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -504,16 +503,13 @@
                                 <color key="tintColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             </tableView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create Party" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UMx-W7-Qfk">
-                                <rect key="frame" x="103" y="27" width="115" height="23"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="115" id="rAv-Vg-Kaq"/>
-                                </constraints>
+                                <rect key="frame" x="106" y="25" width="108" height="33"/>
                                 <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="24"/>
                                 <color key="textColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n2h-2j-NvJ">
-                                <rect key="frame" x="245" y="22" width="59" height="33"/>
+                                <rect key="frame" x="275" y="25" width="36" height="33"/>
                                 <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="22"/>
                                 <state key="normal" title="Save">
                                     <color key="titleColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -523,7 +519,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wcn-MK-iLO">
-                                <rect key="frame" x="16" y="24" width="54" height="33"/>
+                                <rect key="frame" x="9" y="25" width="54" height="33"/>
                                 <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="22"/>
                                 <state key="normal" title="Cancel">
                                     <color key="titleColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -535,22 +531,18 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="znb-1Z-RKc" firstAttribute="top" secondItem="UMx-W7-Qfk" secondAttribute="bottom" constant="17" id="1nI-Jo-F4K"/>
-                            <constraint firstItem="wcn-MK-iLO" firstAttribute="top" secondItem="hC6-95-ZTh" secondAttribute="bottom" constant="4" id="Kjn-Xq-hg1"/>
-                            <constraint firstItem="UMx-W7-Qfk" firstAttribute="centerX" secondItem="znb-1Z-RKc" secondAttribute="centerX" id="NSN-oN-5C1"/>
-                            <constraint firstItem="wcn-MK-iLO" firstAttribute="leading" secondItem="WEr-jQ-yVa" secondAttribute="leading" constant="16" id="OhM-Z1-OCV"/>
-                            <constraint firstItem="UMx-W7-Qfk" firstAttribute="firstBaseline" secondItem="n2h-2j-NvJ" secondAttribute="baseline" id="Quh-Qm-0tS"/>
+                            <constraint firstItem="UMx-W7-Qfk" firstAttribute="top" secondItem="wcn-MK-iLO" secondAttribute="top" id="HNB-jF-p4X"/>
+                            <constraint firstItem="znb-1Z-RKc" firstAttribute="top" secondItem="n2h-2j-NvJ" secondAttribute="bottom" constant="9" id="LyN-RL-hNk"/>
                             <constraint firstAttribute="trailing" secondItem="znb-1Z-RKc" secondAttribute="trailing" id="Uat-pB-k3i"/>
-                            <constraint firstItem="UMx-W7-Qfk" firstAttribute="top" secondItem="hC6-95-ZTh" secondAttribute="bottom" constant="7" id="YWK-ec-hcU"/>
-                            <constraint firstItem="UMx-W7-Qfk" firstAttribute="centerY" secondItem="n2h-2j-NvJ" secondAttribute="centerY" id="ZlS-CS-tMD"/>
+                            <constraint firstItem="znb-1Z-RKc" firstAttribute="centerX" secondItem="WEr-jQ-yVa" secondAttribute="centerX" id="X3o-GY-tc1"/>
+                            <constraint firstItem="UMx-W7-Qfk" firstAttribute="centerX" secondItem="znb-1Z-RKc" secondAttribute="centerX" id="Z5M-Sz-r0L"/>
                             <constraint firstItem="znb-1Z-RKc" firstAttribute="leading" secondItem="WEr-jQ-yVa" secondAttribute="leading" id="bRE-uv-Vid"/>
-                            <constraint firstItem="UMx-W7-Qfk" firstAttribute="leading" secondItem="wcn-MK-iLO" secondAttribute="trailing" constant="33" id="gGt-7i-Cwu"/>
-                            <constraint firstItem="n2h-2j-NvJ" firstAttribute="top" secondItem="hC6-95-ZTh" secondAttribute="bottom" constant="2" id="hsP-yj-Vfx"/>
+                            <constraint firstItem="wcn-MK-iLO" firstAttribute="leading" secondItem="WEr-jQ-yVa" secondAttribute="leading" constant="9" id="j4d-EL-iiu"/>
                             <constraint firstItem="Zog-OR-B8M" firstAttribute="top" secondItem="znb-1Z-RKc" secondAttribute="bottom" constant="-1" id="jfX-10-zsy"/>
-                            <constraint firstItem="znb-1Z-RKc" firstAttribute="top" secondItem="hC6-95-ZTh" secondAttribute="bottom" constant="47" id="n9Z-27-7T5"/>
-                            <constraint firstAttribute="trailing" secondItem="n2h-2j-NvJ" secondAttribute="trailing" constant="16" id="nmF-ZZ-EWf"/>
-                            <constraint firstItem="n2h-2j-NvJ" firstAttribute="leading" secondItem="UMx-W7-Qfk" secondAttribute="trailing" constant="27" id="pVW-pb-BR6"/>
-                            <constraint firstItem="UMx-W7-Qfk" firstAttribute="firstBaseline" secondItem="n2h-2j-NvJ" secondAttribute="firstBaseline" id="yJX-dl-2jq"/>
+                            <constraint firstAttribute="trailing" secondItem="n2h-2j-NvJ" secondAttribute="trailing" constant="9" id="nw1-cw-CvN"/>
+                            <constraint firstItem="UMx-W7-Qfk" firstAttribute="bottom" secondItem="wcn-MK-iLO" secondAttribute="bottom" id="ugu-26-bCE"/>
+                            <constraint firstItem="znb-1Z-RKc" firstAttribute="top" secondItem="hC6-95-ZTh" secondAttribute="bottom" constant="47" id="urU-cM-UMw"/>
+                            <constraint firstItem="znb-1Z-RKc" firstAttribute="top" secondItem="wcn-MK-iLO" secondAttribute="bottom" constant="9" id="xTf-Ka-Fdb"/>
                         </constraints>
                     </view>
                     <connections>
@@ -574,13 +566,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Xks-2R-Lr9">
-                                <rect key="frame" x="0.0" y="64.5" width="320" height="505"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <color key="tintColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                            </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1O2-93-8pB">
-                                <rect key="frame" x="-7" y="26" width="81.5" height="32.5"/>
+                                <rect key="frame" x="16" y="24" width="54" height="34"/>
                                 <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="22"/>
                                 <state key="normal" title="Cancel">
                                     <color key="titleColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -590,7 +577,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jas-3F-Y6R">
-                                <rect key="frame" x="252" y="22" width="81" height="37.5"/>
+                                <rect key="frame" x="262" y="25" width="43" height="33"/>
                                 <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="22"/>
                                 <state key="normal" title="Done">
                                     <color key="titleColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -600,30 +587,31 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select Party" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xq4-cL-3wh">
-                                <rect key="frame" x="104.5" y="28" width="110.5" height="25.5"/>
+                                <rect key="frame" x="104.5" y="28" width="110.5" height="24"/>
                                 <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="26"/>
                                 <color key="textColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Xks-2R-Lr9">
+                                <rect key="frame" x="0.0" y="66" width="320" height="504"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="tintColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="1O2-93-8pB" firstAttribute="leading" secondItem="MRw-Mw-jIo" secondAttribute="leadingMargin" constant="-23" id="19I-Of-dJ0"/>
-                            <constraint firstItem="1O2-93-8pB" firstAttribute="centerY" secondItem="Jas-3F-Y6R" secondAttribute="centerY" constant="1.5" id="1V7-hf-joX"/>
-                            <constraint firstItem="1O2-93-8pB" firstAttribute="top" secondItem="aeX-i5-kWj" secondAttribute="bottom" constant="6" id="1w0-2s-ad2"/>
-                            <constraint firstItem="1O2-93-8pB" firstAttribute="centerY" secondItem="Xq4-cL-3wh" secondAttribute="centerY" constant="1.5" id="A8G-1j-V3J"/>
-                            <constraint firstItem="Jas-3F-Y6R" firstAttribute="leading" secondItem="Xq4-cL-3wh" secondAttribute="trailing" constant="37" id="HuF-cu-Mxj"/>
-                            <constraint firstItem="Xks-2R-Lr9" firstAttribute="top" secondItem="1O2-93-8pB" secondAttribute="bottom" constant="6" id="Ute-nw-K7A"/>
-                            <constraint firstItem="Jas-3F-Y6R" firstAttribute="trailing" secondItem="MRw-Mw-jIo" secondAttribute="trailingMargin" constant="29" id="VRl-gs-AIx"/>
-                            <constraint firstItem="Jas-3F-Y6R" firstAttribute="baseline" secondItem="Xq4-cL-3wh" secondAttribute="firstBaseline" id="bCp-mm-SNI"/>
-                            <constraint firstItem="Xq4-cL-3wh" firstAttribute="firstBaseline" secondItem="Jas-3F-Y6R" secondAttribute="firstBaseline" id="dzk-P4-lAn"/>
-                            <constraint firstItem="Xq4-cL-3wh" firstAttribute="centerX" secondItem="MRw-Mw-jIo" secondAttribute="centerX" id="fv8-m9-fY4"/>
-                            <constraint firstItem="Xq4-cL-3wh" firstAttribute="leading" secondItem="1O2-93-8pB" secondAttribute="trailing" constant="30" id="h2V-9n-bX7"/>
-                            <constraint firstItem="Xq4-cL-3wh" firstAttribute="centerX" secondItem="Xks-2R-Lr9" secondAttribute="centerX" id="hDK-WY-B8S"/>
+                            <constraint firstAttribute="trailing" secondItem="Xks-2R-Lr9" secondAttribute="trailing" id="2bf-HQ-vZs"/>
+                            <constraint firstAttribute="trailing" secondItem="Jas-3F-Y6R" secondAttribute="trailing" constant="15" id="DPk-iF-gGh"/>
+                            <constraint firstItem="1O2-93-8pB" firstAttribute="leading" secondItem="MRw-Mw-jIo" secondAttribute="leading" constant="16" id="EkH-Yi-1sk"/>
+                            <constraint firstItem="Xks-2R-Lr9" firstAttribute="top" secondItem="Jas-3F-Y6R" secondAttribute="bottom" constant="8" id="UIL-WJ-9l0"/>
+                            <constraint firstItem="Jas-3F-Y6R" firstAttribute="top" secondItem="aeX-i5-kWj" secondAttribute="bottom" constant="5" id="bBh-zV-bOu"/>
+                            <constraint firstItem="Xks-2R-Lr9" firstAttribute="top" secondItem="Xq4-cL-3wh" secondAttribute="bottom" constant="14" id="dL8-3g-9ZC"/>
+                            <constraint firstItem="Xq4-cL-3wh" firstAttribute="centerX" secondItem="MRw-Mw-jIo" secondAttribute="centerX" id="dhj-nZ-MNV"/>
                             <constraint firstItem="Xks-2R-Lr9" firstAttribute="leading" secondItem="MRw-Mw-jIo" secondAttribute="leading" id="jQJ-20-Zuo"/>
-                            <constraint firstItem="Xks-2R-Lr9" firstAttribute="top" secondItem="Jas-3F-Y6R" secondAttribute="bottom" constant="5" id="pEY-EU-a9k"/>
+                            <constraint firstItem="Xks-2R-Lr9" firstAttribute="top" secondItem="aeX-i5-kWj" secondAttribute="bottom" constant="46" id="jzs-KX-ohN"/>
                             <constraint firstItem="Xks-2R-Lr9" firstAttribute="bottom" secondItem="bp5-GR-U3q" secondAttribute="top" constant="1.5" id="saS-HT-RRP"/>
-                            <constraint firstItem="Xq4-cL-3wh" firstAttribute="top" secondItem="aeX-i5-kWj" secondAttribute="bottom" constant="8" id="yul-GM-fro"/>
+                            <constraint firstItem="1O2-93-8pB" firstAttribute="top" secondItem="aeX-i5-kWj" secondAttribute="bottom" constant="4" id="sjw-DA-nua"/>
+                            <constraint firstItem="Xks-2R-Lr9" firstAttribute="top" secondItem="1O2-93-8pB" secondAttribute="bottom" constant="8" id="zTH-4a-8PX"/>
                         </constraints>
                     </view>
                     <connections>
@@ -654,7 +642,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JHf-Wv-Vpb">
-                                <rect key="frame" x="267" y="24" width="43" height="33"/>
+                                <rect key="frame" x="262" y="24" width="43" height="33"/>
                                 <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="22"/>
                                 <state key="normal" title="Done">
                                     <color key="titleColor" red="0.2452870207" green="0.18995208050000001" blue="0.13303627730000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -664,7 +652,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zbv-v0-W4b">
-                                <rect key="frame" x="6" y="24" width="54" height="33"/>
+                                <rect key="frame" x="15" y="24" width="54" height="33"/>
                                 <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="22"/>
                                 <state key="normal" title="Cancel">
                                     <color key="titleColor" red="0.24919084820000001" green="0.1929752334" blue="0.1351535955" alpha="1" colorSpace="calibratedRGB"/>
@@ -683,11 +671,11 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="JHf-Wv-Vpb" firstAttribute="top" secondItem="Aba-SH-2v6" secondAttribute="bottom" constant="4" id="7qY-HM-rV4"/>
-                            <constraint firstItem="Zbv-v0-W4b" firstAttribute="leading" secondItem="tF1-s3-Q5U" secondAttribute="leading" constant="6" id="H9P-X4-KVv"/>
+                            <constraint firstItem="Zbv-v0-W4b" firstAttribute="leading" secondItem="tF1-s3-Q5U" secondAttribute="leading" constant="15" id="H9P-X4-KVv"/>
                             <constraint firstItem="NjB-jK-IYv" firstAttribute="top" secondItem="Aba-SH-2v6" secondAttribute="bottom" constant="9" id="LIm-Oc-N7o"/>
                             <constraint firstAttribute="trailing" secondItem="PIr-27-osT" secondAttribute="trailing" id="b9y-Ya-lla"/>
                             <constraint firstItem="PIr-27-osT" firstAttribute="centerX" secondItem="NjB-jK-IYv" secondAttribute="centerX" id="diG-eR-VN1"/>
-                            <constraint firstAttribute="trailing" secondItem="JHf-Wv-Vpb" secondAttribute="trailing" constant="10" id="fyg-o9-1vC"/>
+                            <constraint firstAttribute="trailing" secondItem="JHf-Wv-Vpb" secondAttribute="trailing" constant="15" id="fyg-o9-1vC"/>
                             <constraint firstItem="PIr-27-osT" firstAttribute="top" secondItem="JHf-Wv-Vpb" secondAttribute="bottom" constant="8" id="pis-3i-7J2"/>
                             <constraint firstItem="PIr-27-osT" firstAttribute="leading" secondItem="tF1-s3-Q5U" secondAttribute="leading" id="pkz-Ds-riT"/>
                             <constraint firstItem="Zbv-v0-W4b" firstAttribute="top" secondItem="Aba-SH-2v6" secondAttribute="bottom" constant="4" id="qja-iu-10Z"/>

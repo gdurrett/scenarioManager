@@ -29,22 +29,11 @@ class CampaignDetailTitleCell: UITableViewCell {
                 return
             }
             campaignDetailTitleLabel?.sizeToFit()
-            campaignDetailTitleLabel?.font = fontDefinitions.detailTableViewTitleFont
+            campaignDetailTitleLabel?.font = fontDefinitions.detailTableViewNonTitleFont
             campaignDetailTitleLabel?.textColor = colorDefinitions.scenarioTitleFontColor
             campaignDetailTitleLabel?.text = "\(item.title)"
         }
     }
-//    func updateButtonLabel() {
-//        if isActive! == true {
-//            setCampaignActiveButtonOutlet.isEnabled = false
-//            setCampaignActiveButtonOutlet.setTitle("Active", for: .disabled)
-//        } else {
-//            setCampaignActiveButtonOutlet.isEnabled = true
-//            setCampaignActiveButtonOutlet.setTitle("Set Active", for: .normal)
-//            setCampaignActiveButtonOutlet.setTitleColor(UIColor.gray, for: .selected)
-//            setCampaignActiveButtonOutlet.setTitleColor(colorDefinitions.mainTextColor, for: .normal)
-//        }
-//    }
     static var nib:UINib {
         return UINib(nibName: identifier, bundle: nil)
     }

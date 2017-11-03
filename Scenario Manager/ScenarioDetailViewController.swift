@@ -34,7 +34,7 @@ class ScenarioDetailViewController: UIViewController {
         tableView?.register(RewardsInfoCell.nib, forCellReuseIdentifier: RewardsInfoCell.identifier)
         tableView?.register(AchievesInfoCell.nib, forCellReuseIdentifier: AchievesInfoCell.identifier)
         
-        
+        //tableView?.separatorInset = .zero
         setTableViewBGImage()
 
     }
@@ -105,6 +105,7 @@ extension ScenarioDetailViewController: UITableViewDataSource, UITableViewDelega
         case .scenarioTitle:
             if let cell = tableView.dequeueReusableCell(withIdentifier: ScenarioTitleCell.identifier, for: indexPath) as? ScenarioTitleCell {
                 cell.backgroundColor = UIColor.clear
+                cell.selectionStyle = .none
                 cell.scenarioStatusIcon.image = statusIcon
                 cell.item = item
                 return cell
@@ -114,6 +115,7 @@ extension ScenarioDetailViewController: UITableViewDataSource, UITableViewDelega
                 //cell.backgroundColor = cellBGColor
                 let unlock = item.unlocks[indexPath.row]
                 cell.backgroundColor = UIColor.clear
+                cell.separatorInset = .zero
                 cell.item = unlock
                 return cell
             }
@@ -122,6 +124,7 @@ extension ScenarioDetailViewController: UITableViewDataSource, UITableViewDelega
                 //cell.backgroundColor = cellBGColor
                 let unlockedBy = item.unlockedBys[indexPath.row]
                 cell.backgroundColor = UIColor.clear
+                cell.separatorInset = .zero
                 cell.item = unlockedBy
                 return cell
             }
@@ -130,6 +133,8 @@ extension ScenarioDetailViewController: UITableViewDataSource, UITableViewDelega
                 //cell.backgroundColor = cellBGColor
                 let requirement = item.requirements[indexPath.row]
                 cell.backgroundColor = UIColor.clear
+                cell.separatorInset = .zero
+                cell.selectionStyle = .none
                 cell.item = requirement
                 return cell
                 //}
@@ -140,6 +145,8 @@ extension ScenarioDetailViewController: UITableViewDataSource, UITableViewDelega
                 //cell.backgroundColor = cellBGColor
                 let reward = item.rewards[indexPath.row]
                 cell.backgroundColor = UIColor.clear
+                cell.separatorInset = .zero
+                cell.selectionStyle = .none
                 cell.item = reward
                 return cell
             }
@@ -149,6 +156,8 @@ extension ScenarioDetailViewController: UITableViewDataSource, UITableViewDelega
                 //cell.backgroundColor = cellBGColor
                 let achieve = item.achieves[indexPath.row]
                 cell.backgroundColor = UIColor.clear
+                cell.separatorInset = .zero
+                cell.selectionStyle = .none
                 cell.item = achieve
                 return cell
             }
@@ -158,6 +167,7 @@ extension ScenarioDetailViewController: UITableViewDataSource, UITableViewDelega
                 cell.selectionStyle = UITableViewCellSelectionStyle.none
                 cell.item = item
                 cell.backgroundColor = UIColor.clear
+                cell.separatorInset = .zero
                 return cell
             }
         case .scenarioLocation:
@@ -165,6 +175,7 @@ extension ScenarioDetailViewController: UITableViewDataSource, UITableViewDelega
                 //cell.backgroundColor = cellBGColor
                 cell.item = item
                 cell.backgroundColor = UIColor.clear
+                cell.selectionStyle = .none
                 return cell
             }
         }
@@ -178,7 +189,6 @@ extension ScenarioDetailViewController: UITableViewDataSource, UITableViewDelega
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "segueToDetail"), object: nil, userInfo: ["Scenario": tappedScenario!])
             }
             tableView.deselectRow(at: indexPath!, animated: true)
-            
         }
     }
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {

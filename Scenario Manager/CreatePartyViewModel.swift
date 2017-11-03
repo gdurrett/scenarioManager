@@ -56,9 +56,11 @@ extension CreatePartyViewModel: UITableViewDataSource, UITableViewDelegate {
         nameCell = cell
         return cell
     }
-    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 50
+    }
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "Name new party to add to current campaign"
+        return "Name new party"
     }
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         let header = view as? UITableViewHeaderFooterView

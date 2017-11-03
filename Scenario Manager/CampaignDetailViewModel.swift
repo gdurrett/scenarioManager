@@ -396,6 +396,7 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
         case .prosperity:
             if let item = item as? CampaignDetailViewModelCampaignProsperityItem, let cell = tableView.dequeueReusableCell(withIdentifier: CampaignDetailProsperityCell.identifier, for: indexPath) as? CampaignDetailProsperityCell {
                 cell.backgroundColor = UIColor.clear
+                cell.selectionStyle = .none
                 // Give proper status to isActive button in this cell
                 self.updateChecksToNextLevel()
                 item.level = prosperityLevel.value //+ self.prosperityBonus
@@ -408,6 +409,7 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
         case .donations:
             if let item = item as? CampaignDetailViewModelCampaignDonationsItem, let cell = tableView.dequeueReusableCell(withIdentifier: CampaignDetailDonationsCell.identifier, for: indexPath) as? CampaignDetailDonationsCell {
                 cell.backgroundColor = UIColor.clear
+                cell.selectionStyle = .none
                 item.amount = donations.value
                 if dataModel.currentCampaign.sanctuaryDonations < 100 {
                     item.prosperityBonusString = ""

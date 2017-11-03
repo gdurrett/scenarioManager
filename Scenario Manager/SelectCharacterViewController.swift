@@ -103,6 +103,7 @@ class SelectCharacterViewController: UIViewController {
         self.selectCharacterTableView.backgroundView = UIImageView(image: UIImage(named: "campaignDetailTableViewBG"))
         self.selectCharacterTableView.backgroundView?.alpha = 0.25
         self.selectCharacterTableView.allowsMultipleSelection = true
+        self.selectCharacterTableView.separatorInset = .zero
     }
     fileprivate func makeCell(for tableView: UITableView) -> UITableViewCell {
         let cellIdentifier = "SelectCharacterTitleCell"

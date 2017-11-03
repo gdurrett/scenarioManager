@@ -177,13 +177,14 @@ extension PartyDetailViewController: UITableViewDelegate {
         self.navigationItem.title = "Current Party"
         self.partyDetailTableView.backgroundView = UIImageView(image: UIImage(named: "campaignDetailTableViewBG"))
         self.partyDetailTableView.backgroundView?.alpha = 0.25
+        self.partyDetailTableView.separatorInset = .zero
     }
     // MARK: Action Methods
     @objc func loadSelectCharacterViewController() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let selectCharacterVC = storyboard.instantiateViewController(withIdentifier: "SelectCharacterViewController") as! SelectCharacterViewController
         selectCharacterVC.delegate = viewModel
-        selectCharacterVC.viewModel = self.viewModel
+        selectCharacterVC.viewModel = viewModel
         selectCharacterVC.hidesBottomBarWhenPushed = true
         self.navigationController!.present(selectCharacterVC, animated: true, completion: nil)
     }

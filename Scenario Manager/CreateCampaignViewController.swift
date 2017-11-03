@@ -67,6 +67,6 @@ class CreateCampaignViewController: UIViewController {
         self.createCampaignView.backgroundColor = colorDefinitions.scenarioTableViewNavBarBarTintColor
         self.createCampaignTableView.backgroundView = UIImageView(image: UIImage(named: "campaignDetailTableViewBG"))
         self.createCampaignTableView.backgroundView?.alpha = 0.25
-
+        self.createCampaignTableView.separatorStyle = .none
     }
 }

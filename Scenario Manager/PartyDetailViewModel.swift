@@ -247,6 +247,7 @@ extension PartyDetailViewModel: UITableViewDataSource, UITableViewDelegate, Part
                 cell.delegate = self
                 currentReputationCell = cell
                 cell.backgroundColor = UIColor.clear
+                cell.selectionStyle = .none
                 item.reputation = reputation.value
                 item.modifier = self.getShopPriceModifier(modifier: reputation.value)
                 cell.item = item
@@ -255,6 +256,7 @@ extension PartyDetailViewModel: UITableViewDataSource, UITableViewDelegate, Part
         case .assignedCampaign:
             if let _ = item as? PartyDetailViewModelPartyCampaignItem, let cell = tableView.dequeueReusableCell(withIdentifier: PartyDetailAssignedCampaignCell.identifier, for: indexPath) as? PartyDetailAssignedCampaignCell {
                 cell.backgroundColor = UIColor.clear
+                cell.selectionStyle = .none
                 cell.item = self.assignedCampaign.value
                 //cell.item = item.assignedCampaign
                 return cell
@@ -262,16 +264,21 @@ extension PartyDetailViewModel: UITableViewDataSource, UITableViewDelegate, Part
         case .characters:
             if let _ = item as? PartyDetailViewModelPartyCharactersItem, let cell = tableView.dequeueReusableCell(withIdentifier: PartyDetailAssignedCharactersCell.identifier, for: indexPath) as? PartyDetailAssignedCharactersCell {
                 cell.backgroundColor = UIColor.clear
+                cell.selectionStyle = .none
                 if self.assignedCharacters.value.isEmpty {
                     cell.item = SeparatedStrings(rowString: "No assigned characters")
+                    cell.partyDetailAssignedCharacterInfo.isHidden = true
                 } else {
+                    cell.partyDetailAssignedCharacterInfo.isHidden = false
                     cell.item = SeparatedStrings(rowString: self.assignedCharacters.value[indexPath.row].name)
+                    cell.partyDetailAssignedCharacterInfo.text = ("level \(Int(self.assignedCharacters.value[indexPath.row].level)) \(self.assignedCharacters.value[indexPath.row].type)")
                 }
                 return cell
             }
         case .achievements:
             if let _ = item as? PartyDetailViewModelPartyAchievementsItem, let cell = tableView.dequeueReusableCell(withIdentifier: PartyDetailAchievementsCell.identifier, for: indexPath) as? PartyDetailAchievementsCell {
                 cell.backgroundColor = UIColor.clear
+                cell.selectionStyle = .none
                 var achievement = SeparatedStrings(rowString: "")
                 var tempAch = Array(self.completedPartyAchievements.value.keys)
                 if tempAch.isEmpty { tempAch = ["No completed party achievements"] }

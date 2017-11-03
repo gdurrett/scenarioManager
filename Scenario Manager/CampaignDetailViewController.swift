@@ -68,6 +68,7 @@ class CampaignDetailViewController: UIViewController {
         eventOptionPicker.delegate = self.viewModel
         eventOptionPicker.dataSource = self.viewModel
 
+        campaignDetailTableView.separatorInset = .zero // Get rid of offset to left for tableview!
         
         // Register Cells
         campaignDetailTableView?.register(CampaignDetailTitleCell.nib, forCellReuseIdentifier: CampaignDetailTitleCell.identifier)

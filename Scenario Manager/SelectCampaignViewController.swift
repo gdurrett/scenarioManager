@@ -75,6 +75,7 @@ class SelectCampaignViewController: UIViewController {
         self.selectCampaignView.backgroundColor = colorDefinitions.scenarioTableViewNavBarBarTintColor
         self.selectCampaignTableView.backgroundView = UIImageView(image: UIImage(named: "campaignDetailTableViewBG"))
         self.selectCampaignTableView.backgroundView?.alpha = 0.25
+        self.selectCampaignTableView.separatorInset = .zero
     }
     fileprivate func makeCell(for tableView: UITableView) -> UITableViewCell {
         let cellIdentifier = "SelectCampaignTitleCell"
