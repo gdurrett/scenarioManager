@@ -55,6 +55,7 @@
                 <outlet property="partyDetailNameTextField" destination="hhp-xI-RUX" id="nl7-za-6EF"/>
                 <outlet property="partyDetailScenarioLevel" destination="qiy-gz-DOK" id="DnU-dI-fHR"/>
             </connections>
+            <point key="canvasLocation" x="34.5" y="54.5"/>
         </view>
     </objects>
 </document>
