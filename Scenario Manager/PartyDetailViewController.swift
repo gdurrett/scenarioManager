@@ -37,7 +37,7 @@ class PartyDetailViewController: UIViewController {
         super.viewDidLoad()
 
         // Set up observers
-        NotificationCenter.default.addObserver(self, selector: #selector(self.loadSelectCharacterViewController), name: NSNotification.Name(rawValue: "showSelectCharacterVC"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.loadSelectPartyCharactersViewController), name: NSNotification.Name(rawValue: "showSelectCharacterVC"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.showNoCharactersAlert), name: NSNotification.Name(rawValue: "showNoCharactersAlert"), object: nil)
         // Set up UITableViewDelegate
         partyDetailTableView?.dataSource = viewModel
@@ -180,9 +180,9 @@ extension PartyDetailViewController: UITableViewDelegate {
         self.partyDetailTableView.separatorInset = .zero
     }
     // MARK: Action Methods
-    @objc func loadSelectCharacterViewController() {
+    @objc func loadSelectPartyCharactersViewController() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let selectCharacterVC = storyboard.instantiateViewController(withIdentifier: "SelectCharacterViewController") as! SelectCharacterViewController
+        let selectCharacterVC = storyboard.instantiateViewController(withIdentifier: "SelectPartyCharactersViewController") as! SelectPartyCharactersViewController
         selectCharacterVC.delegate = viewModel
         selectCharacterVC.viewModel = viewModel
         selectCharacterVC.hidesBottomBarWhenPushed = true
@@ -214,7 +214,7 @@ extension PartyDetailViewController: CampaignDetailPartyUpdaterDelegate {
         }
     }
 }
-extension PartyDetailViewController: SelectCharacterViewControllerReloadDelegate {
+extension PartyDetailViewController: SelectPartyCharactersViewControllerReloadDelegate {
     func reloadAfterDidFinishSelecting() {
         if let myTableView = self.partyDetailTableView {
             //self.viewModel.updateAssignedCharacters()

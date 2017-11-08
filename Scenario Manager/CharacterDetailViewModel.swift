@@ -54,11 +54,13 @@ class CharacterDetailViewModel: NSObject {
     // Dynamics
     var assignedParty: Dynamic<String>
     var currentLevel: Dynamic<Double>
+    var characters: Dynamic<[String:Character]>
     
     init(withCharacter character: Character) {
         self.character = character
         self.assignedParty = Dynamic(dataModel.characters[character.name]!.assignedTo!) // "None" is valid assignee
         self.currentLevel = Dynamic(dataModel.characters[character.name]!.level)
+        self.characters = Dynamic(dataModel.characters)
         super.init()
         
         
@@ -307,6 +309,18 @@ extension CharacterDetailViewModel: UIPickerViewDelegate, UIPickerViewDataSource
         
         return label!
     }
+}
+extension CharacterDetailViewModel: SelectCharacterViewControllerDelegate {
+    func selectCharacterViewControllerDidCancel(_ controller: SelectCharacterViewController) {
+        controller.dismiss(animated: true, completion: nil)
+    }
+    
+    func selectCharacterViewControllerDidFinishSelecting(_ controller: SelectCharacterViewController) {
+        self.character = controller.selectedCharacter!
+        controller.dismiss(animated: true, completion: nil)
+    }
+    
+    
 }
 // MARK: ViewModelItem Classes
 class CharacterDetailViewModelCharacterNameItem: CharacterDetailViewModelItem {

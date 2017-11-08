@@ -17,7 +17,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ols-wH-eXx">
-                    <rect key="frame" x="16" y="30" width="42" height="21"/>
+                    <rect key="frame" x="16" y="20" width="42" height="41"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
@@ -26,8 +26,8 @@
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <accessibility key="accessibilityConfiguration" identifier="CharacterDetailCharacterTypeCell"/>
             <constraints>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="ols-wH-eXx" secondAttribute="bottom" constant="30" id="1Jq-KN-U7Q"/>
-                <constraint firstItem="ols-wH-eXx" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="30" id="QL5-AY-9Ry"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="ols-wH-eXx" secondAttribute="bottom" constant="20" id="1Jq-KN-U7Q"/>
+                <constraint firstItem="ols-wH-eXx" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="20" id="QL5-AY-9Ry"/>
                 <constraint firstItem="ols-wH-eXx" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="q9H-o2-k1Q"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>

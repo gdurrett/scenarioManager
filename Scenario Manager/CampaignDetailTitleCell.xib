@@ -12,17 +12,17 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="CampaignDetailTitleCell" customModule="Scenario_Manager" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="81"/>
+            <rect key="frame" x="0.0" y="0.0" width="375" height="80"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Campaign Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JaD-ku-IsQ">
-                    <rect key="frame" x="16" y="25" width="115" height="31"/>
+                    <rect key="frame" x="16" y="15" width="115" height="50"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <textField opaque="NO" clipsSubviews="YES" tag="2600" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iU1-4j-9bb">
-                    <rect key="frame" x="16" y="25" width="115" height="17"/>
+                    <rect key="frame" x="16" y="15" width="115" height="17"/>
                     <nil key="textColor"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
@@ -31,12 +31,12 @@
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <accessibility key="accessibilityConfiguration" identifier="CampaignDetailTitleCell"/>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="JaD-ku-IsQ" secondAttribute="bottom" constant="25" id="6AP-4f-LgC"/>
+                <constraint firstAttribute="bottom" secondItem="JaD-ku-IsQ" secondAttribute="bottom" constant="15" id="6AP-4f-LgC"/>
                 <constraint firstItem="JaD-ku-IsQ" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="AqM-Pq-b1F"/>
                 <constraint firstItem="iU1-4j-9bb" firstAttribute="trailing" secondItem="JaD-ku-IsQ" secondAttribute="trailing" id="Bh4-Ej-CGY"/>
                 <constraint firstItem="iU1-4j-9bb" firstAttribute="leading" secondItem="JaD-ku-IsQ" secondAttribute="leading" id="Eh5-vW-Gjl"/>
                 <constraint firstItem="iU1-4j-9bb" firstAttribute="top" secondItem="JaD-ku-IsQ" secondAttribute="top" id="Qi8-qS-4Gj"/>
-                <constraint firstItem="JaD-ku-IsQ" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="25" id="QmF-UK-pNo"/>
+                <constraint firstItem="JaD-ku-IsQ" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="15" id="QmF-UK-pNo"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>

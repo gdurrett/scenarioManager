@@ -345,7 +345,7 @@ extension PartyDetailViewModel: UITableViewDataSource, UITableViewDelegate, Part
         case .characters:
             button.setImage(UIImage(named: "quill-drawing-a-line_unselected"), for: .normal)
             button.isEnabled = true
-            button.addTarget(self, action: #selector(self.loadSelectCharacterViewController(_:)), for: .touchUpInside)
+            button.addTarget(self, action: #selector(self.loadSelectPartyCharactersViewController(_:)), for: .touchUpInside)
             header.addSubview(button)
         }
     }
@@ -394,7 +394,7 @@ extension PartyDetailViewModel: UITableViewDataSource, UITableViewDelegate, Part
         button.setImage(UIImage(named: "quill-drawing-a-line_unselected"), for: .normal)
         dataModel.saveCampaignsLocally()
     }
-    @objc func loadSelectCharacterViewController(_ button: UIButton) {
+    @objc func loadSelectPartyCharactersViewController(_ button: UIButton) {
         if self.availableCharacters.value.isEmpty == true && self.assignedCharacters.value.isEmpty == true {
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "showNoCharactersAlert"), object: nil)
         } else {
@@ -422,11 +422,11 @@ extension PartyDetailViewModel: UITableViewDataSource, UITableViewDelegate, Part
     }
 }
 // MARK: Select Character delegate methods
-extension PartyDetailViewModel: SelectCharacterViewControllerDelegate {
-    func selectCharacterViewControllerDidCancel(_ controller: SelectCharacterViewController) {
+extension PartyDetailViewModel: SelectPartyCharactersViewControllerDelegate {
+    func selectPartyCharactersViewControllerDidCancel(_ controller: SelectPartyCharactersViewController) {
         controller.dismiss(animated: true, completion: nil)
     }
-    func selectCharacterViewControllerDidFinishSelecting(_ controller: SelectCharacterViewController) {
+    func selectPartyCharactersViewControllerDidFinishSelecting(_ controller: SelectPartyCharactersViewController) {
         // Need to gather array of selected characters here
         if !controller.selectedCharacters.isEmpty {
             for character in controller.selectedCharacters {
@@ -456,7 +456,6 @@ extension PartyDetailViewModel: SelectPartyViewControllerDelegate {
         dataModel.currentParty = controller.selectedParty
         self.updateCurrentPartyName()
         self.updateAssignedParties()
-        //self.updateAvailableParties()
         self.dataModel.saveCampaignsLocally()
         controller.dismiss(animated: true, completion: nil)
     }

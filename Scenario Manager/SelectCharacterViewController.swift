@@ -2,7 +2,7 @@
 //  SelectCharacterViewController.swift
 //  Scenario Manager
 //
-//  Created by Greg Durrett on 10/27/17.
+//  Created by Greg Durrett on 11/8/17.
 //  Copyright © 2017 AppHazard Productions. All rights reserved.
 //
 
@@ -12,81 +12,49 @@ protocol SelectCharacterViewControllerDelegate: class {
     func selectCharacterViewControllerDidCancel(_ controller: SelectCharacterViewController)
     func selectCharacterViewControllerDidFinishSelecting(_ controller: SelectCharacterViewController)
 }
-protocol SelectCharacterViewControllerReloadDelegate: class {
-    func reloadAfterDidFinishSelecting()
-}
 
 class SelectCharacterViewController: UIViewController {
-
-    @IBOutlet weak var selectCharacterTableView: UITableView!
     
     @IBOutlet var selectCharacterView: UIView!
     
-    @IBAction func selectCharacterCancelAction(_ sender: Any) {
+    @IBOutlet weak var selectCharacterTableView: UITableView!
+    
+    @IBAction func selectCharacterViewControllerDidCancel(_ sender: Any) {
         delegate?.selectCharacterViewControllerDidCancel(self)
     }
     
-    @IBAction func selectCharacterDoneAction(_ sender: Any) {
-        if let selectedCharacterRows = selectCharacterTableView.indexPathsForSelectedRows {
-            for index in selectedCharacterRows {
-                let char = index.row
-                selectedCharacters.append(combinedCharacters![char])
-            }
-        }
-        for character in combinedCharacters! {
-            if !selectedCharacters.contains(character) {
-                unassignedCharacters.append(character)
-            }
-        }
+    @IBAction func selectCharacterViewControllerDoneAction(_ sender: Any) {
         delegate?.selectCharacterViewControllerDidFinishSelecting(self)
-        reloadDelegate?.reloadAfterDidFinishSelecting()
     }
-    
     // MARK: Global Variables
-    var viewModel: PartyDetailViewModel? {
+    var viewModel: CharacterDetailViewModel? {
         didSet {
             fillUI()
+            self.characters = viewModel!.characters.value
         }
     }
-    var selectedIndices = [Int]()
-    var selectedCharacters = [Character]()
-    var availableCharacters: [Character]?
-    var assignedCharacters: [Character]?
-    var combinedCharacters: [Character]?
-    var unassignedCharacters = [Character]()
-    
     weak var delegate: SelectCharacterViewControllerDelegate?
-    weak var reloadDelegate: SelectCharacterViewControllerReloadDelegate?
-    
-    var characters: [String]!
+    var characters: [String:Character]?
+    var selectedCharacter: Character?
+    var selectedIndex: Int = -1
     let colorDefinitions = ColorDefinitions()
-    
+    var keyList: [String] {
+        get {
+            return [String](characters!.keys)
+        }
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         selectCharacterTableView.delegate = self
         selectCharacterTableView.dataSource = self
         selectCharacterTableView?.register(SelectCharacterTitleCell.nib, forCellReuseIdentifier: SelectCharacterTitleCell.identifier)
-        
-        // viewModel?.updateCharacters() - Test removal!
-        viewModel?.updateAssignedCharacters()
-        viewModel?.updateAvailableCharacters()
+        selectCharacterTableView.allowsMultipleSelection = false
         
         fillUI()
         styleUI()
         
-        if assignedCharacters == nil && availableCharacters == nil {
-            // Shouldn't get this far with alert in PartyDetailVM
-        } else if assignedCharacters == nil {
-            combinedCharacters = availableCharacters
-        } else if availableCharacters == nil {
-            combinedCharacters = assignedCharacters
-        } else {
-            combinedCharacters = availableCharacters! + assignedCharacters!
-        }
-
     }
-
+    // Helper methods
     fileprivate func fillUI() {
         if !isViewLoaded {
             return
@@ -95,14 +63,13 @@ class SelectCharacterViewController: UIViewController {
             return
         }
         
-        self.availableCharacters = viewModel.availableCharacters.value
-        self.assignedCharacters = viewModel.assignedCharacters.value
+        // We definitely have setup done now
+        self.characters = viewModel.characters.value
     }
     fileprivate func styleUI() {
         self.selectCharacterView.backgroundColor = colorDefinitions.scenarioTableViewNavBarBarTintColor
         self.selectCharacterTableView.backgroundView = UIImageView(image: UIImage(named: "campaignDetailTableViewBG"))
         self.selectCharacterTableView.backgroundView?.alpha = 0.25
-        self.selectCharacterTableView.allowsMultipleSelection = true
         self.selectCharacterTableView.separatorInset = .zero
     }
     fileprivate func makeCell(for tableView: UITableView) -> UITableViewCell {
@@ -124,24 +91,22 @@ class SelectCharacterViewController: UIViewController {
         label.text = ("level \(Int(character.level)) \(character.type)")
     }
 }
-extension SelectCharacterViewController: UITableViewDelegate, UITableViewDataSource {
-    // MARK: - Table view data source
-
+extension SelectCharacterViewController: UITableViewDataSource, UITableViewDelegate {
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return self.combinedCharacters!.count
+        return self.characters!.count
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let myRowkey = keyList[indexPath.row]
         let cell = makeCell(for: tableView)
         cell.backgroundColor = UIColor.clear
-        configureTitle(for: cell, with: combinedCharacters![indexPath.row])
-        configureCharacterInfo(for: cell, with: combinedCharacters![indexPath.row])
-        if self.combinedCharacters![indexPath.row].assignedTo == viewModel!.partyName.value {
+        configureTitle(for: cell, with: characters![myRowkey]!)
+        configureCharacterInfo(for: cell, with: characters![myRowkey]!)
+        if self.characters![myRowkey]!.name == viewModel!.character.name {
             cell.accessoryType = .checkmark
         }
         cell.selectionStyle = .none
@@ -149,26 +114,16 @@ extension SelectCharacterViewController: UITableViewDelegate, UITableViewDataSou
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
+        let myRowkey = keyList[indexPath.row]
+        selectedCharacter = self.characters![myRowkey]!
     }
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         tableView.cellForRow(at: indexPath)?.accessoryType = .none
     }
-    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-        if let selectedRowCount = tableView.indexPathsForSelectedRows?.count {
-            if selectedRowCount > 3 {
-                return nil
-            } else {
-                return indexPath
-            }
-        }
-        return indexPath
-    }
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if self.combinedCharacters![indexPath.row].assignedTo != viewModel!.partyName.value {
-         } else {
+        let myRowkey = keyList[indexPath.row]
+        if self.characters![myRowkey]!.name == viewModel!.character.name {
             tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
-            tableView.delegate?.tableView!(selectCharacterTableView, didSelectRowAt: indexPath)
         }
     }
 }
-

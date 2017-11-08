@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FB10A4471FB389B900CAA684 /* SelectCharacterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB10A4461FB389B900CAA684 /* SelectCharacterViewController.swift */; };
 		FB2237D51F816B5500CAA684 /* SelectCampaignViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2237D41F816B5500CAA684 /* SelectCampaignViewController.swift */; };
 		FB2237D81F8190E600CAA684 /* SelectCampaignTitleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB2237D71F8190E600CAA684 /* SelectCampaignTitleCell.xib */; };
 		FB2237DA1F81916B00CAA684 /* SelectCampaignTitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2237D91F81916B00CAA684 /* SelectCampaignTitleCell.swift */; };
@@ -79,7 +80,7 @@
 		FBA014251F9EB08D00CAA684 /* PartyDetailAssignedCampaignCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FBA014241F9EB08D00CAA684 /* PartyDetailAssignedCampaignCell.xib */; };
 		FBC880BD1FA3B5F600CAA684 /* PartyDetailAchievementsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FBC880BC1FA3B5F600CAA684 /* PartyDetailAchievementsCell.xib */; };
 		FBC880BF1FA3B6C200CAA684 /* PartyDetailAchievementsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBC880BE1FA3B6C200CAA684 /* PartyDetailAchievementsCell.swift */; };
-		FBC880C11FA3DD4300CAA684 /* SelectCharacterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBC880C01FA3DD4300CAA684 /* SelectCharacterViewController.swift */; };
+		FBC880C11FA3DD4300CAA684 /* SelectPartyCharactersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBC880C01FA3DD4300CAA684 /* SelectPartyCharactersViewController.swift */; };
 		FBC880C61FA3E9D300CAA684 /* SelectCharacterTitleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FBC880C51FA3E9D300CAA684 /* SelectCharacterTitleCell.xib */; };
 		FBC880C81FA3EA4F00CAA684 /* SelectCharacterTitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBC880C71FA3EA4F00CAA684 /* SelectCharacterTitleCell.swift */; };
 		FBCE875D1F57F4C200CAA684 /* PirataOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FBCE875C1F57F4C200CAA684 /* PirataOne-Regular.ttf */; };
@@ -118,6 +119,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		FB10A4461FB389B900CAA684 /* SelectCharacterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCharacterViewController.swift; sourceTree = "<group>"; };
 		FB2237D41F816B5500CAA684 /* SelectCampaignViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCampaignViewController.swift; sourceTree = "<group>"; };
 		FB2237D71F8190E600CAA684 /* SelectCampaignTitleCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelectCampaignTitleCell.xib; sourceTree = "<group>"; };
 		FB2237D91F81916B00CAA684 /* SelectCampaignTitleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCampaignTitleCell.swift; sourceTree = "<group>"; };
@@ -193,7 +195,7 @@
 		FBA014241F9EB08D00CAA684 /* PartyDetailAssignedCampaignCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PartyDetailAssignedCampaignCell.xib; sourceTree = "<group>"; };
 		FBC880BC1FA3B5F600CAA684 /* PartyDetailAchievementsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PartyDetailAchievementsCell.xib; sourceTree = "<group>"; };
 		FBC880BE1FA3B6C200CAA684 /* PartyDetailAchievementsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartyDetailAchievementsCell.swift; sourceTree = "<group>"; };
-		FBC880C01FA3DD4300CAA684 /* SelectCharacterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCharacterViewController.swift; sourceTree = "<group>"; };
+		FBC880C01FA3DD4300CAA684 /* SelectPartyCharactersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPartyCharactersViewController.swift; sourceTree = "<group>"; };
 		FBC880C51FA3E9D300CAA684 /* SelectCharacterTitleCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelectCharacterTitleCell.xib; sourceTree = "<group>"; };
 		FBC880C71FA3EA4F00CAA684 /* SelectCharacterTitleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCharacterTitleCell.swift; sourceTree = "<group>"; };
 		FBCE875C1F57F4C200CAA684 /* PirataOne-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PirataOne-Regular.ttf"; sourceTree = "<group>"; };
@@ -324,7 +326,8 @@
 				FBE3F1EA1F47C92C00CAA684 /* ScenarioViewController.swift */,
 				FB482D981F27C51C00CAA684 /* ScenarioDetailViewController.swift */,
 				FB2237D41F816B5500CAA684 /* SelectCampaignViewController.swift */,
-				FBC880C01FA3DD4300CAA684 /* SelectCharacterViewController.swift */,
+				FB10A4461FB389B900CAA684 /* SelectCharacterViewController.swift */,
+				FBC880C01FA3DD4300CAA684 /* SelectPartyCharactersViewController.swift */,
 				FBCFBC301FAA4BF600CAA684 /* SelectPartyViewController.swift */,
 			);
 			name = ViewControllers;
@@ -664,7 +667,7 @@
 				FB5DDF631F8BE5B600CAA684 /* CampaignDetailEventCell.swift in Sources */,
 				FB5DDF681F8C3A6200CAA684 /* CampaignDetailEventsHeader.swift in Sources */,
 				FBD2DD141F67517000CAA684 /* CreateCamaignViewModel.swift in Sources */,
-				FBC880C11FA3DD4300CAA684 /* SelectCharacterViewController.swift in Sources */,
+				FBC880C11FA3DD4300CAA684 /* SelectPartyCharactersViewController.swift in Sources */,
 				FBD2DD161F6863E900CAA684 /* DeleteCampaignViewModelFromModel.swift in Sources */,
 				FBD2DD041F620F4800CAA684 /* CreateCampaignViewController.swift in Sources */,
 				FBD2DD1F1F69CB3800CAA684 /* CampaignTitleCell.swift in Sources */,
@@ -701,6 +704,7 @@
 				FB482D991F27C51C00CAA684 /* ScenarioDetailViewController.swift in Sources */,
 				FBD2DD1C1F69A10200CAA684 /* CampaignViewModelFromModel.swift in Sources */,
 				FB482DAC1F293C9500CAA684 /* AchievesInfoCell.swift in Sources */,
+				FB10A4471FB389B900CAA684 /* SelectCharacterViewController.swift in Sources */,
 				FB4665951F2FDCEE00CAA684 /* ScenarioMainCell.swift in Sources */,
 				FBC880C81FA3EA4F00CAA684 /* SelectCharacterTitleCell.swift in Sources */,
 				FBEB4B661F9D4E7F00CAA684 /* PartyDetailViewController.swift in Sources */,

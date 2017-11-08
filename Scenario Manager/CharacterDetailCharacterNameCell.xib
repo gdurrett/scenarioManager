@@ -17,19 +17,19 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bTG-50-m0j">
-                    <rect key="frame" x="16" y="30" width="126" height="21"/>
+                    <rect key="frame" x="16" y="15" width="126" height="51"/>
                     <nil key="textColor"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Character Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YCE-hs-CrC">
-                    <rect key="frame" x="16" y="30" width="126" height="21"/>
+                    <rect key="frame" x="16" y="15" width="126" height="51"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KdF-vL-nsB">
-                    <rect key="frame" x="288" y="30" width="42" height="21"/>
+                    <rect key="frame" x="288" y="20" width="42" height="41"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
@@ -39,15 +39,15 @@
             <accessibility key="accessibilityConfiguration" identifier="CharacterDetailCharacterNameCell"/>
             <constraints>
                 <constraint firstItem="bTG-50-m0j" firstAttribute="top" secondItem="YCE-hs-CrC" secondAttribute="top" id="9fe-XU-OIQ"/>
-                <constraint firstItem="KdF-vL-nsB" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="30" id="EVg-K4-t94"/>
+                <constraint firstItem="KdF-vL-nsB" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="20" id="EVg-K4-t94"/>
                 <constraint firstItem="bTG-50-m0j" firstAttribute="bottom" secondItem="YCE-hs-CrC" secondAttribute="bottom" id="K88-eZ-pYn"/>
                 <constraint firstItem="bTG-50-m0j" firstAttribute="leading" secondItem="YCE-hs-CrC" secondAttribute="leading" id="OzK-wU-4eG"/>
-                <constraint firstItem="YCE-hs-CrC" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="30" id="b6W-BB-eUY"/>
+                <constraint firstItem="YCE-hs-CrC" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="15" id="b6W-BB-eUY"/>
                 <constraint firstItem="bTG-50-m0j" firstAttribute="trailing" secondItem="YCE-hs-CrC" secondAttribute="trailing" id="cDn-JN-Vqv"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="KdF-vL-nsB" secondAttribute="trailing" constant="45" id="kVz-Oa-LCs"/>
                 <constraint firstItem="YCE-hs-CrC" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="pfg-w6-Kjk"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="YCE-hs-CrC" secondAttribute="bottom" constant="30" id="tSw-Ky-lPW"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="KdF-vL-nsB" secondAttribute="bottom" constant="30" id="ycK-gM-SjI"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="YCE-hs-CrC" secondAttribute="bottom" constant="15" id="tSw-Ky-lPW"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="KdF-vL-nsB" secondAttribute="bottom" constant="20" id="ycK-gM-SjI"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>

@@ -17,7 +17,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3k2-2p-V8P">
-                    <rect key="frame" x="16" y="30" width="42" height="21"/>
+                    <rect key="frame" x="16" y="20" width="42" height="41"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
@@ -27,8 +27,8 @@
             <accessibility key="accessibilityConfiguration" identifier="CharacterDetailAssignedCampaignCell"/>
             <constraints>
                 <constraint firstItem="3k2-2p-V8P" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="dEp-KE-1Nh"/>
-                <constraint firstItem="3k2-2p-V8P" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="30" id="fQC-wl-pck"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="3k2-2p-V8P" secondAttribute="bottom" constant="30" id="vZ7-kC-U3E"/>
+                <constraint firstItem="3k2-2p-V8P" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="20" id="fQC-wl-pck"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="3k2-2p-V8P" secondAttribute="bottom" constant="20" id="vZ7-kC-U3E"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>

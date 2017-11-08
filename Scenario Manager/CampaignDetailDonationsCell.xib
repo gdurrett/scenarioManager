@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -22,7 +22,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" continuous="NO" autorepeat="NO" minimumValue="-500" maximumValue="500" stepValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="etg-uW-HkN">
-                    <rect key="frame" x="265" y="20" width="94" height="29"/>
+                    <rect key="frame" x="265" y="17" width="94" height="29"/>
                     <connections>
                         <action selector="modifyDonationsCountAction:" destination="iN0-l3-epB" eventType="valueChanged" id="HhO-GK-DLU"/>
                     </connections>
@@ -31,9 +31,9 @@
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <accessibility key="accessibilityConfiguration" identifier="CampaignDetailDonationsCell"/>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="etg-uW-HkN" secondAttribute="bottom" constant="20" id="Alf-gg-F4K"/>
+                <constraint firstAttribute="bottom" secondItem="etg-uW-HkN" secondAttribute="bottom" constant="17" id="Alf-gg-F4K"/>
                 <constraint firstItem="zBa-9c-wTC" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="20" id="K2G-Bo-1Yp"/>
-                <constraint firstItem="etg-uW-HkN" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="20" id="fEo-1C-SrY"/>
+                <constraint firstItem="etg-uW-HkN" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="17" id="fEo-1C-SrY"/>
                 <constraint firstItem="zBa-9c-wTC" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="swO-W5-ZLv"/>
                 <constraint firstAttribute="bottom" secondItem="zBa-9c-wTC" secondAttribute="bottom" constant="20" id="uIa-mK-G22"/>
                 <constraint firstAttribute="trailing" secondItem="etg-uW-HkN" secondAttribute="trailing" constant="16" id="z28-o9-Z5f"/>

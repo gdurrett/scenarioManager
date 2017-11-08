@@ -19,6 +19,7 @@ class CharacterDetailViewController: UIViewController {
     @IBOutlet weak var characterDetailTableView: UITableView!
     
     @IBAction func selectCharacterAction(_ sender: Any) {
+        loadSelectCharacterViewController()
     }
     
     @IBAction func deleteCharacterAction(_ sender: Any) {
@@ -89,6 +90,15 @@ class CharacterDetailViewController: UIViewController {
         DispatchQueue.main.async {
             self.characterDetailTableView.reloadSections([2], with: .none)
         }
+    }
+    // Called by action button
+    @objc func loadSelectCharacterViewController() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let selectCharacterVC = storyboard.instantiateViewController(withIdentifier: "SelectCharacterViewController") as! SelectCharacterViewController
+        selectCharacterVC.delegate = viewModel
+        selectCharacterVC.viewModel = viewModel
+        selectCharacterVC.hidesBottomBarWhenPushed = true
+        self.navigationController!.present(selectCharacterVC, animated: true, completion: nil)
     }
     // Called via notification
     @objc func showCharacterTypePicker() {

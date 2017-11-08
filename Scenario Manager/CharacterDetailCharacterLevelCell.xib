@@ -17,14 +17,14 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rOY-Gu-oir">
-                    <rect key="frame" x="16" y="30" width="42" height="21"/>
+                    <rect key="frame" x="16" y="15" width="42" height="51"/>
                     <accessibility key="accessibilityConfiguration" identifier="CharacterDetailCharacterLevelCell"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" continuous="NO" autorepeat="NO" minimumValue="-9" maximumValue="9" translatesAutoresizingMaskIntoConstraints="NO" id="Ral-H3-Gql">
-                    <rect key="frame" x="265" y="26" width="94" height="29"/>
+                    <rect key="frame" x="265" y="15" width="94" height="29"/>
                     <connections>
                         <action selector="modifyLevelAction:" destination="iN0-l3-epB" eventType="valueChanged" id="W0C-Eu-zY9"/>
                     </connections>
@@ -33,10 +33,10 @@
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="rOY-Gu-oir" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="2mf-8i-3Zo"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="rOY-Gu-oir" secondAttribute="bottom" constant="30" id="5rm-e9-PDI"/>
-                <constraint firstItem="rOY-Gu-oir" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="30" id="Qh8-YD-on7"/>
-                <constraint firstItem="Ral-H3-Gql" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="26" id="YrI-D2-Tdd"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="Ral-H3-Gql" secondAttribute="bottom" constant="26" id="fhF-iG-J75"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="rOY-Gu-oir" secondAttribute="bottom" constant="15" id="5rm-e9-PDI"/>
+                <constraint firstItem="rOY-Gu-oir" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="15" id="Qh8-YD-on7"/>
+                <constraint firstItem="Ral-H3-Gql" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="15" id="YrI-D2-Tdd"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="Ral-H3-Gql" secondAttribute="bottom" constant="15" id="fhF-iG-J75"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="Ral-H3-Gql" secondAttribute="trailing" constant="16" id="uTG-ie-hN1"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13174"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -17,7 +17,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Campaign Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2jK-W6-7Ld">
-                    <rect key="frame" x="16" y="20" width="127" height="46"/>
+                    <rect key="frame" x="16" y="22" width="127" height="42"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
@@ -27,8 +27,8 @@
             <accessibility key="accessibilityConfiguration" identifier="PartyDetailAssignedCampaignCell"/>
             <constraints>
                 <constraint firstItem="2jK-W6-7Ld" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="K88-Ns-kPr"/>
-                <constraint firstItem="2jK-W6-7Ld" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="20" id="RFB-57-GTU"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="2jK-W6-7Ld" secondAttribute="bottom" constant="20" id="Rmi-Ky-gan"/>
+                <constraint firstItem="2jK-W6-7Ld" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="22" id="RFB-57-GTU"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="2jK-W6-7Ld" secondAttribute="bottom" constant="22" id="Rmi-Ky-gan"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
