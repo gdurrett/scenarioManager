@@ -269,7 +269,9 @@ extension CharacterDetailViewModel: UITableViewDataSource, UITableViewDelegate, 
     }
     // Delegate method and property for Character Detail VC picker
     func setCharacterType() {
-        if characterTypePickerDidPick == false { self.selectedCharacterType = self.characterTypePickerData[0]
+        if characterTypePickerDidPick == false {
+            print("Get here?")
+            self.character.type = self.characterTypePickerData[0]
         } else {
             characterTypePickerDidPick = true
             self.character.type = selectedCharacterType
