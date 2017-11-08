@@ -23,6 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let scenarioViewModel = ScenarioViewModelFromModel(withDataModel: dataModel)
         let campaignDetailViewModel = CampaignDetailViewModel(withCampaign: dataModel.currentCampaign)
         let partyDetailViewModel = PartyDetailViewModel(withParty: dataModel.currentParty)
+        let characterDetailViewModel = CharacterDetailViewModel(withCharacter: dataModel.characters.values.first!)
         
         if let tabBarController: UITabBarController = self.window!.rootViewController as? CampaignManagerTabBarController { // Set up top-level controller
             
@@ -39,11 +40,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // See if we can set reload 
             campaignDetailViewModel.partyReloadDelegate = controller1
             
-            // Set up Scenario view controller
+            // Set up Character Detail view controller
             let navController3 = tabBarController.viewControllers?[2] as? UINavigationController
-            let controller3 = navController3?.viewControllers[0] as! ScenarioViewController
-            controller3.viewModel = scenarioViewModel
+            let controller3 = navController3?.viewControllers[0] as! CharacterDetailViewController
+            controller3.viewModel = characterDetailViewModel
+            controller3.pickerDelegate = characterDetailViewModel
 
+            // Set up Scenario view controller
+            let navController4 = tabBarController.viewControllers?[3] as? UINavigationController
+            let controller4 = navController4?.viewControllers[0] as! ScenarioViewController
+            controller4.viewModel = scenarioViewModel
         }
         return true
     }

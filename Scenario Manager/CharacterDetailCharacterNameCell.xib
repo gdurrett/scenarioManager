@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13174"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -17,13 +17,19 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bTG-50-m0j">
-                    <rect key="frame" x="16" y="30" width="42" height="21"/>
+                    <rect key="frame" x="16" y="30" width="126" height="21"/>
                     <nil key="textColor"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YCE-hs-CrC">
-                    <rect key="frame" x="16" y="30" width="42" height="21"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Character Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YCE-hs-CrC">
+                    <rect key="frame" x="16" y="30" width="126" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KdF-vL-nsB">
+                    <rect key="frame" x="288" y="30" width="42" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
@@ -33,18 +39,22 @@
             <accessibility key="accessibilityConfiguration" identifier="CharacterDetailCharacterNameCell"/>
             <constraints>
                 <constraint firstItem="bTG-50-m0j" firstAttribute="top" secondItem="YCE-hs-CrC" secondAttribute="top" id="9fe-XU-OIQ"/>
+                <constraint firstItem="KdF-vL-nsB" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="30" id="EVg-K4-t94"/>
                 <constraint firstItem="bTG-50-m0j" firstAttribute="bottom" secondItem="YCE-hs-CrC" secondAttribute="bottom" id="K88-eZ-pYn"/>
                 <constraint firstItem="bTG-50-m0j" firstAttribute="leading" secondItem="YCE-hs-CrC" secondAttribute="leading" id="OzK-wU-4eG"/>
                 <constraint firstItem="YCE-hs-CrC" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="30" id="b6W-BB-eUY"/>
                 <constraint firstItem="bTG-50-m0j" firstAttribute="trailing" secondItem="YCE-hs-CrC" secondAttribute="trailing" id="cDn-JN-Vqv"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="KdF-vL-nsB" secondAttribute="trailing" constant="45" id="kVz-Oa-LCs"/>
                 <constraint firstItem="YCE-hs-CrC" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="pfg-w6-Kjk"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="YCE-hs-CrC" secondAttribute="bottom" constant="30" id="tSw-Ky-lPW"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="KdF-vL-nsB" secondAttribute="bottom" constant="30" id="ycK-gM-SjI"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <connections>
                 <outlet property="characterDetailNameLabel" destination="YCE-hs-CrC" id="aWZ-Pu-jMn"/>
                 <outlet property="characterDetailNameTextField" destination="bTG-50-m0j" id="a5r-WF-2BD"/>
+                <outlet property="characterDetailStatusLabel" destination="KdF-vL-nsB" id="9TK-He-fc6"/>
             </connections>
             <point key="canvasLocation" x="34.5" y="54.5"/>
         </view>

@@ -1,32 +1,31 @@
 //
-//  CharacterDetailCharacterTypeCell.swift
+//  CharacterDetailAssignedPartyCell.swift
 //  Scenario Manager
 //
-//  Created by Greg Durrett on 11/5/17.
+//  Created by Greg Durrett on 11/6/17.
 //  Copyright © 2017 AppHazard Productions. All rights reserved.
 //
 
 import UIKit
 
-class CharacterDetailCharacterTypeCell: UITableViewCell {
+class CharacterDetailAssignedPartyCell: UITableViewCell {
 
-    @IBOutlet weak var characterDetailCharacterTypeLabel: UILabel!
+    @IBOutlet weak var characterDetailAssignedPartyLabel: UILabel!
     
     let colorDefinitions = ColorDefinitions()
     let fontDefinitions = FontDefinitions()
     
     var item: CharacterDetailViewModelItem? {
         didSet {
-            guard let item = item as? CharacterDetailViewModelCharacterTypeItem else {
+            guard let item = item as? CharacterDetailViewModelAssignedPartyItem else {
                 return
             }
-            characterDetailCharacterTypeLabel?.sizeToFit()
-            characterDetailCharacterTypeLabel?.font = fontDefinitions.detailTableViewNonTitleFont
-            characterDetailCharacterTypeLabel?.textColor = colorDefinitions.scenarioTitleFontColor
-            characterDetailCharacterTypeLabel.text = ("\(item.characterType)")
+            characterDetailAssignedPartyLabel?.sizeToFit()
+            characterDetailAssignedPartyLabel?.font = fontDefinitions.detailTableViewNonTitleFont
+            characterDetailAssignedPartyLabel?.textColor = colorDefinitions.scenarioTitleFontColor
+            characterDetailAssignedPartyLabel.text = ("\(item.partyName)")
         }
     }
-    
     static var nib:UINib {
         return UINib(nibName: identifier, bundle: nil)
     }

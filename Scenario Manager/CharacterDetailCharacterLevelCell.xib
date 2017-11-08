@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="CharacterDetailCharacterLevelCell" customModule="Scenario_Manager" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="81"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rOY-Gu-oir">
+                    <rect key="frame" x="16" y="30" width="42" height="21"/>
+                    <accessibility key="accessibilityConfiguration" identifier="CharacterDetailCharacterLevelCell"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" continuous="NO" autorepeat="NO" minimumValue="-9" maximumValue="9" translatesAutoresizingMaskIntoConstraints="NO" id="Ral-H3-Gql">
+                    <rect key="frame" x="265" y="26" width="94" height="29"/>
+                    <connections>
+                        <action selector="modifyLevelAction:" destination="iN0-l3-epB" eventType="valueChanged" id="W0C-Eu-zY9"/>
+                    </connections>
+                </stepper>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="rOY-Gu-oir" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="2mf-8i-3Zo"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="rOY-Gu-oir" secondAttribute="bottom" constant="30" id="5rm-e9-PDI"/>
+                <constraint firstItem="rOY-Gu-oir" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="30" id="Qh8-YD-on7"/>
+                <constraint firstItem="Ral-H3-Gql" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="26" id="YrI-D2-Tdd"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="Ral-H3-Gql" secondAttribute="bottom" constant="26" id="fhF-iG-J75"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="Ral-H3-Gql" secondAttribute="trailing" constant="16" id="uTG-ie-hN1"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="characterDetailCharacterLevelLabel" destination="rOY-Gu-oir" id="aB2-N1-YVR"/>
+                <outlet property="myStepperOutlet" destination="Ral-H3-Gql" id="fXB-vV-zCb"/>
+            </connections>
+        </view>
+    </objects>
+</document>

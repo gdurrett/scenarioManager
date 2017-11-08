@@ -16,17 +16,22 @@ class CampaignManagerTabBarController: UITabBarController {
         let colorDefinitions = ColorDefinitions()
         let allTabBarItems = tabBar.items
         
-        let partiesItem = allTabBarItems?[1]
-        let scenariosItem = allTabBarItems?[2]
         let campaignsItem = allTabBarItems?[0]
+        let partiesItem = allTabBarItems?[1]
+        let charactersItem = allTabBarItems?[2]
+        let scenariosItem = allTabBarItems?[3]
+        
+        campaignsItem?.image = UIImage(named: "moonSymbol.png")
+        campaignsItem?.setTitleTextAttributes([.font: UIFont(name: "Nyala", size: 10.0)!, .foregroundColor: colorDefinitions.tabBarTitleTextColor], for: .selected)
+        campaignsItem?.title = "Campaigns"
         
         partiesItem?.image = UIImage(named: "spikyHeadGuy.png")
         partiesItem?.setTitleTextAttributes([.font: UIFont(name: "Nyala", size: 10.0)!, .foregroundColor: colorDefinitions.tabBarTitleTextColor], for: .selected)
         partiesItem?.title = "Parties"
         
-        campaignsItem?.image = UIImage(named: "moonSymbol.png")
-        campaignsItem?.setTitleTextAttributes([.font: UIFont(name: "Nyala", size: 10.0)!, .foregroundColor: colorDefinitions.tabBarTitleTextColor], for: .selected)
-        campaignsItem?.title = "Campaigns"
+        charactersItem?.image = UIImage(named: "sunkeeper.png")
+        charactersItem?.setTitleTextAttributes([.font: UIFont(name: "Nyala", size: 10.0)!, .foregroundColor: colorDefinitions.tabBarTitleTextColor], for: .selected)
+        charactersItem?.title = "Characters"
         
         scenariosItem?.image = UIImage(named: "cthulhuFace.png")
         scenariosItem?.setTitleTextAttributes([.font: UIFont(name: "Nyala", size: 10.0)!, .foregroundColor: colorDefinitions.tabBarTitleTextColor], for: .selected)

@@ -12,11 +12,29 @@ class CharacterDetailCharacterNameCell: UITableViewCell {
 
     @IBOutlet weak var characterDetailNameLabel: UILabel!
     
+    @IBOutlet weak var characterDetailStatusLabel: UILabel!
+    
     @IBOutlet weak var characterDetailNameTextField: UITextField!
     
     let colorDefinitions = ColorDefinitions()
     let fontDefinitions = FontDefinitions()
-
+    //var delegate: CharacterDetailNameCellDelegate?
+    
+    var item: CharacterDetailViewModelItem? {
+        didSet {
+            guard let item = item as? CharacterDetailViewModelCharacterNameItem else {
+                return
+            }
+            characterDetailNameLabel?.sizeToFit()
+            characterDetailNameLabel?.font = fontDefinitions.detailTableViewTitleFont
+            characterDetailNameLabel?.textColor = colorDefinitions.scenarioTitleFontColor
+            characterDetailNameLabel?.text = "\(item.name)"
+            characterDetailStatusLabel?.sizeToFit()
+            characterDetailStatusLabel?.font = fontDefinitions.detailTableViewNonTitleFont
+            characterDetailStatusLabel?.textColor = colorDefinitions.scenarioTitleFontColor
+            characterDetailStatusLabel?.text = "\(item.status)"
+        }
+    }
     static var nib:UINib {
         return UINib(nibName: identifier, bundle: nil)
     }
@@ -28,6 +46,7 @@ class CharacterDetailCharacterNameCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(UIView.endEditing(_:))))
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

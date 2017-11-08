@@ -12,11 +12,11 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="CharacterDetailCharacterTypeCell" customModule="Scenario_Manager" customModuleProvider="target">
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="CharacterDetailAssignedPartyCell" customModule="Scenario_Manager" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="375" height="81"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ols-wH-eXx">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3k2-2p-V8P">
                     <rect key="frame" x="16" y="30" width="42" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <nil key="textColor"/>
@@ -24,16 +24,16 @@
                 </label>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-            <accessibility key="accessibilityConfiguration" identifier="CharacterDetailCharacterTypeCell"/>
+            <accessibility key="accessibilityConfiguration" identifier="CharacterDetailAssignedCampaignCell"/>
             <constraints>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="ols-wH-eXx" secondAttribute="bottom" constant="30" id="1Jq-KN-U7Q"/>
-                <constraint firstItem="ols-wH-eXx" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="30" id="QL5-AY-9Ry"/>
-                <constraint firstItem="ols-wH-eXx" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="q9H-o2-k1Q"/>
+                <constraint firstItem="3k2-2p-V8P" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="dEp-KE-1Nh"/>
+                <constraint firstItem="3k2-2p-V8P" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="30" id="fQC-wl-pck"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="3k2-2p-V8P" secondAttribute="bottom" constant="30" id="vZ7-kC-U3E"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <connections>
-                <outlet property="characterDetailCharacterTypeLabel" destination="ols-wH-eXx" id="0KL-UF-sMb"/>
+                <outlet property="characterDetailAssignedPartyLabel" destination="3k2-2p-V8P" id="wZK-Wh-KT9"/>
             </connections>
         </view>
     </objects>
