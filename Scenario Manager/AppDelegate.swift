@@ -23,7 +23,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let scenarioViewModel = ScenarioViewModelFromModel(withDataModel: dataModel)
         let campaignDetailViewModel = CampaignDetailViewModel(withCampaign: dataModel.currentCampaign)
         let partyDetailViewModel = PartyDetailViewModel(withParty: dataModel.currentParty)
-        let characterDetailViewModel = CharacterDetailViewModel(withCharacter: dataModel.characters.values.first!)
+       // Set to first character that matches current party assignment
+        let currentPartyCharacters = dataModel.characters.values.filter { $0.assignedTo == dataModel.currentParty.name }.isEmpty ? Array(dataModel.characters.values) : dataModel.characters.values.filter { $0.assignedTo == dataModel.currentParty.name }
+        for character in currentPartyCharacters {
+            print(character.name)
+        }
+        let characterDetailViewModel = CharacterDetailViewModel(withCharacter: currentPartyCharacters.first!)
         
         if let tabBarController: UITabBarController = self.window!.rootViewController as? CampaignManagerTabBarController { // Set up top-level controller
             

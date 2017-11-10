@@ -68,7 +68,7 @@ class SelectPartyCharactersViewController: UIViewController {
         selectPartyCharactersTableView.dataSource = self
         selectPartyCharactersTableView?.register(SelectCharacterTitleCell.nib, forCellReuseIdentifier: SelectCharacterTitleCell.identifier)
         
-        // viewModel?.updateCharacters() - Test removal!
+        viewModel?.updateCharacters()// - Test removal!
         viewModel?.updateAssignedCharacters()
         viewModel?.updateAvailableCharacters()
         
@@ -123,6 +123,10 @@ class SelectPartyCharactersViewController: UIViewController {
         let label = cell.viewWithTag(3600) as! UILabel
         label.text = ("level \(Int(character.level)) \(character.type)")
     }
+    fileprivate func configureCharacterPartyInfo(for cell: UITableViewCell, with character: Character) {
+        let label = cell.viewWithTag(3700) as! UILabel
+        label.text = ("party: \(character.assignedTo!)")
+    }
 }
 extension SelectPartyCharactersViewController: UITableViewDelegate, UITableViewDataSource {
     // MARK: - Table view data source
@@ -141,6 +145,7 @@ extension SelectPartyCharactersViewController: UITableViewDelegate, UITableViewD
         cell.backgroundColor = UIColor.clear
         configureTitle(for: cell, with: combinedCharacters![indexPath.row])
         configureCharacterInfo(for: cell, with: combinedCharacters![indexPath.row])
+        configureCharacterPartyInfo(for: cell, with: combinedCharacters![indexPath.row])
         if self.combinedCharacters![indexPath.row].assignedTo == viewModel!.partyName.value {
             cell.accessoryType = .checkmark
         }

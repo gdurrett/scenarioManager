@@ -27,7 +27,7 @@ class PartyDetailAssignedCharactersCell: UITableViewCell {
             partyDetailAssignedCharacterLabel?.textColor = colorDefinitions.scenarioTitleFontColor
             partyDetailAssignedCharacterLabel?.text = "\(item.rowString!)"
             partyDetailAssignedCharacterInfo?.sizeToFit()
-            partyDetailAssignedCharacterInfo?.font = fontDefinitions.scenarioSwipeFont
+            partyDetailAssignedCharacterInfo?.font = fontDefinitions.detailTableViewNonTitleFont
             partyDetailAssignedCharacterInfo?.textColor = colorDefinitions.scenarioTitleFontColor
         }
     }

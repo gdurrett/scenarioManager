@@ -195,7 +195,7 @@ extension ScenarioDetailViewController: UITableViewDataSource, UITableViewDelega
         return viewModel.items[section].sectionTitle
     }
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 30
+        return 50
     }
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         let header = view as? UITableViewHeaderFooterView

@@ -128,6 +128,7 @@ class PartyDetailViewModel: NSObject {
     }
     func updateCharacters() {
         self.allCharacters.value = Array(dataModel.characters.keys)
+        print(dataModel.characters.keys)
     }
     func updateAssignedCharacters() {
         self.assignedCharacters.value = Array(dataModel.assignedCharacters)
@@ -395,6 +396,8 @@ extension PartyDetailViewModel: UITableViewDataSource, UITableViewDelegate, Part
         dataModel.saveCampaignsLocally()
     }
     @objc func loadSelectPartyCharactersViewController(_ button: UIButton) {
+        self.updateAvailableCharacters()
+        print("At load time: \(self.availableCharacters.value)")
         if self.availableCharacters.value.isEmpty == true && self.assignedCharacters.value.isEmpty == true {
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "showNoCharactersAlert"), object: nil)
         } else {

@@ -214,7 +214,6 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
                     } else { // Test this section!
                         scenario.requirementsMet = false
                         campaign.value.requirementsMet[Int(scenario.number)! - 1] = false
-//                        break
                     }
                 } else if combinedAchievementDicts[ach]! != bool {
                     scenario.requirementsMet = false

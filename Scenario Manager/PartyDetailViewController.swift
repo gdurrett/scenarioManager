@@ -184,6 +184,7 @@ extension PartyDetailViewController: UITableViewDelegate {
     @objc func loadSelectPartyCharactersViewController() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let selectCharacterVC = storyboard.instantiateViewController(withIdentifier: "SelectPartyCharactersViewController") as! SelectPartyCharactersViewController
+        viewModel.updateAvailableCharacters() //Try here?
         selectCharacterVC.delegate = viewModel
         selectCharacterVC.viewModel = viewModel
         selectCharacterVC.hidesBottomBarWhenPushed = true

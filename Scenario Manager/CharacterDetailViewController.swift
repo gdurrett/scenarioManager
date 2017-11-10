@@ -77,6 +77,7 @@ class CharacterDetailViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(self.showCharacterTypePicker), name: NSNotification.Name(rawValue: "showCharacterTypePicker"), object: nil)
 
         styleUI()
+        
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)

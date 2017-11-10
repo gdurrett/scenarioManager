@@ -2203,8 +2203,9 @@ class DataModel {
     }
     func createCharacter(name: String) {
         if characters[name] == nil {
-            let newCharacter = Character(name: name, race: "Inox", type: "Brute", level: 0, isRetired: false, assignedTo: "None", playedScenarios: ["None"])
+            let newCharacter = Character(name: name, race: "Inox", type: "Brute", level: 1, isRetired: false, assignedTo: "None", playedScenarios: ["None"])
             characters[name] = newCharacter
+            print("Just created: \(characters[name]!.name)")
         }
     }
     func createPartyAchievements() -> [String:Bool] {
