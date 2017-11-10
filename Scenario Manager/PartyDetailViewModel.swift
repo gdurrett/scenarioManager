@@ -63,7 +63,7 @@ class PartyDetailViewModel: NSObject {
             if numberOfCharacters == 0 {
                 return 1
             } else {
-                return Int(round((sumOfLevels/numberOfCharacters)/2))
+                return Int(ceil((sumOfLevels/numberOfCharacters)/2))
             }
         }
     }

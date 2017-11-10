@@ -64,9 +64,13 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate {
     let searchController = UISearchController(searchResultsController: nil)
     let colorDefinitions = ColorDefinitions()
 
+    //var activeCharacters: [Character]?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //activeCharacters = viewModel!.activeCharacters
+
         scenarioTableView?.dataSource = self
         scenarioTableView?.delegate = self
         viewModel?.updateLoadedCampaign()
@@ -152,6 +156,8 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate {
                             if (self.viewModel?.didAnotherCompletedScenarioUnlockMe(unlockToCheck: scenarioToUpdate!, sendingScenario: self.scenario))! {
                                 //Okay to mark uncompleted, but don't trigger lock
                                 self.scenario.isCompleted = false
+                                // See if we can remove scenario title from active characters
+                                self.viewModel?.setCharacterScenarioStatus(toStatus: false, forScenario: self.scenario.title)
                                 self.viewModel?.campaign.value.isCompleted[Int(self.scenario.number)! - 1] = false
                                 self.viewModel?.updateAvailableScenarios(scenario: self.scenario, isCompleted: false)
                                 self.setSegmentTitles()
@@ -171,6 +177,8 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate {
                             if (scenarioToUpdate != nil && (self.viewModel?.didAnotherCompletedScenarioUnlockMe(unlockToCheck: scenarioToUpdate!, sendingScenario: self.scenario))!) {
                                 //Okay to mark uncompleted, but don't trigger lock of uncompleted lock
                                 self.scenario.isCompleted = false
+                                // See if we can remove scenario title from active characters
+                                self.viewModel?.setCharacterScenarioStatus(toStatus: false, forScenario: self.scenario.title)
                                 self.viewModel?.campaign.value.isCompleted[Int(self.scenario.number)! - 1] = false
                                 self.viewModel?.updateAvailableScenarios(scenario: self.scenario, isCompleted: false)
                                 self.setSegmentTitles()
@@ -178,6 +186,8 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate {
                             } else {
                                 //Okay to mark uncompleted AND trigger lock
                                 self.scenario.isCompleted = false
+                                // See if we can remove scenario title from active characters
+                                self.viewModel?.setCharacterScenarioStatus(toStatus: false, forScenario: self.scenario.title)
                                 self.viewModel?.campaign.value.isCompleted[Int(self.scenario.number)! - 1] = false
                                 self.viewModel?.updateAvailableScenarios(scenario: self.scenario, isCompleted: false)
                                 self.setSegmentTitles()
@@ -192,6 +202,8 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate {
                         self.scenario.isCompleted = true // Test in here
                         self.viewModel?.campaign.value.isCompleted[Int(self.scenario.number)! - 1] = true // Test in here
                         self.viewModel?.updateAvailableScenarios(scenario: self.scenario, isCompleted: true)
+                        // See if we can append scenario title to active characters
+                        self.viewModel?.setCharacterScenarioStatus(toStatus: true, forScenario: self.scenario.title)
                         self.setSegmentTitles()
                         tableView.reloadData()
                     }

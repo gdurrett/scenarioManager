@@ -325,6 +325,74 @@
             </objects>
             <point key="canvasLocation" x="2805" y="1121"/>
         </scene>
+        <!--Create Character View Controller-->
+        <scene sceneID="Iet-8I-gGw">
+            <objects>
+                <viewController storyboardIdentifier="CreateCharacterViewController" id="NzC-sC-3YD" customClass="CreateCharacterViewController" customModule="Scenario_Manager" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="QqZ-Uk-mxu"/>
+                        <viewControllerLayoutGuide type="bottom" id="WSp-im-7yT"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="wtA-bN-OMp">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="p6g-MH-zf0">
+                                <rect key="frame" x="0.0" y="65" width="320" height="504"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Zg-W9-tKj">
+                                <rect key="frame" x="16" y="24" width="54" height="33"/>
+                                <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="22"/>
+                                <state key="normal" title="Cancel">
+                                    <color key="titleColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
+                                <connections>
+                                    <action selector="cancel:" destination="NzC-sC-3YD" eventType="touchUpInside" id="J4t-dk-7IY"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create Character" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nod-Ko-ast">
+                                <rect key="frame" x="80" y="29" width="161" height="24"/>
+                                <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="26"/>
+                                <color key="textColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yDa-1n-tLU">
+                                <rect key="frame" x="268" y="24" width="36" height="33"/>
+                                <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="22"/>
+                                <state key="normal" title="Save">
+                                    <color key="titleColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
+                                <connections>
+                                    <action selector="save:" destination="NzC-sC-3YD" eventType="touchUpInside" id="OSI-ZI-yGu"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="p6g-MH-zf0" firstAttribute="top" secondItem="nod-Ko-ast" secondAttribute="bottom" constant="12" id="7W3-ob-YRV"/>
+                            <constraint firstAttribute="trailing" secondItem="p6g-MH-zf0" secondAttribute="trailing" id="9WB-ge-uRP"/>
+                            <constraint firstItem="p6g-MH-zf0" firstAttribute="top" secondItem="6Zg-W9-tKj" secondAttribute="bottom" constant="8" id="CQB-Sy-E54"/>
+                            <constraint firstItem="6Zg-W9-tKj" firstAttribute="top" secondItem="QqZ-Uk-mxu" secondAttribute="bottom" constant="4" id="LHP-tP-3wB"/>
+                            <constraint firstItem="p6g-MH-zf0" firstAttribute="top" secondItem="QqZ-Uk-mxu" secondAttribute="bottom" constant="45" id="PaC-2k-Gb4"/>
+                            <constraint firstAttribute="trailing" secondItem="yDa-1n-tLU" secondAttribute="trailing" constant="16" id="SKF-n2-Vkf"/>
+                            <constraint firstItem="6Zg-W9-tKj" firstAttribute="leading" secondItem="wtA-bN-OMp" secondAttribute="leading" constant="16" id="SqM-5L-SFR"/>
+                            <constraint firstItem="WSp-im-7yT" firstAttribute="top" secondItem="p6g-MH-zf0" secondAttribute="bottom" constant="-1" id="UWx-9y-FOj"/>
+                            <constraint firstItem="p6g-MH-zf0" firstAttribute="top" secondItem="yDa-1n-tLU" secondAttribute="bottom" constant="8" id="bEo-Se-V3C"/>
+                            <constraint firstItem="nod-Ko-ast" firstAttribute="centerX" secondItem="wtA-bN-OMp" secondAttribute="centerX" id="gVk-N2-mSk"/>
+                            <constraint firstItem="p6g-MH-zf0" firstAttribute="leading" secondItem="wtA-bN-OMp" secondAttribute="leading" id="k3x-x8-lW5"/>
+                            <constraint firstItem="yDa-1n-tLU" firstAttribute="top" secondItem="QqZ-Uk-mxu" secondAttribute="bottom" constant="4" id="mzg-B5-BUp"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="createCharacterTableView" destination="p6g-MH-zf0" id="fpm-7j-wMm"/>
+                        <outlet property="createCharacterView" destination="wtA-bN-OMp" id="3fX-vn-F4D"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9EA-fP-DfJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3603.75" y="1523.2394366197184"/>
+        </scene>
         <!--Select Character View Controller-->
         <scene sceneID="Tif-Mf-goY">
             <objects>
@@ -355,7 +423,6 @@
                                 </state>
                                 <connections>
                                     <action selector="selectCharacterViewControllerDidCancel:" destination="NC1-ID-UfR" eventType="touchUpInside" id="cZt-mD-W7l"/>
-                                    <action selector="selectPartyCancelAction:" destination="7Zj-K4-zf3" eventType="touchUpInside" id="p8L-OQ-yhp"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lz1-4W-AeN">

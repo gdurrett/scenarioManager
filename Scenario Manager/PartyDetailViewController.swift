@@ -141,6 +141,7 @@ extension PartyDetailViewController: UITableViewDelegate {
         viewModel.updateAssignedCampaign()
         viewModel.updateAssignedCharacters()
         viewModel.updateAchievements()
+        viewModel.updateCharacters()
 
         self.partyDetailTableView.reloadData()
         

@@ -24,6 +24,7 @@ class SelectCharacterViewController: UIViewController {
     }
     
     @IBAction func selectCharacterViewControllerDoneAction(_ sender: Any) {
+        if selectedCharacter == nil { selectedCharacter = viewModel!.character } // Just return current character if nothing was tapped
         delegate?.selectCharacterViewControllerDidFinishSelecting(self)
     }
     // MARK: Global Variables

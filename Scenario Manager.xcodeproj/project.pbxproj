@@ -8,6 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		FB10A4471FB389B900CAA684 /* SelectCharacterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB10A4461FB389B900CAA684 /* SelectCharacterViewController.swift */; };
+		FB10A4491FB3CF2700CAA684 /* CharacterDetailPlayedScenarioCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB10A4481FB3CF2700CAA684 /* CharacterDetailPlayedScenarioCell.xib */; };
+		FB10A44B1FB3CF7A00CAA684 /* CharacterDetailPlayedScenarioCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB10A44A1FB3CF7A00CAA684 /* CharacterDetailPlayedScenarioCell.swift */; };
+		FB10A44D1FB4E60700CAA684 /* CreateCharacterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB10A44C1FB4E60700CAA684 /* CreateCharacterViewController.swift */; };
+		FB10A44F1FB4EDFE00CAA684 /* CreateCharacterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB10A44E1FB4EDFE00CAA684 /* CreateCharacterViewModel.swift */; };
+		FB10A4521FB4F9FC00CAA684 /* CreateCharacterCharacterNameCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB10A4511FB4F9FC00CAA684 /* CreateCharacterCharacterNameCell.xib */; };
+		FB10A4541FB4FB6400CAA684 /* CreateCharacterCharacterNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB10A4531FB4FB6400CAA684 /* CreateCharacterCharacterNameCell.swift */; };
 		FB2237D51F816B5500CAA684 /* SelectCampaignViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2237D41F816B5500CAA684 /* SelectCampaignViewController.swift */; };
 		FB2237D81F8190E600CAA684 /* SelectCampaignTitleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB2237D71F8190E600CAA684 /* SelectCampaignTitleCell.xib */; };
 		FB2237DA1F81916B00CAA684 /* SelectCampaignTitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2237D91F81916B00CAA684 /* SelectCampaignTitleCell.swift */; };
@@ -120,6 +126,12 @@
 
 /* Begin PBXFileReference section */
 		FB10A4461FB389B900CAA684 /* SelectCharacterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCharacterViewController.swift; sourceTree = "<group>"; };
+		FB10A4481FB3CF2700CAA684 /* CharacterDetailPlayedScenarioCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CharacterDetailPlayedScenarioCell.xib; sourceTree = "<group>"; };
+		FB10A44A1FB3CF7A00CAA684 /* CharacterDetailPlayedScenarioCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterDetailPlayedScenarioCell.swift; sourceTree = "<group>"; };
+		FB10A44C1FB4E60700CAA684 /* CreateCharacterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCharacterViewController.swift; sourceTree = "<group>"; };
+		FB10A44E1FB4EDFE00CAA684 /* CreateCharacterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCharacterViewModel.swift; sourceTree = "<group>"; };
+		FB10A4511FB4F9FC00CAA684 /* CreateCharacterCharacterNameCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CreateCharacterCharacterNameCell.xib; sourceTree = "<group>"; };
+		FB10A4531FB4FB6400CAA684 /* CreateCharacterCharacterNameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCharacterCharacterNameCell.swift; sourceTree = "<group>"; };
 		FB2237D41F816B5500CAA684 /* SelectCampaignViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCampaignViewController.swift; sourceTree = "<group>"; };
 		FB2237D71F8190E600CAA684 /* SelectCampaignTitleCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelectCampaignTitleCell.xib; sourceTree = "<group>"; };
 		FB2237D91F81916B00CAA684 /* SelectCampaignTitleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCampaignTitleCell.swift; sourceTree = "<group>"; };
@@ -245,6 +257,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FB10A4501FB4F7F300CAA684 /* CreateCharacterTableViewCells */ = {
+			isa = PBXGroup;
+			children = (
+				FB10A4511FB4F9FC00CAA684 /* CreateCharacterCharacterNameCell.xib */,
+				FB10A4531FB4FB6400CAA684 /* CreateCharacterCharacterNameCell.swift */,
+			);
+			name = CreateCharacterTableViewCells;
+			sourceTree = "<group>";
+		};
 		FB2237D61F8190CB00CAA684 /* SelectCampaignTableViewCells */ = {
 			isa = PBXGroup;
 			children = (
@@ -302,6 +323,7 @@
 				FBD2DD131F67517000CAA684 /* CreateCamaignViewModel.swift */,
 				FB8D4F5D1FB0E09E00CAA684 /* CharacterDetailViewModel.swift */,
 				FBD2DD071F625FEA00CAA684 /* CreateCampaignViewModelFromModel.swift */,
+				FB10A44E1FB4EDFE00CAA684 /* CreateCharacterViewModel.swift */,
 				FBCFBC271FA92B6200CAA684 /* CreatePartyViewModel.swift */,
 				FBD2DD151F6863E900CAA684 /* DeleteCampaignViewModelFromModel.swift */,
 				FB40EA181F45552B00CAA684 /* Dynamic.swift */,
@@ -320,6 +342,7 @@
 				FBCE87691F5A066F00CAA684 /* CampaignManagerTabBarController.swift */,
 				FB8F10CF1FAFD6B800CAA684 /* CharacterDetailViewController.swift */,
 				FBD2DD031F620F4800CAA684 /* CreateCampaignViewController.swift */,
+				FB10A44C1FB4E60700CAA684 /* CreateCharacterViewController.swift */,
 				FBCFBC291FA930F200CAA684 /* CreatePartyViewController.swift */,
 				FB40EA0B1F43ACFF00CAA684 /* DashboardViewController.swift */,
 				FBEB4B651F9D4E7F00CAA684 /* PartyDetailViewController.swift */,
@@ -366,6 +389,7 @@
 			isa = PBXGroup;
 			children = (
 				FB8F10D11FAFD94B00CAA684 /* CharacterDetailTableViewCells */,
+				FB10A4501FB4F7F300CAA684 /* CreateCharacterTableViewCells */,
 				FBCFBC221FA9296500CAA684 /* CreatePartyTableViewCells */,
 				FB5729BA1F6C728E00CAA684 /* CampaignDetailTableViewCells */,
 				FBD2DD0C1F634C0800CAA684 /* CreateCampaignTableViewCells */,
@@ -439,6 +463,8 @@
 				FB8D4F5B1FB0DD9000CAA684 /* CharacterDetailCharacterLevelCell.xib */,
 				FB8D4F5F1FB11CAF00CAA684 /* CharacterDetailAssignedPartyCell.swift */,
 				FB8D4F611FB11CCF00CAA684 /* CharacterDetailAssignedPartyCell.xib */,
+				FB10A4481FB3CF2700CAA684 /* CharacterDetailPlayedScenarioCell.xib */,
+				FB10A44A1FB3CF7A00CAA684 /* CharacterDetailPlayedScenarioCell.swift */,
 			);
 			name = CharacterDetailTableViewCells;
 			sourceTree = "<group>";
@@ -631,6 +657,7 @@
 				FB5729CA1F6F1B5F00CAA684 /* CampaignDetailAchievementsCell.xib in Resources */,
 				FB2237D81F8190E600CAA684 /* SelectCampaignTitleCell.xib in Resources */,
 				FB5729C01F6C73B900CAA684 /* CampaignDetailTitleCell.xib in Resources */,
+				FB10A4521FB4F9FC00CAA684 /* CreateCharacterCharacterNameCell.xib in Resources */,
 				FBA014191F9E80D900CAA684 /* PartyDetailReputationCell.xib in Resources */,
 				FB5DDF661F8C35CF00CAA684 /* CampaignDetailEventsHeader.xib in Resources */,
 				FB23B6F41F044CFC00CAA684 /* LaunchScreen.storyboard in Resources */,
@@ -638,6 +665,7 @@
 				FB482DAA1F293C6600CAA684 /* AchievesInfoCell.xib in Resources */,
 				FB8D4F621FB11CCF00CAA684 /* CharacterDetailAssignedPartyCell.xib in Resources */,
 				FB46658B1F2E66C000CAA684 /* RequirementsInfoCell.xib in Resources */,
+				FB10A4491FB3CF2700CAA684 /* CharacterDetailPlayedScenarioCell.xib in Resources */,
 				FB7A89BA1F83FF5600CAA684 /* CreateCampaignPartyCell.xib in Resources */,
 				FB8D4F5C1FB0DD9000CAA684 /* CharacterDetailCharacterLevelCell.xib in Resources */,
 				FB482DA61F293ABA00CAA684 /* UnlockedByInfoCell.xib in Resources */,
@@ -679,10 +707,13 @@
 				FB8D4F601FB11CAF00CAA684 /* CharacterDetailAssignedPartyCell.swift in Sources */,
 				FBCFBC2F1FAA47B000CAA684 /* SelectPartyTableViewCell.swift in Sources */,
 				FB40EA191F45552B00CAA684 /* Dynamic.swift in Sources */,
+				FB10A4541FB4FB6400CAA684 /* CreateCharacterCharacterNameCell.swift in Sources */,
 				FB5729C81F6F022500CAA684 /* CampaignDetailPartyCell.swift in Sources */,
 				FBCFBC311FAA4BF600CAA684 /* SelectPartyViewController.swift in Sources */,
 				FB5729CC1F6F1BB800CAA684 /* CampaignDetailAchievementsCell.swift in Sources */,
+				FB10A44D1FB4E60700CAA684 /* CreateCharacterViewController.swift in Sources */,
 				FB8F10D91FAFDFAA00CAA684 /* CharacterDetailCharacterTypeCell.swift in Sources */,
+				FB10A44F1FB4EDFE00CAA684 /* CreateCharacterViewModel.swift in Sources */,
 				FB5729D01F6F287700CAA684 /* CampaignDetailProsperityCell.swift in Sources */,
 				FB8D4F5A1FB0DD0B00CAA684 /* CharacterDetailCharacterLevelCell.swift in Sources */,
 				FB36438D1F8AAF9300CAA684 /* Event.swift in Sources */,
@@ -715,6 +746,7 @@
 				FB23B6EA1F044CFC00CAA684 /* AppDelegate.swift in Sources */,
 				FB2237D51F816B5500CAA684 /* SelectCampaignViewController.swift in Sources */,
 				FB8F10D01FAFD6B800CAA684 /* CharacterDetailViewController.swift in Sources */,
+				FB10A44B1FB3CF7A00CAA684 /* CharacterDetailPlayedScenarioCell.swift in Sources */,
 				FBD2DD081F625FEA00CAA684 /* CreateCampaignViewModelFromModel.swift in Sources */,
 				FB4665911F2FA98C00CAA684 /* LocationInfoCell.swift in Sources */,
 				FBCE87641F59EBE400CAA684 /* CloudKitMgr.swift in Sources */,

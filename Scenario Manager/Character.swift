@@ -16,14 +16,16 @@ class Character: NSObject, NSCoding {
     var level: Double
     var isRetired: Bool
     var assignedTo: String?
+    var playedScenarios: [String]?
     
-    init(name: String, race: String, type: String, level: Double, isRetired: Bool, assignedTo: String) {
+    init(name: String, race: String, type: String, level: Double, isRetired: Bool, assignedTo: String, playedScenarios: [String]) {
         self.name = name
         self.race = race
         self.type = type
         self.level = level
         self.isRetired = isRetired
         self.assignedTo = assignedTo
+        self.playedScenarios = playedScenarios
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -33,6 +35,7 @@ class Character: NSObject, NSCoding {
         level = aDecoder.decodeDouble(forKey: "Level")
         isRetired = aDecoder.decodeBool(forKey: "IsRetired")
         assignedTo = aDecoder.decodeObject(forKey: "AssignedTo") as? String
+        playedScenarios = aDecoder.decodeObject(forKey: "PlayedScenarios") as? [String]
     }
     
     func encode(with aCoder: NSCoder) {
@@ -42,5 +45,6 @@ class Character: NSObject, NSCoding {
         aCoder.encode(level, forKey: "Level")
         aCoder.encode(isRetired, forKey: "IsRetired")
         aCoder.encode(assignedTo, forKey: "AssignedTo")
+        aCoder.encode(playedScenarios, forKey: "PlayedScenarios")
     }
 }

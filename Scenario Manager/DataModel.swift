@@ -102,7 +102,7 @@ class DataModel {
         get {
             var tempCharacters = [Character]()
             for character in self.characters.values {
-                if character.assignedTo == "None" {
+                if character.assignedTo == "None" && character.isRetired != true {
                     tempCharacters.append(character)
                 } else {
                     
@@ -211,8 +211,6 @@ class DataModel {
     let defaultUnlocks = [ "13" : ["ONEOF", "15", "17", "20"] ]
     
     private init() {
-        // Temp character object dictionary
-
 
         let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
         let url = NSURL(fileURLWithPath: path)
@@ -2175,13 +2173,6 @@ class DataModel {
     func createParty(name: String, characters: [Character], location: String, achievements: [String:Bool], reputation: Int, isCurrent: Bool, assignedTo: String) {
         if (parties[name] == nil) {
             let newParty = Party(name: name, characters: characters, location: location, achievements: createPartyAchievements(), reputation: reputation, isCurrent: isCurrent, assignedTo: assignedTo)
-//            for achievement in partyAchievements {
-//                if achievement.key == "None" || achievement.key == "OR" {
-//                    newParty.achievements[achievement.key] = true
-//                } else {
-//                    newParty.achievements[achievement.key] = false
-//                }
-//            }
             parties[name] = newParty
             if newParty.isCurrent == true {
                 loadParty(party: newParty.name)
@@ -2198,6 +2189,7 @@ class DataModel {
                 self.partyAchievements[achievement] = newStatus
                 updateLocalPartyIsCurrent(party: party)
             }
+            print("Loading?")
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "loadParty"), object: nil) // Trigger setRequirementsMetForCurrentParty in Scenario VM
         } else {
             print("No such party exists")
@@ -2208,6 +2200,12 @@ class DataModel {
             myParty.value.isCurrent = false
         }
         parties[party]!.isCurrent = true
+    }
+    func createCharacter(name: String) {
+        if characters[name] == nil {
+            let newCharacter = Character(name: name, race: "Inox", type: "Brute", level: 0, isRetired: false, assignedTo: "None", playedScenarios: ["None"])
+            characters[name] = newCharacter
+        }
     }
     func createPartyAchievements() -> [String:Bool] {
         let newAchievements = [
@@ -3619,10 +3617,10 @@ class DataModel {
         return self.parties["MyParty"]!
     }
     func createDefaultCharacters() {
-        characters["Character1"] = Character(name: "Character1", race: "Vermling", type: "Mindthief", level: 1, isRetired: false, assignedTo: "MyParty")
-        characters["Character2"] = Character(name: "Character2", race: "Inox", type: "Brute", level: 2, isRetired: false, assignedTo: "MyParty")
-        characters["Character3"] = Character(name: "Character3", race: "Savvas", type: "Cragheart", level: 3, isRetired: false, assignedTo: "None")
-        characters["Character4"] = Character(name: "Character4", race: "Orchid", type: "Spellweaver", level: 7, isRetired: false, assignedTo: "None")
+        characters["Character1"] = Character(name: "Character1", race: "Vermling", type: "Mindthief", level: 1, isRetired: false, assignedTo: "MyParty", playedScenarios: ["None"])
+        characters["Character2"] = Character(name: "Character2", race: "Inox", type: "Brute", level: 2, isRetired: false, assignedTo: "MyParty", playedScenarios: ["None"])
+        characters["Character3"] = Character(name: "Character3", race: "Savvas", type: "Cragheart", level: 3, isRetired: false, assignedTo: "None", playedScenarios: ["None"])
+        characters["Character4"] = Character(name: "Character4", race: "Orchid", type: "Spellweaver", level: 7, isRetired: false, assignedTo: "None", playedScenarios: ["None"])
     }
     func resetAll() {
         for scenario in allScenarios {

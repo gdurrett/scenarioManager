@@ -14,6 +14,7 @@ enum CharacterDetailViewModelItemType {
     case characterLevel
     case characterType
     case assignedParty
+    case scenarioHistory
 }
 
 protocol CharacterDetailViewModelItem {
@@ -76,6 +77,9 @@ class CharacterDetailViewModel: NSObject {
         // Append assigned party to items
         let assignedParty = CharacterDetailViewModelAssignedPartyItem(partyName: character.assignedTo!)
         items.append(assignedParty)
+        // Append played scenarios to items
+        let playedScenariosItem = CharacterDetailViewModelScenarioHistoryItem(scenarioTitles: character.playedScenarios!)
+        items.append(playedScenariosItem)
     }
     // Helper methods
     // Method for Renaming Character Name
@@ -84,9 +88,8 @@ class CharacterDetailViewModel: NSObject {
             dataModel.characters[oldName]!.name = newName
             dataModel.characters.changeKey(from: oldName, to: newName)
             for character in dataModel.characters { print("\(character.value.name)") }
-            //let indexOfOldCharacter = dataModel.characters.index { $0.value === dataModel.characters[oldName] }
-            //dataModel.assignedCharacters(indexOfOldCharacter[oldName]) = newName
-
+            character.name = newName
+            
             dataModel.saveCampaignsLocally()
         }
     }
@@ -96,6 +99,10 @@ class CharacterDetailViewModel: NSObject {
     func updateCharacterLevel() {
         self.currentLevel.value = dataModel.characters[character.name]!.level
     }
+    func updateCharacters() {
+        self.characters.value = dataModel.characters
+    }
+
 }
 extension CharacterDetailViewModel: UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, CharacterDetailCharacterLevelCellDelegate, CharacterDetailViewControllerPickerDelegate {
 
@@ -103,7 +110,12 @@ extension CharacterDetailViewModel: UITableViewDataSource, UITableViewDelegate, 
         return self.items.count
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        // Call update maybe?!
+        if self.items[section].type == .scenarioHistory {
+            return character.playedScenarios!.count
+        } else {
+            return 1
+        }
     }
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return self.items[section].sectionTitle
@@ -163,6 +175,17 @@ extension CharacterDetailViewModel: UITableViewDataSource, UITableViewDelegate, 
                 cell.item = item
                 return cell
             }
+        case .scenarioHistory:
+            if let _ = item as? CharacterDetailViewModelScenarioHistoryItem, let cell = tableView.dequeueReusableCell(withIdentifier: CharacterDetailPlayedScenarioCell.identifier, for: indexPath) as? CharacterDetailPlayedScenarioCell {
+                cell.backgroundColor = UIColor.clear
+                cell.selectionStyle = .none
+                if character.playedScenarios! == ["None"] {
+                    cell.title = "No played scenarios"
+                } else {
+                    cell.title = character.playedScenarios![indexPath.row]
+                }
+                return cell
+            }
         }
         return UITableViewCell()
     }
@@ -190,6 +213,8 @@ extension CharacterDetailViewModel: UITableViewDataSource, UITableViewDelegate, 
             button.addTarget(self, action: #selector(self.showCharacterTypePicker(_:)), for: .touchUpInside)
             header.addSubview(button)
         case .assignedParty:
+            break
+        case .scenarioHistory:
             break
         }
     }
@@ -281,7 +306,6 @@ extension CharacterDetailViewModel: UITableViewDataSource, UITableViewDelegate, 
         self.reloadSection?(2)
         self.dataModel.saveCampaignsLocally()
     }
-    
 }
 extension CharacterDetailViewModel: UIPickerViewDelegate, UIPickerViewDataSource {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -318,6 +342,40 @@ extension CharacterDetailViewModel: SelectCharacterViewControllerDelegate {
     func selectCharacterViewControllerDidFinishSelecting(_ controller: SelectCharacterViewController) {
         self.character = controller.selectedCharacter!
         controller.dismiss(animated: true, completion: nil)
+    }
+}
+extension CharacterDetailViewModel: CreateCharacterViewModelDelegate {
+    func setCurrentCharacter(character: Character) {
+        self.character = character
+    }
+}
+extension CharacterDetailViewModel: CharacterDetailViewControllerDelegate {    
+    
+    func deleteCharacter(character: Character, controller: CharacterDetailViewController) {
+        if dataModel.characters.count == 1 {
+            //Raise alert that we can't delete last character
+            controller.showDisallowDeletionAlert()
+        } else {
+            dataModel.characters.removeValue(forKey: character.name)
+            self.character = dataModel.characters.first!.value
+            // Load new character here
+            self.updateCharacters()
+            self.updateAssignedParty()
+            self.updateCharacterLevel()
+            reloadSection!(0)
+            dataModel.saveCampaignsLocally()
+        }
+    }
+    
+    func retireCharacter(character: Character) {
+        character.isRetired = true
+        character.assignedTo = "None"
+        dataModel.characters[character.name]!.assignedTo = "None"
+        dataModel.characters[character.name]?.isRetired = true
+        self.updateAssignedParty()
+        reloadSection!(0)
+        reloadSection!(3)
+        dataModel.saveCampaignsLocally()
     }
     
     
@@ -385,7 +443,6 @@ class CharacterDetailViewModelCharacterTypeItem: CharacterDetailViewModelItem {
     init(characterType: String) {
         self.characterType = characterType
     }
-    
 }
 class CharacterDetailViewModelAssignedPartyItem: CharacterDetailViewModelItem {
     
@@ -406,5 +463,24 @@ class CharacterDetailViewModelAssignedPartyItem: CharacterDetailViewModelItem {
     init(partyName: String) {
         self.partyName = partyName
     }
+}
+class CharacterDetailViewModelScenarioHistoryItem: CharacterDetailViewModelItem {
     
+    var type: CharacterDetailViewModelItemType {
+        return .scenarioHistory
+    }
+    
+    var sectionTitle: String {
+        return "Scenario History"
+    }
+    
+    var rowCount: Int {
+        return 1
+    }
+    
+    var scenarioTitles: [String]
+    
+    init(scenarioTitles: [String]) {
+        self.scenarioTitles = scenarioTitles
+    }
 }

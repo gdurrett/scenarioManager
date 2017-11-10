@@ -28,6 +28,12 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
     var dataModelAchievementsToChange = String()
     var partyOrCampaign = String()
     var dataModelAchievementsToCheck = String()
+    var activeCharacters: [Character] {
+        get {
+            let tempCharacters = Array(dataModel.characters.values)
+            return tempCharacters.filter { $0.assignedTo == dataModel.currentParty.name }
+        }
+    }
     
     // MARK: Init
     init(withDataModel dataModel: DataModel) {
@@ -198,12 +204,17 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
             var tempRequirementsArray = scenario.requirements
             tempRequirementsArray.removeValue(forKey: "OR")
             for (ach, bool) in tempRequirementsArray {
-
                 if orPresent {
+                    print("Or should be present!!")
+                    print("Achievement: \(ach), Should be: \(bool), But is actually: \(combinedAchievementDicts[ach]!)")
                     if combinedAchievementDicts[ach]! == bool {
                         scenario.requirementsMet = true
                         campaign.value.requirementsMet[Int(scenario.number)! - 1] = true
                         break
+                    } else { // Test this section!
+                        scenario.requirementsMet = false
+                        campaign.value.requirementsMet[Int(scenario.number)! - 1] = false
+//                        break
                     }
                 } else if combinedAchievementDicts[ach]! != bool {
                     scenario.requirementsMet = false
@@ -301,5 +312,32 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
             }
         }
         return additionalTitles
+    }
+    func setCharacterScenarioStatus(toStatus: Bool, forScenario: String) {
+        // Figure out how to append and remove played scenarios for character array
+        if toStatus == true {
+            print(self.activeCharacters.minimalDescription)
+            for character in self.activeCharacters {
+                if character.playedScenarios! == ["None"] {
+                    dataModel.characters[character.name]!.playedScenarios! = [forScenario]
+                } else {
+                    dataModel.characters[character.name]!.playedScenarios!.append(forScenario)
+                }
+            }
+        } else {
+            for character in dataModel.characters.values {
+                let tempPlayedScenarios = dataModel.characters[character.name]!.playedScenarios!
+                if tempPlayedScenarios.count == 1 && tempPlayedScenarios == [forScenario] {
+                    print("Should be setting to None")
+                    dataModel.characters[character.name]?.playedScenarios? = ["None"]
+                } else if tempPlayedScenarios.count == 1 && tempPlayedScenarios == ["None"] {
+                    //
+                } else {
+                    let tempPlayedScenarios = dataModel.characters[character.name]?.playedScenarios!.filter { $0 != forScenario }
+                    dataModel.characters[character.name]?.playedScenarios! = tempPlayedScenarios!
+                }
+            }
+        }
+        dataModel.saveCampaignsLocally()
     }
 }
