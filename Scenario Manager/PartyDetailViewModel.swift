@@ -441,6 +441,7 @@ extension PartyDetailViewModel: SelectPartyCharactersViewControllerDelegate {
         }
         if !controller.unassignedCharacters.isEmpty {
             for character in controller.unassignedCharacters {
+                // Rather than assign to none, could we set to inactive?
                 dataModel.characters[character.name]!.assignedTo = "None"
             }
             updateCharacters()
@@ -469,6 +470,7 @@ extension PartyDetailViewModel: PartyDetailViewControllerDelegate {
         if dataModel.assignedParties!.count > 1 {
             for character in dataModel.characters {
                 if character.value.assignedTo == dataModel.currentParty.name {
+                    // In addition to assigning to none, could we set character status to retired
                     character.value.assignedTo = "None"
                 }
             }

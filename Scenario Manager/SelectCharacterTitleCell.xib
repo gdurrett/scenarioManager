@@ -23,7 +23,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="KmN-Rq-Vq0">
-                    <rect key="frame" x="200" y="17" width="42" height="40"/>
+                    <rect key="frame" x="160" y="17" width="42" height="40"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" tag="3600" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ibe-o7-ozh">
                             <rect key="frame" x="0.0" y="0.0" width="42" height="20"/>
@@ -46,7 +46,7 @@
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <accessibility key="accessibilityConfiguration" identifier="SelectCharacterTitleCell"/>
             <constraints>
-                <constraint firstItem="KmN-Rq-Vq0" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="200" id="BEl-Rt-IG1"/>
+                <constraint firstItem="KmN-Rq-Vq0" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="160" id="BEl-Rt-IG1"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="KmN-Rq-Vq0" secondAttribute="bottom" constant="23" id="CzG-07-nFU"/>
                 <constraint firstItem="Nm7-Nf-P1U" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="K7P-rA-8pi"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="Nm7-Nf-P1U" secondAttribute="bottom" constant="29" id="gyD-MH-p9R"/>
