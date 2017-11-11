@@ -52,6 +52,9 @@ class PartyDetailViewController: UIViewController {
         
         // Register headers
         partyDetailTableView?.register(PartyDetailAssignedCampaignHeader.nib, forCellReuseIdentifier: PartyDetailAssignedCampaignHeader.identifier)
+        
+        //viewModel.updateAvailableCharacters() //Try here?
+
         styleUI()
     }
     
@@ -142,7 +145,8 @@ extension PartyDetailViewController: UITableViewDelegate {
         viewModel.updateAssignedCharacters()
         viewModel.updateAchievements()
         viewModel.updateCharacters()
-
+        viewModel.updateAssignedAndActiveCharacters() //Try here?
+        
         self.partyDetailTableView.reloadData()
         
         // Test scroll to top

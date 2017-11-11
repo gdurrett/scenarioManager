@@ -31,11 +31,13 @@ class SelectPartyCharactersViewController: UIViewController {
             for index in selectedCharacterRows {
                 let char = index.row
                 selectedCharacters.append(combinedCharacters![char])
+                print("just appended \(combinedCharacters![char].name) to assigned")
             }
         }
         for character in combinedCharacters! {
             if !selectedCharacters.contains(character) {
                 unassignedCharacters.append(character)
+                print("just appended \(character.name) to unassigned")
             }
         }
         delegate?.selectPartyCharactersViewControllerDidFinishSelecting(self)
@@ -71,6 +73,7 @@ class SelectPartyCharactersViewController: UIViewController {
         viewModel?.updateCharacters()// - Test removal!
         viewModel?.updateAssignedCharacters()
         viewModel?.updateAvailableCharacters()
+        viewModel?.updateAssignedAndActiveCharacters()
         
         fillUI()
         styleUI()
@@ -146,7 +149,7 @@ extension SelectPartyCharactersViewController: UITableViewDelegate, UITableViewD
         configureTitle(for: cell, with: combinedCharacters![indexPath.row])
         configureCharacterInfo(for: cell, with: combinedCharacters![indexPath.row])
         configureCharacterPartyInfo(for: cell, with: combinedCharacters![indexPath.row])
-        if self.combinedCharacters![indexPath.row].assignedTo == viewModel!.partyName.value {
+        if self.combinedCharacters![indexPath.row].assignedTo == viewModel!.partyName.value && self.combinedCharacters![indexPath.row].isActive == true {
             cell.accessoryType = .checkmark
         }
         cell.selectionStyle = .none
@@ -169,7 +172,7 @@ extension SelectPartyCharactersViewController: UITableViewDelegate, UITableViewD
         return indexPath
     }
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if self.combinedCharacters![indexPath.row].assignedTo != viewModel!.partyName.value {
+        if self.combinedCharacters![indexPath.row].assignedTo != viewModel!.partyName.value || self.combinedCharacters![indexPath.row].isActive != true {
          } else {
             tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
             tableView.delegate?.tableView!(selectPartyCharactersTableView, didSelectRowAt: indexPath)

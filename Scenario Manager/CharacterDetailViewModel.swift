@@ -33,7 +33,7 @@ class CharacterDetailViewModel: NSObject {
         get {
             if character.isRetired {
                 return "retired"
-            } else if character.assignedTo == dataModel.currentParty.name {
+            } else if character.assignedTo == dataModel.currentParty.name && character.isActive == true {
                 return "active"
             } else {
                 return "inactive"
@@ -55,13 +55,15 @@ class CharacterDetailViewModel: NSObject {
     // Dynamics
     var assignedParty: Dynamic<String>
     var currentLevel: Dynamic<Double>
-    var characters: Dynamic<[String:Character]>
+    //var characters: Dynamic<[String:Character]>
+    var characters: Dynamic<[Character]>
     
     init(withCharacter character: Character) {
         self.character = character
         self.assignedParty = Dynamic(dataModel.characters[character.name]!.assignedTo!) // "None" is valid assignee
         self.currentLevel = Dynamic(dataModel.characters[character.name]!.level)
-        self.characters = Dynamic(dataModel.characters)
+        //self.characters = Dynamic(dataModel.characters)
+        self.characters = Dynamic(dataModel.assignedCharacters + dataModel.availableCharacters) //Test!!
         super.init()
         
         
@@ -100,9 +102,12 @@ class CharacterDetailViewModel: NSObject {
         self.currentLevel.value = dataModel.characters[character.name]!.level
     }
     func updateCharacters() {
-        self.characters.value = dataModel.characters
+        //self.characters.value = dataModel.characters
+        self.characters.value = dataModel.assignedCharacters + dataModel.availableCharacters
     }
-
+    func updateCharacter() {
+        self.character = self.characters.value.first!
+    }
 }
 extension CharacterDetailViewModel: UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, CharacterDetailCharacterLevelCellDelegate, CharacterDetailViewControllerPickerDelegate {
 

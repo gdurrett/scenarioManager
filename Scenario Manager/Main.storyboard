@@ -50,10 +50,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Wim-f5-iJe">
-                                <rect key="frame" x="0.0" y="64" width="320" height="504"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bXw-Q3-0J5">
                                 <rect key="frame" x="16" y="22" width="59" height="33"/>
                                 <constraints>
@@ -68,13 +64,13 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7wB-Px-pVY">
-                                <rect key="frame" x="261" y="23" width="43" height="30"/>
+                                <rect key="frame" x="261" y="23" width="43" height="33"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="43" id="7aF-Co-aRq"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="22"/>
                                 <state key="normal" title="Save">
-                                    <color key="titleColor" red="0.24919084820000001" green="0.1929752334" blue="0.1351535955" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 </state>
                                 <connections>
                                     <action selector="save:" destination="Ymh-R6-TrY" eventType="touchUpInside" id="MsL-BF-8dc"/>
@@ -86,20 +82,85 @@
                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Campaign Name" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Prq-lq-4im">
+                                <rect key="frame" x="20" y="103" width="280" height="40"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="kwe-Ii-oGe"/>
+                                </constraints>
+                                <color key="textColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="22"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Party Name" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="AYX-cF-PK2">
+                                <rect key="frame" x="20" y="168" width="280" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="Xsb-wC-vSE"/>
+                                </constraints>
+                                <color key="textColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="22"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="8Gp-36-D8v">
+                                <rect key="frame" x="20" y="248" width="280" height="160"/>
+                                <subviews>
+                                    <textField opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="748" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Character Name" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="hoB-0b-WDY">
+                                        <rect key="frame" x="0.0" y="0.0" width="280" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="YOl-ff-Odd"/>
+                                        </constraints>
+                                        <color key="textColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="22"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <textField opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="747" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Character Name (optional)" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="6ib-lr-tta">
+                                        <rect key="frame" x="0.0" y="40" width="280" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="YbX-pI-CKF"/>
+                                        </constraints>
+                                        <color key="textColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="22"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Character Name (optional)" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Vyy-AF-hVN">
+                                        <rect key="frame" x="0.0" y="80" width="280" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="qIP-yL-miW"/>
+                                        </constraints>
+                                        <color key="textColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="22"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <textField opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="749" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Character Name (optional)" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="hOM-RI-MDZ">
+                                        <rect key="frame" x="0.0" y="120" width="280" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="NG2-QL-hc1"/>
+                                        </constraints>
+                                        <color key="textColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="22"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="Wim-f5-iJe" firstAttribute="top" secondItem="VfJ-wQ-Xda" secondAttribute="bottom" constant="44" id="AUN-vD-aUU"/>
+                            <constraint firstItem="8Gp-36-D8v" firstAttribute="trailing" secondItem="AYX-cF-PK2" secondAttribute="trailing" id="9EB-EC-5si"/>
                             <constraint firstItem="7wB-Px-pVY" firstAttribute="trailing" secondItem="zIV-iu-w7K" secondAttribute="trailingMargin" id="C6O-uR-PS7"/>
-                            <constraint firstItem="Wim-f5-iJe" firstAttribute="top" secondItem="7wB-Px-pVY" secondAttribute="bottom" constant="11" id="EZ7-uf-hPB"/>
+                            <constraint firstItem="Prq-lq-4im" firstAttribute="top" secondItem="VfJ-wQ-Xda" secondAttribute="bottom" constant="83" id="Fbr-DP-1x9"/>
+                            <constraint firstItem="AYX-cF-PK2" firstAttribute="leading" secondItem="zIV-iu-w7K" secondAttribute="leading" constant="20" id="HWj-oV-jgq"/>
                             <constraint firstItem="7wB-Px-pVY" firstAttribute="leading" secondItem="WW8-U5-Yxf" secondAttribute="trailing" constant="17" id="Jk9-3h-Gy2"/>
                             <constraint firstItem="WW8-U5-Yxf" firstAttribute="leading" secondItem="bXw-Q3-0J5" secondAttribute="trailing" id="NNb-oG-PUV"/>
-                            <constraint firstAttribute="trailing" secondItem="Wim-f5-iJe" secondAttribute="trailing" id="Rwi-xA-jcG"/>
                             <constraint firstItem="bXw-Q3-0J5" firstAttribute="leading" secondItem="zIV-iu-w7K" secondAttribute="leadingMargin" id="U4P-zu-jJW"/>
+                            <constraint firstAttribute="trailing" secondItem="AYX-cF-PK2" secondAttribute="trailing" constant="20" id="Yhi-cD-uOb"/>
+                            <constraint firstItem="8Gp-36-D8v" firstAttribute="top" secondItem="AYX-cF-PK2" secondAttribute="bottom" constant="40" id="Ymp-Hf-4AD"/>
+                            <constraint firstItem="AYX-cF-PK2" firstAttribute="top" secondItem="Prq-lq-4im" secondAttribute="bottom" constant="25" id="aSo-FL-4kg"/>
+                            <constraint firstItem="qBx-Hs-cEO" firstAttribute="top" secondItem="8Gp-36-D8v" secondAttribute="bottom" constant="160" id="b3t-s2-Tdd"/>
                             <constraint firstItem="7wB-Px-pVY" firstAttribute="top" secondItem="bXw-Q3-0J5" secondAttribute="top" constant="1" id="bFk-xu-DWs"/>
                             <constraint firstItem="WW8-U5-Yxf" firstAttribute="top" secondItem="VfJ-wQ-Xda" secondAttribute="bottom" constant="6" id="gK3-Rt-PVv"/>
-                            <constraint firstItem="Wim-f5-iJe" firstAttribute="bottom" secondItem="qBx-Hs-cEO" secondAttribute="top" id="ovh-bS-iCI"/>
-                            <constraint firstItem="Wim-f5-iJe" firstAttribute="leading" secondItem="zIV-iu-w7K" secondAttribute="leading" id="wRD-fe-Xh0"/>
+                            <constraint firstItem="8Gp-36-D8v" firstAttribute="leading" secondItem="AYX-cF-PK2" secondAttribute="leading" id="gR4-nv-U6s"/>
+                            <constraint firstItem="Prq-lq-4im" firstAttribute="trailing" secondItem="AYX-cF-PK2" secondAttribute="trailing" id="noh-fK-92U"/>
+                            <constraint firstItem="Prq-lq-4im" firstAttribute="leading" secondItem="AYX-cF-PK2" secondAttribute="leading" id="wAw-7u-Mx6"/>
                             <constraint firstItem="7wB-Px-pVY" firstAttribute="top" secondItem="VfJ-wQ-Xda" secondAttribute="bottom" constant="3" id="xwj-CG-WBo"/>
                         </constraints>
                     </view>
@@ -108,13 +169,18 @@
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="7VE-lh-blG"/>
                     </navigationItem>
                     <connections>
-                        <outlet property="createCampaignTableView" destination="Wim-f5-iJe" id="hFf-6K-Vtz"/>
+                        <outlet property="createCampaignCampaignNameTextField" destination="Prq-lq-4im" id="f0n-8A-7RA"/>
+                        <outlet property="createCampaignCharacter1NameTextField" destination="hoB-0b-WDY" id="dXQ-5Y-sgG"/>
+                        <outlet property="createCampaignCharacter2NameTextField" destination="6ib-lr-tta" id="xEe-dp-0AB"/>
+                        <outlet property="createCampaignCharacter3NameTextField" destination="Vyy-AF-hVN" id="wJE-35-4QW"/>
+                        <outlet property="createCampaignCharacter4NameTextField" destination="hOM-RI-MDZ" id="lyi-uN-43O"/>
+                        <outlet property="createCampaignPartyNameTextField" destination="AYX-cF-PK2" id="MGH-Pz-oLd"/>
                         <outlet property="createCampaignView" destination="zIV-iu-w7K" id="xUA-XO-FEr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BgC-uA-yHx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3563" y="-1987"/>
+            <point key="canvasLocation" x="3562.5" y="-1988.0281690140846"/>
         </scene>
         <!--Scenario View Controller-->
         <scene sceneID="mM1-G2-PZq">
@@ -689,13 +755,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="znb-1Z-RKc">
-                                <rect key="frame" x="0.0" y="65" width="320" height="504"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <color key="tintColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                            </tableView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create Party" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UMx-W7-Qfk">
-                                <rect key="frame" x="106" y="25" width="108" height="33"/>
+                                <rect key="frame" x="106" y="30" width="108" height="22.5"/>
                                 <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="24"/>
                                 <color key="textColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
@@ -720,25 +781,79 @@
                                     <action selector="cancel:" destination="Hbc-NS-sMj" eventType="touchUpInside" id="bLb-aI-X9z"/>
                                 </connections>
                             </button>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Party Name" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="r4A-jA-I6i">
+                                <rect key="frame" x="20" y="97" width="280" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="nti-NU-fsp"/>
+                                </constraints>
+                                <color key="textColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="22"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="Exs-WR-PWk">
+                                <rect key="frame" x="20" y="177" width="280" height="178"/>
+                                <subviews>
+                                    <textField opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="748" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Character Name" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Def-yW-oU1">
+                                        <rect key="frame" x="0.0" y="0.0" width="280" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="kXb-hX-Td1"/>
+                                        </constraints>
+                                        <color key="textColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="22"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <textField opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="747" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Character Name (optional)" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="wkK-o4-qXq">
+                                        <rect key="frame" x="0.0" y="46" width="280" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="iA8-IN-9aN"/>
+                                        </constraints>
+                                        <color key="textColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="22"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Character Name (optional)" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="q2a-ZW-v9g">
+                                        <rect key="frame" x="0.0" y="92" width="280" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="omE-rY-Aqd"/>
+                                        </constraints>
+                                        <color key="textColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="22"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <textField opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="749" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Character Name (optional)" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="FGY-5W-ObR">
+                                        <rect key="frame" x="0.0" y="138" width="280" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="eM9-bZ-ZOz"/>
+                                        </constraints>
+                                        <color key="textColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="22"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="UMx-W7-Qfk" firstAttribute="top" secondItem="wcn-MK-iLO" secondAttribute="top" id="HNB-jF-p4X"/>
-                            <constraint firstItem="znb-1Z-RKc" firstAttribute="top" secondItem="n2h-2j-NvJ" secondAttribute="bottom" constant="7" id="LyN-RL-hNk"/>
-                            <constraint firstAttribute="trailing" secondItem="znb-1Z-RKc" secondAttribute="trailing" id="Uat-pB-k3i"/>
-                            <constraint firstItem="znb-1Z-RKc" firstAttribute="centerX" secondItem="WEr-jQ-yVa" secondAttribute="centerX" id="X3o-GY-tc1"/>
-                            <constraint firstItem="UMx-W7-Qfk" firstAttribute="centerX" secondItem="znb-1Z-RKc" secondAttribute="centerX" id="Z5M-Sz-r0L"/>
-                            <constraint firstItem="znb-1Z-RKc" firstAttribute="leading" secondItem="WEr-jQ-yVa" secondAttribute="leading" id="bRE-uv-Vid"/>
-                            <constraint firstItem="wcn-MK-iLO" firstAttribute="leading" secondItem="WEr-jQ-yVa" secondAttribute="leading" constant="9" id="j4d-EL-iiu"/>
-                            <constraint firstItem="Zog-OR-B8M" firstAttribute="top" secondItem="znb-1Z-RKc" secondAttribute="bottom" constant="-1" id="jfX-10-zsy"/>
+                            <constraint firstItem="UMx-W7-Qfk" firstAttribute="top" secondItem="hC6-95-ZTh" secondAttribute="bottom" constant="10" id="6As-7J-hU8"/>
+                            <constraint firstItem="wcn-MK-iLO" firstAttribute="leading" secondItem="WEr-jQ-yVa" secondAttribute="leading" constant="9" id="8H2-Ac-IPY"/>
+                            <constraint firstItem="Exs-WR-PWk" firstAttribute="top" secondItem="r4A-jA-I6i" secondAttribute="bottom" constant="40" id="GQz-8j-5r2"/>
+                            <constraint firstItem="Exs-WR-PWk" firstAttribute="trailing" secondItem="r4A-jA-I6i" secondAttribute="trailing" id="MTf-cK-v74"/>
+                            <constraint firstAttribute="trailing" secondItem="r4A-jA-I6i" secondAttribute="trailing" constant="20" id="Pgf-hw-Qw6"/>
+                            <constraint firstItem="Exs-WR-PWk" firstAttribute="leading" secondItem="r4A-jA-I6i" secondAttribute="leading" id="W9u-rY-C1X"/>
+                            <constraint firstItem="Zog-OR-B8M" firstAttribute="top" secondItem="Exs-WR-PWk" secondAttribute="bottom" constant="213" id="XPM-la-DvV"/>
+                            <constraint firstItem="wcn-MK-iLO" firstAttribute="top" secondItem="hC6-95-ZTh" secondAttribute="bottom" constant="5" id="ekc-Na-NET"/>
+                            <constraint firstItem="UMx-W7-Qfk" firstAttribute="centerX" secondItem="WEr-jQ-yVa" secondAttribute="centerX" id="mcR-UM-omP"/>
                             <constraint firstAttribute="trailing" secondItem="n2h-2j-NvJ" secondAttribute="trailing" constant="9" id="nw1-cw-CvN"/>
-                            <constraint firstItem="UMx-W7-Qfk" firstAttribute="bottom" secondItem="wcn-MK-iLO" secondAttribute="bottom" id="ugu-26-bCE"/>
-                            <constraint firstItem="znb-1Z-RKc" firstAttribute="top" secondItem="hC6-95-ZTh" secondAttribute="bottom" constant="45" id="urU-cM-UMw"/>
-                            <constraint firstItem="znb-1Z-RKc" firstAttribute="top" secondItem="wcn-MK-iLO" secondAttribute="bottom" constant="7" id="xTf-Ka-Fdb"/>
+                            <constraint firstItem="n2h-2j-NvJ" firstAttribute="top" secondItem="hC6-95-ZTh" secondAttribute="bottom" constant="5" id="rZ3-fx-kOf"/>
+                            <constraint firstItem="r4A-jA-I6i" firstAttribute="leading" secondItem="WEr-jQ-yVa" secondAttribute="leading" constant="20" id="z7v-64-TP7"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="createPartyTableView" destination="znb-1Z-RKc" id="N1e-Vi-8HR"/>
+                        <outlet property="createPartyCharacter1NameTextField" destination="Def-yW-oU1" id="Xv7-7D-Wj8"/>
+                        <outlet property="createPartyCharacter2NameTextField" destination="wkK-o4-qXq" id="H2H-Cp-Ifp"/>
+                        <outlet property="createPartyCharacter3NameTextField" destination="q2a-ZW-v9g" id="1qq-Hd-Txt"/>
+                        <outlet property="createPartyCharacter4NameTextField" destination="FGY-5W-ObR" id="xQ9-X8-ssU"/>
+                        <outlet property="createPartyPartyNameTextField" destination="r4A-jA-I6i" id="DMB-OZ-fHc"/>
                         <outlet property="createPartyView" destination="WEr-jQ-yVa" id="tdX-Hb-4lj"/>
                     </connections>
                 </viewController>

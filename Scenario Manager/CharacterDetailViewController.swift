@@ -85,6 +85,7 @@ class CharacterDetailViewController: UIViewController {
         viewModel.updateAssignedParty()
         viewModel.updateCharacterLevel()
         viewModel.updateCharacters()
+        viewModel.updateCharacter() //Test!
         
         self.characterDetailTableView.reloadData()
     }

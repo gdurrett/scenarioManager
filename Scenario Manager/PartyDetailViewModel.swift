@@ -40,6 +40,7 @@ class PartyDetailViewModel: NSObject {
     var reputation: Dynamic<Int>
     var availableCharacters: Dynamic<[Character]>
     var assignedCharacters: Dynamic<[Character]>
+    var assignedAndActiveCharacters: Dynamic<[Character]>
     var allCharacters: Dynamic<[String]>
     var assignedParties: Dynamic<[Party]?>
     var currentParty: Dynamic<Party>
@@ -75,6 +76,7 @@ class PartyDetailViewModel: NSObject {
         self.reputation = Dynamic(dataModel.currentParty.reputation) //Int
         self.availableCharacters = Dynamic(dataModel.availableCharacters) // [Character]
         self.assignedCharacters = Dynamic(dataModel.assignedCharacters) // [Character]
+        self.assignedAndActiveCharacters = Dynamic(dataModel.assignedCharacters.filter { $0.isActive == true }) // [Character]
         self.allCharacters = Dynamic(Array(dataModel.characters.keys)) // [String]
         self.assignedParties = Dynamic(dataModel.assignedParties)
         self.currentParty = Dynamic(dataModel.currentParty)
@@ -128,13 +130,16 @@ class PartyDetailViewModel: NSObject {
     }
     func updateCharacters() {
         self.allCharacters.value = Array(dataModel.characters.keys)
-        print(dataModel.characters.keys)
+        //print(dataModel.characters.keys)
     }
     func updateAssignedCharacters() {
         self.assignedCharacters.value = Array(dataModel.assignedCharacters)
     }
     func updateAvailableCharacters() {
         self.availableCharacters.value = Array(dataModel.availableCharacters)
+    }
+    func updateAssignedAndActiveCharacters() {
+        self.assignedAndActiveCharacters.value = Array(dataModel.assignedCharacters.filter { $0.isActive == true })
     }
     func updateAssignedParties() {
         if dataModel.assignedParties != nil {
@@ -215,10 +220,10 @@ extension PartyDetailViewModel: UITableViewDataSource, UITableViewDelegate, Part
                 return self.completedPartyAchievements.value.count
             }
         } else if self.items[section].type == .characters {
-            if self.assignedCharacters.value.count == 0 {
+            if self.assignedAndActiveCharacters.value.count == 0 {
                 return 1
             } else {
-                return self.assignedCharacters.value.count
+                return self.assignedAndActiveCharacters.value.count
             }
         } else {
                 return self.items[section].rowCount
@@ -266,12 +271,12 @@ extension PartyDetailViewModel: UITableViewDataSource, UITableViewDelegate, Part
             if let _ = item as? PartyDetailViewModelPartyCharactersItem, let cell = tableView.dequeueReusableCell(withIdentifier: PartyDetailAssignedCharactersCell.identifier, for: indexPath) as? PartyDetailAssignedCharactersCell {
                 cell.backgroundColor = UIColor.clear
                 cell.selectionStyle = .none
-                if self.assignedCharacters.value.isEmpty {
+                if self.assignedCharacters.value.isEmpty || self.assignedAndActiveCharacters.value.isEmpty {
                     cell.item = SeparatedStrings(rowString: "No assigned characters")
                     cell.partyDetailAssignedCharacterInfo.isHidden = true
                 } else {
                     cell.partyDetailAssignedCharacterInfo.isHidden = false
-                    cell.item = SeparatedStrings(rowString: self.assignedCharacters.value[indexPath.row].name)
+                    cell.item = SeparatedStrings(rowString: self.assignedAndActiveCharacters.value[indexPath.row].name)
                     cell.partyDetailAssignedCharacterInfo.text = ("level \(Int(self.assignedCharacters.value[indexPath.row].level)) \(self.assignedCharacters.value[indexPath.row].type)")
                 }
                 return cell
@@ -434,19 +439,25 @@ extension PartyDetailViewModel: SelectPartyCharactersViewControllerDelegate {
         if !controller.selectedCharacters.isEmpty {
             for character in controller.selectedCharacters {
                 dataModel.characters[character.name]!.assignedTo = self.partyName.value
+                dataModel.characters[character.name]!.isActive = true
                 updateCharacters()
                 updateAssignedCharacters()
+                updateAssignedAndActiveCharacters()
                 toggleSection(section: 3)
             }
         }
         if !controller.unassignedCharacters.isEmpty {
             for character in controller.unassignedCharacters {
                 // Rather than assign to none, could we set to inactive?
-                dataModel.characters[character.name]!.assignedTo = "None"
+                //dataModel.characters[character.name]!.assignedTo = "None"
+                dataModel.characters[character.name]!.isActive = false
+                print("Setting \(dataModel.characters[character.name]!.name) isActive to false")
             }
             updateCharacters()
             updateAssignedCharacters()
             updateAvailableCharacters()
+            updateAssignedAndActiveCharacters()
+            toggleSection(section: 3)
         }
         dataModel.saveCampaignsLocally()
         controller.dismiss(animated: true, completion: nil)
@@ -472,6 +483,8 @@ extension PartyDetailViewModel: PartyDetailViewControllerDelegate {
                 if character.value.assignedTo == dataModel.currentParty.name {
                     // In addition to assigning to none, could we set character status to retired
                     character.value.assignedTo = "None"
+                    character.value.isRetired = true
+                    character.value.isActive = false
                 }
             }
             dataModel.parties.removeValue(forKey: currentParty)

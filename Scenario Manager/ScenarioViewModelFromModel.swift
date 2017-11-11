@@ -31,7 +31,7 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
     var activeCharacters: [Character] {
         get {
             let tempCharacters = Array(dataModel.characters.values)
-            return tempCharacters.filter { $0.assignedTo == dataModel.currentParty.name }
+            return tempCharacters.filter { $0.assignedTo == dataModel.currentParty.name && $0.isActive == true }
         }
     }
     
@@ -315,7 +315,6 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
     func setCharacterScenarioStatus(toStatus: Bool, forScenario: String) {
         // Figure out how to append and remove played scenarios for character array
         if toStatus == true {
-            print(self.activeCharacters.minimalDescription)
             for character in self.activeCharacters {
                 if character.playedScenarios! == ["None"] {
                     dataModel.characters[character.name]!.playedScenarios! = [forScenario]

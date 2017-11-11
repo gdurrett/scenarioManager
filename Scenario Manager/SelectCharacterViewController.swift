@@ -35,15 +35,16 @@ class SelectCharacterViewController: UIViewController {
         }
     }
     weak var delegate: SelectCharacterViewControllerDelegate?
-    var characters: [String:Character]?
+    //var characters: [String:Character]?
+    var characters: [Character]?
     var selectedCharacter: Character?
     var selectedIndex: Int = -1
     let colorDefinitions = ColorDefinitions()
-    var keyList: [String] {
-        get {
-            return [String](characters!.keys)
-        }
-    }
+//    var keyList: [String] {
+//        get {
+//            return [String](characters!.keys)
+//        }
+//    }
     override func viewDidLoad() {
         super.viewDidLoad()
         selectCharacterTableView.delegate = self
@@ -91,6 +92,10 @@ class SelectCharacterViewController: UIViewController {
         let label = cell.viewWithTag(3600) as! UILabel
         label.text = ("level \(Int(character.level)) \(character.type)")
     }
+    fileprivate func configureCharacterPartyInfo(for cell: UITableViewCell, with character: Character) {
+        let label = cell.viewWithTag(3700) as! UILabel
+        label.text = ("party: \(character.assignedTo!)")
+    }
 }
 extension SelectCharacterViewController: UITableViewDataSource, UITableViewDelegate {
     
@@ -102,12 +107,17 @@ extension SelectCharacterViewController: UITableViewDataSource, UITableViewDeleg
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let myRowkey = keyList[indexPath.row]
+        //let myRowkey = keyList[indexPath.row]
         let cell = makeCell(for: tableView)
         cell.backgroundColor = UIColor.clear
-        configureTitle(for: cell, with: characters![myRowkey]!)
-        configureCharacterInfo(for: cell, with: characters![myRowkey]!)
-        if self.characters![myRowkey]!.name == viewModel!.character.name {
+        //configureTitle(for: cell, with: characters![myRowkey]!)
+        configureTitle(for: cell, with: characters![indexPath.row])
+        //configureCharacterInfo(for: cell, with: characters![myRowkey]!)
+        configureCharacterInfo(for: cell, with: characters![indexPath.row])
+        //configureCharacterPartyInfo(for: cell, with: characters![myRowkey]!)
+        configureCharacterPartyInfo(for: cell, with: characters![indexPath.row])
+        //if self.characters![myRowkey]!.name == viewModel!.character.name {
+        if self.characters![indexPath.row].name == viewModel!.character.name {
             cell.accessoryType = .checkmark
         }
         cell.selectionStyle = .none
@@ -115,15 +125,17 @@ extension SelectCharacterViewController: UITableViewDataSource, UITableViewDeleg
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
-        let myRowkey = keyList[indexPath.row]
-        selectedCharacter = self.characters![myRowkey]!
+        //let myRowkey = keyList[indexPath.row]
+        //selectedCharacter = self.characters![myRowkey]!
+        selectedCharacter = self.characters![indexPath.row]
     }
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         tableView.cellForRow(at: indexPath)?.accessoryType = .none
     }
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        let myRowkey = keyList[indexPath.row]
-        if self.characters![myRowkey]!.name == viewModel!.character.name {
+        //let myRowkey = keyList[indexPath.row]
+        //if self.characters![myRowkey]!.name == viewModel!.character.name {
+        if self.characters![indexPath.row].name == viewModel!.character.name {
             tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
         }
     }

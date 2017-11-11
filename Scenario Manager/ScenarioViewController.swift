@@ -147,6 +147,9 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate {
             } else if self.myCompletedTitle == "Cannot set uncompleted" {
                 self.showSelectionAlert(status: "disallowUncompletion")
                 tableView.reloadRows(at: [index], with: .right)
+            } else if self.myCompletedTitle == "No active characters" {
+                self.showSelectionAlert(status: "disallowStatusChange")
+                tableView.reloadRows(at: [index], with: .right)
             } else {
                 if self.scenario.isCompleted {
                     if (self.viewModel?.areAnyUnlocksCompleted(scenario: self.scenario))! {
@@ -277,7 +280,9 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate {
         
     }
     func configureSwipeButton(for scenario: Scenario) {
-        if scenario.isCompleted && self.viewModel!.campaign.value.parties!.count < 2  {
+        if self.viewModel!.activeCharacters.isEmpty == true {
+            myCompletedTitle = "No active characters"
+        } else if scenario.isCompleted && self.viewModel!.campaign.value.parties!.count < 2  {
             myCompletedTitle = "Set Uncompleted"
         } else if scenario.isUnlocked && scenario.requirementsMet && scenario.isCompleted == false  {
             myCompletedTitle = "Set Completed"
@@ -338,6 +343,8 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate {
             alertTitle = "Cannot set to Completed!"
         } else if status == "disallowUncompletion" {
             alertTitle = "Cannot set to Uncompleted with more than one party in campaign!"
+        } else if status == "disallowStatusChange" {
+            alertTitle = "Cannot change scenario status without active characters!"
         } else {
             alertTitle = "Cannot set to Uncompleted due to a subsequent scenario being completed!"
         }

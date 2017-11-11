@@ -52,6 +52,13 @@ class CreateCampaignViewModelFromModel: NSObject {
     var newCampaignTitle: String?
     var partyNameCell: CreateCampaignPartyCell?
     var newPartyName: String?
+    var newCharacter1Name: String?
+    var newCharacter2Name: String?
+    var newCharacter3Name: String?
+    var newCharacter4Name: String?
+    var newCharacterNames = [String]()
+    var newCharacters = [Character]()
+    
     let colorDefinitions = ColorDefinitions()
     let fontDefinitions = FontDefinitions()
     var selectedRows = [Int]()
@@ -71,11 +78,17 @@ class CreateCampaignViewModelFromModel: NSObject {
         dataModel.saveCampaignsLocally()
     }
     fileprivate func createParty(name: String) {
-        dataModel.createParty(name: name, characters: [], location: "Gloomhaven", achievements: [:], reputation: 0, isCurrent: true, assignedTo: (newCampaignTitle!))
+        dataModel.createParty(name: name, characters: newCharacters, location: "Gloomhaven", achievements: [:], reputation: 0, isCurrent: true, assignedTo: (newCampaignTitle!))
         print("Creating new party \(name) assigned to \(newCampaignTitle!)")
         dataModel.currentParty = dataModel.parties[name]
         dataModel.currentCampaign.parties!.append(dataModel.parties[name]!)
         dataModel.saveCampaignsLocally()
+    }
+    fileprivate func createCharacter(name: String) {
+        dataModel.createCharacter(name: name)
+        dataModel.characters[name]!.assignedTo = newPartyName
+        dataModel.characters[name]!.isActive = true
+        newCharacters.append(dataModel.characters[name]!)
     }
 }
 extension CreateCampaignViewModelFromModel: UITableViewDataSource, UITableViewDelegate {
@@ -140,20 +153,27 @@ extension CreateCampaignViewModelFromModel: CreateCampaignViewControllerDelegate
     }
     
     func createCampaignViewControllerDidFinishAdding(_ controller: CreateCampaignViewController) {
-        // Try setting vmDelegate here
-        newCampaignTitle = titleCell?.campaignTitleTextField.text
-        if newCampaignTitle != "" {
-            self.createCampaign(title: newCampaignTitle!, parties: [])
-        } else {
-            // Present alert controller telling them to put a name in title field
+        newCampaignTitle = controller.createCampaignCampaignNameTextField.text
+        newPartyName = controller.createCampaignPartyNameTextField.text
+        self.createParty(name: newPartyName!)
+        newCharacter1Name = controller.createCampaignCharacter1NameTextField.text
+        newCharacterNames.append(newCharacter1Name!)
+        
+        if let myCharacter2Name = controller.createCampaignCharacter2NameTextField.text, !myCharacter2Name.isEmpty {
+            newCharacterNames.append(myCharacter2Name)
         }
-        newPartyName = partyNameCell?.createCampaignPartyNameTextField.text
-        if newPartyName != "" {
-            self.createParty(name: newPartyName!)
-            controller.dismiss(animated: true, completion: nil)
-        } else {
-            // Present alert controller
+        if let myCharacter3Name = controller.createCampaignCharacter3NameTextField.text, !myCharacter3Name.isEmpty {
+            newCharacterNames.append(myCharacter3Name)
         }
+        if let myCharacter4Name = controller.createCampaignCharacter4NameTextField.text, !myCharacter4Name.isEmpty {
+            newCharacterNames.append(myCharacter4Name)
+        }
+        for name in newCharacterNames {
+            createCharacter(name: name)
+            dataModel.parties[newPartyName!]?.characters = newCharacters
+        }
+        self.createCampaign(title: newCampaignTitle!, parties: [dataModel.parties[newPartyName!]!])
+        controller.dismiss(animated: true, completion: nil)
     }
 }
 

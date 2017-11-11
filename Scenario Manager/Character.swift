@@ -14,15 +14,17 @@ class Character: NSObject, NSCoding {
     var race: String
     var type: String
     var level: Double
+    var isActive: Bool
     var isRetired: Bool
     var assignedTo: String?
     var playedScenarios: [String]?
     
-    init(name: String, race: String, type: String, level: Double, isRetired: Bool, assignedTo: String, playedScenarios: [String]) {
+    init(name: String, race: String, type: String, level: Double, isActive: Bool, isRetired: Bool, assignedTo: String, playedScenarios: [String]) {
         self.name = name
         self.race = race
         self.type = type
         self.level = level
+        self.isActive = isActive
         self.isRetired = isRetired
         self.assignedTo = assignedTo
         self.playedScenarios = playedScenarios
@@ -33,6 +35,7 @@ class Character: NSObject, NSCoding {
         race = aDecoder.decodeObject(forKey: "Race") as! String
         type = aDecoder.decodeObject(forKey: "Type") as! String
         level = aDecoder.decodeDouble(forKey: "Level")
+        isActive = aDecoder.decodeBool(forKey: "IsActive")
         isRetired = aDecoder.decodeBool(forKey: "IsRetired")
         assignedTo = aDecoder.decodeObject(forKey: "AssignedTo") as? String
         playedScenarios = aDecoder.decodeObject(forKey: "PlayedScenarios") as? [String]
@@ -43,6 +46,7 @@ class Character: NSObject, NSCoding {
         aCoder.encode(race, forKey: "Race")
         aCoder.encode(type, forKey: "Type")
         aCoder.encode(level, forKey: "Level")
+        aCoder.encode(isActive, forKey: "IsActive")
         aCoder.encode(isRetired, forKey: "IsRetired")
         aCoder.encode(assignedTo, forKey: "AssignedTo")
         aCoder.encode(playedScenarios, forKey: "PlayedScenarios")

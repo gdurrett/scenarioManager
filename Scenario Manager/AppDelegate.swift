@@ -25,9 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let partyDetailViewModel = PartyDetailViewModel(withParty: dataModel.currentParty)
        // Set to first character that matches current party assignment
         let currentPartyCharacters = dataModel.characters.values.filter { $0.assignedTo == dataModel.currentParty.name }.isEmpty ? Array(dataModel.characters.values) : dataModel.characters.values.filter { $0.assignedTo == dataModel.currentParty.name }
-        for character in currentPartyCharacters {
-            print(character.name)
-        }
+
         let characterDetailViewModel = CharacterDetailViewModel(withCharacter: currentPartyCharacters.first!)
         
         if let tabBarController: UITabBarController = self.window!.rootViewController as? CampaignManagerTabBarController { // Set up top-level controller

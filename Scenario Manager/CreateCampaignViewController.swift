@@ -18,14 +18,30 @@ protocol CreateCampaignViewControllerReloadDelegate: class {
 }
 class CreateCampaignViewController: UIViewController {
     
-    @IBOutlet weak var createCampaignTableView: UITableView!
+    //@IBOutlet weak var createCampaignTableView: UITableView!
     
     @IBOutlet var createCampaignView: UIView!
     
+    @IBOutlet weak var createCampaignCampaignNameTextField: UITextField!
+    
+    @IBOutlet weak var createCampaignPartyNameTextField: UITextField!
+    
+    @IBOutlet weak var createCampaignCharacter1NameTextField: UITextField!
+    
+    @IBOutlet weak var createCampaignCharacter2NameTextField: UITextField!
+    
+    @IBOutlet weak var createCampaignCharacter3NameTextField: UITextField!
+    
+    @IBOutlet weak var createCampaignCharacter4NameTextField: UITextField!
+    
     @IBAction func save(_ sender: Any) {
-        delegate?.createCampaignViewControllerDidFinishAdding(self)
-        // Test Test!
-        reloadDelegate?.reloadAfterDidFinishAdding()
+        if createCampaignCampaignNameTextField.text != "" && createCampaignPartyNameTextField.text != "" && createCampaignCharacter1NameTextField.text != "" {
+            delegate?.createCampaignViewControllerDidFinishAdding(self)
+            // Test Test!
+            reloadDelegate?.reloadAfterDidFinishAdding()
+        } else {
+            print("Fill all required fields!")
+        }
     }
     @IBAction func cancel(_ sender: Any) {
          delegate?.createCampaignViewControllerDidCancel(self)
@@ -50,23 +66,17 @@ class CreateCampaignViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        createCampaignTableView.allowsMultipleSelection = true
-        
-        createCampaignTableView?.dataSource = viewModel
-        createCampaignTableView?.delegate = viewModel
-        
-        createCampaignTableView?.register(CreateCampaignTitleCell.nib, forCellReuseIdentifier: CreateCampaignTitleCell.identifier)
-        createCampaignTableView?.register(CreateCampaignPartyCell.nib, forCellReuseIdentifier: CreateCampaignPartyCell.identifier)
-        
         styleUI()
         
     }
 
     // Helper methods
     fileprivate func styleUI() {
+        let backgroundImage = UIImageView(frame: UIScreen.main.bounds)
+        backgroundImage.image = UIImage(named: "campaignDetailTableViewBG")
+        backgroundImage.alpha = 0.25
+        self.createCampaignView.insertSubview(backgroundImage, at: 0)
         self.createCampaignView.backgroundColor = colorDefinitions.scenarioTableViewNavBarBarTintColor
-        self.createCampaignTableView.backgroundView = UIImageView(image: UIImage(named: "campaignDetailTableViewBG"))
-        self.createCampaignTableView.backgroundView?.alpha = 0.25
-        self.createCampaignTableView.separatorStyle = .none
+        //self.createCampaignView.backgroundView?.alpha = 0.25
     }
 }
