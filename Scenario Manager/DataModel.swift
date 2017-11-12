@@ -72,6 +72,7 @@ class DataModel {
                 return nil
                 //tempParties.append(Party(name: "None", characters: [], location: "Gloomhaven", achievements: [:], reputation: 0, isCurrent: false, assignedTo: "None"))
             }
+            print("Returning these assigned parties: \(tempParties.minimalDescription)")
             return tempParties
         }
     }
@@ -2204,7 +2205,7 @@ class DataModel {
     }
     func createCharacter(name: String) {
         if characters[name] == nil {
-            let newCharacter = Character(name: name, race: "Inox", type: "Brute", level: 1, isActive: false, isRetired: false, assignedTo: "None", playedScenarios: ["None"])
+            let newCharacter = Character(name: name, race: "Inox", type: "Brute", level: 1, isActive: false, isRetired: false, assignedTo: currentParty.name, playedScenarios: ["None"])
             characters[name] = newCharacter
             print("Just created: \(characters[name]!.name)")
         }

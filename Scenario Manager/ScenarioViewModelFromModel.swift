@@ -205,8 +205,6 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
             tempRequirementsArray.removeValue(forKey: "OR")
             for (ach, bool) in tempRequirementsArray {
                 if orPresent {
-                    print("Or should be present!!")
-                    print("Achievement: \(ach), Should be: \(bool), But is actually: \(combinedAchievementDicts[ach]!)")
                     if combinedAchievementDicts[ach]! == bool {
                         scenario.requirementsMet = true
                         campaign.value.requirementsMet[Int(scenario.number)! - 1] = true

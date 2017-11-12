@@ -52,6 +52,8 @@ class CharacterDetailViewModel: NSObject {
     var characterTypePickerData = ["Beast Tyrant", "Berserker", "Brute", "Cragheart", "Doomstalker", "Elementalist", "Mindthief", "Nightshroud", "Plagueherald", "Quartermaster", "Sawbone", "Scoundrel", "Spellweaver", "Soothsinger", "Summoner", "Sunkeeper", "Tinkerer"]
     var selectedCharacterType = String()
     
+    // For CreateCampaignViewModelCharactersUpdateDelegate
+    var updateCharactersForNewCampaign = false
     // Dynamics
     var assignedParty: Dynamic<String>
     var currentLevel: Dynamic<Double>
@@ -82,6 +84,9 @@ class CharacterDetailViewModel: NSObject {
         // Append played scenarios to items
         let playedScenariosItem = CharacterDetailViewModelScenarioHistoryItem(scenarioTitles: character.playedScenarios!)
         items.append(playedScenariosItem)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.setNewCampaignCharacters), name: NSNotification.Name(rawValue: "updateAfterNewCampaignSelected"), object: nil)
+
     }
     // Helper methods
     // Method for Renaming Character Name
@@ -97,6 +102,7 @@ class CharacterDetailViewModel: NSObject {
     }
     func updateAssignedParty() {
         self.assignedParty.value = dataModel.characters[character.name]!.assignedTo!
+        //print("In updateAssignedParty: \()")
     }
     func updateCharacterLevel() {
         self.currentLevel.value = dataModel.characters[character.name]!.level
@@ -106,7 +112,13 @@ class CharacterDetailViewModel: NSObject {
         self.characters.value = dataModel.assignedCharacters + dataModel.availableCharacters
     }
     func updateCharacter() {
-        self.character = self.characters.value.first!
+        if self.updateCharactersForNewCampaign == true {
+            print("Calling this to set: \(self.character = self.characters.value.first!)")
+            self.character = self.characters.value.first!
+            self.updateCharactersForNewCampaign = false
+        } else {
+            //
+        }
     }
 }
 extension CharacterDetailViewModel: UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, CharacterDetailCharacterLevelCellDelegate, CharacterDetailViewControllerPickerDelegate {
@@ -259,6 +271,10 @@ extension CharacterDetailViewModel: UITableViewDataSource, UITableViewDelegate, 
     @objc func showCharacterTypePicker(_ button: UIButton) {
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "showCharacterTypePicker"), object: nil)
     }
+    // Called from SelectCampaignVC DidSelect
+    @objc func setNewCampaignCharacters() {
+        self.updateCharactersForNewCampaign = true
+    }
     // Delegate method for textField in cell
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
@@ -382,8 +398,6 @@ extension CharacterDetailViewModel: CharacterDetailViewControllerDelegate {
         reloadSection!(3)
         dataModel.saveCampaignsLocally()
     }
-    
-    
 }
 // MARK: ViewModelItem Classes
 class CharacterDetailViewModelCharacterNameItem: CharacterDetailViewModelItem {

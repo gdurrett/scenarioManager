@@ -30,7 +30,6 @@ struct CreateCampaignPartyNameCellViewModel {
     init() {
         self.createCampaignPartyNameTextFieldPlaceholder = "Enter Party Name"
     }
-    
 }
 
 enum SectionTypes: Int, CaseCountable {
@@ -75,13 +74,14 @@ class CreateCampaignViewModelFromModel: NSObject {
     }
     fileprivate func createCampaign(title: String, parties: [Party]) {
         dataModel.createCampaign(title: title, isCurrent: true, parties: parties)
+        print("Just created new campaign with party: \(parties[0].name)")
         dataModel.saveCampaignsLocally()
     }
     fileprivate func createParty(name: String) {
         dataModel.createParty(name: name, characters: newCharacters, location: "Gloomhaven", achievements: [:], reputation: 0, isCurrent: true, assignedTo: (newCampaignTitle!))
         print("Creating new party \(name) assigned to \(newCampaignTitle!)")
         dataModel.currentParty = dataModel.parties[name]
-        dataModel.currentCampaign.parties!.append(dataModel.parties[name]!)
+        //dataModel.currentCampaign.parties!.append(dataModel.parties[name]!)
         dataModel.saveCampaignsLocally()
     }
     fileprivate func createCharacter(name: String) {
@@ -173,6 +173,7 @@ extension CreateCampaignViewModelFromModel: CreateCampaignViewControllerDelegate
             dataModel.parties[newPartyName!]?.characters = newCharacters
         }
         self.createCampaign(title: newCampaignTitle!, parties: [dataModel.parties[newPartyName!]!])
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "updateAfterNewCampaignSelected"), object: nil)
         controller.dismiss(animated: true, completion: nil)
     }
 }

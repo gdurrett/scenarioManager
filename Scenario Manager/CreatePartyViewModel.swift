@@ -104,6 +104,8 @@ extension CreatePartyViewModel: CreatePartyViewControllerDelegate {
             createCharacter(name: name)
             dataModel.parties[newPartyName!]?.characters = newCharacters
         }
+        // Let CharacterDetailVC know that we've swapped characters
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "updateAfterNewCampaignSelected"), object: nil)
         controller.dismiss(animated: true, completion: nil)
     }
 }

@@ -43,6 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // See if we can set reload 
             campaignDetailViewModel.partyReloadDelegate = controller1
             
+            
             // Set up Character Detail view controller
             let navController3 = tabBarController.viewControllers?[2] as? UINavigationController
             let controller3 = navController3?.viewControllers[0] as! CharacterDetailViewController

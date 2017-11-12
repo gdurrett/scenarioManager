@@ -82,11 +82,11 @@ class CharacterDetailViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
-        viewModel.updateAssignedParty()
         viewModel.updateCharacterLevel()
         viewModel.updateCharacters()
         viewModel.updateCharacter() //Test!
-        
+        viewModel.updateAssignedParty()
+        print("Assigned Party: \(viewModel.assignedParty.value)")
         self.characterDetailTableView.reloadData()
     }
     // Helper methods
@@ -123,6 +123,7 @@ class CharacterDetailViewController: UIViewController {
         selectCharacterVC.delegate = viewModel
         selectCharacterVC.viewModel = viewModel
         selectCharacterVC.hidesBottomBarWhenPushed = true
+        print("Assigned Party at loadSelectInit: \(viewModel.assignedParty.value)")
         self.navigationController!.present(selectCharacterVC, animated: true, completion: nil)
     }
     fileprivate func loadCreateCharacterViewController() {

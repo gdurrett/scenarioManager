@@ -787,6 +787,7 @@ extension CampaignDetailViewModel: SelectCampaignViewControllerDelegate, Campaig
         let campaignTitle = controller.selectedCampaign!
         setCampaignActive(campaign: campaignTitle)
         setPartyActive(party: dataModel.currentCampaign.parties![0].name)
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "updateAfterNewCampaignSelected"), object: nil)
         controller.dismiss(animated: true, completion: nil)
     }
     func toggleSection(section: Int) {

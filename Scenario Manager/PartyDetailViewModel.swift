@@ -202,7 +202,7 @@ class PartyDetailViewModel: NSObject {
         }
     }
 }
-// MARK: Tableview Delegate and Datasource extension. Other cell delegate methods.
+// MARK: Table Delegate and Datasource extension. Other cell delegate methods.
 extension PartyDetailViewModel: UITableViewDataSource, UITableViewDelegate, PartyDetailReputationCellDelegate, UITextFieldDelegate {
     // MARK: TableView DataSource methods
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -472,6 +472,8 @@ extension PartyDetailViewModel: SelectPartyViewControllerDelegate {
         self.updateCurrentPartyName()
         self.updateAssignedParties()
         self.dataModel.saveCampaignsLocally()
+        // Let CharacterDetailVC know that we've swapped characters
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "updateAfterNewCampaignSelected"), object: nil)
         controller.dismiss(animated: true, completion: nil)
     }
 }
@@ -492,6 +494,7 @@ extension PartyDetailViewModel: PartyDetailViewControllerDelegate {
             let myParties = Array(dataModel.parties)
             myParties[0].value.isCurrent = true
             setPartyActive(party: myParties[0].value.name)
+            self.updateAssignedAndActiveCharacters() // See if this works
             controller.partyDetailTableView.reloadData()
         } else {
             controller.showDisallowDeletionAlert()

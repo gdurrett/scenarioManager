@@ -64,7 +64,7 @@ class SelectCharacterViewController: UIViewController {
         guard let viewModel = viewModel else {
             return
         }
-        
+        print("In Select, currentParty is: \(viewModel.assignedParty.value)")
         // We definitely have setup done now
         self.characters = viewModel.characters.value
     }
