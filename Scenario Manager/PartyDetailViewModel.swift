@@ -277,7 +277,7 @@ extension PartyDetailViewModel: UITableViewDataSource, UITableViewDelegate, Part
                 } else {
                     cell.partyDetailAssignedCharacterInfo.isHidden = false
                     cell.item = SeparatedStrings(rowString: self.assignedAndActiveCharacters.value[indexPath.row].name)
-                    cell.partyDetailAssignedCharacterInfo.text = ("level \(Int(self.assignedCharacters.value[indexPath.row].level)) \(self.assignedCharacters.value[indexPath.row].type)")
+                    cell.partyDetailAssignedCharacterInfo.text = ("level \(Int(self.assignedAndActiveCharacters.value[indexPath.row].level)) \(self.assignedAndActiveCharacters.value[indexPath.row].type)")
                 }
                 return cell
             }
@@ -349,10 +349,11 @@ extension PartyDetailViewModel: UITableViewDataSource, UITableViewDelegate, Part
         case .assignedCampaign:
             break //Temporary!
         case .characters:
-            button.setImage(UIImage(named: "quill-drawing-a-line_unselected"), for: .normal)
-            button.isEnabled = true
-            button.addTarget(self, action: #selector(self.loadSelectPartyCharactersViewController(_:)), for: .touchUpInside)
-            header.addSubview(button)
+//            button.setImage(UIImage(named: "quill-drawing-a-line_unselected"), for: .normal)
+//            button.isEnabled = true
+//            button.addTarget(self, action: #selector(self.loadSelectPartyCharactersViewController(_:)), for: .touchUpInside)
+//            header.addSubview(button)
+            break
         }
     }
     // MARK: PartyReputationCell Delegate methods
@@ -531,7 +532,7 @@ class PartyDetailViewModelPartyCharactersItem: PartyDetailViewModelItem {
     }
     
     var sectionTitle: String {
-        return "Assigned Characters"
+        return "Active Characters"
     }
     
     var rowCount: Int {

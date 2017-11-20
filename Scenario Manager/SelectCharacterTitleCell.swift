@@ -13,10 +13,36 @@ class SelectCharacterTitleCell: UITableViewCell {
     
     @IBOutlet weak var selectCharacterTitleCellCharacterInfo: UILabel!
     
-    @IBOutlet weak var selectCharacterTitleCellCharacterPartyInfo: UILabel!
-    
     let colorDefinitions = ColorDefinitions()
     let fontDefinitions = FontDefinitions()
+    // Test custom text color for SwipeAction buttons
+    override func layoutSubviews() {
+        
+        super.layoutSubviews()
+        
+        for subview in self.subviews {
+            
+            for subview2 in subview.subviews {
+                
+                if (String(describing: subview2).range(of: "UITableViewCellActionButton") != nil) {
+                    
+                    for view in subview2.subviews {
+                        
+                        if (String(describing: view).range(of: "UIButtonLabel") != nil) {
+                            
+                            if let label = view as? UILabel {
+                                
+                                label.textColor = colorDefinitions.scenarioSwipeFontColor
+                                label.font = fontDefinitions.scenarioSwipeFont
+                            }
+                            
+                        }
+                    }
+                }
+            }
+        }
+        
+    }
     
     func styleCell() {
         self.selectCharacterTitleCellTitleLabel.sizeToFit()
@@ -25,9 +51,6 @@ class SelectCharacterTitleCell: UITableViewCell {
         self.selectCharacterTitleCellCharacterInfo.sizeToFit()
         self.selectCharacterTitleCellCharacterInfo.font = fontDefinitions.scenarioSwipeFont
         self.selectCharacterTitleCellCharacterInfo.textColor = colorDefinitions.scenarioTitleFontColor
-        self.selectCharacterTitleCellCharacterPartyInfo.sizeToFit()
-        self.selectCharacterTitleCellCharacterPartyInfo.font = fontDefinitions.scenarioSwipeFont
-        self.selectCharacterTitleCellCharacterPartyInfo.textColor = colorDefinitions.scenarioTitleFontColor
     }
     static var nib:UINib {
         return UINib(nibName: identifier, bundle: nil)

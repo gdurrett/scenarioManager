@@ -56,9 +56,13 @@ class CharacterDetailViewModel: NSObject {
     var updateCharactersForNewCampaign = false
     // Dynamics
     var assignedParty: Dynamic<String>
+    var currentParty: Dynamic<String>
     var currentLevel: Dynamic<Double>
     //var characters: Dynamic<[String:Character]>
     var characters: Dynamic<[Character]>
+    var inactiveCharacters: Dynamic<[Character]>
+    var activeCharacters: Dynamic<[Character]>
+    var retiredCharacters: Dynamic<[Character]>
     
     init(withCharacter character: Character) {
         self.character = character
@@ -66,6 +70,10 @@ class CharacterDetailViewModel: NSObject {
         self.currentLevel = Dynamic(dataModel.characters[character.name]!.level)
         //self.characters = Dynamic(dataModel.characters)
         self.characters = Dynamic(dataModel.assignedCharacters + dataModel.availableCharacters) //Test!!
+        self.inactiveCharacters = Dynamic(dataModel.assignedCharacters.filter { $0.isActive == false })
+        self.activeCharacters = Dynamic(dataModel.assignedCharacters.filter { $0.isActive == true })
+        self.retiredCharacters = Dynamic(dataModel.assignedCharacters.filter { $0.isRetired == true })
+        self.currentParty = Dynamic(dataModel.currentParty.name)
         super.init()
         
         
@@ -96,13 +104,15 @@ class CharacterDetailViewModel: NSObject {
             dataModel.characters.changeKey(from: oldName, to: newName)
             for character in dataModel.characters { print("\(character.value.name)") }
             character.name = newName
-            
             dataModel.saveCampaignsLocally()
         }
     }
     func updateAssignedParty() {
         self.assignedParty.value = dataModel.characters[character.name]!.assignedTo!
         //print("In updateAssignedParty: \()")
+    }
+    func updateCurrentParty() {
+        self.currentParty.value = dataModel.currentParty.name
     }
     func updateCharacterLevel() {
         self.currentLevel.value = dataModel.characters[character.name]!.level
@@ -113,12 +123,19 @@ class CharacterDetailViewModel: NSObject {
     }
     func updateCharacter() {
         if self.updateCharactersForNewCampaign == true {
-            print("Calling this to set: \(self.character = self.characters.value.first!)")
             self.character = self.characters.value.first!
             self.updateCharactersForNewCampaign = false
         } else {
             //
         }
+    }
+    func updateActiveStatus() {
+        self.activeCharacters.value = dataModel.assignedCharacters.filter { $0.isActive == true }
+        self.inactiveCharacters.value = dataModel.assignedCharacters.filter { $0.isActive == false && $0.isRetired == false }
+        self.retiredCharacters.value = dataModel.assignedCharacters.filter { $0.isRetired == true && $0.isActive == false}
+    }
+    func triggerSave() {
+        dataModel.saveCampaignsLocally()
     }
 }
 extension CharacterDetailViewModel: UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, CharacterDetailCharacterLevelCellDelegate, CharacterDetailViewControllerPickerDelegate {
@@ -355,24 +372,14 @@ extension CharacterDetailViewModel: UIPickerViewDelegate, UIPickerViewDataSource
         return label!
     }
 }
-extension CharacterDetailViewModel: SelectCharacterViewControllerDelegate {
-    func selectCharacterViewControllerDidCancel(_ controller: SelectCharacterViewController) {
-        controller.dismiss(animated: true, completion: nil)
-    }
-    
-    func selectCharacterViewControllerDidFinishSelecting(_ controller: SelectCharacterViewController) {
-        self.character = controller.selectedCharacter!
-        controller.dismiss(animated: true, completion: nil)
-    }
-}
 extension CharacterDetailViewModel: CreateCharacterViewModelDelegate {
     func setCurrentCharacter(character: Character) {
         self.character = character
     }
 }
-extension CharacterDetailViewModel: CharacterDetailViewControllerDelegate {    
+extension CharacterDetailViewModel: SelectCharacterViewControllerDelegate {
     
-    func deleteCharacter(character: Character, controller: CharacterDetailViewController) {
+    func deleteCharacter(character: Character, controller: SelectCharacterViewController) {
         if dataModel.characters.count == 1 {
             //Raise alert that we can't delete last character
             controller.showDisallowDeletionAlert()
@@ -398,6 +405,7 @@ extension CharacterDetailViewModel: CharacterDetailViewControllerDelegate {
         reloadSection!(3)
         dataModel.saveCampaignsLocally()
     }
+
 }
 // MARK: ViewModelItem Classes
 class CharacterDetailViewModelCharacterNameItem: CharacterDetailViewModelItem {

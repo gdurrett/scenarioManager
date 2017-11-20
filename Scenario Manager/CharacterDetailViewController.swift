@@ -86,7 +86,6 @@ class CharacterDetailViewController: UIViewController {
         viewModel.updateCharacters()
         viewModel.updateCharacter() //Test!
         viewModel.updateAssignedParty()
-        print("Assigned Party: \(viewModel.assignedParty.value)")
         self.characterDetailTableView.reloadData()
     }
     // Helper methods
@@ -120,7 +119,7 @@ class CharacterDetailViewController: UIViewController {
     @objc func loadSelectCharacterViewController() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let selectCharacterVC = storyboard.instantiateViewController(withIdentifier: "SelectCharacterViewController") as! SelectCharacterViewController
-        selectCharacterVC.delegate = viewModel
+        //selectCharacterVC.delegate = viewModel
         selectCharacterVC.viewModel = viewModel
         selectCharacterVC.hidesBottomBarWhenPushed = true
         print("Assigned Party at loadSelectInit: \(viewModel.assignedParty.value)")

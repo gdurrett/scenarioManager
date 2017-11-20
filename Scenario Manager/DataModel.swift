@@ -72,7 +72,6 @@ class DataModel {
                 return nil
                 //tempParties.append(Party(name: "None", characters: [], location: "Gloomhaven", achievements: [:], reputation: 0, isCurrent: false, assignedTo: "None"))
             }
-            print("Returning these assigned parties: \(tempParties.minimalDescription)")
             return tempParties
         }
     }

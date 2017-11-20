@@ -46,10 +46,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             // Set up Character Detail view controller
             let navController3 = tabBarController.viewControllers?[2] as? UINavigationController
-            let controller3 = navController3?.viewControllers[0] as! CharacterDetailViewController
+            let controller3 = navController3?.viewControllers[0] as! SelectCharacterViewController
             controller3.viewModel = characterDetailViewModel
-            controller3.pickerDelegate = characterDetailViewModel
-            controller3.delegate = characterDetailViewModel
+            controller3.actionDelegate = characterDetailViewModel
+            //controller3.delegate = characterDetailViewModel
 
             // Set up Scenario view controller
             let navController4 = tabBarController.viewControllers?[3] as? UINavigationController
