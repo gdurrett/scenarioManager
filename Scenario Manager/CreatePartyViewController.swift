@@ -18,20 +18,15 @@ class CreatePartyViewController: UIViewController {
     
     @IBOutlet weak var createPartyPartyNameTextField: UITextField!
     
-    @IBOutlet weak var createPartyCharacter1NameTextField: UITextField!
-    
-    @IBOutlet weak var createPartyCharacter2NameTextField: UITextField!
-    
-    @IBOutlet weak var createPartyCharacter3NameTextField: UITextField!
-    
-    @IBOutlet weak var createPartyCharacter4NameTextField: UITextField!
-    
+    @IBAction func loadCreateCharacterViewController(_ sender: Any) {
+        loadCreateCharacterViewController()
+    }
     @IBAction func cancel(_ sender: Any) {
         delegate?.createPartyViewControllerDidCancel(self)
     }
     
     @IBAction func save(_ sender: Any) {
-        if createPartyPartyNameTextField.text != "" && createPartyCharacter1NameTextField.text != "" {
+        if createPartyPartyNameTextField.text != "" {
             delegate?.createPartyViewControllerDidFinishAdding(self)
             // Test Test!
             //reloadDelegate?.reloadAfterDidFinishAdding()
@@ -47,6 +42,7 @@ class CreatePartyViewController: UIViewController {
     }
     weak var delegate: CreatePartyViewControllerDelegate?
     
+    var campaignName: String?
     
     let colorDefinitions = ColorDefinitions()
     let fontDefinitions = FontDefinitions()
@@ -66,5 +62,17 @@ class CreatePartyViewController: UIViewController {
         self.createPartyView.insertSubview(backgroundImage, at: 0)
         self.createPartyView.backgroundColor = colorDefinitions.scenarioTableViewNavBarBarTintColor
     }
-
+    
+    fileprivate func loadCreateCharacterViewController() {
+        if createPartyPartyNameTextField.text != "" {
+            //delegate?.createPartyViewControllerDidFinishAdding(self)
+            // Test Test!
+            //reloadDelegate?.reloadAfterDidFinishAdding()
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let nameCharacterVC = storyboard.instantiateViewController(withIdentifier: "NameCharacterViewController")
+            self.navigationController?.pushViewController(nameCharacterVC, animated: true)
+        } else {
+            print("Fill all required fields!")
+        }
+    }
 }

@@ -88,18 +88,18 @@ extension CreatePartyViewModel: CreatePartyViewControllerDelegate {
     func createPartyViewControllerDidFinishAdding(_ controller: CreatePartyViewController) {
         newPartyName = controller.createPartyPartyNameTextField.text
         self.createParty(name: newPartyName!)
-        newCharacter1Name = controller.createPartyCharacter1NameTextField.text
-        newCharacterNames.append(newCharacter1Name!)
-        
-        if let myCharacter2Name = controller.createPartyCharacter2NameTextField.text, !myCharacter2Name.isEmpty {
-            newCharacterNames.append(myCharacter2Name)
-        }
-        if let myCharacter3Name = controller.createPartyCharacter3NameTextField.text, !myCharacter3Name.isEmpty {
-            newCharacterNames.append(myCharacter3Name)
-        }
-        if let myCharacter4Name = controller.createPartyCharacter4NameTextField.text, !myCharacter4Name.isEmpty {
-            newCharacterNames.append(myCharacter4Name)
-        }
+//        newCharacter1Name = controller.createPartyCharacter1NameTextField.text
+//        newCharacterNames.append(newCharacter1Name!)
+//        
+//        if let myCharacter2Name = controller.createPartyCharacter2NameTextField.text, !myCharacter2Name.isEmpty {
+//            newCharacterNames.append(myCharacter2Name)
+//        }
+//        if let myCharacter3Name = controller.createPartyCharacter3NameTextField.text, !myCharacter3Name.isEmpty {
+//            newCharacterNames.append(myCharacter3Name)
+//        }
+//        if let myCharacter4Name = controller.createPartyCharacter4NameTextField.text, !myCharacter4Name.isEmpty {
+//            newCharacterNames.append(myCharacter4Name)
+//        }
         for name in newCharacterNames {
             createCharacter(name: name)
             dataModel.parties[newPartyName!]?.characters = newCharacters

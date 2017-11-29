@@ -272,15 +272,19 @@ extension CampaignDetailViewController: UITableViewDelegate {
     fileprivate func loadCreateCampaignViewController() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let createCampaignVC = storyboard.instantiateViewController(withIdentifier: "CreateCampaignViewController") as! CreateCampaignViewController
+        let navCon = UINavigationController(rootViewController: createCampaignVC)
         // Give VC the current campaign so it can set checkmark.
         self.viewModel.updateAvailableParties()
         self.viewModel.updateAssignedParties()
-        createCampaignVC.viewModel = CreateCampaignViewModelFromModel(withDataModel: viewModel!.dataModel)
-        createCampaignVC.delegate = createCampaignVC.viewModel
+        let createCampaignVCViewModel = CreateCampaignViewModelFromModel(withDataModel: viewModel!.dataModel)
+//        createCampaignVC.viewModel = CreateCampaignViewModelFromModel(withDataModel: viewModel!.dataModel)
+        createCampaignVC.viewModel = createCampaignVCViewModel
+        createCampaignVC.delegate = createCampaignVCViewModel
         // Test Test!
         createCampaignVC.reloadDelegate = self // Need to reloadData on entire table before returning here!
         createCampaignVC.hidesBottomBarWhenPushed = true
-        self.navigationController!.present(createCampaignVC, animated: true, completion: nil)
+        //self.navigationController!.pushViewController(createCampaignVC, animated: true)
+        self.present(navCon, animated: true, completion: nil)
     }
     // Called by CampaignDetailViewModel
     func showDisallowDeletionAlert() {

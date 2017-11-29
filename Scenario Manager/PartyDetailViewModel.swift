@@ -57,8 +57,8 @@ class PartyDetailViewModel: NSObject {
     var partyScenarioLevel: Int {
         get {
             var sumOfLevels = Double()
-            let numberOfCharacters = Double(assignedCharacters.value.count)
-            for character in self.assignedCharacters.value {
+            let numberOfCharacters = Double(assignedCharacters.value.filter { $0.isActive == true }.count)
+            for character in self.assignedCharacters.value.filter({ $0.isActive == true }) {
                 sumOfLevels += character.level
             }
             if numberOfCharacters == 0 {

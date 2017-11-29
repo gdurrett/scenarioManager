@@ -16,33 +16,16 @@ protocol CreateCampaignViewControllerDelegate: class {
 protocol CreateCampaignViewControllerReloadDelegate: class {
     func reloadAfterDidFinishAdding()
 }
-class CreateCampaignViewController: UIViewController {
+class CreateCampaignViewController: UIViewController, CreateCampaignViewModelDelegate {
     
     //@IBOutlet weak var createCampaignTableView: UITableView!
     
     @IBOutlet var createCampaignView: UIView!
     
-    @IBOutlet weak var createCampaignCampaignNameTextField: UITextField!
+    @IBOutlet weak var createCampaignTableView: UITableView!
+
+    @IBOutlet weak var createCampaignNameTextField: UITextField!
     
-    @IBOutlet weak var createCampaignPartyNameTextField: UITextField!
-    
-    @IBOutlet weak var createCampaignCharacter1NameTextField: UITextField!
-    
-    @IBOutlet weak var createCampaignCharacter2NameTextField: UITextField!
-    
-    @IBOutlet weak var createCampaignCharacter3NameTextField: UITextField!
-    
-    @IBOutlet weak var createCampaignCharacter4NameTextField: UITextField!
-    
-    @IBAction func save(_ sender: Any) {
-        if createCampaignCampaignNameTextField.text != "" && createCampaignPartyNameTextField.text != "" && createCampaignCharacter1NameTextField.text != "" {
-            delegate?.createCampaignViewControllerDidFinishAdding(self)
-            // Test Test!
-            reloadDelegate?.reloadAfterDidFinishAdding()
-        } else {
-            print("Fill all required fields!")
-        }
-    }
     @IBAction func cancel(_ sender: Any) {
          delegate?.createCampaignViewControllerDidCancel(self)
     }
@@ -50,9 +33,10 @@ class CreateCampaignViewController: UIViewController {
     var viewModel: CreateCampaignViewModelFromModel? {
         didSet {
             //
+            viewModel!.delegate = self
         }
     }
-    weak var delegate: CreateCampaignViewControllerDelegate?
+    weak var delegate: CreateCampaignViewControllerDelegate!
     // Test Test!
     weak var reloadDelegate: CreateCampaignViewControllerReloadDelegate?
     
@@ -65,6 +49,13 @@ class CreateCampaignViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // Register cells
+        createCampaignTableView.register(CreateCampaignTitleCell.nib, forCellReuseIdentifier: CreateCampaignTitleCell.identifier)
+        createCampaignTableView.register(CreateCampaignPartyCell.nib, forCellReuseIdentifier: CreateCampaignPartyCell.identifier)
+        createCampaignTableView.register(CreateCampaignCharacterCell.nib, forCellReuseIdentifier: CreateCampaignCharacterCell.identifier)
+        
+        createCampaignTableView.delegate = viewModel
+        createCampaignTableView.dataSource = viewModel
         
         styleUI()
         
@@ -75,8 +66,15 @@ class CreateCampaignViewController: UIViewController {
         let backgroundImage = UIImageView(frame: UIScreen.main.bounds)
         backgroundImage.image = UIImage(named: "campaignDetailTableViewBG")
         backgroundImage.alpha = 0.25
-        self.createCampaignView.insertSubview(backgroundImage, at: 0)
-        self.createCampaignView.backgroundColor = colorDefinitions.scenarioTableViewNavBarBarTintColor
-        //self.createCampaignView.backgroundView?.alpha = 0.25
+        self.navigationItem.title = "Create Campaign"
+        self.navigationController?.navigationBar.titleTextAttributes = [.font: UIFont(name: "Nyala", size: 26.0)!, .foregroundColor: colorDefinitions.mainTextColor]
+        self.createCampaignTableView.insertSubview(backgroundImage, at: 0)
+        self.createCampaignTableView.backgroundColor = colorDefinitions.scenarioTableViewNavBarBarTintColor
+        self.createCampaignTableView.backgroundView?.alpha = 0.25
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showCreateCharacterVC" {
+            let destinationVC = segue.destination as! CreateCharacterViewController
+        }
     }
 }

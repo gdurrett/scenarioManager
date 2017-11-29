@@ -9,9 +9,9 @@
 import Foundation
 import UIKit
 
-protocol CaseCountable {
-    static func countCases() -> Int
-    static var caseCount: Int { get }
+protocol CreateCampaignViewModelDelegate: class {
+    func prepare(for segue: UIStoryboardSegue, sender: Any?)
+    func performSegue(withIdentifier: String, sender: Any?)
 }
 // Move these to separate files?
 struct CreateCampaignTitleCellViewModel {
@@ -20,7 +20,7 @@ struct CreateCampaignTitleCellViewModel {
     let campaignTitleTextFieldPlaceholder: String
     
     init() {
-        self.campaignTitleTextFieldPlaceholder = "Enter Campaign Title"
+        self.campaignTitleTextFieldPlaceholder = "Name campaign"
     }
 }
 struct CreateCampaignPartyNameCellViewModel {
@@ -28,25 +28,21 @@ struct CreateCampaignPartyNameCellViewModel {
     let createCampaignPartyNameTextFieldPlaceholder: String
     
     init() {
-        self.createCampaignPartyNameTextFieldPlaceholder = "Enter Party Name"
+        self.createCampaignPartyNameTextFieldPlaceholder = "Name party"
     }
 }
-
-enum SectionTypes: Int, CaseCountable {
+struct CreateCampaignCreateCharacterCellViewModel {
+    var createCampaignCreateCharacterLabelText: String
     
-    case Title
-    case Parties
-    
-    static let caseCount = SectionTypes.countCases()
+    init() {
+        self.createCampaignCreateCharacterLabelText = ""
+    }
 }
-
 class CreateCampaignViewModelFromModel: NSObject {
     
     let dataModel: DataModel
     var newCampaign = Campaign(title: "", parties: [], achievements: [:], prosperityCount: 0, sanctuaryDonations: 0, events: [], isUnlocked: [], requirementsMet: [], isCompleted: [], isCurrent: true, ancientTechCount: 0)
     var parties = [String:Party]()
-    let numberOfSections = SectionTypes.caseCount
-    let sections = [SectionTypes.Title, SectionTypes.Parties]
     var titleCell: CreateCampaignTitleCell?
     var newCampaignTitle: String?
     var partyNameCell: CreateCampaignPartyCell?
@@ -61,9 +57,11 @@ class CreateCampaignViewModelFromModel: NSObject {
     let colorDefinitions = ColorDefinitions()
     let fontDefinitions = FontDefinitions()
     var selectedRows = [Int]()
+    weak var delegate: CreateCampaignViewModelDelegate?
     
     init(withDataModel dataModel: DataModel) {
         self.dataModel = dataModel
+        
 //        for party in dataModel.availableParties {
 //            self.parties[party] = dataModel.parties[party]
 //        }
@@ -95,21 +93,29 @@ extension CreateCampaignViewModelFromModel: UITableViewDataSource, UITableViewDe
     
     func numberOfSections(in tableView: UITableView) -> Int {
         //Temporary
-        return 2
+        return 3
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        switch section {
+        case 0:
+            return 1
+        case 1:
+            return 1
+        case 2:
+            return 4
+        default:
+            return 1
+        }
     }
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 50
+        return 30
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let sectionType = sections[indexPath.section]
-        var tableViewCell: UITableViewCell
+        var tableViewCell = UITableViewCell()
         
-        switch sectionType {
-        case .Title:
+        switch indexPath.section {
+        case 0:
             let viewModel = CreateCampaignTitleCellViewModel()
             let cell = tableView.dequeueReusableCell(withIdentifier: CreateCampaignTitleCell.identifier) as! CreateCampaignTitleCell
             cell.configure(withViewModel: viewModel)
@@ -119,7 +125,7 @@ extension CreateCampaignViewModelFromModel: UITableViewDataSource, UITableViewDe
             tableViewCell = cell
             cell.separatorInset = .zero
             titleCell = cell
-        case .Parties:
+        case 1:
             let viewModel = CreateCampaignPartyNameCellViewModel()
             let cell = tableView.dequeueReusableCell(withIdentifier: CreateCampaignPartyCell.identifier) as! CreateCampaignPartyCell
             cell.configure(withViewModel: viewModel)
@@ -128,23 +134,44 @@ extension CreateCampaignViewModelFromModel: UITableViewDataSource, UITableViewDe
             cell.backgroundColor = UIColor.clear
             tableViewCell = cell
             partyNameCell = cell
+        case 2:
+            var viewModel = CreateCampaignCreateCharacterCellViewModel()
+            viewModel.createCampaignCreateCharacterLabelText = ("Add character \(indexPath.row)")
+            let cell = tableView.dequeueReusableCell(withIdentifier: CreateCampaignCharacterCell.identifier) as! CreateCampaignCharacterCell
+            cell.accessoryType = .disclosureIndicator
+            cell.createCampaignCharacterLabel.text = ("Add character \(indexPath.row + 1)")
+            tableViewCell = cell
+        default:
+            break
         }
         return tableViewCell
     }
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        let sectionType = sections[section]
-        switch sectionType {
-        case .Title:
-            return "Name new campaign"
-        case .Parties:
-            return "Name new party"
-        }
-    }
+//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        var returnString = String()
+//        switch section {
+//        case 0:
+//            returnString = "Name new campaign"
+//            print("Section 0?")
+//        case 1:
+//            returnString = "Name new party"
+//            print("Section 1?")
+//        case 2:
+//            returnString = "Create new character"
+//        default:
+//            break
+//        }
+//        return returnString
+//    }
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         let header = view as? UITableViewHeaderFooterView
         header?.textLabel?.font = fontDefinitions.detailTableViewHeaderFont
         header?.textLabel?.textColor = colorDefinitions.mainTextColor
         header?.tintColor = colorDefinitions.detailTableViewHeaderTintColor
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.section == 2 {
+            delegate!.performSegue(withIdentifier: "showCreateCharacterVC", sender: self)
+        }
     }
 }
 extension CreateCampaignViewModelFromModel: CreateCampaignViewControllerDelegate {
@@ -153,21 +180,21 @@ extension CreateCampaignViewModelFromModel: CreateCampaignViewControllerDelegate
     }
     
     func createCampaignViewControllerDidFinishAdding(_ controller: CreateCampaignViewController) {
-        newCampaignTitle = controller.createCampaignCampaignNameTextField.text
-        newPartyName = controller.createCampaignPartyNameTextField.text
-        self.createParty(name: newPartyName!)
-        newCharacter1Name = controller.createCampaignCharacter1NameTextField.text
-        newCharacterNames.append(newCharacter1Name!)
-        
-        if let myCharacter2Name = controller.createCampaignCharacter2NameTextField.text, !myCharacter2Name.isEmpty {
-            newCharacterNames.append(myCharacter2Name)
-        }
-        if let myCharacter3Name = controller.createCampaignCharacter3NameTextField.text, !myCharacter3Name.isEmpty {
-            newCharacterNames.append(myCharacter3Name)
-        }
-        if let myCharacter4Name = controller.createCampaignCharacter4NameTextField.text, !myCharacter4Name.isEmpty {
-            newCharacterNames.append(myCharacter4Name)
-        }
+//        newCampaignTitle = controller.createCampaignCampaignNameTextField.text
+//        newPartyName = controller.createCampaignPartyNameTextField.text
+//        self.createParty(name: newPartyName!)
+//        newCharacter1Name = controller.createCampaignCharacter1NameTextField.text
+//        newCharacterNames.append(newCharacter1Name!)
+//        
+//        if let myCharacter2Name = controller.createCampaignCharacter2NameTextField.text, !myCharacter2Name.isEmpty {
+//            newCharacterNames.append(myCharacter2Name)
+//        }
+//        if let myCharacter3Name = controller.createCampaignCharacter3NameTextField.text, !myCharacter3Name.isEmpty {
+//            newCharacterNames.append(myCharacter3Name)
+//        }
+//        if let myCharacter4Name = controller.createCampaignCharacter4NameTextField.text, !myCharacter4Name.isEmpty {
+//            newCharacterNames.append(myCharacter4Name)
+//        }
         for name in newCharacterNames {
             createCharacter(name: name)
             dataModel.parties[newPartyName!]?.characters = newCharacters
@@ -175,16 +202,5 @@ extension CreateCampaignViewModelFromModel: CreateCampaignViewControllerDelegate
         self.createCampaign(title: newCampaignTitle!, parties: [dataModel.parties[newPartyName!]!])
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "updateAfterNewCampaignSelected"), object: nil)
         controller.dismiss(animated: true, completion: nil)
-    }
-}
-
-// provide a default implementation to count the cases for Int enums assuming starting at 0 and contiguous
-extension CaseCountable where Self : RawRepresentable, Self.RawValue == Int {
-    // count the number of cases in the enum
-    static func countCases() -> Int {
-        // starting at zero, verify whether the enum can be instantiated from the Int and increment until it cannot
-        var count = 0
-        while let _ = Self(rawValue: count) { count += 1 }
-        return count
     }
 }

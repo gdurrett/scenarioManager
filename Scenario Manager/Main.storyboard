@@ -38,239 +38,51 @@
             </objects>
             <point key="canvasLocation" x="2044" y="-661"/>
         </scene>
-        <!--Create Campaign-->
-        <scene sceneID="PLi-6s-RQ5">
+        <!--Name Campaign-->
+        <scene sceneID="6gu-Gp-sSV">
             <objects>
-                <viewController storyboardIdentifier="CreateCampaignViewController" id="Ymh-R6-TrY" customClass="CreateCampaignViewController" customModule="Scenario_Manager" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CreateCampaignViewController" title="Name Campaign" id="ljd-j4-xgZ" customClass="CreateCampaignViewController" customModule="Scenario_Manager" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="VfJ-wQ-Xda"/>
-                        <viewControllerLayoutGuide type="bottom" id="qBx-Hs-cEO"/>
+                        <viewControllerLayoutGuide type="top" id="BDb-Og-tl5"/>
+                        <viewControllerLayoutGuide type="bottom" id="IBb-SN-SnB"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="zIV-iu-w7K">
+                    <view key="view" contentMode="scaleToFill" id="Vcj-ME-tnx">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bXw-Q3-0J5">
-                                <rect key="frame" x="16" y="22" width="59" height="33"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="59" id="48x-Qo-GJM"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="22"/>
-                                <state key="normal" title="Cancel">
-                                    <color key="titleColor" red="0.2452870207" green="0.18995208050000001" blue="0.13303627730000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                </state>
-                                <connections>
-                                    <action selector="cancel:" destination="Ymh-R6-TrY" eventType="touchUpInside" id="8XY-Gz-9W3"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7wB-Px-pVY">
-                                <rect key="frame" x="261" y="23" width="43" height="33"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="43" id="7aF-Co-aRq"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="22"/>
-                                <state key="normal" title="Save">
-                                    <color key="titleColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                </state>
-                                <connections>
-                                    <action selector="save:" destination="Ymh-R6-TrY" eventType="touchUpInside" id="MsL-BF-8dc"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create Campaign" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WW8-U5-Yxf">
-                                <rect key="frame" x="75" y="26" width="169" height="24"/>
-                                <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="26"/>
-                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Campaign Name" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Prq-lq-4im">
-                                <rect key="frame" x="20" y="103" width="280" height="40"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="jL2-3i-t2m">
+                                <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="kwe-Ii-oGe"/>
-                                </constraints>
-                                <color key="textColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="22"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Party Name" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="AYX-cF-PK2">
-                                <rect key="frame" x="20" y="168" width="280" height="40"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="Xsb-wC-vSE"/>
-                                </constraints>
-                                <color key="textColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="22"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="8Gp-36-D8v">
-                                <rect key="frame" x="20" y="248" width="280" height="160"/>
-                                <subviews>
-                                    <textField opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="748" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Character Name" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="hoB-0b-WDY">
-                                        <rect key="frame" x="0.0" y="0.0" width="280" height="40"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="40" id="YOl-ff-Odd"/>
-                                        </constraints>
-                                        <color key="textColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                        <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="22"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                    </textField>
-                                    <textField opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="747" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Character Name (optional)" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="6ib-lr-tta">
-                                        <rect key="frame" x="0.0" y="40" width="280" height="40"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="40" id="YbX-pI-CKF"/>
-                                        </constraints>
-                                        <color key="textColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                        <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="22"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                    </textField>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Character Name (optional)" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Vyy-AF-hVN">
-                                        <rect key="frame" x="0.0" y="80" width="280" height="40"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="40" id="qIP-yL-miW"/>
-                                        </constraints>
-                                        <color key="textColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                        <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="22"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                    </textField>
-                                    <textField opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="749" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Character Name (optional)" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="hOM-RI-MDZ">
-                                        <rect key="frame" x="0.0" y="120" width="280" height="40"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="40" id="NG2-QL-hc1"/>
-                                        </constraints>
-                                        <color key="textColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                        <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="22"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                    </textField>
-                                </subviews>
-                            </stackView>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="8Gp-36-D8v" firstAttribute="trailing" secondItem="AYX-cF-PK2" secondAttribute="trailing" id="9EB-EC-5si"/>
-                            <constraint firstItem="7wB-Px-pVY" firstAttribute="trailing" secondItem="zIV-iu-w7K" secondAttribute="trailingMargin" id="C6O-uR-PS7"/>
-                            <constraint firstItem="Prq-lq-4im" firstAttribute="top" secondItem="VfJ-wQ-Xda" secondAttribute="bottom" constant="83" id="Fbr-DP-1x9"/>
-                            <constraint firstItem="AYX-cF-PK2" firstAttribute="leading" secondItem="zIV-iu-w7K" secondAttribute="leading" constant="20" id="HWj-oV-jgq"/>
-                            <constraint firstItem="7wB-Px-pVY" firstAttribute="leading" secondItem="WW8-U5-Yxf" secondAttribute="trailing" constant="17" id="Jk9-3h-Gy2"/>
-                            <constraint firstItem="WW8-U5-Yxf" firstAttribute="leading" secondItem="bXw-Q3-0J5" secondAttribute="trailing" id="NNb-oG-PUV"/>
-                            <constraint firstItem="bXw-Q3-0J5" firstAttribute="leading" secondItem="zIV-iu-w7K" secondAttribute="leadingMargin" id="U4P-zu-jJW"/>
-                            <constraint firstAttribute="trailing" secondItem="AYX-cF-PK2" secondAttribute="trailing" constant="20" id="Yhi-cD-uOb"/>
-                            <constraint firstItem="8Gp-36-D8v" firstAttribute="top" secondItem="AYX-cF-PK2" secondAttribute="bottom" constant="40" id="Ymp-Hf-4AD"/>
-                            <constraint firstItem="AYX-cF-PK2" firstAttribute="top" secondItem="Prq-lq-4im" secondAttribute="bottom" constant="25" id="aSo-FL-4kg"/>
-                            <constraint firstItem="qBx-Hs-cEO" firstAttribute="top" secondItem="8Gp-36-D8v" secondAttribute="bottom" constant="160" id="b3t-s2-Tdd"/>
-                            <constraint firstItem="7wB-Px-pVY" firstAttribute="top" secondItem="bXw-Q3-0J5" secondAttribute="top" constant="1" id="bFk-xu-DWs"/>
-                            <constraint firstItem="WW8-U5-Yxf" firstAttribute="top" secondItem="VfJ-wQ-Xda" secondAttribute="bottom" constant="6" id="gK3-Rt-PVv"/>
-                            <constraint firstItem="8Gp-36-D8v" firstAttribute="leading" secondItem="AYX-cF-PK2" secondAttribute="leading" id="gR4-nv-U6s"/>
-                            <constraint firstItem="Prq-lq-4im" firstAttribute="trailing" secondItem="AYX-cF-PK2" secondAttribute="trailing" id="noh-fK-92U"/>
-                            <constraint firstItem="Prq-lq-4im" firstAttribute="leading" secondItem="AYX-cF-PK2" secondAttribute="leading" id="wAw-7u-Mx6"/>
-                            <constraint firstItem="7wB-Px-pVY" firstAttribute="top" secondItem="VfJ-wQ-Xda" secondAttribute="bottom" constant="3" id="xwj-CG-WBo"/>
+                            <constraint firstItem="IBb-SN-SnB" firstAttribute="top" secondItem="jL2-3i-t2m" secondAttribute="bottom" id="0vd-HV-Rkk"/>
+                            <constraint firstItem="jL2-3i-t2m" firstAttribute="top" secondItem="BDb-Og-tl5" secondAttribute="bottom" id="1Tc-gv-Z6w"/>
+                            <constraint firstAttribute="trailing" secondItem="jL2-3i-t2m" secondAttribute="trailing" id="85W-Ht-1W4"/>
+                            <constraint firstItem="jL2-3i-t2m" firstAttribute="leading" secondItem="Vcj-ME-tnx" secondAttribute="leading" id="uOj-nx-yG4"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Create Campaign" id="ESK-c0-Dk1">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="CTl-hG-J5F"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="7VE-lh-blG"/>
+                    <navigationItem key="navigationItem" id="4dm-Pg-wK1">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="jQw-si-Scd">
+                            <connections>
+                                <action selector="cancel:" destination="ljd-j4-xgZ" id="5Ft-ce-bXW"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="createCampaignCampaignNameTextField" destination="Prq-lq-4im" id="f0n-8A-7RA"/>
-                        <outlet property="createCampaignCharacter1NameTextField" destination="hoB-0b-WDY" id="dXQ-5Y-sgG"/>
-                        <outlet property="createCampaignCharacter2NameTextField" destination="6ib-lr-tta" id="xEe-dp-0AB"/>
-                        <outlet property="createCampaignCharacter3NameTextField" destination="Vyy-AF-hVN" id="wJE-35-4QW"/>
-                        <outlet property="createCampaignCharacter4NameTextField" destination="hOM-RI-MDZ" id="lyi-uN-43O"/>
-                        <outlet property="createCampaignPartyNameTextField" destination="AYX-cF-PK2" id="MGH-Pz-oLd"/>
-                        <outlet property="createCampaignView" destination="zIV-iu-w7K" id="xUA-XO-FEr"/>
+                        <outlet property="createCampaignTableView" destination="jL2-3i-t2m" id="RmO-TJ-E6u"/>
+                        <segue destination="x46-aS-sWU" kind="show" identifier="showCreateCharacterVC" id="mGs-gi-ZeE"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="BgC-uA-yHx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1ie-d2-s6C" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3562.5" y="-1988.0281690140846"/>
+            <point key="canvasLocation" x="4961" y="-1914"/>
         </scene>
-        <!--Name Campaign-->
-        <scene sceneID="57H-VO-ehR">
-            <objects>
-                <viewController id="B2F-DH-ahf" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="7ar-Uy-MiA"/>
-                        <viewControllerLayoutGuide type="bottom" id="kZc-Ee-abz"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="dlN-RC-X0d">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Campaign Name" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="u5G-Wh-RCS">
-                                <rect key="frame" x="20" y="80" width="280" height="40"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="GTT-MV-KkE"/>
-                                </constraints>
-                                <color key="textColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="22"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x31-6E-HKX">
-                                <rect key="frame" x="129" y="160" width="62" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Continue"/>
-                            </button>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="u5G-Wh-RCS" firstAttribute="centerX" secondItem="dlN-RC-X0d" secondAttribute="centerX" id="G7u-4d-baC"/>
-                            <constraint firstItem="u5G-Wh-RCS" firstAttribute="leading" secondItem="dlN-RC-X0d" secondAttribute="leading" constant="20" id="T9F-bu-Ron"/>
-                            <constraint firstItem="u5G-Wh-RCS" firstAttribute="top" secondItem="7ar-Uy-MiA" secondAttribute="bottom" constant="60" id="gJz-ab-JuA"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" title="Name Campaign" id="YoG-AR-qhh"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="FV7-fP-y4K" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="4418" y="-1988"/>
-        </scene>
-        <!--Name Party-->
-        <scene sceneID="RgA-Xr-FMi">
-            <objects>
-                <viewController title="Name Party" id="YpF-rz-68W" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="TtM-xQ-3Xf"/>
-                        <viewControllerLayoutGuide type="bottom" id="eYg-b4-QGL"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="QN2-2D-POV">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Party Name" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="lBt-wB-Ymg">
-                                <rect key="frame" x="20" y="80" width="280" height="40"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="e9s-A6-eVf"/>
-                                </constraints>
-                                <color key="textColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="22"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v4b-Bs-a0N">
-                                <rect key="frame" x="129" y="161" width="62" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Continue"/>
-                            </button>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <accessibility key="accessibilityConfiguration">
-                            <accessibilityTraits key="traits" button="YES"/>
-                        </accessibility>
-                        <constraints>
-                            <constraint firstItem="lBt-wB-Ymg" firstAttribute="top" secondItem="TtM-xQ-3Xf" secondAttribute="bottom" constant="60" id="61T-K6-ah1"/>
-                            <constraint firstItem="lBt-wB-Ymg" firstAttribute="leading" secondItem="QN2-2D-POV" secondAttribute="leading" constant="20" id="COn-rt-BmO"/>
-                            <constraint firstItem="lBt-wB-Ymg" firstAttribute="centerX" secondItem="QN2-2D-POV" secondAttribute="centerX" id="Qr2-ix-l8b"/>
-                        </constraints>
-                    </view>
-                    <toolbarItems/>
-                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Ciw-nh-GE7" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="5235" y="-1988"/>
-        </scene>
-        <!--View Controller-->
+        <!--Create Character View Controller-->
         <scene sceneID="9yl-m4-ow9">
             <objects>
-                <viewController id="x46-aS-sWU" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="NameCharacterViewController" id="x46-aS-sWU" customClass="CreateCharacterViewController" customModule="Scenario_Manager" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="o7P-Ru-cNa"/>
                         <viewControllerLayoutGuide type="bottom" id="h7J-i3-Uxf"/>
@@ -279,37 +91,26 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Character Name" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="TVS-uI-Yqb">
-                                <rect key="frame" x="20" y="80" width="280" height="40"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="fng-ot-VnZ"/>
-                                </constraints>
-                                <color key="textColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="22"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xnu-oL-jiv">
-                                <rect key="frame" x="140" y="166" width="41" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Finish"/>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iSz-43-V9D">
-                                <rect key="frame" x="72" y="217" width="177" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Create Another Character"/>
-                            </button>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Mk2-2a-tzB">
+                                <rect key="frame" x="0.0" y="107" width="320" height="461"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="TVS-uI-Yqb" firstAttribute="top" secondItem="o7P-Ru-cNa" secondAttribute="bottom" constant="60" id="Avi-Eq-ZHU"/>
-                            <constraint firstItem="TVS-uI-Yqb" firstAttribute="centerX" secondItem="b88-kT-hXJ" secondAttribute="centerX" id="i78-k8-IV2"/>
-                            <constraint firstItem="TVS-uI-Yqb" firstAttribute="leading" secondItem="b88-kT-hXJ" secondAttribute="leading" constant="20" id="tJl-Ij-Nh3"/>
+                            <constraint firstItem="Mk2-2a-tzB" firstAttribute="top" secondItem="o7P-Ru-cNa" secondAttribute="bottom" constant="43" id="Gp5-5Y-xdR"/>
+                            <constraint firstItem="h7J-i3-Uxf" firstAttribute="top" secondItem="Mk2-2a-tzB" secondAttribute="bottom" id="Ksr-1D-f1A"/>
+                            <constraint firstAttribute="trailing" secondItem="Mk2-2a-tzB" secondAttribute="trailing" id="fHb-Pf-gYy"/>
+                            <constraint firstItem="Mk2-2a-tzB" firstAttribute="leading" secondItem="b88-kT-hXJ" secondAttribute="leading" id="n0I-71-Py5"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="createCharacterTableView" destination="Mk2-2a-tzB" id="vVX-0e-rdo"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QbI-h9-Xtt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6090" y="-1988"/>
+            <point key="canvasLocation" x="5762" y="-1914"/>
         </scene>
         <!--Scenario View Controller-->
         <scene sceneID="mM1-G2-PZq">
@@ -1119,6 +920,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AVg-TR-9yX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2261" y="406"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="Dcg-tJ-AzO">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="oU3-kQ-apQ" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="JiI-EF-xsp">
+                        <rect key="frame" x="0.0" y="20" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="ljd-j4-xgZ" kind="relationship" relationship="rootViewController" id="8cX-Tc-wql"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eYc-ss-Qlx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4234" y="-1914"/>
         </scene>
     </scenes>
     <resources>
