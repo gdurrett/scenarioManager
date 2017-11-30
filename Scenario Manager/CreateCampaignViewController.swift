@@ -17,6 +17,15 @@ protocol CreateCampaignViewControllerReloadDelegate: class {
     func reloadAfterDidFinishAdding()
 }
 class CreateCampaignViewController: UIViewController, CreateCampaignViewModelDelegate {
+    var selectedCharacter: Character {
+        get {
+            return currentCharacter!
+        }
+        set {
+            currentCharacter = newValue
+        }
+    }
+    
     
     //@IBOutlet weak var createCampaignTableView: UITableView!
     
@@ -29,7 +38,9 @@ class CreateCampaignViewController: UIViewController, CreateCampaignViewModelDel
     @IBAction func cancel(_ sender: Any) {
          delegate?.createCampaignViewControllerDidCancel(self)
     }
-    
+    @IBAction func unwindToCreateCampaignVC(segue: UIStoryboardSegue) {
+        self.createCampaignTableView.reloadData()
+    }
     var viewModel: CreateCampaignViewModelFromModel? {
         didSet {
             //
@@ -42,7 +53,7 @@ class CreateCampaignViewController: UIViewController, CreateCampaignViewModelDel
     
     var newCampaignTitle: String?
     var selectedParties: [String]?
-    
+    var currentCharacter: Character?
     
     let colorDefinitions = ColorDefinitions()
     let fontDefinitions = FontDefinitions()
@@ -75,6 +86,11 @@ class CreateCampaignViewController: UIViewController, CreateCampaignViewModelDel
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showCreateCharacterVC" {
             let destinationVC = segue.destination as! CreateCharacterViewController
+            let destinationVM = CreateCharacterViewModel(withDataModel: viewModel!.dataModel)
+            destinationVC.viewModel = destinationVM
+            destinationVC.pickerDelegate = destinationVM as CreateCharacterPickerDelegate
+            destinationVC.delegate = destinationVM
+            destinationVM.selectedCharacterRow = self.viewModel!.selectedCharacterRow
         }
     }
 }

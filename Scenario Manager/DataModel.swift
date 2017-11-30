@@ -204,6 +204,9 @@ class DataModel {
     // Characters
     var characters = [String : Character]()
 
+    // Store newly-created characters
+    var newCharacters = [String : Character]()
+    
     // Get a CloudKit object
     let myCloudKitMgr = CloudKitMgr()
     

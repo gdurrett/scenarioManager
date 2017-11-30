@@ -92,25 +92,35 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Mk2-2a-tzB">
-                                <rect key="frame" x="0.0" y="107" width="320" height="461"/>
+                                <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="Mk2-2a-tzB" firstAttribute="top" secondItem="o7P-Ru-cNa" secondAttribute="bottom" constant="43" id="Gp5-5Y-xdR"/>
+                            <constraint firstItem="Mk2-2a-tzB" firstAttribute="top" secondItem="o7P-Ru-cNa" secondAttribute="bottom" id="Gp5-5Y-xdR"/>
                             <constraint firstItem="h7J-i3-Uxf" firstAttribute="top" secondItem="Mk2-2a-tzB" secondAttribute="bottom" id="Ksr-1D-f1A"/>
                             <constraint firstAttribute="trailing" secondItem="Mk2-2a-tzB" secondAttribute="trailing" id="fHb-Pf-gYy"/>
                             <constraint firstItem="Mk2-2a-tzB" firstAttribute="leading" secondItem="b88-kT-hXJ" secondAttribute="leading" id="n0I-71-Py5"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="ZkC-6k-Unl">
+                        <barButtonItem key="backBarButtonItem" title="Cancel" id="Qbs-s8-TA8"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="7MS-Bm-xKF">
+                            <connections>
+                                <action selector="save:" destination="x46-aS-sWU" id="8ug-o7-Qpk"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="createCharacterTableView" destination="Mk2-2a-tzB" id="vVX-0e-rdo"/>
+                        <segue destination="Qcy-vS-VyK" kind="unwind" identifier="unwindToCreateCampaignVC" unwindAction="unwindToCreateCampaignVCWithSegue:" id="Bd7-Kj-lFJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QbI-h9-Xtt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="Qcy-vS-VyK" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="5762" y="-1914"/>
+            <point key="canvasLocation" x="5761.875" y="-1914.0845070422536"/>
         </scene>
         <!--Scenario View Controller-->
         <scene sceneID="mM1-G2-PZq">

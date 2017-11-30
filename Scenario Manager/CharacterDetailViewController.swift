@@ -74,7 +74,7 @@ class CharacterDetailViewController: UIViewController {
         characterDetailTableView?.register(CharacterDetailPlayedScenarioCell.nib, forCellReuseIdentifier: CharacterDetailPlayedScenarioCell.identifier)
         
         // Set up Notification Center listeners
-        NotificationCenter.default.addObserver(self, selector: #selector(self.showCharacterTypePicker), name: NSNotification.Name(rawValue: "showCharacterTypePicker"), object: nil)
+        //NotificationCenter.default.addObserver(self, selector: #selector(self.showCharacterTypePicker), name: NSNotification.Name(rawValue: "showCharacterTypePicker"), object: nil)
 
         styleUI()
         

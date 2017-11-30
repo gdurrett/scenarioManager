@@ -12,6 +12,7 @@ import UIKit
 protocol CreateCampaignViewModelDelegate: class {
     func prepare(for segue: UIStoryboardSegue, sender: Any?)
     func performSegue(withIdentifier: String, sender: Any?)
+    var selectedCharacter: Character { get set }
 }
 // Move these to separate files?
 struct CreateCampaignTitleCellViewModel {
@@ -53,6 +54,7 @@ class CreateCampaignViewModelFromModel: NSObject {
     var newCharacter4Name: String?
     var newCharacterNames = [String]()
     var newCharacters = [Character]()
+    var selectedCharacterRow = 0
     
     let colorDefinitions = ColorDefinitions()
     let fontDefinitions = FontDefinitions()
@@ -136,10 +138,19 @@ extension CreateCampaignViewModelFromModel: UITableViewDataSource, UITableViewDe
             partyNameCell = cell
         case 2:
             var viewModel = CreateCampaignCreateCharacterCellViewModel()
-            viewModel.createCampaignCreateCharacterLabelText = ("Add character \(indexPath.row)")
             let cell = tableView.dequeueReusableCell(withIdentifier: CreateCampaignCharacterCell.identifier) as! CreateCampaignCharacterCell
+            let newCharacterIndex = ("Character\(indexPath.row)")
+            if dataModel.newCharacters[newCharacterIndex] == nil {
+                viewModel.createCampaignCreateCharacterLabelText = ("Add character \(indexPath.row)")
+                cell.createCampaignCharacterLabel.text = ("Add character \(indexPath.row + 1)")
+            } else {
+                print(newCharacterIndex)
+                viewModel.createCampaignCreateCharacterLabelText = (dataModel.newCharacters[newCharacterIndex]!).name
+                cell.createCampaignCharacterLabel.text = (dataModel.newCharacters[newCharacterIndex]!).name
+                cell.createCampaignCharacterLabel.textColor = colorDefinitions.scenarioTitleFontColor
+            }
+
             cell.accessoryType = .disclosureIndicator
-            cell.createCampaignCharacterLabel.text = ("Add character \(indexPath.row + 1)")
             tableViewCell = cell
         default:
             break
@@ -169,6 +180,7 @@ extension CreateCampaignViewModelFromModel: UITableViewDataSource, UITableViewDe
         header?.tintColor = colorDefinitions.detailTableViewHeaderTintColor
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        selectedCharacterRow = indexPath.row
         if indexPath.section == 2 {
             delegate!.performSegue(withIdentifier: "showCreateCharacterVC", sender: self)
         }

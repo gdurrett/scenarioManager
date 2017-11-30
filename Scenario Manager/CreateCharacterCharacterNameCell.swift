@@ -33,6 +33,7 @@ class CreateCharacterCharacterNameCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        createCharacterNameTextField?.font = fontDefinitions.detailTableViewTitleFont
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
