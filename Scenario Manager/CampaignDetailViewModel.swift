@@ -106,6 +106,7 @@ class CampaignDetailViewModel: NSObject {
         self.ancientTechCount = Dynamic(dataModel.currentCampaign.ancientTechCount)
         self.currentParty = Dynamic(dataModel.currentParty)
         super.init()
+        
         self.prosperityLevel = Dynamic(getProsperityLevel(count: dataModel.currentCampaign.prosperityCount + self.prosperityBonus))
         self.checksToNextLevel = Dynamic(getRemainingChecksUntilNextLevel(level: (getProsperityLevel(count: dataModel.currentCampaign.prosperityCount + self.prosperityBonus)), count: dataModel.currentCampaign.prosperityCount + self.prosperityBonus))
         
@@ -670,10 +671,11 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
             case .achievements:
                 break
             case .campaignTitle:
-                button.setImage(UIImage(named: "quill-drawing-a-line_unselected"), for: .normal)
-                button.isEnabled = true
-                button.addTarget(self, action: #selector(self.enableTitleTextField(_:)), for: .touchUpInside)
-                header.addSubview(button)
+//                button.setImage(UIImage(named: "quill-drawing-a-line_unselected"), for: .normal)
+//                button.isEnabled = true
+//                button.addTarget(self, action: #selector(self.enableTitleTextField(_:)), for: .touchUpInside)
+//                header.addSubview(button)
+                break
             case .parties:
                 break
             case .events:

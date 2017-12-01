@@ -83,6 +83,7 @@ class CampaignDetailViewController: UIViewController {
         campaignDetailTableView?.register(CampaignDetailPartiesHeader.nib, forCellReuseIdentifier: CampaignDetailPartiesHeader.identifier)
         
         styleUI()
+        
     }
 
     override func didReceiveMemoryWarning() {

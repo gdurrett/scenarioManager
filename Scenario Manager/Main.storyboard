@@ -78,6 +78,7 @@
                     <connections>
                         <outlet property="createCampaignTableView" destination="jL2-3i-t2m" id="RmO-TJ-E6u"/>
                         <segue destination="x46-aS-sWU" kind="show" identifier="showCreateCampaignCharacterVC" id="mGs-gi-ZeE"/>
+                        <segue destination="E4s-lW-bdS" kind="presentation" identifier="showTabBarVC" id="RR0-Yy-zrm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1ie-d2-s6C" userLabel="First Responder" sceneMemberID="firstResponder"/>

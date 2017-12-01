@@ -232,20 +232,22 @@ extension CharacterDetailViewModel: UITableViewDataSource, UITableViewDelegate, 
         switch itemType {
             
         case .characterName:
-            button.setImage(UIImage(named: "quill-drawing-a-line_unselected"), for: .normal)
-            button.isEnabled = true
-            button.addTarget(self, action: #selector(self.enableNameTextField(_:)), for: .touchUpInside)
-            header.addSubview(button)
+//            button.setImage(UIImage(named: "quill-drawing-a-line_unselected"), for: .normal)
+//            button.isEnabled = true
+//            button.addTarget(self, action: #selector(self.enableNameTextField(_:)), for: .touchUpInside)
+//            header.addSubview(button)
+            break
         case .characterLevel:
             button.setImage(UIImage(named: "quill-drawing-a-line_unselected"), for: .normal)
             button.isEnabled = true
             button.addTarget(self, action: #selector(self.showUIStepperInCharacterLevelCell(_:)), for: .touchUpInside)
             header.addSubview(button)
         case .characterType:
-            button.setImage(UIImage(named: "quill-drawing-a-line_unselected"), for: .normal)
-            button.isEnabled = true
-            button.addTarget(self, action: #selector(self.showCharacterTypePicker(_:)), for: .touchUpInside)
-            header.addSubview(button)
+//            button.setImage(UIImage(named: "quill-drawing-a-line_unselected"), for: .normal)
+//            button.isEnabled = true
+//            button.addTarget(self, action: #selector(self.showCharacterTypePicker(_:)), for: .touchUpInside)
+//            header.addSubview(button)
+            break
         case .assignedParty:
             break
         case .scenarioHistory:

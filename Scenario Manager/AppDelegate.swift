@@ -15,47 +15,79 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let dataModel = DataModel.sharedInstance
     let globalButtonFont = UIFont(name: "Nyala", size: 20.0)!
    
+    func isAppAlreadyLaunchedOnce()->Bool{
+        let defaults = UserDefaults.standard
+        
+        if let isAppAlreadyLaunchedOnce = defaults.string(forKey: "isAppAlreadyLaunchedOnce"){
+            //print("App already launched : \(isAppAlreadyLaunchedOnce)")
+            return true
+        }else{
+            defaults.set(true, forKey: "isAppAlreadyLaunchedOnce")
+            //print("App launched first time")
+            return false
+        }
+    }
 
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        
+
         UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedStringKey.font: globalButtonFont], for: .normal)
-        let scenarioViewModel = ScenarioViewModelFromModel(withDataModel: dataModel)
-        let campaignDetailViewModel = CampaignDetailViewModel(withCampaign: dataModel.currentCampaign)
-        let partyDetailViewModel = PartyDetailViewModel(withParty: dataModel.currentParty)
-       // Set to first character that matches current party assignment
-        let currentPartyCharacters = dataModel.characters.values.filter { $0.assignedTo == dataModel.currentParty.name }.isEmpty ? Array(dataModel.characters.values) : dataModel.characters.values.filter { $0.assignedTo == dataModel.currentParty.name }
-
-        let characterDetailViewModel = CharacterDetailViewModel(withCharacter: currentPartyCharacters.first!)
-        
-        if let tabBarController: UITabBarController = self.window!.rootViewController as? CampaignManagerTabBarController { // Set up top-level controller
+        if isAppAlreadyLaunchedOnce() {
             
-            let navController1 = tabBarController.viewControllers?[1] as! UINavigationController
-            let controller1 = navController1.viewControllers[0] as! PartyDetailViewController
-            controller1.viewModel = partyDetailViewModel
-            controller1.delegate = partyDetailViewModel
+            let scenarioViewModel = ScenarioViewModelFromModel(withDataModel: dataModel)
             
-            // Set up Campaign Detail view controller
-            let navController2 = tabBarController.viewControllers?[0] as? UINavigationController
-            let controller2 = navController2?.viewControllers[0] as! CampaignDetailViewController
-            controller2.viewModel = campaignDetailViewModel
-            controller2.delegate = campaignDetailViewModel
-            // See if we can set reload 
-            campaignDetailViewModel.partyReloadDelegate = controller1
+            let campaignDetailViewModel = CampaignDetailViewModel(withCampaign: dataModel.currentCampaign)
+            let partyDetailViewModel = PartyDetailViewModel(withParty: dataModel.currentParty)
+            // Set to first character that matches current party assignment
+            let currentPartyCharacters = dataModel.characters.values.filter { $0.assignedTo == dataModel.currentParty.name }.isEmpty ? Array(dataModel.characters.values) : dataModel.characters.values.filter { $0.assignedTo == dataModel.currentParty.name }
             
+            let characterDetailViewModel = CharacterDetailViewModel(withCharacter: currentPartyCharacters.first!)
             
-            // Set up Character Detail view controller
-            let navController3 = tabBarController.viewControllers?[2] as? UINavigationController
-            let controller3 = navController3?.viewControllers[0] as! SelectCharacterViewController
-            controller3.viewModel = characterDetailViewModel
-            controller3.actionDelegate = characterDetailViewModel
-            //controller3.delegate = characterDetailViewModel
-
-            // Set up Scenario view controller
-            let navController4 = tabBarController.viewControllers?[3] as? UINavigationController
-            let controller4 = navController4?.viewControllers[0] as! ScenarioViewController
-            controller4.viewModel = scenarioViewModel
+            if let tabBarController: UITabBarController = self.window!.rootViewController as? CampaignManagerTabBarController { // Set up top-level controller
+                
+                let navController1 = tabBarController.viewControllers?[1] as! UINavigationController
+                let controller1 = navController1.viewControllers[0] as! PartyDetailViewController
+                controller1.viewModel = partyDetailViewModel
+                controller1.delegate = partyDetailViewModel
+                
+                // Set up Campaign Detail view controller
+                let navController2 = tabBarController.viewControllers?[0] as? UINavigationController
+                let controller2 = navController2?.viewControllers[0] as! CampaignDetailViewController
+                controller2.viewModel = campaignDetailViewModel
+                controller2.delegate = campaignDetailViewModel
+                // See if we can set reload
+                campaignDetailViewModel.partyReloadDelegate = controller1
+                
+                
+                // Set up Character Detail view controller
+                let navController3 = tabBarController.viewControllers?[2] as? UINavigationController
+                let controller3 = navController3?.viewControllers[0] as! SelectCharacterViewController
+                controller3.viewModel = characterDetailViewModel
+                controller3.actionDelegate = characterDetailViewModel
+                //controller3.delegate = characterDetailViewModel
+                
+                // Set up Scenario view controller
+                let navController4 = tabBarController.viewControllers?[3] as? UINavigationController
+                let controller4 = navController4?.viewControllers[0] as! ScenarioViewController
+                controller4.viewModel = scenarioViewModel
+            }
+        } else {
+            //self.window = UIWindow(frame: UIScreen.init().bounds)
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            
+            let createCampaignVC = storyboard.instantiateViewController(withIdentifier: "CreateCampaignViewController") as! CreateCampaignViewController
+            let navCon = UINavigationController(rootViewController: createCampaignVC)
+            let viewModel = CampaignDetailViewModel(withCampaign: dataModel.currentCampaign)
+            let createCampaignVCViewModel = CreateCampaignViewModelFromModel(withDataModel: viewModel.dataModel)
+            createCampaignVC.viewModel = createCampaignVCViewModel
+            createCampaignVC.delegate = createCampaignVCViewModel
+            createCampaignVC.isFirstLoad = true
+            createCampaignVCViewModel.isFirstLoad = true
+            self.window?.rootViewController = navCon
+            //self.window?.makeKeyAndVisible()
         }
+
         return true
     }
 

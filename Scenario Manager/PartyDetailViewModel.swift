@@ -334,10 +334,11 @@ extension PartyDetailViewModel: UITableViewDataSource, UITableViewDelegate, Part
         switch itemType {
             
         case .partyName:
-            button.setImage(UIImage(named: "quill-drawing-a-line_unselected"), for: .normal)
-            button.isEnabled = true
-            button.addTarget(self, action: #selector(self.enableTitleTextField(_:)), for: .touchUpInside)
-            header.addSubview(button)
+//            button.setImage(UIImage(named: "quill-drawing-a-line_unselected"), for: .normal)
+//            button.isEnabled = true
+//            button.addTarget(self, action: #selector(self.enableTitleTextField(_:)), for: .touchUpInside)
+//            header.addSubview(button)
+            break
         case .reputation:
             button.setImage(UIImage(named: "quill-drawing-a-line_unselected"), for: .normal)
             button.isEnabled = true

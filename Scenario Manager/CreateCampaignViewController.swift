@@ -54,6 +54,9 @@ class CreateCampaignViewController: UIViewController, CreateCampaignViewModelDel
     // Test Test!
     weak var reloadDelegate: CreateCampaignViewControllerReloadDelegate?
     
+    // Set from appDelegate first time load
+    var isFirstLoad: Bool?
+    
     var newCampaignTitle: String?
     var selectedParties: [String]?
     var currentCharacter: Character?
@@ -72,6 +75,11 @@ class CreateCampaignViewController: UIViewController, CreateCampaignViewModelDel
         createCampaignTableView.dataSource = viewModel
         
         styleUI()
+        
+        if isFirstLoad == true {
+            print("First timer!")
+            self.navigationItem.leftBarButtonItem = nil
+        }
         
     }
 
@@ -94,6 +102,41 @@ class CreateCampaignViewController: UIViewController, CreateCampaignViewModelDel
             destinationVC.pickerDelegate = destinationVM as CreateCampaignCharacterPickerDelegate
             destinationVC.delegate = destinationVM
             destinationVM.selectedCharacterRow = self.viewModel!.selectedCharacterRow
+        } else if segue.identifier == "showTabBarVC" {
+            let scenarioViewModel = ScenarioViewModelFromModel(withDataModel: self.viewModel!.dataModel)
+            
+            let campaignDetailViewModel = CampaignDetailViewModel(withCampaign: self.viewModel!.dataModel.currentCampaign)
+            let partyDetailViewModel = PartyDetailViewModel(withParty: self.viewModel!.dataModel.currentParty)
+            // Set to first character that matches current party assignment
+            let currentPartyCharacters = self.viewModel!.dataModel.characters.values.filter { $0.assignedTo == self.viewModel!.dataModel.currentParty.name }.isEmpty ? Array(self.viewModel!.dataModel.characters.values) : self.viewModel!.dataModel.characters.values.filter { $0.assignedTo == self.viewModel!.dataModel.currentParty.name }
+            
+            let characterDetailViewModel = CharacterDetailViewModel(withCharacter: currentPartyCharacters.first!)
+            let tabBarController = segue.destination as! CampaignManagerTabBarController
+            let navController1 = tabBarController.viewControllers?[1] as! UINavigationController
+            let controller1 = navController1.viewControllers[0] as! PartyDetailViewController
+            controller1.viewModel = partyDetailViewModel
+            controller1.delegate = partyDetailViewModel
+            
+            // Set up Campaign Detail view controller
+            let navController2 = tabBarController.viewControllers?[0] as? UINavigationController
+            let controller2 = navController2?.viewControllers[0] as! CampaignDetailViewController
+            controller2.viewModel = campaignDetailViewModel
+            controller2.delegate = campaignDetailViewModel
+            // See if we can set reload
+            campaignDetailViewModel.partyReloadDelegate = controller1
+            
+            
+            // Set up Character Detail view controller
+            let navController3 = tabBarController.viewControllers?[2] as? UINavigationController
+            let controller3 = navController3?.viewControllers[0] as! SelectCharacterViewController
+            controller3.viewModel = characterDetailViewModel
+            controller3.actionDelegate = characterDetailViewModel
+            //controller3.delegate = characterDetailViewModel
+            
+            // Set up Scenario view controller
+            let navController4 = tabBarController.viewControllers?[3] as? UINavigationController
+            let controller4 = navController4?.viewControllers[0] as! ScenarioViewController
+            controller4.viewModel = scenarioViewModel
         }
     }
 }

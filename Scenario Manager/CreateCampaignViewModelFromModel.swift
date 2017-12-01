@@ -48,10 +48,10 @@ class CreateCampaignViewModelFromModel: NSObject {
     var newCampaignTitle: String?
     var partyNameCell: CreateCampaignPartyCell?
     var newPartyName: String?
-    var newCharacter1Name: String?
-    var newCharacter2Name: String?
-    var newCharacter3Name: String?
-    var newCharacter4Name: String?
+//    var newCharacter1Name: String?
+//    var newCharacter2Name: String?
+//    var newCharacter3Name: String?
+//    var newCharacter4Name: String?
     var newCharacterNames = [String]()
     var newCharacters = [Character]()
     var selectedCharacterRow = 0
@@ -60,6 +60,9 @@ class CreateCampaignViewModelFromModel: NSObject {
     let fontDefinitions = FontDefinitions()
     var selectedRows = [Int]()
     weak var delegate: CreateCampaignViewModelDelegate?
+    
+    // Set from appDelegate first time load
+    var isFirstLoad: Bool?
     
     init(withDataModel dataModel: DataModel) {
         self.dataModel = dataModel
@@ -208,7 +211,13 @@ extension CreateCampaignViewModelFromModel: CreateCampaignViewControllerDelegate
         dataModel.newCharacters = [String:Character]()
         dataModel.newPartyName = String()
         dataModel.newCampaignName = String()
+        // Test branching based on if we're coming from first load version of VC
+        if isFirstLoad == true {
+            dataModel.campaigns.removeValue(forKey: "MyCampaign")
+            delegate?.performSegue(withIdentifier: "showTabBarVC", sender: self)
+        } else {
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "updateAfterNewCampaignSelected"), object: nil)
         controller.dismiss(animated: true, completion: nil)
+        }
     }
 }
