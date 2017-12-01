@@ -69,7 +69,7 @@ class CreatePartyViewController: UIViewController {
             // Test Test!
             //reloadDelegate?.reloadAfterDidFinishAdding()
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let nameCharacterVC = storyboard.instantiateViewController(withIdentifier: "NameCharacterViewController")
+            let nameCharacterVC = storyboard.instantiateViewController(withIdentifier: "CreateCharacterViewController")
             self.navigationController?.pushViewController(nameCharacterVC, animated: true)
         } else {
             print("Fill all required fields!")

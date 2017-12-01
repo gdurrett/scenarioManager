@@ -1,44 +1,43 @@
 //
-//  CreateCharacterViewController.swift
+//  CreateCampaignCharacterViewController.swift
 //  Scenario Manager
 //
-//  Created by Greg Durrett on 11/30/17.
+//  Created by Greg Durrett on 11/9/17.
 //  Copyright © 2017 AppHazard Productions. All rights reserved.
 //
 
 import UIKit
 
-protocol CreateCharacterViewControllerDelegate: class {
-    func createCharacterViewControllerDidCancel(_ controller: CreateCharacterViewController)
-    func createCharacterViewControllerDidFinishAdding(_ controller: CreateCharacterViewController)
+protocol CreateCampaignCharacterViewControllerDelegate: class {
+    func createCampaignCharacterViewControllerDidCancel(_ controller: CreateCampaignCharacterViewController)
+    func createCampaignCharacterViewControllerDidFinishAdding(_ controller: CreateCampaignCharacterViewController)
 }
-protocol CreateCharacterPickerDelegate: class {
+protocol CreateCampaignCharacterPickerDelegate: class {
     func setCharacterType()
     var characterTypePickerDidPick: Bool { get set }
 }
+class CreateCampaignCharacterViewController: UIViewController {
 
-class CreateCharacterViewController: UIViewController {
-
-    @IBOutlet var createCharacterView: UIView!
+    @IBOutlet var createCampaignCharacterView: UIView!
     
-    @IBOutlet weak var createCharacterTableView: UITableView!
+    @IBOutlet weak var createCampaignCharacterTableView: UITableView!
     
     @IBAction func cancel(_ sender: Any) {
-        delegate?.createCharacterViewControllerDidCancel(self)
+        delegate?.createCampaignCharacterViewControllerDidCancel(self)
     }
     
-    @IBAction func save(_ sender: Any) {
-        delegate?.createCharacterViewControllerDidFinishAdding(self)
-        self.dismiss(animated: true, completion: nil)
+    @IBAction func save(_ sender: UIStoryboardSegue) {
+        delegate?.createCampaignCharacterViewControllerDidFinishAdding(self)
+        performSegue(withIdentifier: "unwindToCreateCampaignVC", sender: self)
     }
     
-    var viewModel: CreateCharacterViewModel? {
+    var viewModel: CreateCampaignCharacterViewModel? {
         didSet {
             //
         }
     }
-    weak var delegate: CreateCharacterViewControllerDelegate?
-    weak var pickerDelegate: CreateCharacterPickerDelegate!
+    weak var delegate: CreateCampaignCharacterViewControllerDelegate?
+    weak var pickerDelegate: CreateCampaignCharacterPickerDelegate!
     
     let colorDefinitions = ColorDefinitions()
     let fontDefinitions = FontDefinitions()
@@ -49,41 +48,40 @@ class CreateCharacterViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         viewModel!.reloadSection = { [weak self] (section: Int) in
-            self?.createCharacterTableView.reloadData()
+            self?.createCampaignCharacterTableView.reloadData()
         }
         
         // Set up Notification Center listeners
-        NotificationCenter.default.addObserver(self, selector: #selector(self.showCharacterTypePicker), name: NSNotification.Name(rawValue: "showCharacterTypePicker"), object: nil)
-        createCharacterTableView.dataSource = viewModel
-        createCharacterTableView.delegate = viewModel
+        NotificationCenter.default.addObserver(self, selector: #selector(self.showCampaignCharacterTypePicker), name: NSNotification.Name(rawValue: "showCampaignCharacterTypePicker"), object: nil)
+        createCampaignCharacterTableView.dataSource = viewModel
+        createCampaignCharacterTableView.delegate = viewModel
         
         characterTypePicker.dataSource = viewModel
         characterTypePicker.delegate = viewModel
         
         // Register cells
-        createCharacterTableView?.register(CreateCharacterCharacterNameCell.nib, forCellReuseIdentifier: CreateCharacterCharacterNameCell.identifier)
-        createCharacterTableView?.register(CharacterDetailCharacterLevelCell.nib, forCellReuseIdentifier: CharacterDetailCharacterLevelCell.identifier)
+        createCampaignCharacterTableView?.register(CreateCharacterCharacterNameCell.nib, forCellReuseIdentifier: CreateCharacterCharacterNameCell.identifier)
+        createCampaignCharacterTableView?.register(CharacterDetailCharacterLevelCell.nib, forCellReuseIdentifier: CharacterDetailCharacterLevelCell.identifier)
         
-        createCharacterTableView?.register(CharacterDetailCharacterTypeCell.nib, forCellReuseIdentifier: CharacterDetailCharacterTypeCell.identifier)
+        createCampaignCharacterTableView?.register(CharacterDetailCharacterTypeCell.nib, forCellReuseIdentifier: CharacterDetailCharacterTypeCell.identifier)
         // Rename CreatePartyPartyNameCell to something more generic.
-        createCharacterTableView?.register(CreatePartyPartyNameCell.nib, forCellReuseIdentifier: CreatePartyPartyNameCell.identifier)
+        createCampaignCharacterTableView?.register(CreatePartyPartyNameCell.nib, forCellReuseIdentifier: CreatePartyPartyNameCell.identifier)
         
         styleUI()
     }
-
+    
     // Helper methods
     fileprivate func styleUI() {
-        self.createCharacterTableView.backgroundColor = colorDefinitions.scenarioTableViewNavBarBarTintColor
-        self.createCharacterTableView.backgroundView = UIImageView(image: UIImage(named: "campaignDetailTableViewBG"))
-        self.createCharacterTableView.backgroundView?.alpha = 0.25
+        self.createCampaignCharacterTableView.backgroundColor = colorDefinitions.scenarioTableViewNavBarBarTintColor
+        self.createCampaignCharacterTableView.backgroundView = UIImageView(image: UIImage(named: "campaignDetailTableViewBG"))
+        self.createCampaignCharacterTableView.backgroundView?.alpha = 0.25
         //self.createPartyTableView.separatorInset = .zero // Get rid of offset to left for tableview!
-        self.createCharacterTableView.separatorStyle = .none
+        self.createCampaignCharacterTableView.separatorStyle = .none
     }
-    
     // Called via notification
-    @objc func showCharacterTypePicker() {
+    @objc func showCampaignCharacterTypePicker() {
         characterTypePicker.tag = 10
         characterTypePicker.layer.cornerRadius = 10
         characterTypePicker.layer.masksToBounds = true
@@ -120,7 +118,7 @@ class CreateCharacterViewController: UIViewController {
         self.view.addSubview(characterTypePickerInputView)
     }
     @objc func setCharacterType() {
-        pickerDelegate!.setCharacterType()
+        pickerDelegate?.setCharacterType()
         self.characterTypePickerInputView.removeFromSuperview()
         self.characterTypePicker.removeFromSuperview()
         characterTypePickerData.removeAll()
@@ -130,5 +128,4 @@ class CreateCharacterViewController: UIViewController {
         self.characterTypePicker.removeFromSuperview()
         characterTypePickerData.removeAll()
     }
-
 }

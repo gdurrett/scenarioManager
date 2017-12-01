@@ -128,10 +128,12 @@ class CharacterDetailViewController: UIViewController {
     fileprivate func loadCreateCharacterViewController() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let createCharacterVC = storyboard.instantiateViewController(withIdentifier: "CreateCharacterViewController") as! CreateCharacterViewController
-        createCharacterVC.viewModel = CreateCharacterViewModel(withDataModel: viewModel!.dataModel)
-        createCharacterVC.viewModel!.delegate = self.viewModel // So we can call back to our VM to set new character
-        createCharacterVC.delegate = createCharacterVC.viewModel
+        let createCharacterVM = CreateCharacterViewModel(withDataModel: viewModel!.dataModel)
+        createCharacterVC.viewModel = createCharacterVM
+        createCharacterVM.delegate = self.viewModel // So we can call back to our VM to set new character
+        createCharacterVC.delegate = createCharacterVM
         createCharacterVC.hidesBottomBarWhenPushed = true
+        createCharacterVC.pickerDelegate = createCharacterVM as CreateCharacterPickerDelegate
         self.navigationController!.present(createCharacterVC, animated: true, completion: nil)
     }
     fileprivate func showDeleteRetireCharacterActionSheet() {

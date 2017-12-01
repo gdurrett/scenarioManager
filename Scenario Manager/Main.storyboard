@@ -69,20 +69,25 @@
                                 <action selector="cancel:" destination="ljd-j4-xgZ" id="5Ft-ce-bXW"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="XDT-6S-Dki">
+                            <connections>
+                                <action selector="save:" destination="ljd-j4-xgZ" id="82s-OK-tat"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="createCampaignTableView" destination="jL2-3i-t2m" id="RmO-TJ-E6u"/>
-                        <segue destination="x46-aS-sWU" kind="show" identifier="showCreateCharacterVC" id="mGs-gi-ZeE"/>
+                        <segue destination="x46-aS-sWU" kind="show" identifier="showCreateCampaignCharacterVC" id="mGs-gi-ZeE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1ie-d2-s6C" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4961" y="-1914"/>
         </scene>
-        <!--Create Character View Controller-->
+        <!--Create Campaign Character View Controller-->
         <scene sceneID="9yl-m4-ow9">
             <objects>
-                <viewController storyboardIdentifier="NameCharacterViewController" id="x46-aS-sWU" customClass="CreateCharacterViewController" customModule="Scenario_Manager" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CreateCampaignCharacterViewController" id="x46-aS-sWU" customClass="CreateCampaignCharacterViewController" customModule="Scenario_Manager" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="o7P-Ru-cNa"/>
                         <viewControllerLayoutGuide type="bottom" id="h7J-i3-Uxf"/>
@@ -113,7 +118,8 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="createCharacterTableView" destination="Mk2-2a-tzB" id="vVX-0e-rdo"/>
+                        <outlet property="createCampaignCharacterTableView" destination="Mk2-2a-tzB" id="dPu-dB-STe"/>
+                        <outlet property="createCampaignCharacterView" destination="b88-kT-hXJ" id="2Vn-Eh-czu"/>
                         <segue destination="Qcy-vS-VyK" kind="unwind" identifier="unwindToCreateCampaignVC" unwindAction="unwindToCreateCampaignVCWithSegue:" id="Bd7-Kj-lFJ"/>
                     </connections>
                 </viewController>
@@ -312,72 +318,72 @@
             <point key="canvasLocation" x="4040.625" y="405.63380281690144"/>
         </scene>
         <!--Create Character View Controller-->
-        <scene sceneID="Iet-8I-gGw">
+        <scene sceneID="xx7-Tz-6SR">
             <objects>
-                <viewController storyboardIdentifier="CreateCharacterViewController" id="NzC-sC-3YD" customClass="CreateCharacterViewController" customModule="Scenario_Manager" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CreateCharacterViewController" id="Oqi-wh-62c" customClass="CreateCharacterViewController" customModule="Scenario_Manager" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="QqZ-Uk-mxu"/>
-                        <viewControllerLayoutGuide type="bottom" id="WSp-im-7yT"/>
+                        <viewControllerLayoutGuide type="top" id="8rS-jz-PjE"/>
+                        <viewControllerLayoutGuide type="bottom" id="hNS-ES-Gdf"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="wtA-bN-OMp">
+                    <view key="view" contentMode="scaleToFill" id="mZB-lo-stn">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="p6g-MH-zf0">
-                                <rect key="frame" x="0.0" y="65" width="320" height="504"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="QiR-3p-CU0">
+                                <rect key="frame" x="0.0" y="63" width="320" height="504"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Zg-W9-tKj">
-                                <rect key="frame" x="16" y="24" width="54" height="33"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create Character" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bO2-Bu-S4W">
+                                <rect key="frame" x="80" y="31" width="161" height="24"/>
+                                <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="26"/>
+                                <color key="textColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t2c-jb-KB3">
+                                <rect key="frame" x="16" y="27" width="54" height="33"/>
                                 <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="22"/>
                                 <state key="normal" title="Cancel">
                                     <color key="titleColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 </state>
                                 <connections>
-                                    <action selector="cancel:" destination="NzC-sC-3YD" eventType="touchUpInside" id="J4t-dk-7IY"/>
+                                    <action selector="cancel:" destination="Oqi-wh-62c" eventType="touchUpInside" id="fla-bl-yfC"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create Character" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nod-Ko-ast">
-                                <rect key="frame" x="80" y="29" width="161" height="24"/>
-                                <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="26"/>
-                                <color key="textColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yDa-1n-tLU">
-                                <rect key="frame" x="268" y="24" width="36" height="33"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nfA-kS-lGr">
+                                <rect key="frame" x="268" y="27" width="36" height="33"/>
                                 <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="22"/>
                                 <state key="normal" title="Save">
                                     <color key="titleColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 </state>
                                 <connections>
-                                    <action selector="save:" destination="NzC-sC-3YD" eventType="touchUpInside" id="OSI-ZI-yGu"/>
+                                    <action selector="save:" destination="Oqi-wh-62c" eventType="touchUpInside" id="PSV-jq-rCa"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="p6g-MH-zf0" firstAttribute="top" secondItem="nod-Ko-ast" secondAttribute="bottom" constant="12" id="7W3-ob-YRV"/>
-                            <constraint firstAttribute="trailing" secondItem="p6g-MH-zf0" secondAttribute="trailing" id="9WB-ge-uRP"/>
-                            <constraint firstItem="p6g-MH-zf0" firstAttribute="top" secondItem="6Zg-W9-tKj" secondAttribute="bottom" constant="8" id="CQB-Sy-E54"/>
-                            <constraint firstItem="6Zg-W9-tKj" firstAttribute="top" secondItem="QqZ-Uk-mxu" secondAttribute="bottom" constant="4" id="LHP-tP-3wB"/>
-                            <constraint firstItem="p6g-MH-zf0" firstAttribute="top" secondItem="QqZ-Uk-mxu" secondAttribute="bottom" constant="45" id="PaC-2k-Gb4"/>
-                            <constraint firstAttribute="trailing" secondItem="yDa-1n-tLU" secondAttribute="trailing" constant="16" id="SKF-n2-Vkf"/>
-                            <constraint firstItem="6Zg-W9-tKj" firstAttribute="leading" secondItem="wtA-bN-OMp" secondAttribute="leading" constant="16" id="SqM-5L-SFR"/>
-                            <constraint firstItem="WSp-im-7yT" firstAttribute="top" secondItem="p6g-MH-zf0" secondAttribute="bottom" constant="-1" id="UWx-9y-FOj"/>
-                            <constraint firstItem="p6g-MH-zf0" firstAttribute="top" secondItem="yDa-1n-tLU" secondAttribute="bottom" constant="8" id="bEo-Se-V3C"/>
-                            <constraint firstItem="nod-Ko-ast" firstAttribute="centerX" secondItem="wtA-bN-OMp" secondAttribute="centerX" id="gVk-N2-mSk"/>
-                            <constraint firstItem="p6g-MH-zf0" firstAttribute="leading" secondItem="wtA-bN-OMp" secondAttribute="leading" id="k3x-x8-lW5"/>
-                            <constraint firstItem="yDa-1n-tLU" firstAttribute="top" secondItem="QqZ-Uk-mxu" secondAttribute="bottom" constant="4" id="mzg-B5-BUp"/>
+                            <constraint firstItem="QiR-3p-CU0" firstAttribute="top" secondItem="t2c-jb-KB3" secondAttribute="bottom" constant="3" id="4CP-Th-s2V"/>
+                            <constraint firstAttribute="trailing" secondItem="QiR-3p-CU0" secondAttribute="trailing" id="8np-NQ-8FH"/>
+                            <constraint firstItem="QiR-3p-CU0" firstAttribute="top" secondItem="bO2-Bu-S4W" secondAttribute="bottom" constant="8" id="FQe-Ti-dyf"/>
+                            <constraint firstItem="t2c-jb-KB3" firstAttribute="top" secondItem="8rS-jz-PjE" secondAttribute="bottom" constant="7" id="HY7-IF-JwE"/>
+                            <constraint firstItem="QiR-3p-CU0" firstAttribute="top" secondItem="nfA-kS-lGr" secondAttribute="bottom" constant="3" id="Mph-ym-enC"/>
+                            <constraint firstItem="nfA-kS-lGr" firstAttribute="top" secondItem="8rS-jz-PjE" secondAttribute="bottom" constant="7" id="Pm2-G6-h3i"/>
+                            <constraint firstItem="bO2-Bu-S4W" firstAttribute="centerX" secondItem="mZB-lo-stn" secondAttribute="centerX" id="Tf9-Ma-GZa"/>
+                            <constraint firstItem="QiR-3p-CU0" firstAttribute="top" secondItem="8rS-jz-PjE" secondAttribute="bottom" constant="43" id="j8j-5h-Y2m"/>
+                            <constraint firstItem="hNS-ES-Gdf" firstAttribute="top" secondItem="QiR-3p-CU0" secondAttribute="bottom" constant="1" id="kaC-L6-IlT"/>
+                            <constraint firstAttribute="trailing" secondItem="nfA-kS-lGr" secondAttribute="trailing" constant="16" id="mjx-sB-knH"/>
+                            <constraint firstItem="t2c-jb-KB3" firstAttribute="leading" secondItem="mZB-lo-stn" secondAttribute="leading" constant="16" id="oQ9-bD-0Qe"/>
+                            <constraint firstItem="QiR-3p-CU0" firstAttribute="leading" secondItem="mZB-lo-stn" secondAttribute="leading" id="ywp-yd-Kfj"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="createCharacterTableView" destination="p6g-MH-zf0" id="fpm-7j-wMm"/>
-                        <outlet property="createCharacterView" destination="wtA-bN-OMp" id="3fX-vn-F4D"/>
+                        <outlet property="createCharacterTableView" destination="QiR-3p-CU0" id="AcK-kC-ryL"/>
+                        <outlet property="createCharacterView" destination="mZB-lo-stn" id="h4J-ya-ZPQ"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="9EA-fP-DfJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="KZ8-CF-eRv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4041" y="1122"/>
+            <point key="canvasLocation" x="4786.875" y="407.74647887323943"/>
         </scene>
         <!--Select Character View Controller-->
         <scene sceneID="Tif-Mf-goY">
@@ -427,7 +433,7 @@
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="fJf-eo-R9U">
                             <color key="tintColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             <connections>
-                                <action selector="createCharacterAction:" destination="NC1-ID-UfR" id="SNr-Hh-6z8"/>
+                                <action selector="createCharacterAction:" destination="NC1-ID-UfR" id="QXj-pG-9zf"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

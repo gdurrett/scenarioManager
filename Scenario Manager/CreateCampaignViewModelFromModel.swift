@@ -127,6 +127,7 @@ extension CreateCampaignViewModelFromModel: UITableViewDataSource, UITableViewDe
             tableViewCell = cell
             cell.separatorInset = .zero
             titleCell = cell
+            newCampaignTitle = cell.campaignTitleTextField.text
         case 1:
             let viewModel = CreateCampaignPartyNameCellViewModel()
             let cell = tableView.dequeueReusableCell(withIdentifier: CreateCampaignPartyCell.identifier) as! CreateCampaignPartyCell
@@ -136,6 +137,7 @@ extension CreateCampaignViewModelFromModel: UITableViewDataSource, UITableViewDe
             cell.backgroundColor = UIColor.clear
             tableViewCell = cell
             partyNameCell = cell
+            newPartyName = cell.createCampaignPartyNameTextField.text
         case 2:
             var viewModel = CreateCampaignCreateCharacterCellViewModel()
             let cell = tableView.dequeueReusableCell(withIdentifier: CreateCampaignCharacterCell.identifier) as! CreateCampaignCharacterCell
@@ -144,7 +146,6 @@ extension CreateCampaignViewModelFromModel: UITableViewDataSource, UITableViewDe
                 viewModel.createCampaignCreateCharacterLabelText = ("Add character \(indexPath.row)")
                 cell.createCampaignCharacterLabel.text = ("Add character \(indexPath.row + 1)")
             } else {
-                print(newCharacterIndex)
                 viewModel.createCampaignCreateCharacterLabelText = (dataModel.newCharacters[newCharacterIndex]!).name
                 cell.createCampaignCharacterLabel.text = (dataModel.newCharacters[newCharacterIndex]!).name
                 cell.createCampaignCharacterLabel.textColor = colorDefinitions.scenarioTitleFontColor
@@ -182,36 +183,31 @@ extension CreateCampaignViewModelFromModel: UITableViewDataSource, UITableViewDe
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedCharacterRow = indexPath.row
         if indexPath.section == 2 {
-            delegate!.performSegue(withIdentifier: "showCreateCharacterVC", sender: self)
+            delegate!.performSegue(withIdentifier: "showCreateCampaignCharacterVC", sender: self)
         }
     }
 }
 extension CreateCampaignViewModelFromModel: CreateCampaignViewControllerDelegate {
     func createCampaignViewControllerDidCancel(_ controller: CreateCampaignViewController) {
+        dataModel.newCharacters = [String:Character]()
+        dataModel.newPartyName = String()
+        dataModel.newCampaignName = String()
         controller.dismiss(animated: true, completion: nil)
     }
     
     func createCampaignViewControllerDidFinishAdding(_ controller: CreateCampaignViewController) {
-//        newCampaignTitle = controller.createCampaignCampaignNameTextField.text
-//        newPartyName = controller.createCampaignPartyNameTextField.text
-//        self.createParty(name: newPartyName!)
-//        newCharacter1Name = controller.createCampaignCharacter1NameTextField.text
-//        newCharacterNames.append(newCharacter1Name!)
-//        
-//        if let myCharacter2Name = controller.createCampaignCharacter2NameTextField.text, !myCharacter2Name.isEmpty {
-//            newCharacterNames.append(myCharacter2Name)
-//        }
-//        if let myCharacter3Name = controller.createCampaignCharacter3NameTextField.text, !myCharacter3Name.isEmpty {
-//            newCharacterNames.append(myCharacter3Name)
-//        }
-//        if let myCharacter4Name = controller.createCampaignCharacter4NameTextField.text, !myCharacter4Name.isEmpty {
-//            newCharacterNames.append(myCharacter4Name)
-//        }
-        for name in newCharacterNames {
-            createCharacter(name: name)
-            dataModel.parties[newPartyName!]?.characters = newCharacters
+        self.createParty(name: newPartyName!)
+        for char in dataModel.newCharacters.values {
+            //dataModel.parties[newPartyName!]?.characters.append(char)
+            dataModel.characters[char.name] = char
+            char.assignedTo = newPartyName
+            char.isActive = true
+            char.isRetired = false
         }
         self.createCampaign(title: newCampaignTitle!, parties: [dataModel.parties[newPartyName!]!])
+        dataModel.newCharacters = [String:Character]()
+        dataModel.newPartyName = String()
+        dataModel.newCampaignName = String()
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "updateAfterNewCampaignSelected"), object: nil)
         controller.dismiss(animated: true, completion: nil)
     }

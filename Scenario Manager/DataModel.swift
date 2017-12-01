@@ -204,8 +204,10 @@ class DataModel {
     // Characters
     var characters = [String : Character]()
 
-    // Store newly-created characters
+    // Store newly-created characters, campaign name, and partyname
     var newCharacters = [String : Character]()
+    var newCampaignName = String()
+    var newPartyName = String()
     
     // Get a CloudKit object
     let myCloudKitMgr = CloudKitMgr()

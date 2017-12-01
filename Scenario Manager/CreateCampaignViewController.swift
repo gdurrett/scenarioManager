@@ -38,6 +38,9 @@ class CreateCampaignViewController: UIViewController, CreateCampaignViewModelDel
     @IBAction func cancel(_ sender: Any) {
          delegate?.createCampaignViewControllerDidCancel(self)
     }
+    @IBAction func save(_ sender: Any) {
+        delegate?.createCampaignViewControllerDidFinishAdding(self)
+    }
     @IBAction func unwindToCreateCampaignVC(segue: UIStoryboardSegue) {
         self.createCampaignTableView.reloadData()
     }
@@ -84,11 +87,11 @@ class CreateCampaignViewController: UIViewController, CreateCampaignViewModelDel
         self.createCampaignTableView.backgroundView?.alpha = 0.25
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showCreateCharacterVC" {
-            let destinationVC = segue.destination as! CreateCharacterViewController
-            let destinationVM = CreateCharacterViewModel(withDataModel: viewModel!.dataModel)
+        if segue.identifier == "showCreateCampaignCharacterVC" {
+            let destinationVC = segue.destination as! CreateCampaignCharacterViewController
+            let destinationVM = CreateCampaignCharacterViewModel(withDataModel: viewModel!.dataModel)
             destinationVC.viewModel = destinationVM
-            destinationVC.pickerDelegate = destinationVM as CreateCharacterPickerDelegate
+            destinationVC.pickerDelegate = destinationVM as CreateCampaignCharacterPickerDelegate
             destinationVC.delegate = destinationVM
             destinationVM.selectedCharacterRow = self.viewModel!.selectedCharacterRow
         }
