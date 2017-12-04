@@ -1,44 +1,39 @@
 //
-//  CreateCharacterViewController.swift
+//  CreatePartyCharacterViewController.swift
 //  Scenario Manager
 //
-//  Created by Greg Durrett on 11/30/17.
+//  Created by Greg Durrett on 12/2/17.
 //  Copyright © 2017 AppHazard Productions. All rights reserved.
 //
 
 import UIKit
 
-protocol CreateCharacterViewControllerDelegate: class {
-    func createCharacterViewControllerDidCancel(_ controller: CreateCharacterViewController)
-    func createCharacterViewControllerDidFinishAdding(_ controller: CreateCharacterViewController)
+protocol CreatePartyCharacterViewControllerDelegate: class {
+    func createPartyCharacterViewControllerDidCancel(_ controller: CreatePartyCharacterViewController)
+    func createPartyCharacterViewControllerDidFinishAdding(_ controller: CreatePartyCharacterViewController)
 }
-protocol CreateCharacterPickerDelegate: class {
+protocol CreatePartyCharacterPickerDelegate: class {
     func setCharacterType()
     var characterTypePickerDidPick: Bool { get set }
 }
 
-class CreateCharacterViewController: UIViewController {
-
-    @IBOutlet var createCharacterView: UIView!
+class CreatePartyCharacterViewController: UIViewController {
+  
+    @IBOutlet var createPartyCharacterView: UIView!
     
-    @IBOutlet weak var createCharacterTableView: UITableView!
+    @IBOutlet weak var createPartyCharacterTableView: UITableView!
     
-    @IBAction func cancel(_ sender: Any) {
-        delegate?.createCharacterViewControllerDidCancel(self)
+    @IBAction func save(_ sender: UIStoryboardSegue) {
+        delegate!.createPartyCharacterViewControllerDidFinishAdding(self)
+        performSegue(withIdentifier: "unwindToCreatePartyVC", sender: self)
     }
-    
-    @IBAction func save(_ sender: Any) {
-        delegate?.createCharacterViewControllerDidFinishAdding(self)
-        self.dismiss(animated: true, completion: nil)
-    }
-    
-    var viewModel: CreateCharacterViewModel? {
+    var viewModel: CreatePartyCharacterViewModel? {
         didSet {
             //
         }
     }
-    weak var delegate: CreateCharacterViewControllerDelegate?
-    weak var pickerDelegate: CreateCharacterPickerDelegate!
+    weak var delegate: CreatePartyCharacterViewControllerDelegate?
+    weak var pickerDelegate: CreatePartyCharacterPickerDelegate!
     
     let colorDefinitions = ColorDefinitions()
     let fontDefinitions = FontDefinitions()
@@ -49,41 +44,42 @@ class CreateCharacterViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         viewModel!.reloadSection = { [weak self] (section: Int) in
-            self?.createCharacterTableView.reloadData()
+            self?.createPartyCharacterTableView.reloadData()
         }
         // For dismissing keyboard
-        createCharacterTableView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector((handleTap(sender:)))))
+        createPartyCharacterTableView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector((handleTap(sender:)))))
         
         // Set up Notification Center listeners
         NotificationCenter.default.addObserver(self, selector: #selector(self.showCharacterTypePicker), name: NSNotification.Name(rawValue: "showCharacterTypePicker"), object: nil)
-        createCharacterTableView.dataSource = viewModel
-        createCharacterTableView.delegate = viewModel
+        createPartyCharacterTableView.dataSource = viewModel
+        createPartyCharacterTableView.delegate = viewModel
         
         characterTypePicker.dataSource = viewModel
         characterTypePicker.delegate = viewModel
         
         // Register cells
-        createCharacterTableView?.register(CreateCharacterCharacterNameCell.nib, forCellReuseIdentifier: CreateCharacterCharacterNameCell.identifier)
-        createCharacterTableView?.register(CharacterDetailCharacterLevelCell.nib, forCellReuseIdentifier: CharacterDetailCharacterLevelCell.identifier)
+        createPartyCharacterTableView?.register(CreateCharacterCharacterNameCell.nib, forCellReuseIdentifier: CreateCharacterCharacterNameCell.identifier)
+        createPartyCharacterTableView?.register(CharacterDetailCharacterLevelCell.nib, forCellReuseIdentifier: CharacterDetailCharacterLevelCell.identifier)
         
-        createCharacterTableView?.register(CharacterDetailCharacterTypeCell.nib, forCellReuseIdentifier: CharacterDetailCharacterTypeCell.identifier)
+        createPartyCharacterTableView?.register(CharacterDetailCharacterTypeCell.nib, forCellReuseIdentifier: CharacterDetailCharacterTypeCell.identifier)
         // Rename CreatePartyPartyNameCell to something more generic.
-        createCharacterTableView?.register(CreatePartyPartyNameCell.nib, forCellReuseIdentifier: CreatePartyPartyNameCell.identifier)
+        createPartyCharacterTableView?.register(CreatePartyPartyNameCell.nib, forCellReuseIdentifier: CreatePartyPartyNameCell.identifier)
         
         styleUI()
     }
-
+    
     // Helper methods
     fileprivate func styleUI() {
-        self.createCharacterTableView.backgroundColor = colorDefinitions.scenarioTableViewNavBarBarTintColor
-        self.createCharacterTableView.backgroundView = UIImageView(image: UIImage(named: "campaignDetailTableViewBG"))
-        self.createCharacterTableView.backgroundView?.alpha = 0.25
+        self.createPartyCharacterTableView.backgroundColor = colorDefinitions.scenarioTableViewNavBarBarTintColor
+        self.createPartyCharacterTableView.backgroundView = UIImageView(image: UIImage(named: "campaignDetailTableViewBG"))
+        self.createPartyCharacterTableView.backgroundView?.alpha = 0.25
         //self.createPartyTableView.separatorInset = .zero // Get rid of offset to left for tableview!
-        self.createCharacterTableView.separatorStyle = .none
+        self.createPartyCharacterTableView.separatorStyle = .none
+        let rightBarButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(self.save(_:)))
+        self.navigationItem.rightBarButtonItem = rightBarButton
     }
-    // Selector method to dismiss keyboard
     @objc func handleTap(sender: UITapGestureRecognizer) {
         if sender.state == .ended {
             view.endEditing(true)
@@ -138,5 +134,4 @@ class CreateCharacterViewController: UIViewController {
         self.characterTypePicker.removeFromSuperview()
         characterTypePickerData.removeAll()
     }
-
 }

@@ -92,6 +92,8 @@
 		FBC880C11FA3DD4300CAA684 /* SelectPartyCharactersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBC880C01FA3DD4300CAA684 /* SelectPartyCharactersViewController.swift */; };
 		FBC880C61FA3E9D300CAA684 /* SelectCharacterTitleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FBC880C51FA3E9D300CAA684 /* SelectCharacterTitleCell.xib */; };
 		FBC880C81FA3EA4F00CAA684 /* SelectCharacterTitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBC880C71FA3EA4F00CAA684 /* SelectCharacterTitleCell.swift */; };
+		FBCD028F1FD356A800CAA684 /* CreatePartyCharacterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBCD028E1FD356A800CAA684 /* CreatePartyCharacterViewModel.swift */; };
+		FBCD02911FD356CD00CAA684 /* CreatePartyCharacterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBCD02901FD356CD00CAA684 /* CreatePartyCharacterViewController.swift */; };
 		FBCE875D1F57F4C200CAA684 /* PirataOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FBCE875C1F57F4C200CAA684 /* PirataOne-Regular.ttf */; };
 		FBCE875F1F586FB400CAA684 /* nyala.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FBCE875E1F586FB400CAA684 /* nyala.ttf */; };
 		FBCE87611F58764300CAA684 /* HTOWERT.TTF in Resources */ = {isa = PBXBuildFile; fileRef = FBCE87601F58764300CAA684 /* HTOWERT.TTF */; };
@@ -217,6 +219,8 @@
 		FBC880C01FA3DD4300CAA684 /* SelectPartyCharactersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPartyCharactersViewController.swift; sourceTree = "<group>"; };
 		FBC880C51FA3E9D300CAA684 /* SelectCharacterTitleCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelectCharacterTitleCell.xib; sourceTree = "<group>"; };
 		FBC880C71FA3EA4F00CAA684 /* SelectCharacterTitleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCharacterTitleCell.swift; sourceTree = "<group>"; };
+		FBCD028E1FD356A800CAA684 /* CreatePartyCharacterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePartyCharacterViewModel.swift; sourceTree = "<group>"; };
+		FBCD02901FD356CD00CAA684 /* CreatePartyCharacterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePartyCharacterViewController.swift; sourceTree = "<group>"; };
 		FBCE875C1F57F4C200CAA684 /* PirataOne-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PirataOne-Regular.ttf"; sourceTree = "<group>"; };
 		FBCE875E1F586FB400CAA684 /* nyala.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = nyala.ttf; sourceTree = "<group>"; };
 		FBCE87601F58764300CAA684 /* HTOWERT.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = HTOWERT.TTF; sourceTree = "<group>"; };
@@ -332,6 +336,8 @@
 				FB8D4F5D1FB0E09E00CAA684 /* CharacterDetailViewModel.swift */,
 				FBD2DD071F625FEA00CAA684 /* CreateCampaignViewModelFromModel.swift */,
 				FB10A44E1FB4EDFE00CAA684 /* CreateCampaignCharacterViewModel.swift */,
+				FB8A1FAB1FD0CC2E00CAA684 /* CreateCharacterViewModel.swift */,
+				FBCD028E1FD356A800CAA684 /* CreatePartyCharacterViewModel.swift */,
 				FBCFBC271FA92B6200CAA684 /* CreatePartyViewModel.swift */,
 				FBD2DD151F6863E900CAA684 /* DeleteCampaignViewModelFromModel.swift */,
 				FB40EA181F45552B00CAA684 /* Dynamic.swift */,
@@ -339,7 +345,6 @@
 				FB482D9A1F27DBA400CAA684 /* ScenarioDetailViewModel.swift */,
 				FB40EA131F4419CA00CAA684 /* ScenarioViewModel.swift */,
 				FB40EA091F43967C00CAA684 /* ScenarioViewModelFromModel.swift */,
-				FB8A1FAB1FD0CC2E00CAA684 /* CreateCharacterViewModel.swift */,
 			);
 			name = ViewModel;
 			sourceTree = "<group>";
@@ -352,6 +357,8 @@
 				FB8F10CF1FAFD6B800CAA684 /* CharacterDetailViewController.swift */,
 				FBD2DD031F620F4800CAA684 /* CreateCampaignViewController.swift */,
 				FB10A44C1FB4E60700CAA684 /* CreateCampaignCharacterViewController.swift */,
+				FBE25F871FD0D30200CAA684 /* CreateCharacterViewController.swift */,
+				FBCD02901FD356CD00CAA684 /* CreatePartyCharacterViewController.swift */,
 				FBCFBC291FA930F200CAA684 /* CreatePartyViewController.swift */,
 				FB40EA0B1F43ACFF00CAA684 /* DashboardViewController.swift */,
 				FBEB4B651F9D4E7F00CAA684 /* PartyDetailViewController.swift */,
@@ -361,7 +368,6 @@
 				FB10A4461FB389B900CAA684 /* SelectCharacterViewController.swift */,
 				FBC880C01FA3DD4300CAA684 /* SelectPartyCharactersViewController.swift */,
 				FBCFBC301FAA4BF600CAA684 /* SelectPartyViewController.swift */,
-				FBE25F871FD0D30200CAA684 /* CreateCharacterViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -398,10 +404,10 @@
 		FB482DA21F29380B00CAA684 /* TableView Cells */ = {
 			isa = PBXGroup;
 			children = (
+				FB5729BA1F6C728E00CAA684 /* CampaignDetailTableViewCells */,
 				FB8F10D11FAFD94B00CAA684 /* CharacterDetailTableViewCells */,
 				FB10A4501FB4F7F300CAA684 /* CreateCharacterTableViewCells */,
 				FBCFBC221FA9296500CAA684 /* CreatePartyTableViewCells */,
-				FB5729BA1F6C728E00CAA684 /* CampaignDetailTableViewCells */,
 				FBD2DD0C1F634C0800CAA684 /* CreateCampaignTableViewCells */,
 				FB884F841F9E4C4700CAA684 /* PartyDetailTableViewCells */,
 				FB2237D61F8190CB00CAA684 /* SelectCampaignTableViewCells */,
@@ -740,6 +746,7 @@
 				FB5729D41F6F8F9500CAA684 /* CampaignDetailDonationsCell.swift in Sources */,
 				FBEB4B681F9D4FEA00CAA684 /* PartyDetailViewModel.swift in Sources */,
 				FB482D9B1F27DBA400CAA684 /* ScenarioDetailViewModel.swift in Sources */,
+				FBCD028F1FD356A800CAA684 /* CreatePartyCharacterViewModel.swift in Sources */,
 				FBD2DD0E1F634D0600CAA684 /* CreateCampaignTitleCell.swift in Sources */,
 				FBD2DCFA1F5C945C00CAA684 /* Character.swift in Sources */,
 				FB46658F1F2F96B500CAA684 /* SummaryInfoCell.swift in Sources */,
@@ -761,6 +768,7 @@
 				FB2237D51F816B5500CAA684 /* SelectCampaignViewController.swift in Sources */,
 				FB8F10D01FAFD6B800CAA684 /* CharacterDetailViewController.swift in Sources */,
 				FB10A44B1FB3CF7A00CAA684 /* CharacterDetailPlayedScenarioCell.swift in Sources */,
+				FBCD02911FD356CD00CAA684 /* CreatePartyCharacterViewController.swift in Sources */,
 				FBD2DD081F625FEA00CAA684 /* CreateCampaignViewModelFromModel.swift in Sources */,
 				FB4665911F2FA98C00CAA684 /* LocationInfoCell.swift in Sources */,
 				FB70AF001FCE230000CAA684 /* CreateCampaignCharacterCell.swift in Sources */,

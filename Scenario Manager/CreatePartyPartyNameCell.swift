@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CreatePartyPartyNameCell: UITableViewCell {
+class CreatePartyPartyNameCell: UITableViewCell, UITextFieldDelegate {
     
     @IBOutlet weak var createPartyNameTextField: UITextField!
     let colorDefinitions = ColorDefinitions()
@@ -32,7 +32,10 @@ class CreatePartyPartyNameCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(UIView.endEditing(_:))))
+        //self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(UIView.endEditing(_:))))
+        self.createPartyNameTextField.delegate = self
+        // For keyboard
+        createPartyNameTextField.addTarget(nil, action:Selector(("firstResponderAction:")), for:.editingDidEndOnExit)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

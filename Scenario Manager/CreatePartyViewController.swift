@@ -12,43 +12,51 @@ protocol CreatePartyViewControllerDelegate: class {
     func createPartyViewControllerDidCancel(_ controller: CreatePartyViewController)
     func createPartyViewControllerDidFinishAdding(_ controller: CreatePartyViewController)
 }
-class CreatePartyViewController: UIViewController {
+class CreatePartyViewController: UIViewController, CreatePartyViewModelDelegate {
     
     @IBOutlet var createPartyView: UIView!
     
-    @IBOutlet weak var createPartyPartyNameTextField: UITextField!
+    @IBOutlet weak var createPartyTableView: UITableView!
     
-    @IBAction func loadCreateCharacterViewController(_ sender: Any) {
-        loadCreateCharacterViewController()
-    }
     @IBAction func cancel(_ sender: Any) {
         delegate?.createPartyViewControllerDidCancel(self)
     }
     
     @IBAction func save(_ sender: Any) {
-        if createPartyPartyNameTextField.text != "" {
-            delegate?.createPartyViewControllerDidFinishAdding(self)
-            // Test Test!
-            //reloadDelegate?.reloadAfterDidFinishAdding()
-        } else {
-            print("Fill all required fields!")
+        delegate?.createPartyViewControllerDidFinishAdding(self)
+    }
+    @IBAction func unwindToCreatePartyVC(segue: UIStoryboardSegue) {
+        self.createPartyTableView.reloadData()
+    }
+    var selectedCharacter: Character {
+        get {
+            return currentCharacter!
+        }
+        set {
+            currentCharacter = newValue
         }
     }
-    
     var viewModel: CreatePartyViewModel? {
         didSet {
-            //
+            viewModel!.delegate = self
         }
     }
     weak var delegate: CreatePartyViewControllerDelegate?
     
     var campaignName: String?
+    var currentCharacter: Character?
     
     let colorDefinitions = ColorDefinitions()
     let fontDefinitions = FontDefinitions()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // Register Cells
+        createPartyTableView.register(CreatePartyPartyNameCell.nib, forCellReuseIdentifier: CreatePartyPartyNameCell.identifier)
+        createPartyTableView.register(CreateCampaignCharacterCell.nib, forCellReuseIdentifier: CreateCampaignCharacterCell.identifier)
+        
+        createPartyTableView.delegate = viewModel
+        createPartyTableView.dataSource = viewModel
         
         styleUI()
         
@@ -59,20 +67,26 @@ class CreatePartyViewController: UIViewController {
         let backgroundImage = UIImageView(frame: UIScreen.main.bounds)
         backgroundImage.image = UIImage(named: "campaignDetailTableViewBG")
         backgroundImage.alpha = 0.25
-        self.createPartyView.insertSubview(backgroundImage, at: 0)
-        self.createPartyView.backgroundColor = colorDefinitions.scenarioTableViewNavBarBarTintColor
+        self.createPartyTableView.insertSubview(backgroundImage, at: 0)
+        self.createPartyTableView.backgroundColor = colorDefinitions.scenarioTableViewNavBarBarTintColor
+        let leftBarButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(self.cancel(_:)))
+        self.navigationItem.title = "Create Party"
+        self.navigationController?.navigationBar.titleTextAttributes = [.font: UIFont(name: "Nyala", size: 26.0)!, .foregroundColor: colorDefinitions.mainTextColor]
+        self.navigationController?.navigationBar.tintColor = colorDefinitions.mainTextColor
+        self.navigationItem.leftBarButtonItem = leftBarButton
+        leftBarButton.tintColor = colorDefinitions.mainTextColor
+        let rightBarButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(self.save(_:)))
+        rightBarButton.tintColor = colorDefinitions.mainTextColor
+        self.navigationItem.rightBarButtonItem = rightBarButton
     }
-    
-    fileprivate func loadCreateCharacterViewController() {
-        if createPartyPartyNameTextField.text != "" {
-            //delegate?.createPartyViewControllerDidFinishAdding(self)
-            // Test Test!
-            //reloadDelegate?.reloadAfterDidFinishAdding()
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let nameCharacterVC = storyboard.instantiateViewController(withIdentifier: "CreateCharacterViewController")
-            self.navigationController?.pushViewController(nameCharacterVC, animated: true)
-        } else {
-            print("Fill all required fields!")
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showCreatePartyCharacterVC" {
+            let destinationVC = segue.destination as! CreatePartyCharacterViewController
+            let destinationVM = CreatePartyCharacterViewModel(withDataModel: viewModel!.dataModel)
+            destinationVC.viewModel = destinationVM
+            destinationVC.pickerDelegate = destinationVM as CreatePartyCharacterPickerDelegate
+            destinationVC.delegate = destinationVM
+            destinationVM.selectedCharacterRow = self.viewModel!.selectedCharacterRow
         }
     }
 }

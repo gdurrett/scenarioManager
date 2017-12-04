@@ -9,6 +9,12 @@
 import Foundation
 import UIKit
 
+protocol CreatePartyViewModelDelegate: class {
+    func prepare(for segue: UIStoryboardSegue, sender: Any?)
+    func performSegue(withIdentifier: String, sender: Any?)
+    var selectedCharacter: Character { get set }
+}
+
 struct CreatePartyPartyNameCellViewModel {
     let createPartyNameTextFieldPlaceholder: String
     
@@ -16,7 +22,13 @@ struct CreatePartyPartyNameCellViewModel {
         self.createPartyNameTextFieldPlaceholder = "Enter Party Name"
     }
 }
-
+struct CreatePartyCreateCharacterCellViewModel {
+    var createPartyCreateCharacterLabelText: String
+    
+    init() {
+        self.createPartyCreateCharacterLabelText = ""
+    }
+}
 class CreatePartyViewModel: NSObject {
     
     let colorDefinitions = ColorDefinitions()
@@ -27,18 +39,20 @@ class CreatePartyViewModel: NSObject {
     var newParty = Party(name: "", characters: [], location: "Gloomhaven", achievements: [:], reputation: 0, isCurrent: true, assignedTo: "")
     var nameCell: CreatePartyPartyNameCell?
     var newPartyName: String?
-    var newCharacter1Name: String?
-    var newCharacter2Name: String?
-    var newCharacter3Name: String?
-    var newCharacter4Name: String?
+    var selectedCharacterRow = 0
     var newCharacterNames = [String]()
     var newCharacters = [Character]()
+    var selectedRows = [Int]()
+    weak var delegate: CreatePartyViewModelDelegate?
     
     init(withDataModel dataModel: DataModel) {
         self.dataModel = dataModel
         self.currentCampaign = dataModel.currentCampaign
     }
     
+    fileprivate func returnTextFieldPlaceholderText() -> String {
+        return "Select Party"
+    }
     fileprivate func createParty(name: String) {
         dataModel.createParty(name: name, characters: newCharacters, location: "Gloomhaven", achievements: [:], reputation: 0, isCurrent: true, assignedTo: (dataModel.currentCampaign.title))
         dataModel.currentParty = dataModel.parties[name]
@@ -53,25 +67,67 @@ class CreatePartyViewModel: NSObject {
     }
 }
 extension CreatePartyViewModel: UITableViewDataSource, UITableViewDelegate {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
     }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let viewModel = CreatePartyPartyNameCellViewModel()
-        let cell = tableView.dequeueReusableCell(withIdentifier: CreatePartyPartyNameCell.identifier) as! CreatePartyPartyNameCell
-        cell.configure(withViewModel: viewModel)
-        cell.selectionStyle = .none
-        cell.accessoryType = .none
-        cell.backgroundColor = UIColor.clear
-        nameCell = cell
-        return cell
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        switch section {
+        case 0:
+            return 1
+        case 1:
+            return 4
+        default:
+            return 1
+        }
     }
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 50
+        return 30
+    }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        var tableViewCell = UITableViewCell()
+        
+        switch indexPath.section {
+        case 0:
+            let viewModel = CreatePartyPartyNameCellViewModel()
+            let cell = tableView.dequeueReusableCell(withIdentifier: CreatePartyPartyNameCell.identifier) as! CreatePartyPartyNameCell
+            cell.configure(withViewModel: viewModel)
+            cell.selectionStyle = .none
+            cell.accessoryType = .none
+            cell.backgroundColor = UIColor.clear
+            nameCell = cell
+            newPartyName = cell.createPartyNameTextField.text
+            tableViewCell = cell
+        case 1:
+            var viewModel = CreatePartyCreateCharacterCellViewModel()
+            let cell = tableView.dequeueReusableCell(withIdentifier: CreateCampaignCharacterCell.identifier) as! CreateCampaignCharacterCell
+            let newCharacterIndex = ("Character\(indexPath.row)")
+            if dataModel.newCharacters[newCharacterIndex] == nil {
+                print("I think it's nil")
+                viewModel.createPartyCreateCharacterLabelText = ("Add character \(indexPath.row)")
+                cell.createCampaignCharacterLabel.text = ("Add character \(indexPath.row + 1)")
+            } else {
+                viewModel.createPartyCreateCharacterLabelText = (dataModel.newCharacters[newCharacterIndex]!).name
+                cell.createCampaignCharacterLabel.text = (dataModel.newCharacters[newCharacterIndex]!).name
+                cell.createCampaignCharacterLabel.textColor = colorDefinitions.scenarioTitleFontColor
+            }
+            
+            cell.accessoryType = .disclosureIndicator
+            tableViewCell = cell
+        default:
+            break
+        }
+        return tableViewCell
     }
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "Name new party"
+        switch section {
+        case 0:
+            return "Name new party"
+        case 1:
+            return "Add at least one character"
+        default:
+            break
+        }
+        return ""
     }
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         let header = view as? UITableViewHeaderFooterView
@@ -79,33 +135,33 @@ extension CreatePartyViewModel: UITableViewDataSource, UITableViewDelegate {
         header?.textLabel?.textColor = colorDefinitions.mainTextColor
         header?.tintColor = colorDefinitions.detailTableViewHeaderTintColor
     }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        selectedCharacterRow = indexPath.row
+        if indexPath.section == 1 {
+            delegate!.performSegue(withIdentifier: "showCreatePartyCharacterVC", sender: self)
+        }
+    }
 }
 extension CreatePartyViewModel: CreatePartyViewControllerDelegate {
     func createPartyViewControllerDidCancel(_ controller: CreatePartyViewController) {
+        dataModel.newCharacters = [String:Character]()
+        dataModel.newPartyName = String()
+        dataModel.newCampaignName = String()
         controller.dismiss(animated: true, completion: nil)
     }
     
     func createPartyViewControllerDidFinishAdding(_ controller: CreatePartyViewController) {
-        newPartyName = controller.createPartyPartyNameTextField.text
         self.createParty(name: newPartyName!)
-//        newCharacter1Name = controller.createPartyCharacter1NameTextField.text
-//        newCharacterNames.append(newCharacter1Name!)
-//        
-//        if let myCharacter2Name = controller.createPartyCharacter2NameTextField.text, !myCharacter2Name.isEmpty {
-//            newCharacterNames.append(myCharacter2Name)
-//        }
-//        if let myCharacter3Name = controller.createPartyCharacter3NameTextField.text, !myCharacter3Name.isEmpty {
-//            newCharacterNames.append(myCharacter3Name)
-//        }
-//        if let myCharacter4Name = controller.createPartyCharacter4NameTextField.text, !myCharacter4Name.isEmpty {
-//            newCharacterNames.append(myCharacter4Name)
-//        }
-        for name in newCharacterNames {
-            createCharacter(name: name)
-            dataModel.parties[newPartyName!]?.characters = newCharacters
+        for char in dataModel.newCharacters.values {
+            dataModel.characters[char.name] = char
+            char.assignedTo = newPartyName
+            char.isActive = true
+            char.isRetired = false
         }
-        // Let CharacterDetailVC know that we've swapped characters
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "updateAfterNewCampaignSelected"), object: nil)
+        dataModel.newCharacters = [String:Character]()
+        dataModel.newPartyName = String()
+        dataModel.newCampaignName = String()
+        dataModel.saveCampaignsLocally()
         controller.dismiss(animated: true, completion: nil)
     }
 }

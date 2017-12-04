@@ -39,10 +39,7 @@ class CreateCharacterViewModel: NSObject {
     var newCharacters = [String:Character]()
     var currentLevel: Double
     var currentLevelCell = UITableViewCell()
-    var characterOne: Character?
-    var characterTwo: Character?
-    var characterThree: Character?
-    var characterFour: Character?
+
     var selectedCharacterRow: Int?
     var newCharacterIndex = "Character0"
     
@@ -157,7 +154,7 @@ extension CreateCharacterViewModel: UITableViewDelegate, UITableViewDataSource {
         return tableViewCell
     }
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 50
+        return 30
     }
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
@@ -256,20 +253,16 @@ extension CreateCharacterViewModel: UIPickerViewDelegate, UIPickerViewDataSource
 extension CreateCharacterViewModel: CreateCharacterPickerDelegate {
     // Delegate method and property for Create Character VC picker
     func setCharacterType() {
-        print("Setting anything?")
         let newCharactersIndex = ("Character\(selectedCharacterRow!)")
         if dataModel.newCharacters[newCharactersIndex] != nil {
             dataModel.newCharacters[newCharactersIndex]!.type = "" //Test reset if we change it
         }
         if characterTypePickerDidPick == false {
-            //self.newCharacter.type = self.characterTypePickerData[0]
             self.newCharacter.type = Array(self.characterTypePickerData.sorted(by: <))[0]
         } else {
             characterTypePickerDidPick = true
             self.newCharacter.type = selectedCharacterType
-            print("Get to option 2 in extentions")
         }
         self.reloadSection?(2)
-        //self.dataModel.saveCampaignsLocally()
     }
 }

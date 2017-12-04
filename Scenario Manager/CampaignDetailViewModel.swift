@@ -51,7 +51,7 @@ class CampaignDetailViewModel: NSObject {
     var availableEvents: Dynamic<[Event]>
     var completedEvents: Dynamic<[Event]>
     var ancientTechCount: Dynamic<Int>
-    var currentParty: Dynamic<Party>
+    var currentPartyName: Dynamic<String>
     // Convert to dynamic later
     var headersToUpdate = [Int:UITableViewHeaderFooterView]()
     var storedOffsets = [Int: CGFloat]()
@@ -104,7 +104,7 @@ class CampaignDetailViewModel: NSObject {
         self.availableEvents = Dynamic(dataModel.availableEvents)
         self.completedEvents = Dynamic(dataModel.completedEvents)
         self.ancientTechCount = Dynamic(dataModel.currentCampaign.ancientTechCount)
-        self.currentParty = Dynamic(dataModel.currentParty)
+        self.currentPartyName = Dynamic(dataModel.currentParty.name)
         super.init()
         
         self.prosperityLevel = Dynamic(getProsperityLevel(count: dataModel.currentCampaign.prosperityCount + self.prosperityBonus))
@@ -124,7 +124,7 @@ class CampaignDetailViewModel: NSObject {
         let donationsItem = CampaignDetailViewModelCampaignDonationsItem(amount: donations.value, prosperityBonusString: "")
         items.append(donationsItem)
         
-        let partyItem = CampaignDetailViewModelCampaignPartyItem(names: [SeparatedStrings(rowString: self.currentParty.value.name)])
+        let partyItem = CampaignDetailViewModelCampaignPartyItem(names: [SeparatedStrings(rowString: self.currentPartyName.value)])
         items.append(partyItem)
         
         // Append completed achievements to items
@@ -228,7 +228,7 @@ class CampaignDetailViewModel: NSObject {
         self.availableParties.value = dataModel.availableParties
     }
     func updateCurrentParty() {
-        self.currentParty.value = dataModel.currentParty
+        self.currentPartyName.value = dataModel.currentParty.name
     }
     func updateEvents() {
         self.unavailableEvents.value = dataModel.unavailableEvents
@@ -429,7 +429,8 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
                 currentPartyCell = cell
                 cell.backgroundColor = UIColor.clear
                 cell.selectionStyle = .none
-                let party = SeparatedStrings(rowString: self.currentParty.value.name)
+                let party = SeparatedStrings(rowString: self.currentPartyName.value)
+                print("In cellForRowAt, I have \(self.currentPartyName.value) for partyName")
                 cell.item = party
                 return cell
             }
@@ -801,13 +802,24 @@ extension CampaignDetailViewModel: SelectCampaignViewControllerDelegate, Campaig
     func campaignDetailVCDidTapDelete(_ controller: CampaignDetailViewController) {
         if dataModel.campaigns.count > 1 {
             let campaignForParty = dataModel.campaigns[self.campaignTitle.value]
-            if !(campaignForParty?.parties?.isEmpty)! {
-                campaignForParty?.parties!.removeAll() // If campaign goes, party has to go too
+            // Remove characters too
+            for party in campaignForParty!.parties! {
+                for char in dataModel.characters.values {
+                    if char.assignedTo == party.name {
+                        dataModel.characters.removeValue(forKey: char.name)
+                    }
+                }
+                dataModel.parties.removeValue(forKey: party.name)
             }
             dataModel.campaigns.removeValue(forKey: self.campaignTitle.value)
             let myCampaign = Array(dataModel.campaigns.values)
             setCampaignActive(campaign: myCampaign.first!.title)
-            controller.campaignDetailTableView.reloadData()
+            //let myParty = Array(dataModel.currentParty.)
+            setPartyActive(party: dataModel.currentCampaign.parties!.first!.name)
+            self.updateCurrentParty()
+            //reloadSection!(3)
+            //controller.campaignDetailTableView.reloadData()
+            //NotificationCenter.default.post(name: NSNotification.Name(rawValue: "updateAfterNewCampaignSelected"), object: nil)
         } else {
             controller.showDisallowDeletionAlert()
         }

@@ -1,29 +1,26 @@
 //
-//  CreateCampaignCharacterViewModel.swift
+//  CreatePartyCharacterViewModel.swift
 //  Scenario Manager
 //
-//  Created by Greg Durrett on 11/9/17.
+//  Created by Greg Durrett on 12/2/17.
 //  Copyright © 2017 AppHazard Productions. All rights reserved.
 //
 
 import Foundation
 import UIKit
 
-struct CreateCampaignCharacterCharacterNameCellViewModel {
+struct CreatePartyCharacterCharacterNameCellViewModel {
     let createCharacterNameTextFieldPlaceholder: String
     
     init() {
         self.createCharacterNameTextFieldPlaceholder = "Enter Character Name"
     }
 }
-protocol CreateCampaignCharacterViewModelDelegate: class {
-    //func setCurrentCharacter(character: Character)
-    func showFormAlert(alertText: String, message: String)
-    func doSegue()
+protocol CreatePartyCharacterViewModelDelegate: class {
+    func setCurrentCharacter(character: Character)
 }
 
-class CreateCampaignCharacterViewModel: NSObject {
-    
+class CreatePartyCharacterViewModel: NSObject {
     let colorDefinitions = ColorDefinitions()
     let fontDefinitions = FontDefinitions()
     
@@ -42,21 +39,19 @@ class CreateCampaignCharacterViewModel: NSObject {
     var newCharacters = [String:Character]()
     var currentLevel: Double
     var currentLevelCell = UITableViewCell()
-    var characterOne: Character?
-    var characterTwo: Character?
-    var characterThree: Character?
-    var characterFour: Character?
+    
     var selectedCharacterRow: Int?
     var newCharacterIndex = "Character0"
     
-    weak var delegate: CreateCampaignCharacterViewModelDelegate?
+    weak var delegate: CreateCharacterViewModelDelegate?
     
     
     // Calls back to VC to refresh
     var reloadSection: ((_ section: Int) -> Void)?
     
-    // For CreateCampaignCharacterPickerDelegate
+    // For CreatePartyCharacterPickerDelegate
     var characterTypePickerDidPick = false
+    
     var selectedCharacterTypes: [String] {
         get {
             var tempTypes = [String]()
@@ -70,6 +65,7 @@ class CreateCampaignCharacterViewModel: NSObject {
             }
         }
     }
+    
     var characterTypePickerData: Set<String> {
         get {
             if selectedCharacterTypes == [""] {
@@ -89,16 +85,8 @@ class CreateCampaignCharacterViewModel: NSObject {
         self.dataModel = dataModel
         self.currentLevel = newCharacter.level
     }
-    
-    fileprivate func createCharacter(name: String) {
-        dataModel.createCharacter(name: name)
-        if dataModel.characters[name] != nil {
-            newCharacter = dataModel.characters[name]!
-        }
-        dataModel.saveCampaignsLocally()
-    }
 }
-extension CreateCampaignCharacterViewModel: UITableViewDelegate, UITableViewDataSource {
+extension CreatePartyCharacterViewModel: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         //Temporary
         return 3
@@ -115,7 +103,7 @@ extension CreateCampaignCharacterViewModel: UITableViewDelegate, UITableViewData
         } else {
             selectedCharacterRow = 0
         }
-
+        
         switch indexPath.section {
         case 0:
             let viewModel = CreateCharacterCharacterNameCellViewModel()
@@ -133,8 +121,8 @@ extension CreateCampaignCharacterViewModel: UITableViewDelegate, UITableViewData
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: CharacterDetailCharacterLevelCell.identifier, for: indexPath) as! CharacterDetailCharacterLevelCell
             let item = CharacterDetailViewModelCharacterLevelItem(level: "1")
-                currentLevelCell = cell
-//                cell.delegate = self
+            currentLevelCell = cell
+            //                cell.delegate = self
             if dataModel.newCharacters[newCharacterIndex] != nil {
                 item.level = String(Int(dataModel.newCharacters[newCharacterIndex]!.level))
             } else {
@@ -142,13 +130,13 @@ extension CreateCampaignCharacterViewModel: UITableViewDelegate, UITableViewData
                 item.level = String(Int(newCharacter.level))
             }
             //item.level = String(Int(newCharacter.level))
-                cell.backgroundColor = UIColor.clear
-                cell.selectionStyle = .none
-                cell.item = item
+            cell.backgroundColor = UIColor.clear
+            cell.selectionStyle = .none
+            cell.item = item
             cell.delegate = self
             levelCell = cell
             cell.myStepperOutlet.isHidden = false
-                tableViewCell = cell
+            tableViewCell = cell
         case 2:
             var item = CharacterDetailViewModelCharacterTypeItem(characterType: "None")
             let cell = tableView.dequeueReusableCell(withIdentifier: CharacterDetailCharacterTypeCell.identifier, for: indexPath) as! CharacterDetailCharacterTypeCell
@@ -195,35 +183,31 @@ extension CreateCampaignCharacterViewModel: UITableViewDelegate, UITableViewData
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 2 {
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "showCampaignCharacterTypePicker"), object: nil)
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "showCharacterTypePicker"), object: nil)
         }
     }
 }
-extension CreateCampaignCharacterViewModel: CreateCampaignCharacterViewControllerDelegate {
-    func createCampaignCharacterViewControllerDidCancel(_ controller: CreateCampaignCharacterViewController) {
+extension CreatePartyCharacterViewModel: CreatePartyCharacterViewControllerDelegate {
+    func createPartyCharacterViewControllerDidCancel(_ controller: CreatePartyCharacterViewController) {
         controller.dismiss(animated: true, completion: nil)
     }
     
-    func createCampaignCharacterViewControllerDidFinishAdding(_ controller: CreateCampaignCharacterViewController) {
+    func createPartyCharacterViewControllerDidFinishAdding(_ controller: CreatePartyCharacterViewController) {
         newCharacterName = nameCell?.createCharacterNameTextField.text
         newCharacterLevel = levelCell!.characterDetailCharacterLevelLabel.text!
         newCharacterType = typeCell?.characterDetailCharacterTypeLabel.text
-        
         let newCharactersIndex = ("Character\(selectedCharacterRow!)")
         if newCharacterName != "" {
-            if newCharacterType != "" && newCharacterType! != "Tap to select" {
-                print(newCharacterType!)
-                dataModel.newCharacters[newCharactersIndex] = Character(name: newCharacterName!, race: "", type: newCharacterType!, level: Double(newCharacterLevel)!, isActive: true, isRetired: false, assignedTo: "None", playedScenarios: ["None"])
-                delegate?.doSegue()
-            } else {
-                delegate?.showFormAlert(alertText: "Must specify a character type!", message: "Please select a character type.")
-            }
+            dataModel.newCharacters[newCharactersIndex] = Character(name: newCharacterName!, race: "", type: newCharacterType!, level: Double(newCharacterLevel)!, isActive: false, isRetired: false, assignedTo: dataModel.currentParty.name, playedScenarios: ["None"])
+            //dataModel.saveCampaignsLocally()
+            self.reloadSection!(2)
         } else {
-            delegate?.showFormAlert(alertText: "Can't leave character name blank!", message: "Please choose a name for your character.")
+            print("Nothing?")
+            // Present alert
         }
     }
 }
-extension CreateCampaignCharacterViewModel: CharacterDetailCharacterLevelCellDelegate {
+extension CreatePartyCharacterViewModel: CharacterDetailCharacterLevelCellDelegate {
     func incrementCharacterLevel(value: Int) {
         let currentLevel = self.currentLevel
         print("Currentlevel: \(self.currentLevel)")
@@ -246,7 +230,7 @@ extension CreateCampaignCharacterViewModel: CharacterDetailCharacterLevelCellDel
         //dataModel.saveCampaignsLocally()
     }
 }
-extension CreateCampaignCharacterViewModel: UIPickerViewDelegate, UIPickerViewDataSource {
+extension CreatePartyCharacterViewModel: UIPickerViewDelegate, UIPickerViewDataSource {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
@@ -273,23 +257,19 @@ extension CreateCampaignCharacterViewModel: UIPickerViewDelegate, UIPickerViewDa
         label?.text = ("\(Array(characterTypePickerData.sorted(by: <))[row])")
         return label!
     }
-
 }
-extension CreateCampaignCharacterViewModel: CreateCampaignCharacterPickerDelegate {
+extension CreatePartyCharacterViewModel: CreatePartyCharacterPickerDelegate {
     // Delegate method and property for Create Character VC picker
     func setCharacterType() {
-        print("Setting anything?")
         let newCharactersIndex = ("Character\(selectedCharacterRow!)")
         if dataModel.newCharacters[newCharactersIndex] != nil {
             dataModel.newCharacters[newCharactersIndex]!.type = "" //Test reset if we change it
         }
         if characterTypePickerDidPick == false {
-            //self.newCharacter.type = self.characterTypePickerData[0]
             self.newCharacter.type = Array(self.characterTypePickerData.sorted(by: <))[0]
         } else {
             characterTypePickerDidPick = true
             self.newCharacter.type = selectedCharacterType
-            print("Get to option 2 in extentions")
         }
         self.reloadSection?(2)
         //self.dataModel.saveCampaignsLocally()

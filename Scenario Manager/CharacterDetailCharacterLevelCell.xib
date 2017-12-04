@@ -25,6 +25,7 @@
                 </label>
                 <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" continuous="NO" autorepeat="NO" minimumValue="-9" maximumValue="9" translatesAutoresizingMaskIntoConstraints="NO" id="Ral-H3-Gql">
                     <rect key="frame" x="265" y="15" width="94" height="29"/>
+                    <color key="tintColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     <connections>
                         <action selector="modifyLevelAction:" destination="iN0-l3-epB" eventType="valueChanged" id="W0C-Eu-zY9"/>
                     </connections>

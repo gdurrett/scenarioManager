@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CreateCharacterCharacterNameCell: UITableViewCell {
+class CreateCharacterCharacterNameCell: UITableViewCell, UITextFieldDelegate {
 
     @IBOutlet weak var createCharacterNameTextField: UITextField!
     
@@ -34,6 +34,9 @@ class CreateCharacterCharacterNameCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
         createCharacterNameTextField?.font = fontDefinitions.detailTableViewTitleFont
+        self.createCharacterNameTextField.delegate = self
+        // For keyboard
+        createCharacterNameTextField.addTarget(nil, action:Selector(("firstResponderAction:")), for:.editingDidEndOnExit)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

@@ -13,6 +13,7 @@ protocol CreateCampaignViewModelDelegate: class {
     func prepare(for segue: UIStoryboardSegue, sender: Any?)
     func performSegue(withIdentifier: String, sender: Any?)
     var selectedCharacter: Character { get set }
+    func showFormAlert(alertText: String, message: String)
 }
 // Move these to separate files?
 struct CreateCampaignTitleCellViewModel {
@@ -48,10 +49,6 @@ class CreateCampaignViewModelFromModel: NSObject {
     var newCampaignTitle: String?
     var partyNameCell: CreateCampaignPartyCell?
     var newPartyName: String?
-//    var newCharacter1Name: String?
-//    var newCharacter2Name: String?
-//    var newCharacter3Name: String?
-//    var newCharacter4Name: String?
     var newCharacterNames = [String]()
     var newCharacters = [Character]()
     var selectedCharacterRow = 0
@@ -61,17 +58,23 @@ class CreateCampaignViewModelFromModel: NSObject {
     var selectedRows = [Int]()
     weak var delegate: CreateCampaignViewModelDelegate?
     
+    // Calls back to VC to refresh
+    var reloadSection: ((_ section: Int) -> Void)?
+    
     // Set from appDelegate first time load
     var isFirstLoad: Bool?
     
     init(withDataModel dataModel: DataModel) {
         self.dataModel = dataModel
-        
-//        for party in dataModel.availableParties {
-//            self.parties[party] = dataModel.parties[party]
-//        }
+        super.init()
+        resetForNewCampaignCreation()
     }
 
+    fileprivate func resetForNewCampaignCreation() {
+        dataModel.newCharacters = [String:Character]()
+        dataModel.newPartyName = String()
+        dataModel.newCampaignName = String()
+    }
     fileprivate func returnTextFieldPlaceholderText() -> String {
         return "Select Party"
     }
@@ -94,7 +97,7 @@ class CreateCampaignViewModelFromModel: NSObject {
         newCharacters.append(dataModel.characters[name]!)
     }
 }
-extension CreateCampaignViewModelFromModel: UITableViewDataSource, UITableViewDelegate {
+extension CreateCampaignViewModelFromModel: UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         //Temporary
@@ -161,22 +164,20 @@ extension CreateCampaignViewModelFromModel: UITableViewDataSource, UITableViewDe
         }
         return tableViewCell
     }
-//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//        var returnString = String()
-//        switch section {
-//        case 0:
-//            returnString = "Name new campaign"
-//            print("Section 0?")
-//        case 1:
-//            returnString = "Name new party"
-//            print("Section 1?")
-//        case 2:
-//            returnString = "Create new character"
-//        default:
-//            break
-//        }
-//        return returnString
-//    }
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        var returnString = String()
+        switch section {
+        case 0:
+            returnString = "Name new campaign"
+        case 1:
+            returnString = "Name new party"
+        case 2:
+            returnString = "Add at least one character"
+        default:
+            break
+        }
+        return returnString
+    }
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         let header = view as? UITableViewHeaderFooterView
         header?.textLabel?.font = fontDefinitions.detailTableViewHeaderFont
@@ -189,6 +190,7 @@ extension CreateCampaignViewModelFromModel: UITableViewDataSource, UITableViewDe
             delegate!.performSegue(withIdentifier: "showCreateCampaignCharacterVC", sender: self)
         }
     }
+
 }
 extension CreateCampaignViewModelFromModel: CreateCampaignViewControllerDelegate {
     func createCampaignViewControllerDidCancel(_ controller: CreateCampaignViewController) {
@@ -199,25 +201,51 @@ extension CreateCampaignViewModelFromModel: CreateCampaignViewControllerDelegate
     }
     
     func createCampaignViewControllerDidFinishAdding(_ controller: CreateCampaignViewController) {
-        self.createParty(name: newPartyName!)
-        for char in dataModel.newCharacters.values {
-            //dataModel.parties[newPartyName!]?.characters.append(char)
-            dataModel.characters[char.name] = char
-            char.assignedTo = newPartyName
-            char.isActive = true
-            char.isRetired = false
-        }
-        self.createCampaign(title: newCampaignTitle!, parties: [dataModel.parties[newPartyName!]!])
-        dataModel.newCharacters = [String:Character]()
-        dataModel.newPartyName = String()
-        dataModel.newCampaignName = String()
-        // Test branching based on if we're coming from first load version of VC
-        if isFirstLoad == true {
-            dataModel.campaigns.removeValue(forKey: "MyCampaign")
-            delegate?.performSegue(withIdentifier: "showTabBarVC", sender: self)
+        // Capture form errors here
+        if newPartyName == "" || newCampaignTitle == "" {
+            delegate?.showFormAlert(alertText: "Cannot leave fields blank!", message: "Both campaign title and party name must be specified.")
+            reloadSection!(0)
+        } else if dataModel.parties.contains(where: { $0.key == newPartyName! }) {
+            print("Already have a party by that name!")
+            delegate?.showFormAlert(alertText: "Already have a party by that name!", message: "Choose a different party name.")
+            reloadSection!(0)
         } else {
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "updateAfterNewCampaignSelected"), object: nil)
-        controller.dismiss(animated: true, completion: nil)
+            if dataModel.newCharacters.isEmpty == true {
+                delegate?.showFormAlert(alertText: "Must create at least one character.", message: "Tap Add character 1 to create a character.")
+            } else if dataModel.campaigns.contains(where: { $0.key == newCampaignTitle }) {
+                delegate?.showFormAlert(alertText: "Already have a campaign by that title!", message: "Choose a different campaign title.")
+                reloadSection!(0)
+            } else {
+                self.createParty(name: newPartyName!)
+                for char in dataModel.newCharacters.values {
+                    if dataModel.characters.contains(where: { $0.key == char.name }) {
+                        delegate?.showFormAlert(alertText: "Already have a character by that name!", message: "Choose a different character name.")
+                    } else if char.name == "" {
+                        delegate?.showFormAlert(alertText: "Can't leave character name blank!", message: "Please choose a name for your character.")
+                    } else if char.type == "" {
+                        delegate?.showFormAlert(alertText: "Must specify a character type!", message: "Please select a character type.")
+                    } else {
+                        dataModel.characters[char.name] = char
+                        char.assignedTo = newPartyName
+                        char.isActive = true
+                        char.isRetired = false
+                    }
+                }
+                self.createCampaign(title: newCampaignTitle!, parties: [dataModel.parties[newPartyName!]!])
+                dataModel.newCharacters = [String:Character]()
+                dataModel.newPartyName = String()
+                dataModel.newCampaignName = String()
+                // Test branching based on if we're coming from first load version of VC
+                if isFirstLoad == true {
+                    dataModel.campaigns.removeValue(forKey: "MyCampaign")
+                    dataModel.parties.removeValue(forKey: "MyParty")
+                    delegate?.performSegue(withIdentifier: "showTabBarVC", sender: self)
+                } else {
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "updateAfterNewCampaignSelected"), object: nil)
+                    //reloadSection!(3)
+                    controller.dismiss(animated: true, completion: nil)
+                }
+            }
         }
     }
 }

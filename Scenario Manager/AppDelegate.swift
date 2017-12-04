@@ -14,7 +14,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     let dataModel = DataModel.sharedInstance
     let globalButtonFont = UIFont(name: "Nyala", size: 20.0)!
-   
+    let colorDefinitions = ColorDefinitions()
+    
     func isAppAlreadyLaunchedOnce()->Bool{
         let defaults = UserDefaults.standard
         
@@ -33,6 +34,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
 
         UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedStringKey.font: globalButtonFont], for: .normal)
+        UIBarButtonItem.appearance(whenContainedInInstancesOf: [UINavigationBar.classForCoder() as! UIAppearanceContainer.Type]).setTitleTextAttributes([NSAttributedStringKey.foregroundColor: colorDefinitions.mainTextColor, NSAttributedStringKey.font: UIFont(name: "Nyala", size: 20.0)!], for: .normal)
+        UINavigationBar.appearance().tintColor = colorDefinitions.mainTextColor
         if isAppAlreadyLaunchedOnce() {
             
             let scenarioViewModel = ScenarioViewModelFromModel(withDataModel: dataModel)

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CreateCampaignPartyCell: UITableViewCell {
+class CreateCampaignPartyCell: UITableViewCell, UITextFieldDelegate {
 
     @IBOutlet weak var createCampaignPartyNameTextField: UITextField!
     let colorDefinitions = ColorDefinitions()
@@ -32,8 +32,9 @@ class CreateCampaignPartyCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        //createCampaignPartyNameTextField.sizeToFit()
-    }
+        self.createCampaignPartyNameTextField.delegate = self
+        // For keyboard
+        createCampaignPartyNameTextField.addTarget(nil, action:Selector(("firstResponderAction:")), for:.editingDidEndOnExit)    }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)

@@ -32,8 +32,6 @@ class CreateCampaignViewController: UIViewController, CreateCampaignViewModelDel
     @IBOutlet var createCampaignView: UIView!
     
     @IBOutlet weak var createCampaignTableView: UITableView!
-
-    @IBOutlet weak var createCampaignNameTextField: UITextField!
     
     @IBAction func cancel(_ sender: Any) {
          delegate?.createCampaignViewControllerDidCancel(self)
@@ -66,6 +64,11 @@ class CreateCampaignViewController: UIViewController, CreateCampaignViewModelDel
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        viewModel!.reloadSection = { [weak self] (section: Int) in
+            self?.createCampaignTableView.reloadData()
+        }
+        
         // Register cells
         createCampaignTableView.register(CreateCampaignTitleCell.nib, forCellReuseIdentifier: CreateCampaignTitleCell.identifier)
         createCampaignTableView.register(CreateCampaignPartyCell.nib, forCellReuseIdentifier: CreateCampaignPartyCell.identifier)
@@ -82,6 +85,7 @@ class CreateCampaignViewController: UIViewController, CreateCampaignViewModelDel
         }
         
     }
+
 
     // Helper methods
     fileprivate func styleUI() {
@@ -138,5 +142,16 @@ class CreateCampaignViewController: UIViewController, CreateCampaignViewModelDel
             let controller4 = navController4?.viewControllers[0] as! ScenarioViewController
             controller4.viewModel = scenarioViewModel
         }
+    }
+    func showFormAlert(alertText: String, message: String) {
+        let alertView = UIAlertController(
+            title: alertText,
+            message: message,
+            preferredStyle: .alert)
+        
+        let action = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil)
+        alertView.view.tintColor = colorDefinitions.scenarioAlertViewTintColor
+        alertView.addAction(action)
+        present(alertView, animated: true, completion: nil)
     }
 }

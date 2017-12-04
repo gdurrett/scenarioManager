@@ -197,10 +197,13 @@ extension PartyDetailViewController: UITableViewDelegate {
     fileprivate func loadCreatePartyViewController() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let createPartyVC = storyboard.instantiateViewController(withIdentifier: "CreatePartyViewController") as! CreatePartyViewController
-        createPartyVC.viewModel = CreatePartyViewModel(withDataModel: viewModel!.dataModel)
-        createPartyVC.delegate = createPartyVC.viewModel
+        let navCon = UINavigationController(rootViewController: createPartyVC)
+        let createPartyVCViewModel = CreatePartyViewModel(withDataModel: viewModel!.dataModel)
+        createPartyVC.viewModel = createPartyVCViewModel
+        createPartyVC.delegate = createPartyVCViewModel
         createPartyVC.hidesBottomBarWhenPushed = true
-        self.navigationController!.present(createPartyVC, animated: true, completion: nil)
+        //self.navigationController!.present(createPartyVC, animated: true, completion: nil)
+        self.present(navCon, animated: true, completion: nil)
     }
     @objc fileprivate func showNoCharactersAlert() {
         let alertController = UIAlertController(title: "There are no available characters!", message: "Create new characters on the Characters tab, or unassign characters from another party.", preferredStyle: .alert)

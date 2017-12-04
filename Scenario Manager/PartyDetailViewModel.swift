@@ -484,19 +484,23 @@ extension PartyDetailViewModel: PartyDetailViewControllerDelegate {
         let currentParty = dataModel.currentParty.name
         if dataModel.assignedParties!.count > 1 {
             for character in dataModel.characters {
-                if character.value.assignedTo == dataModel.currentParty.name {
+                let charName = character.value.name
+                if character.value.assignedTo == currentParty {
                     // In addition to assigning to none, could we set character status to retired
-                    character.value.assignedTo = "None"
-                    character.value.isRetired = true
-                    character.value.isActive = false
-                }
+//                    character.value.assignedTo = "None"
+//                    character.value.isRetired = true
+//                    character.value.isActive = false
+                    dataModel.characters.removeValue(forKey: charName)
+                    }
             }
             dataModel.parties.removeValue(forKey: currentParty)
             dataModel.currentCampaign.parties = dataModel.currentCampaign.parties!.filter { $0.name != currentParty }
             let myParties = Array(dataModel.parties)
+            print(myParties)
             myParties[0].value.isCurrent = true
             setPartyActive(party: myParties[0].value.name)
             self.updateAssignedAndActiveCharacters() // See if this works
+            //self.updateCurrentParty()
             controller.partyDetailTableView.reloadData()
         } else {
             controller.showDisallowDeletionAlert()

@@ -65,11 +65,13 @@
                     </view>
                     <navigationItem key="navigationItem" id="4dm-Pg-wK1">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="jQw-si-Scd">
+                            <color key="tintColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             <connections>
                                 <action selector="cancel:" destination="ljd-j4-xgZ" id="5Ft-ce-bXW"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="XDT-6S-Dki">
+                            <color key="tintColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             <connections>
                                 <action selector="save:" destination="ljd-j4-xgZ" id="82s-OK-tat"/>
                             </connections>
@@ -113,6 +115,7 @@
                     <navigationItem key="navigationItem" id="ZkC-6k-Unl">
                         <barButtonItem key="backBarButtonItem" title="Cancel" id="Qbs-s8-TA8"/>
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="7MS-Bm-xKF">
+                            <color key="tintColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             <connections>
                                 <action selector="save:" destination="x46-aS-sWU" id="8ug-o7-Qpk"/>
                             </connections>
@@ -702,85 +705,34 @@
                                     <action selector="cancel:" destination="Hbc-NS-sMj" eventType="touchUpInside" id="bLb-aI-X9z"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Party Name" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="r4A-jA-I6i">
-                                <rect key="frame" x="20" y="97" width="280" height="40"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="nti-NU-fsp"/>
-                                </constraints>
-                                <color key="textColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="22"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="Exs-WR-PWk">
-                                <rect key="frame" x="20" y="177" width="280" height="178"/>
-                                <subviews>
-                                    <textField opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="748" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Character Name" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Def-yW-oU1">
-                                        <rect key="frame" x="0.0" y="0.0" width="280" height="40"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="40" id="kXb-hX-Td1"/>
-                                        </constraints>
-                                        <color key="textColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                        <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="22"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                    </textField>
-                                    <textField opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="747" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Character Name (optional)" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="wkK-o4-qXq">
-                                        <rect key="frame" x="0.0" y="46" width="280" height="40"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="40" id="iA8-IN-9aN"/>
-                                        </constraints>
-                                        <color key="textColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                        <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="22"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                    </textField>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Character Name (optional)" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="q2a-ZW-v9g">
-                                        <rect key="frame" x="0.0" y="92" width="280" height="40"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="40" id="omE-rY-Aqd"/>
-                                        </constraints>
-                                        <color key="textColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                        <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="22"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                    </textField>
-                                    <textField opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="749" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Character Name (optional)" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="FGY-5W-ObR">
-                                        <rect key="frame" x="0.0" y="138" width="280" height="40"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="40" id="eM9-bZ-ZOz"/>
-                                        </constraints>
-                                        <color key="textColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                        <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="22"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                    </textField>
-                                </subviews>
-                            </stackView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="vi9-07-aUP">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="570"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="UMx-W7-Qfk" firstAttribute="top" secondItem="hC6-95-ZTh" secondAttribute="bottom" constant="10" id="6As-7J-hU8"/>
                             <constraint firstItem="wcn-MK-iLO" firstAttribute="leading" secondItem="WEr-jQ-yVa" secondAttribute="leading" constant="9" id="8H2-Ac-IPY"/>
-                            <constraint firstItem="Exs-WR-PWk" firstAttribute="top" secondItem="r4A-jA-I6i" secondAttribute="bottom" constant="40" id="GQz-8j-5r2"/>
-                            <constraint firstItem="Exs-WR-PWk" firstAttribute="trailing" secondItem="r4A-jA-I6i" secondAttribute="trailing" id="MTf-cK-v74"/>
-                            <constraint firstAttribute="trailing" secondItem="r4A-jA-I6i" secondAttribute="trailing" constant="20" id="Pgf-hw-Qw6"/>
-                            <constraint firstItem="Exs-WR-PWk" firstAttribute="leading" secondItem="r4A-jA-I6i" secondAttribute="leading" id="W9u-rY-C1X"/>
-                            <constraint firstItem="Zog-OR-B8M" firstAttribute="top" secondItem="Exs-WR-PWk" secondAttribute="bottom" constant="213" id="XPM-la-DvV"/>
+                            <constraint firstItem="vi9-07-aUP" firstAttribute="top" secondItem="hC6-95-ZTh" secondAttribute="bottom" constant="-20" id="AF6-bq-2wU"/>
+                            <constraint firstItem="vi9-07-aUP" firstAttribute="leading" secondItem="WEr-jQ-yVa" secondAttribute="leading" id="CdP-z5-noN"/>
+                            <constraint firstItem="Zog-OR-B8M" firstAttribute="top" secondItem="vi9-07-aUP" secondAttribute="bottom" constant="-2" id="DQU-fe-GbP"/>
+                            <constraint firstAttribute="trailing" secondItem="vi9-07-aUP" secondAttribute="trailing" id="Ogf-dc-VzN"/>
                             <constraint firstItem="wcn-MK-iLO" firstAttribute="top" secondItem="hC6-95-ZTh" secondAttribute="bottom" constant="5" id="ekc-Na-NET"/>
                             <constraint firstItem="UMx-W7-Qfk" firstAttribute="centerX" secondItem="WEr-jQ-yVa" secondAttribute="centerX" id="mcR-UM-omP"/>
                             <constraint firstAttribute="trailing" secondItem="n2h-2j-NvJ" secondAttribute="trailing" constant="9" id="nw1-cw-CvN"/>
                             <constraint firstItem="n2h-2j-NvJ" firstAttribute="top" secondItem="hC6-95-ZTh" secondAttribute="bottom" constant="5" id="rZ3-fx-kOf"/>
-                            <constraint firstItem="r4A-jA-I6i" firstAttribute="leading" secondItem="WEr-jQ-yVa" secondAttribute="leading" constant="20" id="z7v-64-TP7"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="createPartyCharacter1NameTextField" destination="Def-yW-oU1" id="Xv7-7D-Wj8"/>
-                        <outlet property="createPartyCharacter2NameTextField" destination="wkK-o4-qXq" id="H2H-Cp-Ifp"/>
-                        <outlet property="createPartyCharacter3NameTextField" destination="q2a-ZW-v9g" id="1qq-Hd-Txt"/>
-                        <outlet property="createPartyCharacter4NameTextField" destination="FGY-5W-ObR" id="xQ9-X8-ssU"/>
-                        <outlet property="createPartyPartyNameTextField" destination="r4A-jA-I6i" id="DMB-OZ-fHc"/>
+                        <outlet property="createPartyTableView" destination="vi9-07-aUP" id="Z36-g7-GRt"/>
                         <outlet property="createPartyView" destination="WEr-jQ-yVa" id="tdX-Hb-4lj"/>
+                        <segue destination="hNT-M2-IBb" kind="show" identifier="showCreatePartyCharacterVC" id="mVD-lR-lGM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aJz-GE-9Oh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3572" y="-419"/>
+            <point key="canvasLocation" x="3571.875" y="-419.36619718309862"/>
         </scene>
         <!--Select Party View Controller-->
         <scene sceneID="Rqg-vA-9An">
@@ -850,6 +802,42 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="B6i-GQ-VIi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4418" y="-662"/>
+        </scene>
+        <!--Create Party Character View Controller-->
+        <scene sceneID="emd-jl-qDd">
+            <objects>
+                <viewController storyboardIdentifier="CreatePartyCharacterViewController" id="hNT-M2-IBb" customClass="CreatePartyCharacterViewController" customModule="Scenario_Manager" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="OGE-vt-oCg"/>
+                        <viewControllerLayoutGuide type="bottom" id="DKz-zV-9pS"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="JQ7-pX-0IV">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="zE7-Vb-efd">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="zE7-Vb-efd" secondAttribute="trailing" id="0fm-3T-fGz"/>
+                            <constraint firstItem="zE7-Vb-efd" firstAttribute="leading" secondItem="JQ7-pX-0IV" secondAttribute="leading" id="PvP-zc-BMD"/>
+                            <constraint firstItem="zE7-Vb-efd" firstAttribute="top" secondItem="OGE-vt-oCg" secondAttribute="bottom" constant="-20" id="Rce-dt-CjQ"/>
+                            <constraint firstItem="DKz-zV-9pS" firstAttribute="top" secondItem="zE7-Vb-efd" secondAttribute="bottom" id="TVH-ki-PoT"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="createPartyCharacterTableView" destination="zE7-Vb-efd" id="EfI-wc-4fs"/>
+                        <outlet property="createPartyCharacterView" destination="JQ7-pX-0IV" id="6Iu-Rd-6Db"/>
+                        <segue destination="t08-Uk-rEW" kind="unwind" identifier="unwindToCreatePartyVC" unwindAction="unwindToCreatePartyVCWithSegue:" id="K2C-fI-C6d"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wOW-kk-cOa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="t08-Uk-rEW" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="5218.125" y="-661.26760563380287"/>
         </scene>
         <!--Select Party Characters View Controller-->
         <scene sceneID="qvX-VW-403">

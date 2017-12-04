@@ -48,7 +48,7 @@ class CampaignDetailViewController: UIViewController {
         viewModel.reloadSection = { [weak self] (section: Int) in
             if section == 1 {
                 self?.refreshProsperityLevel()
-            } else if section == 4 {
+            } else if section == 3 {
                 self?.refreshParties()
             } else if section == 5 {
                 self?.refreshEvents()
@@ -84,11 +84,6 @@ class CampaignDetailViewController: UIViewController {
         
         styleUI()
         
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
@@ -135,13 +130,13 @@ extension CampaignDetailViewController: UITableViewDelegate {
         super.viewWillAppear(true)
         
         viewModel.updateAchievements()
+        viewModel.updateCurrentParty()
         viewModel.updateCampaignTitle()
         viewModel.updateChecksToNextLevel()
         viewModel.updateProsperityLevel()
         viewModel.updateDonations()
         viewModel.updateAvailableParties()
         viewModel.updateAssignedParties()
-        viewModel.updateCurrentParty()
         viewModel.updateEvents()
 
         self.campaignDetailTableView.reloadData()

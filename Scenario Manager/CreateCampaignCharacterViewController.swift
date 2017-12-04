@@ -16,7 +16,8 @@ protocol CreateCampaignCharacterPickerDelegate: class {
     func setCharacterType()
     var characterTypePickerDidPick: Bool { get set }
 }
-class CreateCampaignCharacterViewController: UIViewController {
+class CreateCampaignCharacterViewController: UIViewController, CreateCampaignCharacterViewModelDelegate {
+    
 
     @IBOutlet var createCampaignCharacterView: UIView!
     
@@ -28,12 +29,13 @@ class CreateCampaignCharacterViewController: UIViewController {
     
     @IBAction func save(_ sender: UIStoryboardSegue) {
         delegate?.createCampaignCharacterViewControllerDidFinishAdding(self)
-        performSegue(withIdentifier: "unwindToCreateCampaignVC", sender: self)
+        //performSegue(withIdentifier: "unwindToCreateCampaignVC", sender: self)
     }
     
     var viewModel: CreateCampaignCharacterViewModel? {
         didSet {
             //
+            viewModel!.delegate = self
         }
     }
     weak var delegate: CreateCampaignCharacterViewControllerDelegate?
@@ -52,7 +54,8 @@ class CreateCampaignCharacterViewController: UIViewController {
         viewModel!.reloadSection = { [weak self] (section: Int) in
             self?.createCampaignCharacterTableView.reloadData()
         }
-        
+        // For dismissing keyboard
+        createCampaignCharacterTableView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector((handleTap(sender:)))))
         // Set up Notification Center listeners
         NotificationCenter.default.addObserver(self, selector: #selector(self.showCampaignCharacterTypePicker), name: NSNotification.Name(rawValue: "showCampaignCharacterTypePicker"), object: nil)
         createCampaignCharacterTableView.dataSource = viewModel
@@ -79,6 +82,12 @@ class CreateCampaignCharacterViewController: UIViewController {
         self.createCampaignCharacterTableView.backgroundView?.alpha = 0.25
         //self.createPartyTableView.separatorInset = .zero // Get rid of offset to left for tableview!
         self.createCampaignCharacterTableView.separatorStyle = .none
+    }
+    @objc func handleTap(sender: UITapGestureRecognizer) {
+        if sender.state == .ended {
+            view.endEditing(true)
+        }
+        sender.cancelsTouchesInView = false
     }
     // Called via notification
     @objc func showCampaignCharacterTypePicker() {
@@ -127,5 +136,21 @@ class CreateCampaignCharacterViewController: UIViewController {
         self.characterTypePickerInputView.removeFromSuperview()
         self.characterTypePicker.removeFromSuperview()
         characterTypePickerData.removeAll()
+    }
+    // For CreateCampaignCharacterViewModelDelegate
+    func showFormAlert(alertText: String, message: String) {
+        let alertView = UIAlertController(
+            title: alertText,
+            message: message,
+            preferredStyle: .alert)
+        
+        let action = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil)
+        alertView.view.tintColor = colorDefinitions.scenarioAlertViewTintColor
+        alertView.addAction(action)
+        present(alertView, animated: true, completion: nil)
+    }
+    // For CreateCampaignCharacterViewModelDelegate
+    func doSegue() {
+        performSegue(withIdentifier: "unwindToCreateCampaignVC", sender: self)
     }
 }

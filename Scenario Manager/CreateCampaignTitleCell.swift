@@ -8,11 +8,12 @@
 
 import UIKit
 
-class CreateCampaignTitleCell: UITableViewCell {
+class CreateCampaignTitleCell: UITableViewCell, UITextFieldDelegate {
     
     @IBOutlet weak var campaignTitleTextField: UITextField!
     let colorDefinitions = ColorDefinitions()
     let fontDefinitions = FontDefinitions()
+    //weak var delegate: UITextFieldDelegate?
     
     func configure(withViewModel viewModel: CreateCampaignTitleCellViewModel) {
         campaignTitleTextField.sizeToFit()
@@ -32,6 +33,11 @@ class CreateCampaignTitleCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        //self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(UIView.endEditing(_:))))
+        self.campaignTitleTextField.delegate = self
+        // For keyboard
+        campaignTitleTextField.addTarget(nil, action:Selector(("firstResponderAction:")), for:.editingDidEndOnExit)
+
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
