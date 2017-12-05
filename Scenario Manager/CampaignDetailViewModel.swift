@@ -438,7 +438,7 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
             if let _ = item as? CampaignDetailViewModelCampaignAchievementsItem, let cell = tableView.dequeueReusableCell(withIdentifier: CampaignDetailAchievementsCell.identifier, for: indexPath) as? CampaignDetailAchievementsCell {
                 cell.backgroundColor = UIColor.clear
                 var achievement = SeparatedStrings(rowString: "")
-                var tempAch = Array(self.completedGlobalAchievements.value.keys)
+                var tempAch = Array(self.completedGlobalAchievements.value.keys).sorted(by: <)
                 if tempAch.isEmpty { tempAch = ["No completed global achievements"] }
                 var achNames = [SeparatedStrings]()
                 gotTech = false
@@ -449,7 +449,7 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
                         achNames.append(SeparatedStrings(rowString: ach))
                     }
                 }
-                if gotTech == true { achNames.append(SeparatedStrings(rowString: ("Ancient Technology (\(dataModel.currentCampaign.ancientTechCount))"))) }
+                if gotTech == true { achNames.insert(SeparatedStrings(rowString: ("Ancient Technology (\(dataModel.currentCampaign.ancientTechCount))")), at: 0) }
                 achievement = achNames[indexPath.row]
                 cell.selectionStyle = .none
                 cell.item = achievement

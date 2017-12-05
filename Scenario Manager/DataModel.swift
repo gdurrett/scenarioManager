@@ -38,6 +38,7 @@ class DataModel {
     
     var availableScenarios: [Scenario] {
         get {
+            print("\(allScenarios[78].isUnlocked), \(allScenarios[78].requirementsMet), \(allScenarios[78].isCompleted)")
             return allScenarios.filter { $0.isUnlocked == true && $0.requirementsMet == true && $0.isCompleted == false }
         }
     }

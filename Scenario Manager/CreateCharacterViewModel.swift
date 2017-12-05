@@ -222,12 +222,10 @@ extension CreateCharacterViewModel: CharacterDetailCharacterLevelCellDelegate {
         } else if value == 1  && currentLevel == 9 {
             newLevel = 9
         } else {
-            print("Adding \(Double(value))")
             newCharacter.level += Double(value)
             self.currentLevel += Double(value)
         }
         if let cell = currentLevelCell as? CharacterDetailCharacterLevelCell {
-            print("Getting here?")
             cell.characterDetailCharacterLevelLabel.text = "\(newLevel)"
         }
         //self.updateCharacterLevel()

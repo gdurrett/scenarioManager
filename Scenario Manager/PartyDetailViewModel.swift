@@ -53,6 +53,29 @@ class PartyDetailViewModel: NSObject {
     var reloadSection: ((_ section: Int) -> Void)?
     var textFieldReturningCellType: PartyDetailViewModelItemType?
     var assignedCharacterNames = [SeparatedStrings]()
+    var eventAchievementsPickerDidPick = false
+    var eventAchievementsPickerDataDefaults = [ "A Map to Treasure", "Bad Business", "Debt Collection", "Fish's Aid", "Grave Job", "High Sea Escort", "Sin-Ra", "The Poison's Source", "Tremors", "Water Staff"]
+    var eventAchievementsPickerData: Set<String> {
+        get {
+            var alreadyAchieved = [String]()
+
+            for ach in eventAchievementsPickerDataDefaults {
+                for party in dataModel.parties {
+                    if party.value.achievements[ach] == true {
+                        alreadyAchieved.append(ach)
+                    }
+                }
+//                if dataModel.completedPartyAchievements[ach] == true {
+//                    alreadyAchieved.append(ach)
+//                }
+            }
+
+            let tempDefaults = Set(eventAchievementsPickerDataDefaults)
+            return tempDefaults.symmetricDifference(alreadyAchieved)
+        }
+    }
+
+    var selectedEventAchievement: String?
     
     var partyScenarioLevel: Int {
         get {
@@ -286,7 +309,7 @@ extension PartyDetailViewModel: UITableViewDataSource, UITableViewDelegate, Part
                 cell.backgroundColor = UIColor.clear
                 cell.selectionStyle = .none
                 var achievement = SeparatedStrings(rowString: "")
-                var tempAch = Array(self.completedPartyAchievements.value.keys)
+                var tempAch = Array(self.completedPartyAchievements.value.keys).sorted(by: <)
                 if tempAch.isEmpty { tempAch = ["No completed party achievements"] }
                 var achNames = [SeparatedStrings]()
                 for ach in tempAch {
@@ -346,7 +369,10 @@ extension PartyDetailViewModel: UITableViewDataSource, UITableViewDelegate, Part
             header.addSubview(button)
             break //Temporary!
         case .achievements:
-            break
+            button.setImage(UIImage(named: "quill-drawing-a-line_unselected"), for: .normal)
+            button.isEnabled = true
+            button.addTarget(self, action: #selector(self.showEventAchievementsPicker(_:)), for: .touchUpInside)
+            header.addSubview(button)
         case .assignedCampaign:
             break //Temporary!
         case .characters:
@@ -410,6 +436,9 @@ extension PartyDetailViewModel: UITableViewDataSource, UITableViewDelegate, Part
         } else {
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "showSelectCharacterVC"), object: nil)
         }
+    }
+    @objc func showEventAchievementsPicker(_ button: UIButton) {
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "showEventAchievementsPicker"), object: nil)
     }
     // Delegate methods for textField in cell
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -506,6 +535,54 @@ extension PartyDetailViewModel: PartyDetailViewControllerDelegate {
             controller.showDisallowDeletionAlert()
         }
     }
+}
+extension PartyDetailViewModel: UIPickerViewDelegate, UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return eventAchievementsPickerData.count
+    }
+    
+    // Get picker selection
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        eventAchievementsPickerDidPick = true
+        selectedEventAchievement = Array(eventAchievementsPickerData.sorted(by: <))[row]
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView{
+        var label = view as! UILabel!
+        if label == nil {
+            label = UILabel()
+        }
+        label?.font = UIFont(name: "Nyala", size: 24)!
+        label?.textAlignment = .center
+        label?.text = ("\(Array(eventAchievementsPickerData.sorted(by: <))[row])")
+        return label!
+    }
+}
+extension PartyDetailViewModel: EventAchievementsPickerDelegate {
+    
+    func setEventAchievement() {
+        if eventAchievementsPickerDidPick == false {
+            selectedEventAchievement = Array(eventAchievementsPickerData).sorted(by: <)[0]
+        }
+        dataModel.currentParty.achievements[selectedEventAchievement!] = true
+        self.updateAchievements()
+        for scenario in dataModel.allScenarios {
+            var tempRequirementsArray = scenario.requirements
+            tempRequirementsArray.removeValue(forKey: "OR")
+            for (ach, _) in tempRequirementsArray {
+                if ach == selectedEventAchievement {
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "showUnlockScenarioAlert"), object: nil, userInfo: ["Scenario": scenario.title])
+                }
+            }
+        }
+        dataModel.saveCampaignsLocally()
+        self.reloadSection!(4)
+    }
+    
 }
 // MARK: ViewModelItem Classes
 class PartyDetailViewModelPartyNameItem: PartyDetailViewModelItem {

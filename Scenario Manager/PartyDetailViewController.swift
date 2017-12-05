@@ -11,6 +11,10 @@ import UIKit
 protocol PartyDetailViewControllerDelegate: class {
     func partyDetailVCDidTapDelete(_ controller: PartyDetailViewController)
 }
+protocol EventAchievementsPickerDelegate: class {
+    func setEventAchievement()
+    var eventAchievementsPickerDidPick: Bool { get set }
+}
 class PartyDetailViewController: UIViewController {
 
     @IBOutlet weak var partyDetailTableView: UITableView!
@@ -28,20 +32,37 @@ class PartyDetailViewController: UIViewController {
     }
     
     weak var delegate: PartyDetailViewControllerDelegate!
+    weak var pickerDelegate: EventAchievementsPickerDelegate?
     
     var viewModel: PartyDetailViewModel!
     let colorDefinitions = ColorDefinitions()
     let fontDefinitions = FontDefinitions()
 
+    // For eventAchievements Picker
+    var eventAchievementsPicker = UIPickerView()
+    var eventAchievementsPickerData = [String]()
+    var eventAchievementsPickerInputView = UIView()
+    var eventAchievementsPickerDummyTextField = UITextField()
+    var selectedAchievement: String?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        viewModel.reloadSection = { [weak self] (section: Int) in
+            self?.partyDetailTableView.reloadData()
+        }
         // Set up observers
         NotificationCenter.default.addObserver(self, selector: #selector(self.loadSelectPartyCharactersViewController), name: NSNotification.Name(rawValue: "showSelectCharacterVC"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.showNoCharactersAlert), name: NSNotification.Name(rawValue: "showNoCharactersAlert"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.showEventAchievementsPicker), name: NSNotification.Name(rawValue: "showEventAchievementsPicker"), object: nil)
+        // Listener for when we complete an event-based achievement - called from PartyDetailVM
+        NotificationCenter.default.addObserver(self, selector: #selector(showUnlockScenarioAlert), name: NSNotification.Name(rawValue: "showUnlockScenarioAlert"), object: nil)
         // Set up UITableViewDelegate
         partyDetailTableView?.dataSource = viewModel
         partyDetailTableView?.delegate = viewModel
+        
+        eventAchievementsPicker.dataSource = viewModel
+        eventAchievementsPicker.delegate = viewModel
         
         // Register cells
         partyDetailTableView?.register(PartyDetailNameCell.nib, forCellReuseIdentifier: PartyDetailNameCell.identifier)
@@ -214,6 +235,70 @@ extension PartyDetailViewController: UITableViewDelegate {
         alertController.addAction(cancelAction)
         
         self.present(alertController, animated: true, completion:nil)
+    }
+    // Called via notification
+    @objc func showEventAchievementsPicker() {
+        eventAchievementsPicker.tag = 10
+        eventAchievementsPicker.layer.cornerRadius = 10
+        eventAchievementsPicker.layer.masksToBounds = true
+        eventAchievementsPicker.backgroundColor = UIColor.white.withAlphaComponent(0.9)
+        eventAchievementsPicker.showsSelectionIndicator = true
+        
+        // Try to set up toolbar
+        let toolBar = UIToolbar.init(frame: CGRect(x: 0, y: 0, width: self.view.frame.width - 40, height: 44))
+        toolBar.barStyle = UIBarStyle.default
+        toolBar.layer.cornerRadius = 10
+        toolBar.layer.masksToBounds = true
+        toolBar.tintColor = colorDefinitions.scenarioTitleFontColor
+        toolBar.barTintColor = colorDefinitions.scenarioSwipeFontColor
+        
+        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.plain, target: self, action: #selector(setEventAchievement))
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.plain, target: self, action: #selector(eventAchievementsPickerDidTapCancel))
+        doneButton.setTitleTextAttributes([.font: UIFont(name: "Nyala", size: 24.0)!, .foregroundColor: colorDefinitions.mainTextColor], for: .normal)
+        cancelButton.setTitleTextAttributes([.font: UIFont(name: "Nyala", size: 24.0)!, .foregroundColor: colorDefinitions.mainTextColor], for: .normal)
+        toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
+        toolBar.isUserInteractionEnabled = true
+        
+        eventAchievementsPicker.reloadAllComponents()
+        eventAchievementsPicker.addSubview(toolBar)
+        eventAchievementsPickerInputView = UIView.init(frame: CGRect(x: 20, y: 310, width: self.view.frame.width - 40, height: eventAchievementsPicker.frame.size.height + 44))
+        eventAchievementsPicker.frame = CGRect(x: 0, y: 0, width: eventAchievementsPickerInputView.frame.width, height: 200)
+        eventAchievementsPicker.selectRow(0, inComponent: 0, animated: true) // Set to first row
+        pickerDelegate?.eventAchievementsPickerDidPick = false // Reset this after initial selection setting
+        eventAchievementsPickerInputView.addSubview(eventAchievementsPicker)
+        eventAchievementsPickerInputView.addSubview(toolBar)
+        eventAchievementsPickerDummyTextField.inputView = eventAchievementsPickerInputView
+        eventAchievementsPickerDummyTextField.isHidden = true
+        self.view.addSubview(eventAchievementsPickerDummyTextField)
+        self.view.addSubview(eventAchievementsPickerInputView)
+    }
+    @objc func setEventAchievement() {
+        // Call to delegate to set event
+        pickerDelegate!.setEventAchievement()
+        self.eventAchievementsPickerInputView.removeFromSuperview()
+        self.eventAchievementsPicker.removeFromSuperview()
+        eventAchievementsPickerData.removeAll()
+    }
+    @objc func eventAchievementsPickerDidTapCancel() {
+        self.eventAchievementsPickerInputView.removeFromSuperview()
+        self.eventAchievementsPicker.removeFromSuperview()
+        eventAchievementsPickerData.removeAll()
+    }
+    @objc func showUnlockScenarioAlert(_ notification: NSNotification) {
+        if let dict = notification.userInfo as NSDictionary? {
+            let scenarioTitle = dict["Scenario"] as! String
+            let alertTitle = "Scenario unlocked!"
+            let alertView = UIAlertController(
+                title: alertTitle,
+                message: "You may now unlock '\(scenarioTitle)' from All Scenarios in the Scenarios tab.",
+                preferredStyle: .alert)
+            
+            let action = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil)
+            alertView.view.tintColor = colorDefinitions.scenarioAlertViewTintColor
+            alertView.addAction(action)
+            present(alertView, animated: true, completion: nil)
+        }
     }
 }
 extension PartyDetailViewController: CampaignDetailPartyUpdaterDelegate {

@@ -49,7 +49,7 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
         NotificationCenter.default.addObserver(self, selector: #selector(setRequirementsMetForCurrentParty), name: NSNotification.Name(rawValue: "loadParty"), object: nil)
     }
     // MARK: Helper functions
-    func updateAvailableScenarios(scenario: Scenario, isCompleted: Bool) {
+    @objc func updateAvailableScenarios(scenario: Scenario, isCompleted: Bool) {
         toggleUnlocks(for: scenario, to: isCompleted)
         let completed = allScenarios.filter { $0.isCompleted == true }
         myAchieves = completed.filter { $0.achieves != ["None"] }.flatMap { $0.achieves }

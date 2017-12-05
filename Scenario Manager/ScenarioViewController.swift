@@ -99,6 +99,7 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate {
         self.navigationItem.title = ("\(self.selectedCampaign!.title) - \(self.viewModel!.party.value.name)")
         viewModel?.updateLoadedCampaign()
         viewModel?.updateAvailableScenarios()
+        print("In ScenarioVC \(viewModel!.availableScenarios.value)")
         self.setSegmentTitles()
         self.scenarioTableView.reloadData()
         self.scenarioTableView.setContentOffset(CGPoint(x: 0, y: self.searchController.searchBar.frame.height), animated: true)
@@ -115,9 +116,9 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate {
             case 0:
                 scenario = allScenarios[editActionsForRowAt.row]
             case 1:
-                scenario = availableScenarios[editActionsForRowAt.row]
+                scenario = viewModel!.availableScenarios.value[editActionsForRowAt.row]
             case 2:
-                scenario = completedScenarios[editActionsForRowAt.row]
+                scenario = viewModel!.completedScenarios.value[editActionsForRowAt.row]
             default:
                 break
             }
@@ -245,9 +246,9 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate {
             case 0:
                 scenario = allScenarios[indexPath.row]
             case 1:
-                scenario = availableScenarios[indexPath.row]
+                scenario = viewModel!.availableScenarios.value[indexPath.row]
             case 2:
-                scenario = completedScenarios[indexPath.row]
+                scenario = viewModel!.completedScenarios.value[indexPath.row]
             default:
                 break
             }
@@ -330,8 +331,8 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate {
     }
     func setSegmentTitles() {
         scenarioFilterOutlet.setTitle("All (\(allScenarios.count))", forSegmentAt: 0)
-        scenarioFilterOutlet.setTitle("Available (\(availableScenarios.count))", forSegmentAt: 1)
-        scenarioFilterOutlet.setTitle("Completed (\(completedScenarios.count))", forSegmentAt: 2)
+        scenarioFilterOutlet.setTitle("Available (\(viewModel!.availableScenarios.value.count))", forSegmentAt: 1)
+        scenarioFilterOutlet.setTitle("Completed (\(viewModel!.completedScenarios.value.count))", forSegmentAt: 2)
         scenarioFilterOutlet.setTitleTextAttributes([NSAttributedStringKey.font: UIFont(name: "Nyala", size: 20.0)!, NSAttributedStringKey.foregroundColor: colorDefinitions.mainTextColor], for: .normal)
         scenarioFilterOutlet.backgroundColor = colorDefinitions.scenarioSegmentedControlBGColor
         self.navigationItem.title = "\(selectedCampaign!.title) - \(self.viewModel!.party.value.name)"
@@ -365,9 +366,9 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate {
         case 0:
             scenarioSubset = allScenarios
         case 1:
-            scenarioSubset = availableScenarios
+            scenarioSubset = viewModel!.availableScenarios.value
         case 2:
-            scenarioSubset = completedScenarios
+            scenarioSubset = viewModel!.completedScenarios.value
         default:
             break
         }
@@ -430,9 +431,9 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate {
         self.allScenarios = viewModel.allScenarios
         self.selectedCampaign = viewModel.campaign.value
         // Call our Dynamic bindAndFire method when these are gotten
-        viewModel.availableScenarios.bindAndFire { [unowned self] in self.availableScenarios = $0 }
-        viewModel.completedScenarios.bindAndFire { [unowned self] in self.completedScenarios = $0 }
-        viewModel.campaign.bindAndFire { [unowned self] in self.selectedCampaign = $0 }
+//        viewModel.availableScenarios.bindAndFire { [unowned self] in self.availableScenarios = $0 }
+//        viewModel.completedScenarios.bindAndFire { [unowned self] in self.completedScenarios = $0 }
+//        viewModel.campaign.bindAndFire { [unowned self] in self.selectedCampaign = $0 }
     }
     // Implement delegate methods for ScenarioPickerViewController
     @objc func scenarioPickerViewControllerDidCancel(sender: UIBarButtonItem) {
@@ -565,16 +566,16 @@ extension ScenarioViewController: UITableViewDataSource, UITableViewDelegate {
             case 0:
                 returnValue = allScenarios.count
             case 1:
-                returnValue = availableScenarios.count
+                returnValue = viewModel!.availableScenarios.value.count
             case 2:
-                returnValue = completedScenarios.count
+                returnValue = viewModel!.completedScenarios.value.count
             default:
                 break
             }
         }
         return returnValue
     }
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView,  cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = makeCell(for: tableView)
         if searchController.isActive && searchController.searchBar.text != "" {
             scenario = filteredScenarios[indexPath.row]
@@ -583,9 +584,9 @@ extension ScenarioViewController: UITableViewDataSource, UITableViewDelegate {
             case 0:
                 scenario = allScenarios[indexPath.row]
             case 1:
-                scenario = availableScenarios[indexPath.row]
+                scenario = viewModel!.availableScenarios.value[indexPath.row]
             case 2:
-                scenario = completedScenarios[indexPath.row]
+                scenario = viewModel!.completedScenarios.value[indexPath.row]
             default:
                 break
             }
