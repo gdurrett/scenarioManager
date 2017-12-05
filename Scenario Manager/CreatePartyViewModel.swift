@@ -13,6 +13,7 @@ protocol CreatePartyViewModelDelegate: class {
     func prepare(for segue: UIStoryboardSegue, sender: Any?)
     func performSegue(withIdentifier: String, sender: Any?)
     var selectedCharacter: Character { get set }
+    func showFormAlert(alertText: String, message: String)
 }
 
 struct CreatePartyPartyNameCellViewModel {
@@ -42,8 +43,12 @@ class CreatePartyViewModel: NSObject {
     var selectedCharacterRow = 0
     var newCharacterNames = [String]()
     var newCharacters = [Character]()
+    var characterCell = CreateCampaignCharacterCell()
     var selectedRows = [Int]()
     weak var delegate: CreatePartyViewModelDelegate?
+    
+    // Calls back to VC to refresh
+    var reloadSection: ((_ section: Int) -> Void)?
     
     init(withDataModel dataModel: DataModel) {
         self.dataModel = dataModel
@@ -110,7 +115,7 @@ extension CreatePartyViewModel: UITableViewDataSource, UITableViewDelegate {
                 cell.createCampaignCharacterLabel.text = (dataModel.newCharacters[newCharacterIndex]!).name
                 cell.createCampaignCharacterLabel.textColor = colorDefinitions.scenarioTitleFontColor
             }
-            
+            characterCell = cell
             cell.accessoryType = .disclosureIndicator
             tableViewCell = cell
         default:
@@ -151,17 +156,29 @@ extension CreatePartyViewModel: CreatePartyViewControllerDelegate {
     }
     
     func createPartyViewControllerDidFinishAdding(_ controller: CreatePartyViewController) {
-        self.createParty(name: newPartyName!)
-        for char in dataModel.newCharacters.values {
-            dataModel.characters[char.name] = char
-            char.assignedTo = newPartyName
-            char.isActive = true
-            char.isRetired = false
+        if newPartyName != "" {
+            print("should be here")
+            if dataModel.newCharacters.isEmpty != true {
+            self.createParty(name: newPartyName!)
+            for char in dataModel.newCharacters.values {
+                dataModel.characters[char.name] = char
+                char.assignedTo = newPartyName
+                char.isActive = true
+                char.isRetired = false
+            }
+            dataModel.newCharacters = [String:Character]()
+            dataModel.newPartyName = String()
+            dataModel.newCampaignName = String()
+            dataModel.saveCampaignsLocally()
+            controller.dismiss(animated: true, completion: nil)
+            } else {
+                delegate?.showFormAlert(alertText: "Must create at least one character.", message: "Please create a character.")
+                reloadSection!(0)
+            }
+        } else {
+            delegate?.showFormAlert(alertText: "Party name cannot be blank!", message: "Please type a name for the party.")
+            reloadSection!(0)
         }
-        dataModel.newCharacters = [String:Character]()
-        dataModel.newPartyName = String()
-        dataModel.newCampaignName = String()
-        dataModel.saveCampaignsLocally()
-        controller.dismiss(animated: true, completion: nil)
+
     }
 }

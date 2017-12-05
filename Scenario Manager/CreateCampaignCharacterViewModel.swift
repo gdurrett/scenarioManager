@@ -212,7 +212,6 @@ extension CreateCampaignCharacterViewModel: CreateCampaignCharacterViewControlle
         let newCharactersIndex = ("Character\(selectedCharacterRow!)")
         if newCharacterName != "" {
             if newCharacterType != "" && newCharacterType! != "Tap to select" {
-                print(newCharacterType!)
                 dataModel.newCharacters[newCharactersIndex] = Character(name: newCharacterName!, race: "", type: newCharacterType!, level: Double(newCharacterLevel)!, isActive: true, isRetired: false, assignedTo: "None", playedScenarios: ["None"])
                 delegate?.doSegue()
             } else {

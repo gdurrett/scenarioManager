@@ -374,7 +374,7 @@ extension CharacterDetailViewModel: UIPickerViewDelegate, UIPickerViewDataSource
         return label!
     }
 }
-extension CharacterDetailViewModel: CreateCharacterViewModelDelegate {
+extension CharacterDetailViewModel: CreateCharacterViewModelDelegate {    
     func setCurrentCharacter(character: Character) {
         self.character = character
     }

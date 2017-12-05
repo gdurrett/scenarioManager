@@ -51,6 +51,10 @@ class CreatePartyViewController: UIViewController, CreatePartyViewModelDelegate 
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        viewModel!.reloadSection = { [weak self] (section: Int) in
+            self?.createPartyTableView.reloadData()
+        }
+        
         // Register Cells
         createPartyTableView.register(CreatePartyPartyNameCell.nib, forCellReuseIdentifier: CreatePartyPartyNameCell.identifier)
         createPartyTableView.register(CreateCampaignCharacterCell.nib, forCellReuseIdentifier: CreateCampaignCharacterCell.identifier)
@@ -88,5 +92,17 @@ class CreatePartyViewController: UIViewController, CreatePartyViewModelDelegate 
             destinationVC.delegate = destinationVM
             destinationVM.selectedCharacterRow = self.viewModel!.selectedCharacterRow
         }
+    }
+    // For CreatePartyViewModelDelegate
+    func showFormAlert(alertText: String, message: String) {
+        let alertView = UIAlertController(
+            title: alertText,
+            message: message,
+            preferredStyle: .alert)
+        
+        let action = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil)
+        alertView.view.tintColor = colorDefinitions.scenarioAlertViewTintColor
+        alertView.addAction(action)
+        present(alertView, animated: true, completion: nil)
     }
 }

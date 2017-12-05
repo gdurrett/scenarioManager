@@ -17,7 +17,11 @@ protocol CreateCharacterPickerDelegate: class {
     var characterTypePickerDidPick: Bool { get set }
 }
 
-class CreateCharacterViewController: UIViewController {
+class CreateCharacterViewController: UIViewController, CreateCharacterViewModelDelegate, CreateCharacterViewModelVCDelegate {
+    func setCurrentCharacter(character: Character) {
+        //
+    }
+    
 
     @IBOutlet var createCharacterView: UIView!
     
@@ -29,12 +33,12 @@ class CreateCharacterViewController: UIViewController {
     
     @IBAction func save(_ sender: Any) {
         delegate?.createCharacterViewControllerDidFinishAdding(self)
-        self.dismiss(animated: true, completion: nil)
+        //self.dismiss(animated: true, completion: nil)
     }
     
     var viewModel: CreateCharacterViewModel? {
         didSet {
-            //
+            viewModel?.delegateVC = self
         }
     }
     weak var delegate: CreateCharacterViewControllerDelegate?
@@ -138,5 +142,19 @@ class CreateCharacterViewController: UIViewController {
         self.characterTypePicker.removeFromSuperview()
         characterTypePickerData.removeAll()
     }
-
+    // For CreateCharacterViewModelDelegate
+    func showFormAlert(alertText: String, message: String) {
+        let alertView = UIAlertController(
+            title: alertText,
+            message: message,
+            preferredStyle: .alert)
+        
+        let action = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil)
+        alertView.view.tintColor = colorDefinitions.scenarioAlertViewTintColor
+        alertView.addAction(action)
+        present(alertView, animated: true, completion: nil)
+    }
+    func dismissSelf() {
+        self.dismiss(animated: true, completion: nil)
+    }
 }

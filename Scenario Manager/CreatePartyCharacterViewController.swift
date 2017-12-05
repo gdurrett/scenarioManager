@@ -17,7 +17,7 @@ protocol CreatePartyCharacterPickerDelegate: class {
     var characterTypePickerDidPick: Bool { get set }
 }
 
-class CreatePartyCharacterViewController: UIViewController {
+class CreatePartyCharacterViewController: UIViewController, CreatePartyCharacterViewModelDelegate {
   
     @IBOutlet var createPartyCharacterView: UIView!
     
@@ -25,11 +25,12 @@ class CreatePartyCharacterViewController: UIViewController {
     
     @IBAction func save(_ sender: UIStoryboardSegue) {
         delegate!.createPartyCharacterViewControllerDidFinishAdding(self)
-        performSegue(withIdentifier: "unwindToCreatePartyVC", sender: self)
+        //performSegue(withIdentifier: "unwindToCreatePartyVC", sender: self)
     }
     var viewModel: CreatePartyCharacterViewModel? {
         didSet {
             //
+            viewModel!.delegate = self
         }
     }
     weak var delegate: CreatePartyCharacterViewControllerDelegate?
@@ -133,5 +134,21 @@ class CreatePartyCharacterViewController: UIViewController {
         self.characterTypePickerInputView.removeFromSuperview()
         self.characterTypePicker.removeFromSuperview()
         characterTypePickerData.removeAll()
+    }
+    // For CreatePartyCharacterViewModelDelegate
+    func showFormAlert(alertText: String, message: String) {
+        let alertView = UIAlertController(
+            title: alertText,
+            message: message,
+            preferredStyle: .alert)
+        
+        let action = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil)
+        alertView.view.tintColor = colorDefinitions.scenarioAlertViewTintColor
+        alertView.addAction(action)
+        present(alertView, animated: true, completion: nil)
+    }
+    // For CreatePartyCharacterViewModelDelegate
+    func doSegue() {
+        performSegue(withIdentifier: "unwindToCreatePartyVC", sender: self)
     }
 }

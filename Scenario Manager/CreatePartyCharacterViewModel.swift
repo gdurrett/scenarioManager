@@ -17,7 +17,9 @@ struct CreatePartyCharacterCharacterNameCellViewModel {
     }
 }
 protocol CreatePartyCharacterViewModelDelegate: class {
-    func setCurrentCharacter(character: Character)
+    //func setCurrentCharacter(character: Character)
+    func showFormAlert(alertText: String, message: String)
+    func doSegue()
 }
 
 class CreatePartyCharacterViewModel: NSObject {
@@ -43,8 +45,9 @@ class CreatePartyCharacterViewModel: NSObject {
     var selectedCharacterRow: Int?
     var newCharacterIndex = "Character0"
     
-    weak var delegate: CreateCharacterViewModelDelegate?
-    
+    //weak var delegate: CreateCharacterViewModelDelegate?
+    weak var delegate: CreatePartyCharacterViewModelDelegate?
+
     
     // Calls back to VC to refresh
     var reloadSection: ((_ section: Int) -> Void)?
@@ -198,12 +201,15 @@ extension CreatePartyCharacterViewModel: CreatePartyCharacterViewControllerDeleg
         newCharacterType = typeCell?.characterDetailCharacterTypeLabel.text
         let newCharactersIndex = ("Character\(selectedCharacterRow!)")
         if newCharacterName != "" {
-            dataModel.newCharacters[newCharactersIndex] = Character(name: newCharacterName!, race: "", type: newCharacterType!, level: Double(newCharacterLevel)!, isActive: false, isRetired: false, assignedTo: dataModel.currentParty.name, playedScenarios: ["None"])
-            //dataModel.saveCampaignsLocally()
-            self.reloadSection!(2)
+            if newCharacterType != "" && newCharacterType! != "Tap to select" {
+                dataModel.newCharacters[newCharactersIndex] = Character(name: newCharacterName!, race: "", type: newCharacterType!, level: Double(newCharacterLevel)!, isActive: false, isRetired: false, assignedTo: dataModel.currentParty.name, playedScenarios: ["None"])
+                delegate?.doSegue()
+            } else {
+                delegate?.showFormAlert(alertText: "Must specify a character type!", message: "Please select a character type.")
+            }
+            //self.reloadSection!(2)
         } else {
-            print("Nothing?")
-            // Present alert
+            delegate?.showFormAlert(alertText: "Can't leave character name blank!", message: "Please choose a name for your character.")
         }
     }
 }

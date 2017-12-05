@@ -19,6 +19,10 @@ struct CreateCharacterCharacterNameCellViewModel {
 protocol CreateCharacterViewModelDelegate: class {
     func setCurrentCharacter(character: Character)
 }
+protocol CreateCharacterViewModelVCDelegate: class {
+    func showFormAlert(alertText: String, message: String)
+    func dismissSelf()
+}
 
 class CreateCharacterViewModel: NSObject {
     let colorDefinitions = ColorDefinitions()
@@ -44,7 +48,7 @@ class CreateCharacterViewModel: NSObject {
     var newCharacterIndex = "Character0"
     
     weak var delegate: CreateCharacterViewModelDelegate?
-    
+    weak var delegateVC: CreateCharacterViewModelVCDelegate?
     
     // Calls back to VC to refresh
     var reloadSection: ((_ section: Int) -> Void)?
@@ -140,9 +144,7 @@ extension CreateCharacterViewModel: UITableViewDelegate, UITableViewDataSource {
             cell.selectionStyle = .none
             if newCharacter.type == "" {
                 item = CharacterDetailViewModelCharacterTypeItem(characterType: "Tap to select")
-                print("Get to second?")
             } else {
-                print("Get to third?")
                 item = CharacterDetailViewModelCharacterTypeItem(characterType: newCharacter.type)
             }
             typeCell = cell
@@ -183,6 +185,7 @@ extension CreateCharacterViewModel: UITableViewDelegate, UITableViewDataSource {
 }
 extension CreateCharacterViewModel: CreateCharacterViewControllerDelegate {
     func createCharacterViewControllerDidCancel(_ controller: CreateCharacterViewController) {
+        dataModel.newCharacters = [String:Character]()
         controller.dismiss(animated: true, completion: nil)
     }
     
@@ -191,11 +194,20 @@ extension CreateCharacterViewModel: CreateCharacterViewControllerDelegate {
         newCharacterLevel = levelCell!.characterDetailCharacterLevelLabel.text!
         newCharacterType = typeCell?.characterDetailCharacterTypeLabel.text
         if newCharacterName != "" {
-            dataModel.characters[newCharacterName!] = Character(name: newCharacterName!, race: "", type: newCharacterType!, level: Double(newCharacterLevel)!, isActive: false, isRetired: false, assignedTo: dataModel.currentParty.name, playedScenarios: ["None"])
-            dataModel.saveCampaignsLocally()
-            self.reloadSection!(2)
+            if newCharacterType != "" && newCharacterType != "Tap to select"{
+                dataModel.characters[newCharacterName!] = Character(name: newCharacterName!, race: "", type: newCharacterType!, level: Double(newCharacterLevel)!, isActive: false, isRetired: false, assignedTo: dataModel.currentParty.name, playedScenarios: ["None"])
+                dataModel.saveCampaignsLocally()
+                self.reloadSection!(2)
+                delegateVC?.dismissSelf()
+            } else {
+                delegateVC?.showFormAlert(alertText: "Must specify a character type!", message: "Please select a character type.")
+                dataModel.newCharacters = [String:Character]()
+                self.reloadSection!(2)
+            }
         } else {
-            // Present alert
+            delegateVC?.showFormAlert(alertText: "Can't leave character name blank!", message: "Please choose a name for your character.")
+            dataModel.newCharacters = [String:Character]()
+            self.reloadSection!(2)
         }
     }
 }
