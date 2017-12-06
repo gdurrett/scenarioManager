@@ -93,10 +93,6 @@ class DashboardViewController: UIViewController {
             self.dismiss(animated: true, completion: nil)
         }
         campaignOptionsActionsSheetController.addAction(cancelActionButton)
-//        let createCampaignAction = UIAlertAction(title: "Add Campaign", style: .default) { action -> Void in
-//            self.loadCreateCampaignViewController()
-//        }
-//        campaignOptionsActionsSheetController.addAction(createCampaignAction)
         let addCharacterAction = UIAlertAction(title: "Add Character", style: .default) { action -> Void in
         }
         campaignOptionsActionsSheetController.addAction(addCharacterAction)
@@ -117,26 +113,6 @@ class DashboardViewController: UIViewController {
         campaignOptionsActionsSheetController.addAction(deleteCharacterAction)
         self.present(campaignOptionsActionsSheetController, animated: true, completion: nil)
     }
-//    fileprivate func loadCreateCampaignViewController() {
-//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//        let createCampaignVC = storyboard.instantiateViewController(withIdentifier: "createCampaignViewController") as! CreateCampaignViewController
-//        createCampaignVC.delegate = self
-//        createCampaignVC.viewModel = CreateCampaignViewModelFromModel(withDataModel: dataModel!)
-//        createCampaignVC.hidesBottomBarWhenPushed = true
-//        self.navigationController!.pushViewController(createCampaignVC, animated: true)
-//    }
-//    fileprivate func loadDeleteCampaignViewController() {
-//        if dataModel?.campaigns.count == 1 {
-//            showErrorAlert(errorMessage: "Cannot delete only remaining campaign!")
-//        } else {
-//            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//            let deleteCampaignVC = storyboard.instantiateViewController(withIdentifier: "deleteCampaignViewController") as! DeleteCampaignViewController
-//            deleteCampaignVC.delegate = self
-//            deleteCampaignVC.viewModel = DeleteCampaignViewModelFromModel(withDataModel: dataModel!)
-//            deleteCampaignVC.hidesBottomBarWhenPushed = true
-//            self.navigationController!.pushViewController(deleteCampaignVC, animated: true)
-//        }
-//    }
 }
 
 // MARK: - DataModelDelegate

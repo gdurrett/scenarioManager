@@ -20,11 +20,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let defaults = UserDefaults.standard
         
         if defaults.string(forKey: "isAppAlreadyLaunchedOnce") != nil{
-            //print("App already launched : \(isAppAlreadyLaunchedOnce)")
             return true
         }else{
             defaults.set(true, forKey: "isAppAlreadyLaunchedOnce")
-            //print("App launched first time")
             return false
         }
     }
@@ -32,7 +30,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-
         UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedStringKey.font: globalButtonFont], for: .normal)
         UIBarButtonItem.appearance(whenContainedInInstancesOf: [UINavigationBar.classForCoder() as! UIAppearanceContainer.Type]).setTitleTextAttributes([NSAttributedStringKey.foregroundColor: colorDefinitions.mainTextColor, NSAttributedStringKey.font: UIFont(name: "Nyala", size: 20.0)!], for: .normal)
         UINavigationBar.appearance().tintColor = colorDefinitions.mainTextColor
@@ -77,9 +74,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 controller4.viewModel = scenarioViewModel
             }
         } else {
-            //self.window = UIWindow(frame: UIScreen.init().bounds)
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            
             let createCampaignVC = storyboard.instantiateViewController(withIdentifier: "CreateCampaignViewController") as! CreateCampaignViewController
             let navCon = UINavigationController(rootViewController: createCampaignVC)
             let viewModel = CampaignDetailViewModel(withCampaign: dataModel.currentCampaign)
@@ -89,7 +84,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             createCampaignVC.isFirstLoad = true
             createCampaignVCViewModel.isFirstLoad = true
             self.window?.rootViewController = navCon
-            //self.window?.makeKeyAndVisible()
         }
 
         return true

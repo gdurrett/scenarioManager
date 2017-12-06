@@ -31,7 +31,6 @@ class Scenario: NSObject, NSCoding {
 //    }
 
     init(number: String, title: String, isCompleted: Bool, requirementsMet: Bool, requirements: [String: Bool], isUnlocked: Bool, unlockedBy: [String], unlocks: [String], achieves: [String], rewards: [NSAttributedString], summary: String, locationString: String, isManuallyUnlockable: Bool, mainCellBGImage: String) {
-//    override init() {
         self.number = number
         self.title = title
         self.isCompleted = isCompleted
@@ -52,7 +51,6 @@ class Scenario: NSObject, NSCoding {
     required init?(coder aDecoder: NSCoder) {
         number = aDecoder.decodeObject(forKey: "Number") as! String
         title = aDecoder.decodeObject(forKey: "Title") as! String
-        //available = aDecoder.decodeBool(forKey: "Available")
         isCompleted = aDecoder.decodeBool(forKey: "isCompleted")
         isUnlocked = aDecoder.decodeBool(forKey: "IsUnlocked")
         requirementsMet = aDecoder.decodeBool(forKey: "RequirementsMet")
@@ -73,7 +71,6 @@ class Scenario: NSObject, NSCoding {
     func encode(with aCoder: NSCoder) {
         aCoder.encode(number, forKey: "Number")
         aCoder.encode(title, forKey: "Title")
-        //aCoder.encode(available, forKey: "Available")
         aCoder.encode(isCompleted, forKey: "isCompleted")
         aCoder.encode(requirementsMet, forKey: "RequirementsMet")
         aCoder.encode(requirements, forKey: "Requirements")
