@@ -54,7 +54,6 @@ class SelectCampaignViewController: UIViewController {
         viewModel?.updateAvailableCampaigns()
         fillUI()
         styleUI()
-
     }
 
     // Helper methods

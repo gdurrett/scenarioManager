@@ -46,13 +46,7 @@ class SelectCharacterViewController: UIViewController {
     var myCharacterAssignment: String?
     var myCharacterRetirement: String?
     var disableCharacterSwipe = false
-//    var selectedCharacter: Character?
     let colorDefinitions = ColorDefinitions()
-//    var keyList: [String] {
-//        get {
-//            return [String](characters!.keys)
-//        }
-//    }
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -213,13 +207,6 @@ class SelectCharacterViewController: UIViewController {
     }
     // Action Methods
     fileprivate func loadCreateCharacterViewController() {
-//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//        let createCharacterVC = storyboard.instantiateViewController(withIdentifier: "CreateCharacterViewController") as! CreateCharacterViewController
-//        createCharacterVC.viewModel = CreateCharacterViewModel(withDataModel: viewModel!.dataModel)
-//        createCharacterVC.viewModel!.delegate = self.viewModel // So we can call back to our VM to set new character
-//        createCharacterVC.delegate = createCharacterVC.viewModel
-//        createCharacterVC.hidesBottomBarWhenPushed = true
-//        self.navigationController!.present(createCharacterVC, animated: true, completion: nil)
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let createCharacterVC = storyboard.instantiateViewController(withIdentifier: "CreateCharacterViewController") as! CreateCharacterViewController
         let createCharacterVM = CreateCharacterViewModel(withDataModel: viewModel!.dataModel)
@@ -287,7 +274,6 @@ extension SelectCharacterViewController: UITableViewDataSource, UITableViewDeleg
         }
         configureTitle(for: cell, with: character)
         configureCharacterInfo(for: cell, with: character)
-        //configureCharacterPartyInfo(for: cell, with: character)
         cell.selectionStyle = .none
         
         return cell

@@ -343,7 +343,7 @@ extension CampaignDetailViewController: UITableViewDelegate {
         eventOptionPickerData.removeAll()
     }
 }
-// Test Test!
+
 extension CampaignDetailViewController: CreateCampaignViewControllerReloadDelegate {
     func reloadAfterDidFinishAdding() {
         self.campaignDetailTableView.reloadData()

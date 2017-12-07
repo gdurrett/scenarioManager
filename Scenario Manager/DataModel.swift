@@ -38,7 +38,6 @@ class DataModel {
     
     var availableScenarios: [Scenario] {
         get {
-            print("\(allScenarios[78].isUnlocked), \(allScenarios[78].requirementsMet), \(allScenarios[78].isCompleted)")
             return allScenarios.filter { $0.isUnlocked == true && $0.requirementsMet == true && $0.isCompleted == false }
         }
     }
@@ -2021,7 +2020,6 @@ class DataModel {
         
         print("Documents folder is \(documentsDirectory())")
         print("Data file path is \(dataFilePath())")
-        print("Characters: \(self.characters.count)")
     }
     func setCurrentParty(party: Party) {
         for thisParty in self.parties.values {
@@ -2196,7 +2194,6 @@ class DataModel {
                 self.partyAchievements[achievement] = newStatus
                 updateLocalPartyIsCurrent(party: party)
             }
-            print("Loading?")
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "loadParty"), object: nil) // Trigger setRequirementsMetForCurrentParty in Scenario VM
         } else {
             print("No such party exists")
@@ -2207,13 +2204,6 @@ class DataModel {
             myParty.value.isCurrent = false
         }
         parties[party]!.isCurrent = true
-    }
-    func createCharacter(name: String) {
-        if characters[name] == nil {
-            let newCharacter = Character(name: name, race: "Inox", type: "Brute", level: 1, isActive: false, isRetired: false, assignedTo: currentParty.name, playedScenarios: ["None"])
-            characters[name] = newCharacter
-            print("Just created: \(characters[name]!.name)")
-        }
     }
     func createPartyAchievements() -> [String:Bool] {
         let newAchievements = [

@@ -65,9 +65,6 @@ class PartyDetailViewModel: NSObject {
                         alreadyAchieved.append(ach)
                     }
                 }
-//                if dataModel.completedPartyAchievements[ach] == true {
-//                    alreadyAchieved.append(ach)
-//                }
             }
 
             let tempDefaults = Set(eventAchievementsPickerDataDefaults)
@@ -153,7 +150,6 @@ class PartyDetailViewModel: NSObject {
     }
     func updateCharacters() {
         self.allCharacters.value = Array(dataModel.characters.keys)
-        //print(dataModel.characters.keys)
     }
     func updateAssignedCharacters() {
         self.assignedCharacters.value = Array(dataModel.assignedCharacters)
@@ -213,8 +209,6 @@ class PartyDetailViewModel: NSObject {
         if dataModel.parties[newTitle] == nil && oldTitle != newTitle { // Don't do anything if it's the same title or if there's already a party with the new title name
             dataModel.parties.changeKey(from: oldTitle, to: newTitle)
             dataModel.currentParty.name = newTitle
-            //Test pick up new name for characters assigned
-            //for character in dataModel.assignedCharacters {
             for character in self.assignedCharacters.value {
 
                 if character.assignedTo == oldTitle {
@@ -328,24 +322,20 @@ extension PartyDetailViewModel: UITableViewDataSource, UITableViewDelegate, Part
         return self.items[section].sectionTitle
     }
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-//        if self.items[section].sectionTitle == "Campaign" {
-//            return 80
-//        } else {
             return 50
 //        }
     }
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-            let headerView = UIView(frame: CGRect(x:0, y:0, width: tableView.frame.size.width, height: tableView.frame.size.height))
-            let headerTitleLabel = UILabel(frame: CGRect(x:16, y:15, width: 42, height: 21))
-            headerTitleLabel.text = self.items[section].sectionTitle
-            headerTitleLabel.font = fontDefinitions.detailTableViewHeaderFont
-            headerTitleLabel.textColor = colorDefinitions.mainTextColor
-            headerView.backgroundColor = UIColor(hue: 46/360, saturation: 8/100, brightness: 100/100, alpha: 1.0)
-            headerTitleLabel.sizeToFit()
-            createSectionButton(forSection: section, inHeader: headerView)
-            headerView.addSubview(headerTitleLabel)
-            return headerView
-       // }
+        let headerView = UIView(frame: CGRect(x:0, y:0, width: tableView.frame.size.width, height: tableView.frame.size.height))
+        let headerTitleLabel = UILabel(frame: CGRect(x:16, y:15, width: 42, height: 21))
+        headerTitleLabel.text = self.items[section].sectionTitle
+        headerTitleLabel.font = fontDefinitions.detailTableViewHeaderFont
+        headerTitleLabel.textColor = colorDefinitions.mainTextColor
+        headerView.backgroundColor = UIColor(hue: 46/360, saturation: 8/100, brightness: 100/100, alpha: 1.0)
+        headerTitleLabel.sizeToFit()
+        createSectionButton(forSection: section, inHeader: headerView)
+        headerView.addSubview(headerTitleLabel)
+        return headerView
     }
     // Create section buttons
     func createSectionButton(forSection section: Int, inHeader header: UIView) {
@@ -357,10 +347,6 @@ extension PartyDetailViewModel: UITableViewDataSource, UITableViewDelegate, Part
         switch itemType {
             
         case .partyName:
-//            button.setImage(UIImage(named: "quill-drawing-a-line_unselected"), for: .normal)
-//            button.isEnabled = true
-//            button.addTarget(self, action: #selector(self.enableTitleTextField(_:)), for: .touchUpInside)
-//            header.addSubview(button)
             break
         case .reputation:
             button.setImage(UIImage(named: "quill-drawing-a-line_unselected"), for: .normal)
@@ -376,10 +362,6 @@ extension PartyDetailViewModel: UITableViewDataSource, UITableViewDelegate, Part
         case .assignedCampaign:
             break //Temporary!
         case .characters:
-//            button.setImage(UIImage(named: "quill-drawing-a-line_unselected"), for: .normal)
-//            button.isEnabled = true
-//            button.addTarget(self, action: #selector(self.loadSelectPartyCharactersViewController(_:)), for: .touchUpInside)
-//            header.addSubview(button)
             break
         }
     }
@@ -428,15 +410,6 @@ extension PartyDetailViewModel: UITableViewDataSource, UITableViewDelegate, Part
         button.setImage(UIImage(named: "quill-drawing-a-line_unselected"), for: .normal)
         dataModel.saveCampaignsLocally()
     }
-    @objc func loadSelectPartyCharactersViewController(_ button: UIButton) {
-        self.updateAvailableCharacters()
-        print("At load time: \(self.availableCharacters.value)")
-        if self.availableCharacters.value.isEmpty == true && self.assignedCharacters.value.isEmpty == true {
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "showNoCharactersAlert"), object: nil)
-        } else {
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "showSelectCharacterVC"), object: nil)
-        }
-    }
     @objc func showEventAchievementsPicker(_ button: UIButton) {
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "showEventAchievementsPicker"), object: nil)
     }
@@ -461,39 +434,6 @@ extension PartyDetailViewModel: UITableViewDataSource, UITableViewDelegate, Part
     }
 }
 // MARK: Select Character delegate methods
-extension PartyDetailViewModel: SelectPartyCharactersViewControllerDelegate {
-    func selectPartyCharactersViewControllerDidCancel(_ controller: SelectPartyCharactersViewController) {
-        controller.dismiss(animated: true, completion: nil)
-    }
-    func selectPartyCharactersViewControllerDidFinishSelecting(_ controller: SelectPartyCharactersViewController) {
-        // Need to gather array of selected characters here
-        if !controller.selectedCharacters.isEmpty {
-            for character in controller.selectedCharacters {
-                dataModel.characters[character.name]!.assignedTo = self.partyName.value
-                dataModel.characters[character.name]!.isActive = true
-                updateCharacters()
-                updateAssignedCharacters()
-                updateAssignedAndActiveCharacters()
-                toggleSection(section: 3)
-            }
-        }
-        if !controller.unassignedCharacters.isEmpty {
-            for character in controller.unassignedCharacters {
-                // Rather than assign to none, could we set to inactive?
-                //dataModel.characters[character.name]!.assignedTo = "None"
-                dataModel.characters[character.name]!.isActive = false
-                print("Setting \(dataModel.characters[character.name]!.name) isActive to false")
-            }
-            updateCharacters()
-            updateAssignedCharacters()
-            updateAvailableCharacters()
-            updateAssignedAndActiveCharacters()
-            toggleSection(section: 3)
-        }
-        dataModel.saveCampaignsLocally()
-        controller.dismiss(animated: true, completion: nil)
-    }
-}
 extension PartyDetailViewModel: SelectPartyViewControllerDelegate {
     func selectPartyViewControllerDidCancel(_ controller: SelectPartyViewController) {
         controller.dismiss(animated: true, completion: nil)
@@ -515,17 +455,12 @@ extension PartyDetailViewModel: PartyDetailViewControllerDelegate {
             for character in dataModel.characters {
                 let charName = character.value.name
                 if character.value.assignedTo == currentParty {
-                    // In addition to assigning to none, could we set character status to retired
-//                    character.value.assignedTo = "None"
-//                    character.value.isRetired = true
-//                    character.value.isActive = false
                     dataModel.characters.removeValue(forKey: charName)
-                    }
+                }
             }
             dataModel.parties.removeValue(forKey: currentParty)
             dataModel.currentCampaign.parties = dataModel.currentCampaign.parties!.filter { $0.name != currentParty }
             let myParties = Array(dataModel.parties)
-            print(myParties)
             myParties[0].value.isCurrent = true
             setPartyActive(party: myParties[0].value.name)
             self.updateAssignedAndActiveCharacters() // See if this works

@@ -18,7 +18,6 @@ protocol CreateCampaignViewModelDelegate: class {
 // Move these to separate files?
 struct CreateCampaignTitleCellViewModel {
     
-//    let campaignTitleTextField: String?
     let campaignTitleTextFieldPlaceholder: String
     
     init() {
@@ -80,21 +79,12 @@ class CreateCampaignViewModelFromModel: NSObject {
     }
     fileprivate func createCampaign(title: String, parties: [Party]) {
         dataModel.createCampaign(title: title, isCurrent: true, parties: parties)
-        print("Just created new campaign with party: \(parties[0].name)")
         dataModel.saveCampaignsLocally()
     }
     fileprivate func createParty(name: String) {
         dataModel.createParty(name: name, characters: newCharacters, location: "Gloomhaven", achievements: [:], reputation: 0, isCurrent: true, assignedTo: (newCampaignTitle!))
-        print("Creating new party \(name) assigned to \(newCampaignTitle!)")
         dataModel.currentParty = dataModel.parties[name]
-        //dataModel.currentCampaign.parties!.append(dataModel.parties[name]!)
         dataModel.saveCampaignsLocally()
-    }
-    fileprivate func createCharacter(name: String) {
-        dataModel.createCharacter(name: name)
-        dataModel.characters[name]!.assignedTo = newPartyName
-        dataModel.characters[name]!.isActive = true
-        newCharacters.append(dataModel.characters[name]!)
     }
 }
 extension CreateCampaignViewModelFromModel: UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate {
@@ -206,7 +196,6 @@ extension CreateCampaignViewModelFromModel: CreateCampaignViewControllerDelegate
             delegate?.showFormAlert(alertText: "Cannot leave fields blank!", message: "Both campaign title and party name must be specified.")
             reloadSection!(0)
         } else if dataModel.parties.contains(where: { $0.key == newPartyName! }) {
-            print("Already have a party by that name!")
             delegate?.showFormAlert(alertText: "Already have a party by that name!", message: "Choose a different party name.")
             reloadSection!(0)
         } else {

@@ -64,7 +64,6 @@ class SelectPartyViewController: UIViewController {
         
         // We definitely have setup done now
         self.assignedParties = viewModel.assignedParties.value
-        //viewModel.campaigns.bindAndFire { [unowned self] in self.campaigns = $0 }
     }
     fileprivate func styleUI() {
         self.selectPartyView.backgroundColor = colorDefinitions.scenarioTableViewNavBarBarTintColor
@@ -114,8 +113,6 @@ extension SelectPartyViewController: UITableViewDataSource, UITableViewDelegate 
             cell.accessoryType = .none
         }
         configureCheckmark(for: cell, activeStatus: myParties![indexPath.row] == currentParty)
-        //cell.backgroundView?.alpha = 0.25
-        //cell.selectedBackgroundView?.alpha = 0.65
         cell.backgroundColor = UIColor.clear
         return cell as! SelectPartyTableViewCell
     }
@@ -124,6 +121,6 @@ extension SelectPartyViewController: UITableViewDataSource, UITableViewDelegate 
         tableView.reloadData()
     }
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        
+        //
     }
 }

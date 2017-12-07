@@ -48,9 +48,7 @@ class ScenarioDetailViewModel: NSObject {
     var myCompletedTitle: String?
     var bgColor: UIColor?
     var locationString = [String]()
-    
-    //    override init() {
-    //        super.init()
+
     init(withScenario scenario: Scenario) {
         super.init()
         
@@ -161,7 +159,8 @@ class ScenarioDetailViewModel: NSObject {
         if scenario.isCompleted {
             statusIcon = #imageLiteral(resourceName: "scenarioCompletedIcon")
         } else if scenario.isUnlocked && scenario.requirementsMet {
-            //statusIcon = #imageLiteral(resourceName: "scenarioAvailableIcon")
+            //
+            
         } else {
             statusIcon = #imageLiteral(resourceName: "scenarioLockedIcon")
         }

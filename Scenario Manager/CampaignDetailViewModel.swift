@@ -349,16 +349,13 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
                 }
             }
         } else if self.items[section].type == .events {
-            //probably bring this into local variable
             switch selectedEventsSegmentIndex {
             case 0:
                 let myCount = self.unavailableEvents.value.filter { $0.type.rawValue == self.selectedEventType }
                 returnValue = myCount.count
-                //returnValue = self.unavailableEvents.value.count
             case 1:
                 let myCount = self.availableEvents.value.filter { $0.type.rawValue == self.selectedEventType }
                 returnValue = myCount.count
-                //returnValue = self.availableEvents.value.count
             case 2:
                 let myCount = self.completedEvents.value.filter { $0.type.rawValue == self.selectedEventType }.count
                 if myCount == 0 {
@@ -430,7 +427,6 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
                 cell.backgroundColor = UIColor.clear
                 cell.selectionStyle = .none
                 let party = SeparatedStrings(rowString: self.currentPartyName.value)
-                print("In cellForRowAt, I have \(self.currentPartyName.value) for partyName")
                 cell.item = party
                 return cell
             }
@@ -672,10 +668,6 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
             case .achievements:
                 break
             case .campaignTitle:
-//                button.setImage(UIImage(named: "quill-drawing-a-line_unselected"), for: .normal)
-//                button.isEnabled = true
-//                button.addTarget(self, action: #selector(self.enableTitleTextField(_:)), for: .touchUpInside)
-//                header.addSubview(button)
                 break
             case .parties:
                 break
@@ -710,7 +702,6 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
     }
     @objc func getPartySegmentControlValue(sender: UISegmentedControl) {
         self.selectedPartiesSegmentIndex = sender.selectedSegmentIndex
-        print("Setting Segment Index to: \(sender.selectedSegmentIndex)")
         self.toggleSection(section: 4)
     }
     @objc func enableTitleTextField(_ sender: UIButton) {
@@ -814,12 +805,8 @@ extension CampaignDetailViewModel: SelectCampaignViewControllerDelegate, Campaig
             dataModel.campaigns.removeValue(forKey: self.campaignTitle.value)
             let myCampaign = Array(dataModel.campaigns.values)
             setCampaignActive(campaign: myCampaign.first!.title)
-            //let myParty = Array(dataModel.currentParty.)
             setPartyActive(party: dataModel.currentCampaign.parties!.first!.name)
             self.updateCurrentParty()
-            //reloadSection!(3)
-            //controller.campaignDetailTableView.reloadData()
-            //NotificationCenter.default.post(name: NSNotification.Name(rawValue: "updateAfterNewCampaignSelected"), object: nil)
         } else {
             controller.showDisallowDeletionAlert()
         }

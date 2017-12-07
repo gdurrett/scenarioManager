@@ -214,9 +214,7 @@ extension CreateCharacterViewModel: CreateCharacterViewControllerDelegate {
 extension CreateCharacterViewModel: CharacterDetailCharacterLevelCellDelegate {
     func incrementCharacterLevel(value: Int) {
         let currentLevel = self.currentLevel
-        print("Currentlevel: \(self.currentLevel)")
         var newLevel = Int(currentLevel) + value
-        print("NewLevel = \(newLevel)")
         if value == -1 && currentLevel == 0 {
             newLevel = 0
         } else if value == 1  && currentLevel == 9 {
@@ -228,8 +226,6 @@ extension CreateCharacterViewModel: CharacterDetailCharacterLevelCellDelegate {
         if let cell = currentLevelCell as? CharacterDetailCharacterLevelCell {
             cell.characterDetailCharacterLevelLabel.text = "\(newLevel)"
         }
-        //self.updateCharacterLevel()
-        //dataModel.saveCampaignsLocally()
     }
 }
 extension CreateCharacterViewModel: UIPickerViewDelegate, UIPickerViewDataSource {
@@ -244,7 +240,6 @@ extension CreateCharacterViewModel: UIPickerViewDelegate, UIPickerViewDataSource
     // Get picker selection
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         characterTypePickerDidPick = true
-        //selectedCharacterType = characterTypePickerData[row]
         selectedCharacterType = Array(characterTypePickerData.sorted(by: <))[row]
     }
     
@@ -255,7 +250,6 @@ extension CreateCharacterViewModel: UIPickerViewDelegate, UIPickerViewDataSource
         }
         label?.font = UIFont(name: "Nyala", size: 24)!
         label?.textAlignment = .center
-        //label?.text =  ("\(characterTypePickerData[row])")
         label?.text = ("\(Array(characterTypePickerData.sorted(by: <))[row])")
         return label!
     }

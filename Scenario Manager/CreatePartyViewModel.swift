@@ -64,12 +64,6 @@ class CreatePartyViewModel: NSObject {
         dataModel.currentCampaign.parties!.append(dataModel.parties[name]!)
         dataModel.saveCampaignsLocally()
     }
-    fileprivate func createCharacter(name: String) {
-        dataModel.createCharacter(name: name)
-        dataModel.characters[name]!.assignedTo = newPartyName
-        dataModel.characters[name]!.isActive = true
-        newCharacters.append(dataModel.characters[name]!)
-    }
 }
 extension CreatePartyViewModel: UITableViewDataSource, UITableViewDelegate {
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -107,7 +101,6 @@ extension CreatePartyViewModel: UITableViewDataSource, UITableViewDelegate {
             let cell = tableView.dequeueReusableCell(withIdentifier: CreateCampaignCharacterCell.identifier) as! CreateCampaignCharacterCell
             let newCharacterIndex = ("Character\(indexPath.row)")
             if dataModel.newCharacters[newCharacterIndex] == nil {
-                print("I think it's nil")
                 viewModel.createPartyCreateCharacterLabelText = ("Add character \(indexPath.row)")
                 cell.createCampaignCharacterLabel.text = ("Add character \(indexPath.row + 1)")
             } else {
@@ -157,7 +150,6 @@ extension CreatePartyViewModel: CreatePartyViewControllerDelegate {
     
     func createPartyViewControllerDidFinishAdding(_ controller: CreatePartyViewController) {
         if newPartyName != "" {
-            print("should be here")
             if dataModel.newCharacters.isEmpty != true {
             self.createParty(name: newPartyName!)
             for char in dataModel.newCharacters.values {

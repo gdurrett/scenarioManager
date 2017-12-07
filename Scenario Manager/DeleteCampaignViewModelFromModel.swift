@@ -13,13 +13,10 @@ class DeleteCampaignViewModelFromModel: NSObject, CampaignViewControllerViewMode
 
     
     let dataModel: DataModel
-    //var campaigns: [String:Campaign]
-    //let currentCampaign: Campaign
     
     init(withDataModel dataModel: DataModel) {
         self.dataModel = dataModel
         self.campaigns = Dynamic(dataModel.campaigns)
-        //self.currentCampaign = dataModel.currentCampaign!
     }
     
     func deleteCampaign(campaign: String) {

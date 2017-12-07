@@ -77,6 +77,7 @@ class CreatePartyViewController: UIViewController, CreatePartyViewModelDelegate 
         self.navigationItem.title = "Create Party"
         self.navigationController?.navigationBar.titleTextAttributes = [.font: UIFont(name: "Nyala", size: 26.0)!, .foregroundColor: colorDefinitions.mainTextColor]
         self.navigationController?.navigationBar.tintColor = colorDefinitions.mainTextColor
+        self.navigationController?.navigationBar.barTintColor = UIColor(hue: 46/360, saturation: 8/100, brightness: 100/100, alpha: 1.0)
         self.navigationItem.leftBarButtonItem = leftBarButton
         leftBarButton.tintColor = colorDefinitions.mainTextColor
         let rightBarButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(self.save(_:)))

@@ -52,7 +52,6 @@ class PartyDetailViewController: UIViewController {
             self?.partyDetailTableView.reloadData()
         }
         // Set up observers
-        NotificationCenter.default.addObserver(self, selector: #selector(self.loadSelectPartyCharactersViewController), name: NSNotification.Name(rawValue: "showSelectCharacterVC"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.showNoCharactersAlert), name: NSNotification.Name(rawValue: "showNoCharactersAlert"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.showEventAchievementsPicker), name: NSNotification.Name(rawValue: "showEventAchievementsPicker"), object: nil)
         // Listener for when we complete an event-based achievement - called from PartyDetailVM
@@ -74,8 +73,6 @@ class PartyDetailViewController: UIViewController {
         // Register headers
         partyDetailTableView?.register(PartyDetailAssignedCampaignHeader.nib, forCellReuseIdentifier: PartyDetailAssignedCampaignHeader.identifier)
         
-        //viewModel.updateAvailableCharacters() //Try here?
-
         styleUI()
     }
     
@@ -104,7 +101,6 @@ class PartyDetailViewController: UIViewController {
         viewModel.updateCurrentParty()
         selectPartyVC.assignedParties = viewModel.assignedParties.value!
         selectPartyVC.viewModel = self.viewModel
-        //selectCampaignVC.reloadDelegate = self // Need to reloadData on entire table before returning here!
         selectPartyVC.hidesBottomBarWhenPushed = true
         self.navigationController!.present(selectPartyVC, animated: true, completion: nil)
     }
@@ -115,7 +111,6 @@ class PartyDetailViewController: UIViewController {
             self.delegate.partyDetailVCDidTapDelete(self)
             self.updateAllSections()
             self.refreshAllSections()
-            //self.updateNavTitle()
         }
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (action:UIAlertAction!) in
@@ -206,15 +201,6 @@ extension PartyDetailViewController: UITableViewDelegate {
         self.partyDetailTableView.separatorInset = .zero
     }
     // MARK: Action Methods
-    @objc func loadSelectPartyCharactersViewController() {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let selectCharacterVC = storyboard.instantiateViewController(withIdentifier: "SelectPartyCharactersViewController") as! SelectPartyCharactersViewController
-        viewModel.updateAvailableCharacters() //Try here?
-        selectCharacterVC.delegate = viewModel
-        selectCharacterVC.viewModel = viewModel
-        selectCharacterVC.hidesBottomBarWhenPushed = true
-        self.navigationController!.present(selectCharacterVC, animated: true, completion: nil)
-    }
     fileprivate func loadCreatePartyViewController() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let createPartyVC = storyboard.instantiateViewController(withIdentifier: "CreatePartyViewController") as! CreatePartyViewController
@@ -308,11 +294,4 @@ extension PartyDetailViewController: CampaignDetailPartyUpdaterDelegate {
         }
     }
 }
-extension PartyDetailViewController: SelectPartyCharactersViewControllerReloadDelegate {
-    func reloadAfterDidFinishSelecting() {
-        if let myTableView = self.partyDetailTableView {
-            //self.viewModel.updateAssignedCharacters()
-            myTableView.reloadData()
-        }
-    }
-}
+

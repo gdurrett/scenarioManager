@@ -50,20 +50,6 @@ class CampaignDetailProsperityCell: UITableViewCell {
             
         }
     }
-    var isActive: Bool? {
-        didSet {
-        //modifyProsperityCountStepperOutlet.setBackgroundImage(UIImage(named: "stepperBG.png"), for: .normal)
-//            if isActive == true {
-//                myStepperOutlet.isHidden = false
-//                myStepperOutlet.isEnabled = true
-//                myStepperOutlet.tintColor = colorDefinitions.mainTextColor
-//            } else {
-//                myStepperOutlet.isEnabled = false
-//                myStepperOutlet.isHidden = true
-//            }
-        }
-        
-    }
     static var nib:UINib {
         return UINib(nibName: identifier, bundle: nil)
     }

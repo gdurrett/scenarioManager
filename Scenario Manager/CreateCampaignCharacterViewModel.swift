@@ -89,14 +89,6 @@ class CreateCampaignCharacterViewModel: NSObject {
         self.dataModel = dataModel
         self.currentLevel = newCharacter.level
     }
-    
-    fileprivate func createCharacter(name: String) {
-        dataModel.createCharacter(name: name)
-        if dataModel.characters[name] != nil {
-            newCharacter = dataModel.characters[name]!
-        }
-        dataModel.saveCampaignsLocally()
-    }
 }
 extension CreateCampaignCharacterViewModel: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -158,9 +150,7 @@ extension CreateCampaignCharacterViewModel: UITableViewDelegate, UITableViewData
                 item = CharacterDetailViewModelCharacterTypeItem(characterType: dataModel.newCharacters[newCharacterIndex]!.type)
             } else if newCharacter.type == "" {
                 item = CharacterDetailViewModelCharacterTypeItem(characterType: "Tap to select")
-                print("Get to second?")
             } else {
-                print("Get to third?")
                 item = CharacterDetailViewModelCharacterTypeItem(characterType: newCharacter.type)
             }
             typeCell = cell
@@ -225,7 +215,6 @@ extension CreateCampaignCharacterViewModel: CreateCampaignCharacterViewControlle
 extension CreateCampaignCharacterViewModel: CharacterDetailCharacterLevelCellDelegate {
     func incrementCharacterLevel(value: Int) {
         let currentLevel = self.currentLevel
-        print("Currentlevel: \(self.currentLevel)")
         var newLevel = Int(currentLevel) + value
         print("NewLevel = \(newLevel)")
         if value == -1 && currentLevel == 0 {
@@ -233,16 +222,12 @@ extension CreateCampaignCharacterViewModel: CharacterDetailCharacterLevelCellDel
         } else if value == 1  && currentLevel == 9 {
             newLevel = 9
         } else {
-            print("Adding \(Double(value))")
             newCharacter.level += Double(value)
             self.currentLevel += Double(value)
         }
         if let cell = currentLevelCell as? CharacterDetailCharacterLevelCell {
-            print("Getting here?")
             cell.characterDetailCharacterLevelLabel.text = "\(newLevel)"
         }
-        //self.updateCharacterLevel()
-        //dataModel.saveCampaignsLocally()
     }
 }
 extension CreateCampaignCharacterViewModel: UIPickerViewDelegate, UIPickerViewDataSource {
@@ -257,7 +242,6 @@ extension CreateCampaignCharacterViewModel: UIPickerViewDelegate, UIPickerViewDa
     // Get picker selection
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         characterTypePickerDidPick = true
-        //selectedCharacterType = characterTypePickerData[row]
         selectedCharacterType = Array(characterTypePickerData.sorted(by: <))[row]
     }
     
@@ -268,7 +252,6 @@ extension CreateCampaignCharacterViewModel: UIPickerViewDelegate, UIPickerViewDa
         }
         label?.font = UIFont(name: "Nyala", size: 24)!
         label?.textAlignment = .center
-        //label?.text =  ("\(characterTypePickerData[row])")
         label?.text = ("\(Array(characterTypePickerData.sorted(by: <))[row])")
         return label!
     }
@@ -277,20 +260,16 @@ extension CreateCampaignCharacterViewModel: UIPickerViewDelegate, UIPickerViewDa
 extension CreateCampaignCharacterViewModel: CreateCampaignCharacterPickerDelegate {
     // Delegate method and property for Create Character VC picker
     func setCharacterType() {
-        print("Setting anything?")
         let newCharactersIndex = ("Character\(selectedCharacterRow!)")
         if dataModel.newCharacters[newCharactersIndex] != nil {
             dataModel.newCharacters[newCharactersIndex]!.type = "" //Test reset if we change it
         }
         if characterTypePickerDidPick == false {
-            //self.newCharacter.type = self.characterTypePickerData[0]
             self.newCharacter.type = Array(self.characterTypePickerData.sorted(by: <))[0]
         } else {
             characterTypePickerDidPick = true
             self.newCharacter.type = selectedCharacterType
-            print("Get to option 2 in extentions")
         }
         self.reloadSection?(2)
-        //self.dataModel.saveCampaignsLocally()
     }
 }

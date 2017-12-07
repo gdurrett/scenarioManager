@@ -80,7 +80,6 @@ class CreateCampaignViewController: UIViewController, CreateCampaignViewModelDel
         styleUI()
         
         if isFirstLoad == true {
-            print("First timer!")
             self.navigationItem.leftBarButtonItem = nil
         }
         

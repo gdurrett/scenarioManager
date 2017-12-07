@@ -29,12 +29,10 @@ class CreateCampaignCharacterViewController: UIViewController, CreateCampaignCha
     
     @IBAction func save(_ sender: UIStoryboardSegue) {
         delegate?.createCampaignCharacterViewControllerDidFinishAdding(self)
-        //performSegue(withIdentifier: "unwindToCreateCampaignVC", sender: self)
     }
     
     var viewModel: CreateCampaignCharacterViewModel? {
         didSet {
-            //
             viewModel!.delegate = self
         }
     }

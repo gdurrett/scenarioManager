@@ -97,19 +97,8 @@ class CharacterDetailViewModel: NSObject {
 
     }
     // Helper methods
-    // Method for Renaming Character Name
-    func renameCharacter(oldName: String, newName: String) {
-        if dataModel.characters[newName] == nil && oldName != newName { // Don't do anything if it's the same name or if there's already a character with the new name
-            dataModel.characters[oldName]!.name = newName
-            dataModel.characters.changeKey(from: oldName, to: newName)
-            for character in dataModel.characters { print("\(character.value.name)") }
-            character.name = newName
-            dataModel.saveCampaignsLocally()
-        }
-    }
     func updateAssignedParty() {
         self.assignedParty.value = dataModel.characters[character.name]!.assignedTo!
-        //print("In updateAssignedParty: \()")
     }
     func updateCurrentParty() {
         self.currentParty.value = dataModel.currentParty.name
@@ -232,10 +221,6 @@ extension CharacterDetailViewModel: UITableViewDataSource, UITableViewDelegate, 
         switch itemType {
             
         case .characterName:
-//            button.setImage(UIImage(named: "quill-drawing-a-line_unselected"), for: .normal)
-//            button.isEnabled = true
-//            button.addTarget(self, action: #selector(self.enableNameTextField(_:)), for: .touchUpInside)
-//            header.addSubview(button)
             break
         case .characterLevel:
             button.setImage(UIImage(named: "quill-drawing-a-line_unselected"), for: .normal)
@@ -243,10 +228,6 @@ extension CharacterDetailViewModel: UITableViewDataSource, UITableViewDelegate, 
             button.addTarget(self, action: #selector(self.showUIStepperInCharacterLevelCell(_:)), for: .touchUpInside)
             header.addSubview(button)
         case .characterType:
-//            button.setImage(UIImage(named: "quill-drawing-a-line_unselected"), for: .normal)
-//            button.isEnabled = true
-//            button.addTarget(self, action: #selector(self.showCharacterTypePicker(_:)), for: .touchUpInside)
-//            header.addSubview(button)
             break
         case .assignedParty:
             break
@@ -294,41 +275,18 @@ extension CharacterDetailViewModel: UITableViewDataSource, UITableViewDelegate, 
     @objc func setNewCampaignCharacters() {
         self.updateCharactersForNewCampaign = true
     }
-    // Delegate method for textField in cell
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        switch self.textFieldReturningCellType! {
-        case .characterName:
-            let myCell = self.currentNameCell as! CharacterDetailCharacterNameCell
-            let myLabel = myCell.characterDetailNameLabel
-            let oldName = myLabel!.text!
-            if textField.text != "" {
-                myLabel?.text = textField.text
-                textField.isHidden = true
-                self.renameCharacter(oldName: oldName, newName: textField.text!)
-            }
-            myLabel?.isHidden = false
-        default:
-            break
-        }
-        return true
-    }
     // Delegate method for CharacterLevelCell
     func incrementCharacterLevel(value: Int) {
         let currentLevel = self.currentLevel.value
-        print("Currentlevel: \(self.currentLevel.value)")
         var newLevel = Int(currentLevel) + value
-        print("NewLevel = \(newLevel)")
         if value == -1 && currentLevel == 0 {
             newLevel = 0
         } else if value == 1  && currentLevel == 9 {
             newLevel = 9
         } else {
-            print("Adding \(Double(value))")
             dataModel.characters[character.name]!.level += Double(value)
         }
         if let cell = currentLevelCell as? CharacterDetailCharacterLevelCell {
-            print("Getting here?")
             cell.characterDetailCharacterLevelLabel.text = "\(newLevel)"
         }
         self.updateCharacterLevel()
@@ -337,7 +295,6 @@ extension CharacterDetailViewModel: UITableViewDataSource, UITableViewDelegate, 
     // Delegate method and property for Character Detail VC picker
     func setCharacterType() {
         if characterTypePickerDidPick == false {
-            print("Get here?")
             self.character.type = self.characterTypePickerData[0]
         } else {
             characterTypePickerDidPick = true

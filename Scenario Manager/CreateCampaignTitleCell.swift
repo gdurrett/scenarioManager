@@ -33,7 +33,6 @@ class CreateCampaignTitleCell: UITableViewCell, UITextFieldDelegate {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        //self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(UIView.endEditing(_:))))
         self.campaignTitleTextField.delegate = self
         // For keyboard
         campaignTitleTextField.addTarget(nil, action:Selector(("firstResponderAction:")), for:.editingDidEndOnExit)

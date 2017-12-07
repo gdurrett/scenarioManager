@@ -17,22 +17,9 @@ protocol CharacterDetailViewControllerDelegate: class {
     func retireCharacter(character: Character)
 }
 class CharacterDetailViewController: UIViewController {
-
-    @IBOutlet var characterDetailView: UIView!
     
     @IBOutlet weak var characterDetailTableView: UITableView!
     
-    @IBAction func selectCharacterAction(_ sender: Any) {
-        loadSelectCharacterViewController()
-    }
-    
-    @IBAction func deleteCharacterAction(_ sender: Any) {
-        showDeleteRetireCharacterActionSheet()
-    }
-    
-    @IBAction func addCharacterAction(_ sender: Any) {
-        loadCreateCharacterViewController()
-    }
     weak var pickerDelegate: CharacterDetailViewControllerPickerDelegate!
     weak var delegate: CharacterDetailViewControllerDelegate!
 
@@ -48,14 +35,6 @@ class CharacterDetailViewController: UIViewController {
         super.viewDidLoad()
 
         viewModel.reloadSection = { [weak self] (section: Int) in
-//            if section == 0 {
-//                self?.refreshCharacterStatus()
-//            } else if section == 2 {
-//                self?.refreshCharacterType()
-//            }
-//            if section == 3 {
-//                self?.refreshCharacterAssignedParty()
-//            }
             self?.characterDetailTableView.reloadData()
         }
         
@@ -72,9 +51,6 @@ class CharacterDetailViewController: UIViewController {
         characterDetailTableView?.register(CharacterDetailCharacterTypeCell.nib, forCellReuseIdentifier: CharacterDetailCharacterTypeCell.identifier)
         characterDetailTableView?.register(CharacterDetailAssignedPartyCell.nib, forCellReuseIdentifier: CharacterDetailAssignedPartyCell.identifier)
         characterDetailTableView?.register(CharacterDetailPlayedScenarioCell.nib, forCellReuseIdentifier: CharacterDetailPlayedScenarioCell.identifier)
-        
-        // Set up Notification Center listeners
-        //NotificationCenter.default.addObserver(self, selector: #selector(self.showCharacterTypePicker), name: NSNotification.Name(rawValue: "showCharacterTypePicker"), object: nil)
 
         styleUI()
         
@@ -95,7 +71,6 @@ class CharacterDetailViewController: UIViewController {
         self.navigationController?.navigationBar.tintColor = colorDefinitions.mainTextColor
         self.navigationController?.navigationBar.barTintColor = UIColor(hue: 46/360, saturation: 8/100, brightness: 100/100, alpha: 1.0)
         self.navigationController?.navigationBar.titleTextAttributes = [.font: UIFont(name: "Nyala", size: 26.0)!, .foregroundColor: colorDefinitions.mainTextColor]
-        //self.navigationItem.title = ("\(self.viewModel.campaignTitle.value) Detail")
         self.navigationItem.title = "Character Detail"
         self.characterDetailTableView.backgroundView = UIImageView(image: UIImage(named: "campaignDetailTableViewBG"))
         self.characterDetailTableView.backgroundView?.alpha = 0.25
@@ -122,7 +97,6 @@ class CharacterDetailViewController: UIViewController {
         //selectCharacterVC.delegate = viewModel
         selectCharacterVC.viewModel = viewModel
         selectCharacterVC.hidesBottomBarWhenPushed = true
-        print("Assigned Party at loadSelectInit: \(viewModel.assignedParty.value)")
         self.navigationController!.present(selectCharacterVC, animated: true, completion: nil)
     }
     fileprivate func loadCreateCharacterViewController() {
@@ -135,26 +109,6 @@ class CharacterDetailViewController: UIViewController {
         createCharacterVC.hidesBottomBarWhenPushed = true
         createCharacterVC.pickerDelegate = createCharacterVM as CreateCharacterPickerDelegate
         self.navigationController!.present(createCharacterVC, animated: true, completion: nil)
-    }
-    fileprivate func showDeleteRetireCharacterActionSheet() {
-        // Raise action sheet here with option to delete, retire, or cancel
-        let alertController = UIAlertController(title: "Retire or Delete Character?", message: "Choose an option below", preferredStyle: .actionSheet)
-        let retireButton = UIAlertAction(title: "Retire character", style: .default, handler: { (action) -> Void in
-            self.delegate.retireCharacter(character: self.viewModel.character)
-        })
-        let deleteButton = UIAlertAction(title: "Delete character", style: .default, handler: { (action) -> Void in
-            self.delegate.deleteCharacter(character: self.viewModel.character, controller: self)
-        })
-        let cancelButton = UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) -> Void in
-            alertController.dismiss(animated: true, completion: nil)
-        })
-        alertController.view.tintColor = colorDefinitions.scenarioAlertViewTintColor
-        
-        alertController.addAction(retireButton)
-        alertController.addAction(deleteButton)
-        alertController.addAction(cancelButton)
-        
-        self.navigationController!.present(alertController, animated: true, completion: nil)
     }
     func showDisallowDeletionAlert() {
         let alertTitle = "Cannot delete only remaining character!"

@@ -17,7 +17,6 @@ struct CreatePartyCharacterCharacterNameCellViewModel {
     }
 }
 protocol CreatePartyCharacterViewModelDelegate: class {
-    //func setCurrentCharacter(character: Character)
     func showFormAlert(alertText: String, message: String)
     func doSegue()
 }
@@ -45,7 +44,6 @@ class CreatePartyCharacterViewModel: NSObject {
     var selectedCharacterRow: Int?
     var newCharacterIndex = "Character0"
     
-    //weak var delegate: CreateCharacterViewModelDelegate?
     weak var delegate: CreatePartyCharacterViewModelDelegate?
 
     
@@ -125,14 +123,11 @@ extension CreatePartyCharacterViewModel: UITableViewDelegate, UITableViewDataSou
             let cell = tableView.dequeueReusableCell(withIdentifier: CharacterDetailCharacterLevelCell.identifier, for: indexPath) as! CharacterDetailCharacterLevelCell
             let item = CharacterDetailViewModelCharacterLevelItem(level: "1")
             currentLevelCell = cell
-            //                cell.delegate = self
             if dataModel.newCharacters[newCharacterIndex] != nil {
                 item.level = String(Int(dataModel.newCharacters[newCharacterIndex]!.level))
             } else {
-                //item.level = String(Int(1))
                 item.level = String(Int(newCharacter.level))
             }
-            //item.level = String(Int(newCharacter.level))
             cell.backgroundColor = UIColor.clear
             cell.selectionStyle = .none
             cell.item = item
@@ -149,9 +144,7 @@ extension CreatePartyCharacterViewModel: UITableViewDelegate, UITableViewDataSou
                 item = CharacterDetailViewModelCharacterTypeItem(characterType: dataModel.newCharacters[newCharacterIndex]!.type)
             } else if newCharacter.type == "" {
                 item = CharacterDetailViewModelCharacterTypeItem(characterType: "Tap to select")
-                print("Get to second?")
             } else {
-                print("Get to third?")
                 item = CharacterDetailViewModelCharacterTypeItem(characterType: newCharacter.type)
             }
             typeCell = cell
@@ -207,7 +200,6 @@ extension CreatePartyCharacterViewModel: CreatePartyCharacterViewControllerDeleg
             } else {
                 delegate?.showFormAlert(alertText: "Must specify a character type!", message: "Please select a character type.")
             }
-            //self.reloadSection!(2)
         } else {
             delegate?.showFormAlert(alertText: "Can't leave character name blank!", message: "Please choose a name for your character.")
         }
@@ -216,24 +208,18 @@ extension CreatePartyCharacterViewModel: CreatePartyCharacterViewControllerDeleg
 extension CreatePartyCharacterViewModel: CharacterDetailCharacterLevelCellDelegate {
     func incrementCharacterLevel(value: Int) {
         let currentLevel = self.currentLevel
-        print("Currentlevel: \(self.currentLevel)")
         var newLevel = Int(currentLevel) + value
-        print("NewLevel = \(newLevel)")
         if value == -1 && currentLevel == 0 {
             newLevel = 0
         } else if value == 1  && currentLevel == 9 {
             newLevel = 9
         } else {
-            print("Adding \(Double(value))")
             newCharacter.level += Double(value)
             self.currentLevel += Double(value)
         }
         if let cell = currentLevelCell as? CharacterDetailCharacterLevelCell {
-            print("Getting here?")
             cell.characterDetailCharacterLevelLabel.text = "\(newLevel)"
         }
-        //self.updateCharacterLevel()
-        //dataModel.saveCampaignsLocally()
     }
 }
 extension CreatePartyCharacterViewModel: UIPickerViewDelegate, UIPickerViewDataSource {
@@ -248,7 +234,6 @@ extension CreatePartyCharacterViewModel: UIPickerViewDelegate, UIPickerViewDataS
     // Get picker selection
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         characterTypePickerDidPick = true
-        //selectedCharacterType = characterTypePickerData[row]
         selectedCharacterType = Array(characterTypePickerData.sorted(by: <))[row]
     }
     
@@ -259,7 +244,6 @@ extension CreatePartyCharacterViewModel: UIPickerViewDelegate, UIPickerViewDataS
         }
         label?.font = UIFont(name: "Nyala", size: 24)!
         label?.textAlignment = .center
-        //label?.text =  ("\(characterTypePickerData[row])")
         label?.text = ("\(Array(characterTypePickerData.sorted(by: <))[row])")
         return label!
     }
@@ -278,6 +262,5 @@ extension CreatePartyCharacterViewModel: CreatePartyCharacterPickerDelegate {
             self.newCharacter.type = selectedCharacterType
         }
         self.reloadSection?(2)
-        //self.dataModel.saveCampaignsLocally()
     }
 }

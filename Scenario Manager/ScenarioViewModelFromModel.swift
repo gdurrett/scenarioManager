@@ -172,7 +172,6 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
         
     let combinedAchievementDicts = dataModel.globalAchievements.reduce(dataModel.currentParty.achievements) { r, e in var r = r; r[e.0] = e.1; return r }
         for scenario in allScenarios {
-            //print("Checking requirements for \(scenario.number)")
             let orPresent = scenario.requirements["OR"] == true
             var tempRequirementsArray = scenario.requirements
             tempRequirementsArray.removeValue(forKey: "OR")
@@ -299,7 +298,6 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
                 let lookup = Int(scen)!-1
                 //let title = self.allScenarios[lookup].title
                 if self.availableScenarios.value.contains(self.allScenarios[lookup]) || self.completedScenarios.value.contains(self.allScenarios[lookup])  {
-                    print("Should get to available for \(self)")
                     continue
                 } else {
                     additionalTitles.append((name:(self.allScenarios[lookup].number), title:(self.allScenarios[lookup].title)))
@@ -324,7 +322,6 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
             for character in dataModel.characters.values {
                 let tempPlayedScenarios = dataModel.characters[character.name]!.playedScenarios!
                 if tempPlayedScenarios.count == 1 && tempPlayedScenarios == [forScenario] {
-                    print("Should be setting to None")
                     dataModel.characters[character.name]?.playedScenarios? = ["None"]
                 } else if tempPlayedScenarios.count == 1 && tempPlayedScenarios == ["None"] {
                     //

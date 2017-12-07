@@ -63,9 +63,7 @@ class CreatePartyCharacterViewController: UIViewController, CreatePartyCharacter
         // Register cells
         createPartyCharacterTableView?.register(CreateCharacterCharacterNameCell.nib, forCellReuseIdentifier: CreateCharacterCharacterNameCell.identifier)
         createPartyCharacterTableView?.register(CharacterDetailCharacterLevelCell.nib, forCellReuseIdentifier: CharacterDetailCharacterLevelCell.identifier)
-        
         createPartyCharacterTableView?.register(CharacterDetailCharacterTypeCell.nib, forCellReuseIdentifier: CharacterDetailCharacterTypeCell.identifier)
-        // Rename CreatePartyPartyNameCell to something more generic.
         createPartyCharacterTableView?.register(CreatePartyPartyNameCell.nib, forCellReuseIdentifier: CreatePartyPartyNameCell.identifier)
         
         styleUI()

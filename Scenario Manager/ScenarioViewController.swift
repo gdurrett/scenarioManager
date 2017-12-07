@@ -82,7 +82,6 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate {
         // Change titles on segmented controller
         setSegmentTitles()
         setupSearch()
-        //scenarioTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
         self.scenarioTableView.setContentOffset(CGPoint(x: 0, y: 20), animated: true)
         //Try notification for tapped rows in ScenarioDetailViewController
         NotificationCenter.default.addObserver(self, selector: #selector(segueToDetailViewController), name: NSNotification.Name(rawValue: "segueToDetail"), object: nil)
@@ -99,7 +98,6 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate {
         self.navigationItem.title = ("\(self.selectedCampaign!.title) - \(self.viewModel!.party.value.name)")
         viewModel?.updateLoadedCampaign()
         viewModel?.updateAvailableScenarios()
-        print("In ScenarioVC \(viewModel!.availableScenarios.value)")
         self.setSegmentTitles()
         self.scenarioTableView.reloadData()
         self.scenarioTableView.setContentOffset(CGPoint(x: 0, y: self.searchController.searchBar.frame.height), animated: true)
@@ -258,7 +256,7 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 85.0
+        return 90.0
     }
     // Helper methods
     func makeCell(for tableView: UITableView) -> UITableViewCell {
@@ -411,6 +409,8 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate {
         self.scenarioFilterOutlet.selectedSegmentIndex = 1
         self.scenarioTableView.estimatedRowHeight = 85
         self.scenarioTableView.rowHeight = UITableViewAutomaticDimension
+        self.scenarioTableView.backgroundView = UIImageView(image: UIImage(named: "campaignDetailTableViewBG"))
+        self.scenarioTableView.backgroundView?.alpha = 0.25
         self.navigationController?.navigationBar.tintColor = colorDefinitions.mainTextColor
         self.navigationController?.navigationBar.barTintColor = colorDefinitions.scenarioTableViewNavBarBarTintColor
         self.navigationController?.navigationBar.titleTextAttributes = [.font: UIFont(name: "Nyala", size: 26.0)!, .foregroundColor: colorDefinitions.mainTextColor]
@@ -430,10 +430,6 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate {
         // We definitely have the setup done now
         self.allScenarios = viewModel.allScenarios
         self.selectedCampaign = viewModel.campaign.value
-        // Call our Dynamic bindAndFire method when these are gotten
-//        viewModel.availableScenarios.bindAndFire { [unowned self] in self.availableScenarios = $0 }
-//        viewModel.completedScenarios.bindAndFire { [unowned self] in self.completedScenarios = $0 }
-//        viewModel.campaign.bindAndFire { [unowned self] in self.selectedCampaign = $0 }
     }
     // Implement delegate methods for ScenarioPickerViewController
     @objc func scenarioPickerViewControllerDidCancel(sender: UIBarButtonItem) {
@@ -595,10 +591,12 @@ extension ScenarioViewController: UITableViewDataSource, UITableViewDelegate {
         configureGoalText(for: cell, with: scenario.summary)
         configureRowIcon(for: ((cell as? ScenarioMainCell)!), with: scenario)
         
-        cell.backgroundView = UIImageView(image: UIImage(named: scenario.mainCellBGImage))
+        //cell.backgroundView = UIImageView(image: UIImage(named: scenario.mainCellBGImage))
         cell.backgroundView?.alpha = 0.25
-        cell.selectedBackgroundView = UIImageView(image: UIImage(named: scenario.mainCellBGImage))
-        cell.selectedBackgroundView?.alpha = 0.65
+        cell.backgroundColor = UIColor.clear
+        cell.selectionStyle = .none
+        //cell.selectedBackgroundView = UIImageView(image: UIImage(named: scenario.mainCellBGImage))
+        //cell.selectedBackgroundView?.alpha = 0.65
         
         return cell as! ScenarioMainCell
         

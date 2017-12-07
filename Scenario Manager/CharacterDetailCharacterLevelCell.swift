@@ -19,7 +19,6 @@ class CharacterDetailCharacterLevelCell: UITableViewCell {
     
     @IBAction func modifyLevelAction(_ sender: Any) {
         let value = Int(myStepperOutlet.value)
-        print("In cell, steppervalue is: \(value)")
         delegate?.incrementCharacterLevel(value: value)
         myStepperOutlet.value = 0
     }
