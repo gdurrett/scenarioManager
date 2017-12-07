@@ -66,6 +66,8 @@
 		FB5DDF681F8C3A6200CAA684 /* CampaignDetailEventsHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5DDF671F8C3A6200CAA684 /* CampaignDetailEventsHeader.swift */; };
 		FB70AF001FCE230000CAA684 /* CreateCampaignCharacterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB70AEFF1FCE230000CAA684 /* CreateCampaignCharacterCell.swift */; };
 		FB70AF021FCE235600CAA684 /* CreateCampaignCharacterCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB70AF011FCE235600CAA684 /* CreateCampaignCharacterCell.xib */; };
+		FB7586BE1FD9CB8D00CAA684 /* CharacterDetailCharacterGoalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB7586BC1FD9CB8D00CAA684 /* CharacterDetailCharacterGoalCell.swift */; };
+		FB7586C11FD9F2B100CAA684 /* CharacterDetailCharacterGoalCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB7586C01FD9F2B100CAA684 /* CharacterDetailCharacterGoalCell.xib */; };
 		FB7A89BA1F83FF5600CAA684 /* CreateCampaignPartyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB7A89B91F83FF5600CAA684 /* CreateCampaignPartyCell.xib */; };
 		FB7A89BC1F83FF8F00CAA684 /* CreateCampaignPartyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB7A89BB1F83FF8F00CAA684 /* CreateCampaignPartyCell.swift */; };
 		FB884F861F9E4D9300CAA684 /* PartyDetailNameCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB884F851F9E4D9300CAA684 /* PartyDetailNameCell.xib */; };
@@ -191,6 +193,8 @@
 		FB65F5171F4F365800CAA684 /* Scenario Manager.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Scenario Manager.entitlements"; sourceTree = "<group>"; };
 		FB70AEFF1FCE230000CAA684 /* CreateCampaignCharacterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCampaignCharacterCell.swift; sourceTree = "<group>"; };
 		FB70AF011FCE235600CAA684 /* CreateCampaignCharacterCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CreateCampaignCharacterCell.xib; sourceTree = "<group>"; };
+		FB7586BC1FD9CB8D00CAA684 /* CharacterDetailCharacterGoalCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterDetailCharacterGoalCell.swift; sourceTree = "<group>"; };
+		FB7586C01FD9F2B100CAA684 /* CharacterDetailCharacterGoalCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CharacterDetailCharacterGoalCell.xib; sourceTree = "<group>"; };
 		FB7A89B91F83FF5600CAA684 /* CreateCampaignPartyCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CreateCampaignPartyCell.xib; sourceTree = "<group>"; };
 		FB7A89BB1F83FF8F00CAA684 /* CreateCampaignPartyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCampaignPartyCell.swift; sourceTree = "<group>"; };
 		FB884F851F9E4D9300CAA684 /* PartyDetailNameCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PartyDetailNameCell.xib; sourceTree = "<group>"; };
@@ -475,6 +479,8 @@
 				FB8D4F611FB11CCF00CAA684 /* CharacterDetailAssignedPartyCell.xib */,
 				FB10A4481FB3CF2700CAA684 /* CharacterDetailPlayedScenarioCell.xib */,
 				FB10A44A1FB3CF7A00CAA684 /* CharacterDetailPlayedScenarioCell.swift */,
+				FB7586BC1FD9CB8D00CAA684 /* CharacterDetailCharacterGoalCell.swift */,
+				FB7586C01FD9F2B100CAA684 /* CharacterDetailCharacterGoalCell.xib */,
 			);
 			name = CharacterDetailTableViewCells;
 			sourceTree = "<group>";
@@ -669,6 +675,7 @@
 				FB5729CA1F6F1B5F00CAA684 /* CampaignDetailAchievementsCell.xib in Resources */,
 				FB2237D81F8190E600CAA684 /* SelectCampaignTitleCell.xib in Resources */,
 				FB5729C01F6C73B900CAA684 /* CampaignDetailTitleCell.xib in Resources */,
+				FB7586C11FD9F2B100CAA684 /* CharacterDetailCharacterGoalCell.xib in Resources */,
 				FB10A4521FB4F9FC00CAA684 /* CreateCharacterCharacterNameCell.xib in Resources */,
 				FBA014191F9E80D900CAA684 /* PartyDetailReputationCell.xib in Resources */,
 				FB5DDF661F8C35CF00CAA684 /* CampaignDetailEventsHeader.xib in Resources */,
@@ -755,6 +762,7 @@
 				FB4665851F2E5C0700CAA684 /* RewardsInfoCell.swift in Sources */,
 				FB2237DA1F81916B00CAA684 /* SelectCampaignTitleCell.swift in Sources */,
 				FB8D4F5E1FB0E09E00CAA684 /* CharacterDetailViewModel.swift in Sources */,
+				FB7586BE1FD9CB8D00CAA684 /* CharacterDetailCharacterGoalCell.swift in Sources */,
 				FB884F881F9E4F0500CAA684 /* PartyDetailNameCell.swift in Sources */,
 				FB23B6EA1F044CFC00CAA684 /* AppDelegate.swift in Sources */,
 				FB2237D51F816B5500CAA684 /* SelectCampaignViewController.swift in Sources */,

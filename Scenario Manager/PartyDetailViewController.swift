@@ -209,7 +209,6 @@ extension PartyDetailViewController: UITableViewDelegate {
         createPartyVC.viewModel = createPartyVCViewModel
         createPartyVC.delegate = createPartyVCViewModel
         createPartyVC.hidesBottomBarWhenPushed = true
-        //self.navigationController!.present(createPartyVC, animated: true, completion: nil)
         self.present(navCon, animated: true, completion: nil)
     }
     @objc fileprivate func showNoCharactersAlert() {
@@ -294,4 +293,3 @@ extension PartyDetailViewController: CampaignDetailPartyUpdaterDelegate {
         }
     }
 }
-

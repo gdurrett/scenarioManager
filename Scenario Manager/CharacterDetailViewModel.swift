@@ -13,6 +13,7 @@ enum CharacterDetailViewModelItemType {
     case characterName
     case characterLevel
     case characterType
+    case characterGoal
     case assignedParty
     case scenarioHistory
 }
@@ -47,7 +48,7 @@ class CharacterDetailViewModel: NSObject {
     // Calls back to VC to refresh
     var reloadSection: ((_ section: Int) -> Void)?
     
-    // For CharacterDetailVC picker delegate
+    // For CreateCharacterDetailVC picker delegate
     var characterTypePickerDidPick = false
     var characterTypePickerData = ["Beast Tyrant", "Berserker", "Brute", "Cragheart", "Doomstalker", "Elementalist", "Mindthief", "Nightshroud", "Plagueherald", "Quartermaster", "Sawbone", "Scoundrel", "Spellweaver", "Soothsinger", "Summoner", "Sunkeeper", "Tinkerer"]
     var selectedCharacterType = String()
@@ -86,6 +87,9 @@ class CharacterDetailViewModel: NSObject {
         // Append character type to items
         let characterTypeItem = CharacterDetailViewModelCharacterTypeItem(characterType: character.type)
         items.append(characterTypeItem)
+        // Append character goal to items
+        let characterGoalItem = CharacterDetailViewModelCharacterGoalItem(characterGoal: character.goal)
+        items.append(characterGoalItem)
         // Append assigned party to items
         let assignedParty = CharacterDetailViewModelAssignedPartyItem(partyName: character.assignedTo!)
         items.append(assignedParty)
@@ -127,7 +131,7 @@ class CharacterDetailViewModel: NSObject {
         dataModel.saveCampaignsLocally()
     }
 }
-extension CharacterDetailViewModel: UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, CharacterDetailCharacterLevelCellDelegate, CharacterDetailViewControllerPickerDelegate {
+extension CharacterDetailViewModel: UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, CharacterDetailCharacterLevelCellDelegate {
 
     func numberOfSections(in tableView: UITableView) -> Int {
         return self.items.count
@@ -190,6 +194,14 @@ extension CharacterDetailViewModel: UITableViewDataSource, UITableViewDelegate, 
                 cell.item = item
                 return cell
             }
+        case .characterGoal:
+            if let item = item as? CharacterDetailViewModelCharacterGoalItem, let cell = tableView.dequeueReusableCell(withIdentifier: CharacterDetailCharacterGoalCell.identifier, for: indexPath) as? CharacterDetailCharacterGoalCell {
+                cell.backgroundColor = UIColor.clear
+                cell.selectionStyle = .none
+                item.characterGoal = character.goal
+                cell.item = item
+                return cell
+            }
         case .assignedParty:
             if let item = item as? CharacterDetailViewModelAssignedPartyItem, let cell = tableView.dequeueReusableCell(withIdentifier: CharacterDetailAssignedPartyCell.identifier, for: indexPath) as? CharacterDetailAssignedPartyCell {
                 cell.backgroundColor = UIColor.clear
@@ -228,6 +240,8 @@ extension CharacterDetailViewModel: UITableViewDataSource, UITableViewDelegate, 
             button.addTarget(self, action: #selector(self.showUIStepperInCharacterLevelCell(_:)), for: .touchUpInside)
             header.addSubview(button)
         case .characterType:
+            break
+        case .characterGoal:
             break
         case .assignedParty:
             break
@@ -292,46 +306,8 @@ extension CharacterDetailViewModel: UITableViewDataSource, UITableViewDelegate, 
         self.updateCharacterLevel()
         dataModel.saveCampaignsLocally()
     }
-    // Delegate method and property for Character Detail VC picker
-    func setCharacterType() {
-        if characterTypePickerDidPick == false {
-            self.character.type = self.characterTypePickerData[0]
-        } else {
-            characterTypePickerDidPick = true
-            self.character.type = selectedCharacterType
-        }
-        self.reloadSection?(2)
-        self.dataModel.saveCampaignsLocally()
-    }
 }
-extension CharacterDetailViewModel: UIPickerViewDelegate, UIPickerViewDataSource {
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return characterTypePickerData.count
-    }
-    
-    // Get picker selection
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        characterTypePickerDidPick = true
-        selectedCharacterType = characterTypePickerData[row]
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView{
-        var label = view as! UILabel!
-        if label == nil {
-            label = UILabel()
-        }
-        label?.font = UIFont(name: "Nyala", size: 24)!
-        label?.textAlignment = .center
-            label?.text =  ("\(characterTypePickerData[row])")
-        
-        return label!
-    }
-}
-extension CharacterDetailViewModel: CreateCharacterViewModelDelegate {    
+extension CharacterDetailViewModel: CreateCharacterViewModelDelegate {
     func setCurrentCharacter(character: Character) {
         self.character = character
     }
@@ -428,6 +404,26 @@ class CharacterDetailViewModelCharacterTypeItem: CharacterDetailViewModelItem {
     
     init(characterType: String) {
         self.characterType = characterType
+    }
+}
+class CharacterDetailViewModelCharacterGoalItem: CharacterDetailViewModelItem {
+    
+    var type: CharacterDetailViewModelItemType {
+        return .characterGoal
+    }
+    
+    var sectionTitle: String {
+        return "Character Goal"
+    }
+    
+    var rowCount: Int {
+        return 1
+    }
+    
+    var characterGoal: String
+    
+    init(characterGoal: String) {
+        self.characterGoal = characterGoal
     }
 }
 class CharacterDetailViewModelAssignedPartyItem: CharacterDetailViewModelItem {

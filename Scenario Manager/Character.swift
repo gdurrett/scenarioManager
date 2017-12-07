@@ -11,7 +11,7 @@ import Foundation
 class Character: NSObject, NSCoding {
     
     var name: String
-    var race: String
+    var goal: String
     var type: String
     var level: Double
     var isActive: Bool
@@ -19,9 +19,9 @@ class Character: NSObject, NSCoding {
     var assignedTo: String?
     var playedScenarios: [String]?
     
-    init(name: String, race: String, type: String, level: Double, isActive: Bool, isRetired: Bool, assignedTo: String, playedScenarios: [String]) {
+    init(name: String, goal: String, type: String, level: Double, isActive: Bool, isRetired: Bool, assignedTo: String, playedScenarios: [String]) {
         self.name = name
-        self.race = race
+        self.goal = goal
         self.type = type
         self.level = level
         self.isActive = isActive
@@ -32,7 +32,7 @@ class Character: NSObject, NSCoding {
     
     required init?(coder aDecoder: NSCoder) {
         name = aDecoder.decodeObject(forKey: "Name") as! String
-        race = aDecoder.decodeObject(forKey: "Race") as! String
+        goal = aDecoder.decodeObject(forKey: "Goal") as! String
         type = aDecoder.decodeObject(forKey: "Type") as! String
         level = aDecoder.decodeDouble(forKey: "Level")
         isActive = aDecoder.decodeBool(forKey: "IsActive")
@@ -43,7 +43,7 @@ class Character: NSObject, NSCoding {
     
     func encode(with aCoder: NSCoder) {
         aCoder.encode(name, forKey: "Name")
-        aCoder.encode(race, forKey: "Race")
+        aCoder.encode(goal, forKey: "Goal")
         aCoder.encode(type, forKey: "Type")
         aCoder.encode(level, forKey: "Level")
         aCoder.encode(isActive, forKey: "IsActive")

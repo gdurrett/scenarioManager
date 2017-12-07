@@ -30,6 +30,11 @@ class CharacterDetailViewController: UIViewController {
     var characterTypePickerData = [String]()
     var characterTypePickerInputView = UIView()
     var characterTypePickerDummyTextField = UITextField()
+    // For characterGoalPicker
+    var characterGoalPicker = UIPickerView()
+    var characterGoalPickerData = [String]()
+    var characterGoalPickerInputView = UIView()
+    var characterGoalPickerDummyTextField = UITextField()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,8 +45,6 @@ class CharacterDetailViewController: UIViewController {
         
         characterDetailTableView?.dataSource = viewModel
         characterDetailTableView?.delegate = viewModel
-        characterTypePicker.delegate = viewModel
-        characterTypePicker.dataSource = viewModel
         
         characterDetailTableView.separatorInset = .zero
         
@@ -51,7 +54,8 @@ class CharacterDetailViewController: UIViewController {
         characterDetailTableView?.register(CharacterDetailCharacterTypeCell.nib, forCellReuseIdentifier: CharacterDetailCharacterTypeCell.identifier)
         characterDetailTableView?.register(CharacterDetailAssignedPartyCell.nib, forCellReuseIdentifier: CharacterDetailAssignedPartyCell.identifier)
         characterDetailTableView?.register(CharacterDetailPlayedScenarioCell.nib, forCellReuseIdentifier: CharacterDetailPlayedScenarioCell.identifier)
-
+        characterDetailTableView?.register(CharacterDetailCharacterGoalCell.nib, forCellReuseIdentifier: CharacterDetailCharacterGoalCell.identifier)
+        
         styleUI()
         
     }
@@ -121,53 +125,5 @@ class CharacterDetailViewController: UIViewController {
         alertView.view.tintColor = colorDefinitions.scenarioAlertViewTintColor
         alertView.addAction(action)
         present(alertView, animated: true, completion: nil)
-    }
-    // Called via notification
-    @objc func showCharacterTypePicker() {
-        characterTypePicker.tag = 10
-        characterTypePicker.layer.cornerRadius = 10
-        characterTypePicker.layer.masksToBounds = true
-        characterTypePicker.backgroundColor = UIColor.white.withAlphaComponent(0.9)
-        characterTypePicker.showsSelectionIndicator = true
-        
-        // Try to set up toolbar
-        let toolBar = UIToolbar.init(frame: CGRect(x: 0, y: 0, width: self.view.frame.width - 40, height: 44))
-        toolBar.barStyle = UIBarStyle.default
-        toolBar.layer.cornerRadius = 10
-        toolBar.layer.masksToBounds = true
-        toolBar.tintColor = colorDefinitions.scenarioTitleFontColor
-        toolBar.barTintColor = colorDefinitions.scenarioSwipeFontColor
-        
-        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.plain, target: self, action: #selector(setCharacterType))
-        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
-        let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.plain, target: self, action: #selector(characterTypePickerDidTapCancel))
-        doneButton.setTitleTextAttributes([.font: UIFont(name: "Nyala", size: 24.0)!, .foregroundColor: colorDefinitions.mainTextColor], for: .normal)
-        cancelButton.setTitleTextAttributes([.font: UIFont(name: "Nyala", size: 24.0)!, .foregroundColor: colorDefinitions.mainTextColor], for: .normal)
-        toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
-        toolBar.isUserInteractionEnabled = true
-        
-        characterTypePicker.reloadAllComponents()
-        characterTypePicker.addSubview(toolBar)
-        characterTypePickerInputView = UIView.init(frame: CGRect(x: 20, y: 310, width: self.view.frame.width - 40, height: characterTypePicker.frame.size.height + 44))
-        characterTypePicker.frame = CGRect(x: 0, y: 0, width: characterTypePickerInputView.frame.width, height: 200)
-        characterTypePicker.selectRow(0, inComponent: 0, animated: true) // Set to first row
-        pickerDelegate?.characterTypePickerDidPick = false // Reset this after initial selection setting
-        characterTypePickerInputView.addSubview(characterTypePicker)
-        characterTypePickerInputView.addSubview(toolBar)
-        characterTypePickerDummyTextField.inputView = characterTypePickerInputView
-        characterTypePickerDummyTextField.isHidden = true
-        self.view.addSubview(characterTypePickerDummyTextField)
-        self.view.addSubview(characterTypePickerInputView)
-    }
-    @objc func setCharacterType() {
-        pickerDelegate.setCharacterType()
-        self.characterTypePickerInputView.removeFromSuperview()
-        self.characterTypePicker.removeFromSuperview()
-        characterTypePickerData.removeAll()
-    }
-    @objc func characterTypePickerDidTapCancel() {
-        self.characterTypePickerInputView.removeFromSuperview()
-        self.characterTypePicker.removeFromSuperview()
-        characterTypePickerData.removeAll()
     }
 }

@@ -120,8 +120,8 @@ class DataModel {
             } else {
                 if self.campaigns["MyCampaign"] == nil {
                     createDefaultCampaign()
-                    print("Creating default characters")
-                    createDefaultCharacters()
+                    //print("Creating default characters")
+                    //createDefaultCharacters()
                 }
                 return campaigns["MyCampaign"]!
             }
@@ -2010,8 +2010,8 @@ class DataModel {
                 } else { // No cloud schema, no local plist -> create new default campaign
                     // Need to make sure it's not that we just can't contact the container (due to authentication issues, e.g.) If that's the case, we need to give user a way to try again before overwriting Cloud
                     print("Attempting to create CK Schema")
-                    self.createCampaign(title: "MyCampaign", isCurrent: true, parties: [self.createDefaultParty()])
-                    self.createDefaultCharacters()
+                    //self.createCampaign(title: "MyCampaign", isCurrent: true, parties: [self.createDefaultParty()])
+                    //self.createDefaultCharacters()
                     self.saveCampaignsLocally()
                     self.updateCampaignRecords()
                 }
@@ -3614,12 +3614,12 @@ class DataModel {
         createParty(name: "MyParty", characters: [], location: "Gloomhaven", achievements: [:], reputation: 0, isCurrent: true, assignedTo: "MyCampaign")
         return self.parties["MyParty"]!
     }
-    func createDefaultCharacters() {
-        characters["Character1"] = Character(name: "Character1", race: "Vermling", type: "Mindthief", level: 1, isActive: true, isRetired: false, assignedTo: "MyParty", playedScenarios: ["None"])
-        characters["Character2"] = Character(name: "Character2", race: "Inox", type: "Brute", level: 1, isActive: true, isRetired: false, assignedTo: "MyParty", playedScenarios: ["None"])
-        characters["Character3"] = Character(name: "Character3", race: "Savvas", type: "Cragheart", level: 1, isActive: true, isRetired: false, assignedTo: "MyParty", playedScenarios: ["None"])
-        characters["Character4"] = Character(name: "Character4", race: "Orchid", type: "Spellweaver", level: 1, isActive: true, isRetired: false, assignedTo: "MyParty", playedScenarios: ["None"])
-    }
+//    func createDefaultCharacters() {
+//        characters["Character1"] = Character(name: "Character1", race: "Vermling", type: "Mindthief", level: 1, isActive: true, isRetired: false, assignedTo: "MyParty", playedScenarios: ["None"])
+//        characters["Character2"] = Character(name: "Character2", race: "Inox", type: "Brute", level: 1, isActive: true, isRetired: false, assignedTo: "MyParty", playedScenarios: ["None"])
+//        characters["Character3"] = Character(name: "Character3", race: "Savvas", type: "Cragheart", level: 1, isActive: true, isRetired: false, assignedTo: "MyParty", playedScenarios: ["None"])
+//        characters["Character4"] = Character(name: "Character4", race: "Orchid", type: "Spellweaver", level: 1, isActive: true, isRetired: false, assignedTo: "MyParty", playedScenarios: ["None"])
+//    }
     func resetAll() {
         for scenario in allScenarios {
             if scenario.number == "1" {

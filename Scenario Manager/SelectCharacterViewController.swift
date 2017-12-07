@@ -259,13 +259,13 @@ extension SelectCharacterViewController: UITableViewDataSource, UITableViewDeleg
             character = viewModel!.activeCharacters.value[indexPath.row]
         case 1:
             if viewModel!.inactiveCharacters.value.count == 0 {
-                character = Character(name: "No inactive characters", race: "None", type: "None", level: 0, isActive: true, isRetired: true, assignedTo: "None", playedScenarios: ["None"])
+                character = Character(name: "No inactive characters", goal: "None", type: "None", level: 0, isActive: true, isRetired: true, assignedTo: "None", playedScenarios: ["None"])
             } else {
                 character = viewModel!.inactiveCharacters.value[indexPath.row]
             }
         case 2:
             if viewModel!.retiredCharacters.value.count == 0 {
-                character = Character(name: "No retired characters", race: "None", type: "None", level: 0, isActive: true, isRetired: true, assignedTo: "None", playedScenarios: ["None"])
+                character = Character(name: "No retired characters", goal: "None", type: "None", level: 0, isActive: true, isRetired: true, assignedTo: "None", playedScenarios: ["None"])
             } else {
                 character = viewModel!.retiredCharacters.value[indexPath.row]
             }
@@ -284,7 +284,7 @@ extension SelectCharacterViewController: UITableViewDataSource, UITableViewDeleg
             let destinationVC = segue.destination as! CharacterDetailViewController
             let viewModel = CharacterDetailViewModel(withCharacter: character)
             destinationVC.viewModel = viewModel
-            destinationVC.pickerDelegate = viewModel
+            //destinationVC.pickerDelegate = viewModel
         }
     }
     // didSelect triggers segue (Show Character Detail when cell is tapped)
