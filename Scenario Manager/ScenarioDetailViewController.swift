@@ -112,25 +112,24 @@ extension ScenarioDetailViewController: UITableViewDataSource, UITableViewDelega
             }
         case .unlocksInfo:
             if let item = item as? ScenarioDetailViewModelUnlocksInfoItem, let cell = tableView.dequeueReusableCell(withIdentifier: UnlocksInfoCell.identifier, for: indexPath) as? UnlocksInfoCell {
-                //cell.backgroundColor = cellBGColor
                 let unlock = item.unlocks[indexPath.row]
                 cell.backgroundColor = UIColor.clear
+                cell.selectionStyle = .none
                 cell.separatorInset = .zero
                 cell.item = unlock
                 return cell
             }
         case .unlockedByInfo:
             if let item = item as? ScenarioDetailViewModelUnlockedByInfoItem, let cell = tableView.dequeueReusableCell(withIdentifier: UnlockedByInfoCell.identifier, for: indexPath) as? UnlockedByInfoCell {
-                //cell.backgroundColor = cellBGColor
                 let unlockedBy = item.unlockedBys[indexPath.row]
                 cell.backgroundColor = UIColor.clear
+                cell.selectionStyle = .none
                 cell.separatorInset = .zero
                 cell.item = unlockedBy
                 return cell
             }
         case .requirementsInfo:
             if let item = item as? ScenarioDetailViewModelRequirementsInfoItem, let cell = tableView.dequeueReusableCell(withIdentifier: RequirementsInfoCell.identifier, for: indexPath) as? RequirementsInfoCell {
-                //cell.backgroundColor = cellBGColor
                 let requirement = item.requirements[indexPath.row]
                 cell.backgroundColor = UIColor.clear
                 cell.separatorInset = .zero
@@ -142,7 +141,6 @@ extension ScenarioDetailViewController: UITableViewDataSource, UITableViewDelega
             }
         case .rewardsInfo:
             if let item = item as? ScenarioDetailViewModelRewardsInfoItem, let cell = tableView.dequeueReusableCell(withIdentifier: RewardsInfoCell.identifier, for: indexPath) as? RewardsInfoCell {
-                //cell.backgroundColor = cellBGColor
                 let reward = item.rewards[indexPath.row]
                 cell.backgroundColor = UIColor.clear
                 cell.separatorInset = .zero
@@ -153,7 +151,6 @@ extension ScenarioDetailViewController: UITableViewDataSource, UITableViewDelega
         case .achievesInfo:
             if let item = item as? ScenarioDetailViewModelAchievesInfoItem,
                 let cell = tableView.dequeueReusableCell(withIdentifier: AchievesInfoCell.identifier, for: indexPath) as? AchievesInfoCell {
-                //cell.backgroundColor = cellBGColor
                 let achieve = item.achieves[indexPath.row]
                 cell.backgroundColor = UIColor.clear
                 cell.separatorInset = .zero
@@ -163,7 +160,6 @@ extension ScenarioDetailViewController: UITableViewDataSource, UITableViewDelega
             }
         case .scenarioSummary:
             if let cell = tableView.dequeueReusableCell(withIdentifier: SummaryInfoCell.identifier, for: indexPath) as? SummaryInfoCell {
-                //cell.backgroundColor = cellBGColor
                 cell.selectionStyle = UITableViewCellSelectionStyle.none
                 cell.item = item
                 cell.backgroundColor = UIColor.clear

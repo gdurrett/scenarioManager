@@ -231,7 +231,6 @@ extension CreateCampaignViewModelFromModel: CreateCampaignViewControllerDelegate
                     delegate?.performSegue(withIdentifier: "showTabBarVC", sender: self)
                 } else {
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "updateAfterNewCampaignSelected"), object: nil)
-                    //reloadSection!(3)
                     controller.dismiss(animated: true, completion: nil)
                 }
             }

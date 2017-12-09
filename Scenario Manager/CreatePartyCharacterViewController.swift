@@ -85,7 +85,6 @@ class CreatePartyCharacterViewController: UIViewController, CreatePartyCharacter
         self.createPartyCharacterTableView.backgroundColor = colorDefinitions.scenarioTableViewNavBarBarTintColor
         self.createPartyCharacterTableView.backgroundView = UIImageView(image: UIImage(named: "campaignDetailTableViewBG"))
         self.createPartyCharacterTableView.backgroundView?.alpha = 0.25
-        //self.createPartyTableView.separatorInset = .zero // Get rid of offset to left for tableview!
         self.createPartyCharacterTableView.separatorStyle = .none
         let rightBarButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(self.save(_:)))
         self.navigationItem.rightBarButtonItem = rightBarButton

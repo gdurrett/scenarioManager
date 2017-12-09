@@ -344,8 +344,8 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t2c-jb-KB3">
-                                <rect key="frame" x="16" y="27" width="54" height="33"/>
-                                <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="22"/>
+                                <rect key="frame" x="16" y="27" width="59" height="33"/>
+                                <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="24"/>
                                 <state key="normal" title="Cancel">
                                     <color key="titleColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 </state>
@@ -354,8 +354,8 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nfA-kS-lGr">
-                                <rect key="frame" x="268" y="27" width="36" height="33"/>
-                                <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="22"/>
+                                <rect key="frame" x="265" y="27" width="39" height="33"/>
+                                <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="24"/>
                                 <state key="normal" title="Save">
                                     <color key="titleColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 </state>
@@ -470,8 +470,8 @@
                                 <color key="tintColor" red="0.40769001840000002" green="0.34999006989999998" blue="0.27851516009999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lkG-hU-Kgv">
-                                <rect key="frame" x="16" y="21" width="54" height="33"/>
-                                <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="22"/>
+                                <rect key="frame" x="16" y="22" width="59" height="35"/>
+                                <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="24"/>
                                 <state key="normal" title="Cancel">
                                     <color key="titleColor" red="0.24919084820000001" green="0.1929752334" blue="0.1351535955" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
@@ -486,8 +486,8 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nac-Cx-q5T">
-                                <rect key="frame" x="261" y="21" width="43" height="33"/>
-                                <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="22"/>
+                                <rect key="frame" x="257" y="21" width="47" height="35"/>
+                                <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="24"/>
                                 <state key="normal" title="Done">
                                     <color key="titleColor" red="0.2452870207" green="0.18995208050000001" blue="0.13303627730000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 </state>
@@ -747,8 +747,8 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1O2-93-8pB">
-                                <rect key="frame" x="16" y="24" width="54" height="34"/>
-                                <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="22"/>
+                                <rect key="frame" x="16" y="24" width="59" height="34"/>
+                                <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="24"/>
                                 <state key="normal" title="Cancel">
                                     <color key="titleColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 </state>
@@ -757,8 +757,8 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jas-3F-Y6R">
-                                <rect key="frame" x="262" y="25" width="43" height="33"/>
-                                <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="22"/>
+                                <rect key="frame" x="258" y="25" width="47" height="33"/>
+                                <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="24"/>
                                 <state key="normal" title="Done">
                                     <color key="titleColor" red="0.18834416570000001" green="0.18834488090000001" blue="0.18834643070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 </state>

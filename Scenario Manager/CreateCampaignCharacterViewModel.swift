@@ -108,7 +108,7 @@ class CreateCampaignCharacterViewModel: NSObject {
             return tempDefaultGoals.symmetricDifference(tempSelectedGoals)
         }
     }
-    var characterGoalPickerDataDefaults = ["A Helping Hand", "A Study of Anatomy", "Aberrant Slayer", "Augmented Abilities", "Battle Legend", "Elemental Samples", "Eternal Wanderer", "Fearess Stand", "Finding the Cure", "Goliath Toppler", "Greed is Good", "Implement of Light", "Law Bringer", "Merchant Class", "Piety in All Things", "Pounds of Flesh", "Seeker of Xorn", "Take Back the Trees", "The Fall of Man", "The Perfect Poison", "The Thin Places", "Trophy Hunt", "Vengeance", "Zealot of the Blood God" ]
+    var characterGoalPickerDataDefaults = ["A Helping Hand", "A Study of Anatomy", "Aberrant Slayer", "Augmented Abilities", "Battle Legend", "Elemental Samples", "Eternal Wanderer", "Fearess Stand", "Finding the Cure", "Goliath Toppler", "Greed is Good", "Implement of Light", "Law Bringer", "Merchant Class", "Piety in All Things", "Pounds of Flesh", "Seeker of Xorn", "Take Back the Trees", "The Fall of Man", "The Perfect Poison", "The Thin Places", "Trophy Hunt", "Vengeance", "Zealot of the Blood God"]
     
     var selectedCharacterGoal = String()
     

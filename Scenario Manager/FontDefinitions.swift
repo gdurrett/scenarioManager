@@ -22,7 +22,7 @@ class FontDefinitions {
     }
     var detailTableViewNonTitleFont: UIFont {
         get {
-            return UIFont(name: "Nyala", size: 22)!
+            return UIFont(name: "Nyala", size: 24)!
         }
     }
     var detailTableViewHeaderFont: UIFont {

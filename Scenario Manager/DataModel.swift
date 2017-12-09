@@ -56,11 +56,6 @@ class DataModel {
             return currentParty.achievements.filter { $0.value != false && $0.key != "None" && $0.key != "OR" }
         }
     }
-//    var currentPartyAchievements: [String:Bool] {
-//        get {
-//            return currentParty.achievements
-//        }
-//    }
     var assignedParties: [Party]? {
         get {
             var tempParties = [Party]()
@@ -116,12 +111,14 @@ class DataModel {
             let filtered = campaigns.filter { pair in pair.value.isCurrent == true }
             
             if let myCampaign = filtered.values.first {
+                // Remove unneeded MyCampaign
+                if self.campaigns["MyCampaign"] != nil {
+                    self.campaigns.removeValue(forKey: "MyCampaign")
+                }
                 return myCampaign
             } else {
                 if self.campaigns["MyCampaign"] == nil {
                     createDefaultCampaign()
-                    //print("Creating default characters")
-                    //createDefaultCharacters()
                 }
                 return campaigns["MyCampaign"]!
             }
@@ -3607,19 +3604,12 @@ class DataModel {
         return newEvents
     }
     func createDefaultCampaign() {
-        //createCampaign(title: "MyCampaign", isCurrent: true, parties: [parties["MyParty"]!])
         createCampaign(title: "MyCampaign", isCurrent: true, parties: [createDefaultParty()])
     }
     func createDefaultParty() -> Party {
         createParty(name: "MyParty", characters: [], location: "Gloomhaven", achievements: [:], reputation: 0, isCurrent: true, assignedTo: "MyCampaign")
         return self.parties["MyParty"]!
     }
-//    func createDefaultCharacters() {
-//        characters["Character1"] = Character(name: "Character1", race: "Vermling", type: "Mindthief", level: 1, isActive: true, isRetired: false, assignedTo: "MyParty", playedScenarios: ["None"])
-//        characters["Character2"] = Character(name: "Character2", race: "Inox", type: "Brute", level: 1, isActive: true, isRetired: false, assignedTo: "MyParty", playedScenarios: ["None"])
-//        characters["Character3"] = Character(name: "Character3", race: "Savvas", type: "Cragheart", level: 1, isActive: true, isRetired: false, assignedTo: "MyParty", playedScenarios: ["None"])
-//        characters["Character4"] = Character(name: "Character4", race: "Orchid", type: "Spellweaver", level: 1, isActive: true, isRetired: false, assignedTo: "MyParty", playedScenarios: ["None"])
-//    }
     func resetAll() {
         for scenario in allScenarios {
             if scenario.number == "1" {
