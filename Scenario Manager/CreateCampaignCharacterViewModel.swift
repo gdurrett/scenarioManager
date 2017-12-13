@@ -80,7 +80,11 @@ class CreateCampaignCharacterViewModel: NSObject {
             }
         }
     }
-    var characterTypePickerDataDefaults = ["Beast Tyrant", "Berserker", "Brute", "Cragheart", "Doomstalker", "Elementalist", "Mindthief", "Nightshroud", "Plagueherald", "Quartermaster", "Sawbone", "Scoundrel", "Spellweaver", "Soothsinger", "Summoner", "Sunkeeper", "Tinkerer"]
+    var characterTypePickerDataDefaults: [String] {
+        get {
+            return dataModel.availableCharacterTypes
+        }
+    }
     
     var selectedCharacterType = String()
     
@@ -88,12 +92,12 @@ class CreateCampaignCharacterViewModel: NSObject {
     // For CharacterCharacterDetailVC picker delegate
     var selectedCharacterGoals: [String] {
         get {
-            var tempTypes = [String]()
-            if dataModel.assignedCharacters.isEmpty != true {
-                for char in dataModel.assignedCharacters {
-                    tempTypes.append(char.goal)
+            var tempGoals = [String]()
+            if dataModel.newCharacters.isEmpty != true {
+                for char in dataModel.newCharacters {
+                    tempGoals.append(char.value.goal)
                 }
-                return tempTypes
+                return tempGoals
             } else {
                 return [""]
             }

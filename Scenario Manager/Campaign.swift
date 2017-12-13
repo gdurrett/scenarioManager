@@ -22,8 +22,9 @@ class Campaign: NSObject, NSCoding {
     var isCompleted: [Bool]
     var isCurrent: Bool
     var ancientTechCount: Int
+    var availableCharacterTypes: [String:Bool]
     
-    init(title: String, parties: [Party], achievements: [String:Bool], prosperityCount: Int, sanctuaryDonations: Int, events: [Event], isUnlocked: [Bool], requirementsMet: [Bool], isCompleted: [Bool], isCurrent: Bool, ancientTechCount: Int) {
+    init(title: String, parties: [Party], achievements: [String:Bool], prosperityCount: Int, sanctuaryDonations: Int, events: [Event], isUnlocked: [Bool], requirementsMet: [Bool], isCompleted: [Bool], isCurrent: Bool, ancientTechCount: Int, availableCharacterTypes: [String:Bool]) {
         self.title = title
         self.parties = parties
         self.achievements = achievements
@@ -35,6 +36,7 @@ class Campaign: NSObject, NSCoding {
         self.isCompleted = isCompleted
         self.isCurrent = isCurrent
         self.ancientTechCount = ancientTechCount
+        self.availableCharacterTypes = availableCharacterTypes
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -49,6 +51,7 @@ class Campaign: NSObject, NSCoding {
         isCompleted = aDecoder.decodeObject(forKey: "IsCompleted") as! [Bool]
         isCurrent = aDecoder.decodeBool(forKey: "IsCurrent")
         ancientTechCount = aDecoder.decodeInteger(forKey: "AncientTechCount")
+        availableCharacterTypes = aDecoder.decodeObject(forKey: "AvailableCharacterTypes") as! [String:Bool]
         super.init()
     }
     
@@ -64,5 +67,6 @@ class Campaign: NSObject, NSCoding {
         aCoder.encode(isCompleted, forKey: "IsCompleted")
         aCoder.encode(isCurrent, forKey: "IsCurrent")
         aCoder.encode(ancientTechCount, forKey: "AncientTechCount")
+        aCoder.encode(availableCharacterTypes, forKey: "AvailableCharacterTypes")
     }
 }

@@ -42,7 +42,7 @@ struct CreateCampaignCreateCharacterCellViewModel {
 class CreateCampaignViewModelFromModel: NSObject {
     
     let dataModel: DataModel
-    var newCampaign = Campaign(title: "", parties: [], achievements: [:], prosperityCount: 0, sanctuaryDonations: 0, events: [], isUnlocked: [], requirementsMet: [], isCompleted: [], isCurrent: true, ancientTechCount: 0)
+    var newCampaign = Campaign(title: "", parties: [], achievements: [:], prosperityCount: 0, sanctuaryDonations: 0, events: [], isUnlocked: [], requirementsMet: [], isCompleted: [], isCurrent: true, ancientTechCount: 0, availableCharacterTypes: [:])
     var parties = [String:Party]()
     var titleCell: CreateCampaignTitleCell?
     var newCampaignTitle: String?

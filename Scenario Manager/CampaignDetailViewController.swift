@@ -11,8 +11,10 @@ import UIKit
 protocol CampaignDetailViewControllerDelegate: class {
     func campaignDetailVCDidTapDelete(_ controller: CampaignDetailViewController)
     func toggleSection(section: Int)
-    func setEventOptionChoice()
     var eventOptionPickerDidPick: Bool { get set }
+    func setEventOptionChoice()
+    var characterTypePickerDidPick: Bool { get set }
+    func setCharacterType()
 }
 
 class CampaignDetailViewController: UIViewController {
@@ -40,6 +42,11 @@ class CampaignDetailViewController: UIViewController {
     var eventOptionPickerData = [String]()
     var myEventOptionInputView = UIView()
     var eventOptionDummyTextField = UITextField()
+    // Vars for characterTypePicker
+    var characterTypePicker = UIPickerView()
+    var characterTypePickerData = [String]()
+    var characterTypePickerInputView = UIView()
+    var characterTypePickerDummyTextField = UITextField()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,9 +55,9 @@ class CampaignDetailViewController: UIViewController {
         viewModel.reloadSection = { [weak self] (section: Int) in
             if section == 1 {
                 self?.refreshProsperityLevel()
-            } else if section == 3 {
+            } else if section == 4 {
                 self?.refreshParties()
-            } else if section == 5 {
+            } else if section == 6 {
                 self?.refreshEvents()
             }
         }
@@ -62,11 +69,15 @@ class CampaignDetailViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.showEventOptionPicker), name: NSNotification.Name(rawValue: "showEventChoiceOptionPicker"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.showCharacterTypePicker), name: NSNotification.Name(rawValue: "showCharacterTypePicker"), object: nil)
         
         campaignDetailTableView?.dataSource = viewModel
         campaignDetailTableView?.delegate = viewModel
         eventOptionPicker.delegate = self.viewModel
         eventOptionPicker.dataSource = self.viewModel
+        characterTypePicker.delegate = self.viewModel
+        characterTypePicker.dataSource = self.viewModel
+        
 
         campaignDetailTableView.separatorInset = .zero // Get rid of offset to left for tableview!
         
@@ -77,6 +88,7 @@ class CampaignDetailViewController: UIViewController {
         campaignDetailTableView?.register(CampaignDetailPartyCell.nib, forCellReuseIdentifier: CampaignDetailPartyCell.identifier)
         campaignDetailTableView?.register(CampaignDetailAchievementsCell.nib, forCellReuseIdentifier: CampaignDetailAchievementsCell.identifier)
         campaignDetailTableView?.register(CampaignDetailEventCell.nib, forCellReuseIdentifier: CampaignDetailEventCell.identifier)
+        campaignDetailTableView?.register(CampaignDetailAvailableTypeCell.nib, forCellReuseIdentifier: CampaignDetailAvailableTypeCell.identifier)
         
         // Register Custom header(s)
         campaignDetailTableView?.register(CampaignDetailEventsHeader.nib, forCellReuseIdentifier: CampaignDetailEventsHeader.identifier)
@@ -120,6 +132,8 @@ extension CampaignDetailViewController: UITableViewDelegate {
         case .parties:
             break
         case .events:
+            break
+        case .availableTypes:
             break
         }
     }
@@ -187,17 +201,17 @@ extension CampaignDetailViewController: UITableViewDelegate {
         }
         if numberOfRows > 0 && numberOfRows < 5 {
             DispatchQueue.main.async {
-                let indexPath = IndexPath(row: numberOfRows - 1, section: 5)
+                let indexPath = IndexPath(row: numberOfRows - 1, section: 6)
                 self.campaignDetailTableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
             }
         } else if numberOfRows > 5 {
             DispatchQueue.main.async {
-                let indexPath = IndexPath(row: 4, section: 5)
+                let indexPath = IndexPath(row: 4, section: 6)
                 self.campaignDetailTableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
             }
         } else {
             DispatchQueue.main.async {
-                let indexPath = IndexPath(row: 0, section: 5)
+                let indexPath = IndexPath(row: 0, section: 6)
                 self.campaignDetailTableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
             }
         }
@@ -224,12 +238,17 @@ extension CampaignDetailViewController: UITableViewDelegate {
     }
     func refreshParties() {
         DispatchQueue.main.async {
+            self.campaignDetailTableView.reloadSections([5], with: .none)
+        }
+    }
+    func refreshTypes() {
+        DispatchQueue.main.async {
             self.campaignDetailTableView.reloadSections([4], with: .none)
         }
     }
     func refreshEvents() {
         DispatchQueue.main.async {
-            self.campaignDetailTableView.reloadSections([5], with: .automatic)
+            self.campaignDetailTableView.reloadSections([6], with: .automatic)
         }
     }
     func updateNavTitle() {
@@ -341,6 +360,54 @@ extension CampaignDetailViewController: UITableViewDelegate {
         self.myEventOptionInputView.removeFromSuperview()
         self.eventOptionPicker.removeFromSuperview()
         eventOptionPickerData.removeAll()
+    }
+    // Called via notification
+    @objc func showCharacterTypePicker() {
+        characterTypePicker.tag = 20
+        characterTypePicker.layer.cornerRadius = 10
+        characterTypePicker.layer.masksToBounds = true
+        characterTypePicker.backgroundColor = UIColor.white.withAlphaComponent(0.9)
+        characterTypePicker.showsSelectionIndicator = true
+        
+        // Try to set up toolbar
+        let toolBar = UIToolbar.init(frame: CGRect(x: 0, y: 0, width: self.view.frame.width - 40, height: 44))
+        toolBar.barStyle = UIBarStyle.default
+        toolBar.layer.cornerRadius = 10
+        toolBar.layer.masksToBounds = true
+        toolBar.tintColor = colorDefinitions.scenarioTitleFontColor
+        toolBar.barTintColor = colorDefinitions.scenarioSwipeFontColor
+        
+        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.plain, target: self, action: #selector(setCharacterType))
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.plain, target: self, action: #selector(characterTypePickerDidTapCancel))
+        doneButton.setTitleTextAttributes([.font: UIFont(name: "Nyala", size: 24.0)!, .foregroundColor: colorDefinitions.mainTextColor], for: .normal)
+        cancelButton.setTitleTextAttributes([.font: UIFont(name: "Nyala", size: 24.0)!, .foregroundColor: colorDefinitions.mainTextColor], for: .normal)
+        toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
+        toolBar.isUserInteractionEnabled = true
+        
+        characterTypePicker.reloadAllComponents()
+        characterTypePicker.addSubview(toolBar)
+        characterTypePickerInputView = UIView.init(frame: CGRect(x: 20, y: 310, width: self.view.frame.width - 40, height: characterTypePicker.frame.size.height + 44))
+        characterTypePicker.frame = CGRect(x: 0, y: 0, width: characterTypePickerInputView.frame.width, height: 200)
+        characterTypePicker.selectRow(0, inComponent: 0, animated: true) // Set to first row
+        delegate?.characterTypePickerDidPick = false // Reset this after initial selection setting
+        characterTypePickerInputView.addSubview(characterTypePicker)
+        characterTypePickerInputView.addSubview(toolBar)
+        characterTypePickerDummyTextField.inputView = characterTypePickerInputView
+        characterTypePickerDummyTextField.isHidden = true
+        self.view.addSubview(characterTypePickerDummyTextField)
+        self.view.addSubview(characterTypePickerInputView)
+    }
+    @objc func setCharacterType() {
+        delegate!.setCharacterType()
+        self.characterTypePickerInputView.removeFromSuperview()
+        self.characterTypePicker.removeFromSuperview()
+        characterTypePickerData.removeAll()
+    }
+    @objc func characterTypePickerDidTapCancel() {
+        self.characterTypePickerInputView.removeFromSuperview()
+        self.characterTypePicker.removeFromSuperview()
+        characterTypePickerData.removeAll()
     }
 }
 

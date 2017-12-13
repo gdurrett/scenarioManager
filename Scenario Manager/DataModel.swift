@@ -201,6 +201,103 @@ class DataModel {
     // Characters
     var characters = [String : Character]()
 
+    var availableCharacterTypes: [String] {
+        get {
+            let availableCharTypes = currentCampaign.availableCharacterTypes.filter { $0.value == true }
+            return Array(availableCharTypes.keys)
+        }
+    }
+    var lockedCharacterTypes: [String] {
+        get {
+            let lockedCharTypes = currentCampaign.availableCharacterTypes.filter { $0.value == false }
+            return Array(lockedCharTypes.keys)
+        }
+    }
+    var availableCharacterTypesAttributed: [SeparatedAttributedStrings] {
+        get {
+            var tempTypes = [SeparatedAttributedStrings]()
+            for type in availableCharacterTypes {
+                if type == "Beast Tyrant" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: beastTyrantString))
+                } else if type == "Berserker" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: berserkerString))
+                } else if type == "Brute" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: bruteString))
+                } else if type == "Cragheart" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: cragheartString))
+                } else if type == "Elementalist" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: elementalistString))
+                } else if type == "Mindthief" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: mindthiefString))
+                } else if type == "Nightshroud" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: nightshroudString))
+                } else if type == "Plagueherald" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: plagueheraldString))
+                } else if type == "Quartermaster" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: quartermasterString))
+                } else if type == "Sawbones" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: sawbonesString))
+                } else if type == "Scoundrel" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: scoundrelString))
+                } else if type == "Soothsinger" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: soothsingerString))
+                } else if type == "Spellweaver" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: spellweaverString))
+                } else if type == "Summoner" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: summonerString))
+                } else if type == "Sunkeeper" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: sunkeeperString))
+                } else if type == "Tinkerer" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: tinkererString))
+                }
+            }
+            return tempTypes
+        }
+    }
+    var lockedCharacterTypesAttributed: [SeparatedAttributedStrings] {
+        get {
+            var tempTypes = [SeparatedAttributedStrings]()
+            for type in lockedCharacterTypes {
+                if type == "Beast Tyrant" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: beastTyrantString))
+                } else if type == "Berserker" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: berserkerString))
+                } else if type == "Brute" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: bruteString))
+                } else if type == "Cragheart" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: cragheartString))
+                } else if type == "Elementalist" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: elementalistString))
+                } else if type == "Mindthief" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: mindthiefString))
+                } else if type == "Nightshroud" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: nightshroudString))
+                } else if type == "Plagueherald" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: plagueheraldString))
+                } else if type == "Quartermaster" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: quartermasterString))
+                } else if type == "Sawbones" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: sawbonesString))
+                } else if type == "Scoundrel" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: scoundrelString))
+                } else if type == "Soothsinger" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: soothsingerString))
+                } else if type == "Spellweaver" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: spellweaverString))
+                } else if type == "Summoner" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: summonerString))
+                } else if type == "Sunkeeper" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: sunkeeperString))
+                } else if type == "Tinkerer" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: tinkererString))
+                }
+            }
+            return tempTypes
+        }
+    }
+    var beastTyrantString, berserkerString, bruteString, cragheartString, elementalistString, mindthiefString, nightshroudString, plagueheraldString, quartermasterString, sawbonesString, scoundrelString, soothsingerString, spellweaverString, summonerString, sunkeeperString, tinkererString : NSMutableAttributedString
+
+    
     // Store newly-created characters, campaign name, and partyname
     var newCharacters = [String : Character]()
     var newCampaignName = String()
@@ -215,6 +312,103 @@ class DataModel {
     
     private init() {
 
+        // Create characterType attributed strings
+        beastTyrantString = NSMutableAttributedString(string: "  Beast Tyrant")
+        let beastTyrantImageAttachment = NSTextAttachment()
+        beastTyrantImageAttachment.image = UIImage(named: "beastTyrantIcon.png")
+        let beastTyrantImageString = NSAttributedString(attachment: beastTyrantImageAttachment)
+        beastTyrantString.insert(beastTyrantImageString, at: 0)
+        
+        berserkerString = NSMutableAttributedString(string: "  Berserker")
+        let berserkerImageAttachment = NSTextAttachment()
+        berserkerImageAttachment.image = UIImage(named: "berserkerIcon.png")
+        let berserkerImageString = NSAttributedString(attachment: berserkerImageAttachment)
+        berserkerString.insert(berserkerImageString, at: 0)
+        
+        bruteString = NSMutableAttributedString(string: "  Brute")
+        let bruteImageAttachment = NSTextAttachment()
+        bruteImageAttachment.image = UIImage(named: "bruteIcon.png")
+        let bruteImageString = NSAttributedString(attachment: bruteImageAttachment)
+        bruteString.insert(bruteImageString, at: 0)
+        
+        cragheartString = NSMutableAttributedString(string: "  Cragheart")
+        let cragheartImageAttachment = NSTextAttachment()
+        cragheartImageAttachment.image = UIImage(named: "cragheartIcon.png")
+        let cragheartImageString = NSAttributedString(attachment: cragheartImageAttachment)
+        cragheartString.insert(cragheartImageString, at: 0)
+        
+        elementalistString = NSMutableAttributedString(string: "  Elementalist")
+        let elementalistImageAttachment = NSTextAttachment()
+        elementalistImageAttachment.image = UIImage(named: "elementalistIcon.png")
+        let elementalistImageString = NSAttributedString(attachment: cragheartImageAttachment)
+        elementalistString.insert(elementalistImageString, at: 0)
+        
+        mindthiefString = NSMutableAttributedString(string: "  Mindthief")
+        let mindthiefImageAttachment = NSTextAttachment()
+        mindthiefImageAttachment.image = UIImage(named: "mindthiefIcon.png")
+        let mindthiefImageString = NSAttributedString(attachment: mindthiefImageAttachment)
+        mindthiefString.insert(mindthiefImageString, at: 0)
+        
+        nightshroudString = NSMutableAttributedString(string: "  Nightshroud")
+        let nightshroudImageAttachment = NSTextAttachment()
+        nightshroudImageAttachment.image = UIImage(named: "nightshroudIcon.png")
+        let nightshroudImageString = NSAttributedString(attachment: mindthiefImageAttachment)
+        nightshroudString.insert(nightshroudImageString, at: 0)
+        
+        plagueheraldString = NSMutableAttributedString(string: "  Plagueherald")
+        let plagueheraldImageAttachment = NSTextAttachment()
+        plagueheraldImageAttachment.image = UIImage(named: "plagueheraldIcon.png")
+        let plagueheraldImageString = NSAttributedString(attachment: plagueheraldImageAttachment)
+        plagueheraldString.insert(plagueheraldImageString, at: 0)
+        
+        quartermasterString = NSMutableAttributedString(string: "  Quartermaster")
+        let quartermasterImageAttachment = NSTextAttachment()
+        quartermasterImageAttachment.image = UIImage(named: "quartermasterIcon.png")
+        let quartermasterImageString = NSAttributedString(attachment: quartermasterImageAttachment)
+        quartermasterString.insert(quartermasterImageString, at: 0)
+        
+        sawbonesString = NSMutableAttributedString(string: "  Sawbones")
+        let sawbonesImageAttachment = NSTextAttachment()
+        sawbonesImageAttachment.image = UIImage(named: "sawbonesIcon.png")
+        let sawbonesImageString = NSAttributedString(attachment: sawbonesImageAttachment)
+        sawbonesString.insert(sawbonesImageString, at: 0)
+        
+        scoundrelString = NSMutableAttributedString(string: "  Scoundrel")
+        let scoundrelImageAttachment = NSTextAttachment()
+        scoundrelImageAttachment.image = UIImage(named: "scoundrelIcon.png")
+        let scoundrelImageString = NSAttributedString(attachment: scoundrelImageAttachment)
+        scoundrelString.insert(scoundrelImageString, at: 0)
+        
+        soothsingerString = NSMutableAttributedString(string: "  Soothsinger")
+        let soothsingerImageAttachment = NSTextAttachment()
+        soothsingerImageAttachment.image = UIImage(named: "soothsingerIcon.png")
+        let soothsingerImageString = NSAttributedString(attachment: soothsingerImageAttachment)
+        soothsingerString.insert(soothsingerImageString, at: 0)
+        
+        spellweaverString = NSMutableAttributedString(string: "  Spellweaver")
+        let spellweaverImageAttachment = NSTextAttachment()
+        spellweaverImageAttachment.image = UIImage(named: "spellweaverIcon.png")
+        let spellweaverImageString = NSAttributedString(attachment: spellweaverImageAttachment)
+        spellweaverString.insert(spellweaverImageString, at: 0)
+        
+        summonerString = NSMutableAttributedString(string: "  Summoner")
+        let summonerImageAttachment = NSTextAttachment()
+        summonerImageAttachment.image = UIImage(named: "summonerIcon.png")
+        let summonerImageString = NSAttributedString(attachment: summonerImageAttachment)
+        summonerString.insert(summonerImageString, at: 0)
+        
+        sunkeeperString = NSMutableAttributedString(string: "  Sunkeeper")
+        let sunkeeperImageAttachment = NSTextAttachment()
+        sunkeeperImageAttachment.image = UIImage(named: "sunkeeperIcon.png")
+        let sunkeeperImageString = NSAttributedString(attachment: sunkeeperImageAttachment)
+        sunkeeperString.insert(sunkeeperImageString, at: 0)
+        
+        tinkererString = NSMutableAttributedString(string: "  Tinkerer")
+        let tinkererImageAttachment = NSTextAttachment()
+        tinkererImageAttachment.image = UIImage(named: "tinkererIcon.png")
+        let tinkererImageString = NSAttributedString(attachment: tinkererImageAttachment)
+        tinkererString.insert(tinkererImageString, at: 0)
+        
         let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
         let url = NSURL(fileURLWithPath: path)
         let filePath = url.appendingPathComponent("Scenarios.plist")?.path
@@ -235,7 +429,7 @@ class DataModel {
                 }
             }
         } else {
-        
+            
             let scenario44String = NSMutableAttributedString(string: "Open envelope ")
             let image44Attachment = NSTextAttachment()
             image44Attachment.image = UIImage(named: "spikyHeadGuy.png")
@@ -2010,7 +2204,7 @@ class DataModel {
                     //self.createCampaign(title: "MyCampaign", isCurrent: true, parties: [self.createDefaultParty()])
                     //self.createDefaultCharacters()
                     self.saveCampaignsLocally()
-                    self.updateCampaignRecords()
+                    //self.updateCampaignRecords()
                 }
             }
         }
@@ -2071,7 +2265,7 @@ class DataModel {
     // Campaign functions
     func createCampaign(title: String, isCurrent: Bool, parties: [Party]) {
         if (campaigns[title] == nil) {
-            let newCampaign = Campaign(title: title, parties: parties, achievements:[:], prosperityCount: 0, sanctuaryDonations: 0, events: createEvents(), isUnlocked: [], requirementsMet: [], isCompleted: [], isCurrent: isCurrent, ancientTechCount: 0)
+            let newCampaign = Campaign(title: title, parties: parties, achievements:[:], prosperityCount: 0, sanctuaryDonations: 0, events: createEvents(), isUnlocked: [], requirementsMet: [], isCompleted: [], isCurrent: isCurrent, ancientTechCount: 0, availableCharacterTypes: createCharacterTypes())
             for scenario in allScenarios {
                 if scenario.number == "1" {
                     newCampaign.isUnlocked.append(true)
@@ -2244,6 +2438,29 @@ class DataModel {
         return newAchievements
     }
     // End party functions
+    // MARK: Create character types dictionary
+    func createCharacterTypes() -> [String:Bool] {
+        let availableCharacterTypes = [
+            "Beast Tyrant"                          : false,
+            "Berserker"                             : false,
+            "Brute"                                 : true,
+            "Cragheart"                             : true,
+            "Elementalist"                          : false,
+            "Mindthief"                             : true,
+            "Nightshroud"                           : false,
+            "Plagueherald"                          : false,
+            "Quartermaster"                         : false,
+            "Sawbones"                              : false,
+            "Scoundrel"                             : true,
+            "Soothsinger"                           : false,
+            "Spellweaver"                           : true,
+            "Summoner"                              : false,
+            "Sunkeeper"                             : false,
+            "Tinkerer"                              : true
+            
+            ]
+        return availableCharacterTypes
+    }
     // MARK: Create new events array
     func createEvents() -> [Event] {
         var newEvents = [Event]()

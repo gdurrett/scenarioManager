@@ -79,7 +79,11 @@ class CreateCharacterViewModel: NSObject {
             return tempDefaults.symmetricDifference(tempSelected)
         }
     }
-    var characterTypePickerDataDefaults = ["Beast Tyrant", "Berserker", "Brute", "Cragheart", "Doomstalker", "Elementalist", "Mindthief", "Nightshroud", "Plagueherald", "Quartermaster", "Sawbone", "Scoundrel", "Spellweaver", "Soothsinger", "Summoner", "Sunkeeper", "Tinkerer"]
+    var characterTypePickerDataDefaults: [String] {
+        get {
+            return dataModel.availableCharacterTypes
+        }
+    }
     
     var selectedCharacterType = String()
     

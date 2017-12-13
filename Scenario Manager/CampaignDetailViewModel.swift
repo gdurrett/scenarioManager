@@ -16,6 +16,7 @@ enum CampaignDetailViewModelItemType {
     case prosperity
     case donations
     case events
+    case availableTypes
 }
 protocol CampaignDetailPartyUpdaterDelegate: class {
     func reloadTableAfterSetPartyCurrent()
@@ -36,6 +37,91 @@ class CampaignDetailViewModel: NSObject {
     var achievementNames = [SeparatedStrings]()
     //var newAchievementNames = [SeparatedStrings]()
     var eventNumbers = [SeparatedStrings]()
+    var charTypes: [SeparatedAttributedStrings] {
+        get {
+            var tempTypes = [SeparatedAttributedStrings]()
+            for type in dataModel.availableCharacterTypes {
+                if type == "Beast Tyrant" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: dataModel.beastTyrantString))
+                } else if type == "Berserker" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: dataModel.berserkerString))
+                } else if type == "Brute" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: dataModel.bruteString))
+                } else if type == "Cragheart" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: dataModel.cragheartString))
+                } else if type == "Elementalist" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: dataModel.elementalistString))
+                } else if type == "Mindthief" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: dataModel.mindthiefString))
+                } else if type == "Nightshroud" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: dataModel.nightshroudString))
+                } else if type == "Plagueherald" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: dataModel.plagueheraldString))
+                } else if type == "Quartermaster" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: dataModel.quartermasterString))
+                } else if type == "Sawbones" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: dataModel.sawbonesString))
+                } else if type == "Scoundrel" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: dataModel.scoundrelString))
+                } else if type == "Soothsinger" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: dataModel.soothsingerString))
+                } else if type == "Spellweaver" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: dataModel.spellweaverString))
+                } else if type == "Summoner" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: dataModel.summonerString))
+                } else if type == "Sunkeeper" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: dataModel.sunkeeperString))
+                } else if type == "Tinkerer" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: dataModel.tinkererString))
+                }
+            }
+            return tempTypes
+        }
+    }
+    var dynamicCharTypes: Dynamic<[SeparatedAttributedStrings]>
+    var lockedCharTypes: [SeparatedAttributedStrings] {
+        get {
+            var tempTypes = [SeparatedAttributedStrings]()
+            for type in dataModel.lockedCharacterTypes {
+                if type == "Beast Tyrant" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: dataModel.beastTyrantString))
+                } else if type == "Berserker" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: dataModel.berserkerString))
+                } else if type == "Brute" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: dataModel.bruteString))
+                } else if type == "Cragheart" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: dataModel.cragheartString))
+                } else if type == "Elementalist" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: dataModel.elementalistString))
+                } else if type == "Mindthief" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: dataModel.mindthiefString))
+                } else if type == "Nightshroud" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: dataModel.nightshroudString))
+                } else if type == "Plagueherald" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: dataModel.plagueheraldString))
+                } else if type == "Quartermaster" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: dataModel.quartermasterString))
+                } else if type == "Sawbones" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: dataModel.sawbonesString))
+                } else if type == "Scoundrel" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: dataModel.scoundrelString))
+                } else if type == "Soothsinger" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: dataModel.soothsingerString))
+                } else if type == "Spellweaver" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: dataModel.spellweaverString))
+                } else if type == "Summoner" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: dataModel.summonerString))
+                } else if type == "Sunkeeper" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: dataModel.sunkeeperString))
+                } else if type == "Tinkerer" {
+                    tempTypes.append(SeparatedAttributedStrings(rowString: dataModel.tinkererString))
+                }
+            }
+            return tempTypes
+        }
+    }
+    var dynamicLockedCharTypes: Dynamic<[SeparatedAttributedStrings]>
+    
     var isActiveCampaign: Bool?
     var remainingChecksUntilNextLevel = Int()
     var level = Int()
@@ -52,6 +138,7 @@ class CampaignDetailViewModel: NSObject {
     var completedEvents: Dynamic<[Event]>
     var ancientTechCount: Dynamic<Int>
     var currentPartyName: Dynamic<String>
+    var availableTypes: Dynamic<[String:Bool]>
     // Convert to dynamic later
     var headersToUpdate = [Int:UITableViewHeaderFooterView]()
     var storedOffsets = [Int: CGFloat]()
@@ -91,6 +178,10 @@ class CampaignDetailViewModel: NSObject {
     var eventOptionPickerData = ["A", "B"]
     var eventOptionPickerDidPick = false
     var selectedEventOption = String()
+    // Vars for characterTypePicker
+    var characterTypePickerDidPick = false
+    
+    var selectedCharacterType = SeparatedAttributedStrings(rowString: NSAttributedString(attributedString: NSAttributedString(string: "")))
     
     init(withCampaign campaign: Campaign) {
         self.completedGlobalAchievements = Dynamic(dataModel.completedGlobalAchievements)
@@ -105,6 +196,9 @@ class CampaignDetailViewModel: NSObject {
         self.completedEvents = Dynamic(dataModel.completedEvents)
         self.ancientTechCount = Dynamic(dataModel.currentCampaign.ancientTechCount)
         self.currentPartyName = Dynamic(dataModel.currentParty.name)
+        self.availableTypes = Dynamic(dataModel.currentCampaign.availableCharacterTypes)
+        self.dynamicCharTypes = Dynamic(dataModel.availableCharacterTypesAttributed)
+        self.dynamicLockedCharTypes = Dynamic(dataModel.lockedCharacterTypesAttributed)
         super.init()
         
         self.prosperityLevel = Dynamic(getProsperityLevel(count: dataModel.currentCampaign.prosperityCount + self.prosperityBonus))
@@ -124,6 +218,14 @@ class CampaignDetailViewModel: NSObject {
         let donationsItem = CampaignDetailViewModelCampaignDonationsItem(amount: donations.value, prosperityBonusString: "")
         items.append(donationsItem)
         
+        // Append available character types
+        let tempCharTypes = charTypes.sorted { $0.rowString!.string < $1.rowString!.string }
+        //let charTypesItem = CampaignDetailViewModelCharacterTypeItem(availableTypes: charTypes)
+        let charTypesItem = CampaignDetailViewModelCharacterTypeItem(availableTypes: tempCharTypes)
+
+        items.append(charTypesItem)
+        
+        // Append Assigned party
         let partyItem = CampaignDetailViewModelCampaignPartyItem(names: [SeparatedStrings(rowString: self.currentPartyName.value)])
         items.append(partyItem)
         
@@ -148,6 +250,7 @@ class CampaignDetailViewModel: NSObject {
         }
         let eventItem = CampaignDetailViewModelCampaignEventsItem(numbers: eventNumbers)
         items.append(eventItem)
+        
 
     }
     // Helper methods
@@ -348,6 +451,8 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
                     return self.completedGlobalAchievements.value.count
                 }
             }
+        } else if self.items[section].type == .availableTypes {
+            return self.charTypes.count
         } else if self.items[section].type == .events {
             switch selectedEventsSegmentIndex {
             case 0:
@@ -491,6 +596,15 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
                 cell.item = eventName
                 return cell
             }
+        case .availableTypes:
+            if let item = item as? CampaignDetailViewModelCharacterTypeItem, let cell = tableView.dequeueReusableCell(withIdentifier: CampaignDetailAvailableTypeCell.identifier, for: indexPath) as? CampaignDetailAvailableTypeCell {
+                //let type = charTypes[indexPath.row]
+                let type = item.availableTypes[indexPath.row]
+                cell.backgroundColor = UIColor.clear
+                cell.selectionStyle = .none
+                cell.item = type
+                return cell
+            }
         }
         return UITableViewCell()
     }
@@ -540,7 +654,7 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let sectionNumber = indexPath.section
         var returnValue = [UITableViewRowAction]()
-        if sectionNumber == 5 {
+        if sectionNumber == 6 {
             var event = dataModel.currentCampaign.events[0] // Just to allocate an event for use below
             switch selectedEventsSegmentIndex {
             case 0:
@@ -560,13 +674,13 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
                     event.isAvailable = true // Set to available if unavailable
                     self.updateEvents()
                     self.dataModel.saveCampaignsLocally()
-                    self.toggleSection(section: 5)
+                    self.toggleSection(section: 6)
                     self.scrollEventsSection!()
                 } else if self.myCompletedEventTitle == "Set Completed" {
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "showEventChoiceOptionPicker"), object: nil)
                     self.updateEvents()
                     self.dataModel.saveCampaignsLocally()
-                    self.toggleSection(section: 5)
+                    self.toggleSection(section: 6)
                     self.scrollEventsSection!()
                 } else {
                     event.isCompleted = false // Set uncompleted if completed
@@ -574,7 +688,7 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
                     self.stripOptionChoiceFromEventName(event: event)
                     self.updateEvents()
                     self.dataModel.saveCampaignsLocally()
-                    self.toggleSection(section: 5)
+                    self.toggleSection(section: 6)
                     self.scrollEventsSection!()
                 }
             }
@@ -584,7 +698,7 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
                     event.isAvailable = false
                     self.updateEvents()
                     self.dataModel.saveCampaignsLocally()
-                    self.toggleSection(section: 5)
+                    self.toggleSection(section: 6)
                 }
             }
             swipeToggleComplete.backgroundColor = colorDefinitions.scenarioSwipeBGColor
@@ -600,13 +714,13 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
     // Implemented due to possibility of an event row with no actual data (just a string saying "No completed events")
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         var returnValue: Bool
-        if indexPath.section == 5 {
+        if indexPath.section == 6 {
             if disableEventSwipe == false {
                 returnValue = true
             } else {
                 returnValue = false
             }
-        } else if indexPath.section == 4 {
+        } else if indexPath.section == 5 {
             if disablePartySwipe == false {
                 returnValue = true
             } else {
@@ -644,7 +758,7 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
         let eventTokens = event.number.components(separatedBy: " ")
         let eventString = ("\(eventTokens[0]) \(eventTokens[1])")
         event.number = eventString
-        toggleSection(section: 5)
+        toggleSection(section: 6)
         self.dataModel.saveCampaignsLocally()
     }
     func createSectionButton(forSection section: Int, inHeader header: UIView) {
@@ -673,6 +787,11 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
                 break
             case .events:
                 break
+            case .availableTypes:
+                button.setImage(UIImage(named: "quill-drawing-a-line_unselected"), for: .normal)
+                button.isEnabled = true
+                button.addTarget(self, action: #selector(self.showCharacterTypePicker(_:)), for: .touchUpInside)
+                header.addSubview(button)
             }
     }
     fileprivate func configureCheckmark(for cell: UITableViewCell, activeStatus: Bool) {
@@ -683,7 +802,7 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
     @objc func pressedRoadButton(button: UIButton) {
         selectedEventType = "road"
         DispatchQueue.main.async {
-            self.toggleSection(section: 5)
+            self.toggleSection(section: 6)
             self.scrollEventsSection!()
         }
     }
@@ -691,18 +810,18 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
         button.setTitleColor(colorDefinitions.scenarioTitleFontColor, for: .normal)
         selectedEventType = "city"
         DispatchQueue.main.async {
-            self.toggleSection(section: 5)
+            self.toggleSection(section: 6)
             self.scrollEventsSection!()
         }
     }
     @objc func getEventSegmentControlValue(sender: UISegmentedControl) {
         self.selectedEventsSegmentIndex = sender.selectedSegmentIndex
-        self.toggleSection(section: 5)
+        self.toggleSection(section: 6)
         self.scrollEventsSection!()
     }
     @objc func getPartySegmentControlValue(sender: UISegmentedControl) {
         self.selectedPartiesSegmentIndex = sender.selectedSegmentIndex
-        self.toggleSection(section: 4)
+        self.toggleSection(section: 5)
     }
     @objc func enableTitleTextField(_ sender: UIButton) {
         let myCell = self.currentTitleCell as! CampaignDetailTitleCell
@@ -770,6 +889,9 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
         button.addTarget(self, action: #selector(self.editEvents(_:)), for: .touchUpInside)
         dataModel.saveCampaignsLocally()
     }
+    @objc func showCharacterTypePicker(_ button: UIButton) {
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "showCharacterTypePicker"), object: nil)
+    }
 }
 
 extension CampaignDetailViewModel: SelectCampaignViewControllerDelegate, CampaignDetailViewControllerDelegate {
@@ -817,8 +939,11 @@ extension CampaignDetailViewModel: SelectCampaignViewControllerDelegate, Campaig
         self.selectedEvent!.number.append(" - Option: \(selectedEventOption)")
         self.selectedEvent!.isCompleted = true // Set to completed
         self.selectedEvent!.isAvailable = false // But no longer available
-        toggleSection(section: 5)
+        toggleSection(section: 6)
         self.dataModel.saveCampaignsLocally()
+    }
+    func setCharacterType() {
+        //
     }
 }
 // MARK: PickerView Delegate Methods
@@ -827,6 +952,8 @@ extension CampaignDetailViewModel: UIPickerViewDelegate, UIPickerViewDataSource 
         var returnValue = Int()
         if pickerView.tag == 5 {
             returnValue = 1
+        } else if pickerView.tag == 20 {
+            returnValue = 1
         }
         return returnValue
     }
@@ -834,6 +961,8 @@ extension CampaignDetailViewModel: UIPickerViewDelegate, UIPickerViewDataSource 
         var returnValue = Int()
         if pickerView.tag == 5 {
             returnValue = eventOptionPickerData.count
+        } else if pickerView.tag == 20 {
+            returnValue = dynamicLockedCharTypes.value.count
         }
         return returnValue
     }
@@ -842,6 +971,9 @@ extension CampaignDetailViewModel: UIPickerViewDelegate, UIPickerViewDataSource 
         if pickerView.tag == 5 {
             eventOptionPickerDidPick = true
             selectedEventOption = row == 0 ? "A" : "B"
+        } else if pickerView.tag == 20 {
+            characterTypePickerDidPick = true
+            selectedCharacterType = Array(dynamicLockedCharTypes.value)[row]
         }
     }
     func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView{
@@ -853,9 +985,18 @@ extension CampaignDetailViewModel: UIPickerViewDelegate, UIPickerViewDataSource 
         label?.textAlignment = .center
         if pickerView.tag == 5 {
             label?.text =  ("\(selectedEvent!.number) - \(eventOptionPickerData[row])")
+        } else if pickerView.tag == 20 {
+            label?.attributedText = Array(dynamicLockedCharTypes.value)[row].rowString!
         }
 
         return label!
+    }
+    func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
+        if pickerView.tag == 20 {
+            return 60.0
+        } else {
+            return 30.0
+        }
     }
 }
 // MARK ViewModelItem Classes
@@ -981,5 +1122,25 @@ class CampaignDetailViewModelCampaignEventsItem: CampaignDetailViewModelItem {
     
     init(numbers: [SeparatedStrings]) {
         self.numbers = numbers
+    }
+}
+class CampaignDetailViewModelCharacterTypeItem: CampaignDetailViewModelItem {
+    
+    var type: CampaignDetailViewModelItemType {
+        return .availableTypes
+    }
+    
+    var sectionTitle: String {
+        return "Available character types"
+    }
+    
+    var rowCount: Int {
+        return 1
+    }
+    
+    var availableTypes: [SeparatedAttributedStrings]
+    
+    init(availableTypes: [SeparatedAttributedStrings]) {
+        self.availableTypes = availableTypes
     }
 }
