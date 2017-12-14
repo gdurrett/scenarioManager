@@ -150,6 +150,7 @@ class CampaignDetailViewModel: NSObject {
     
     var myCompletedEventTitle = String()
     var myAssignedPartyTitle = String()
+    var myCharacterTypeSwipeButtonTitle = String()
     var myLockedTitle = String()
     
     var selectedEvent: Event?
@@ -341,6 +342,11 @@ class CampaignDetailViewModel: NSObject {
     func updateAncientTech() {
         self.ancientTechCount.value = dataModel.currentCampaign.ancientTechCount
     }
+    func updateAvailableCharTypes() {
+        self.availableTypes.value = dataModel.currentCampaign.availableCharacterTypes
+        self.dynamicCharTypes.value = dataModel.availableCharacterTypesAttributed
+        self.dynamicLockedCharTypes.value = dataModel.lockedCharacterTypesAttributed
+    }
     func configureEventSwipeButton(for event: Event) {
         let eventTokens = event.number.components(separatedBy: " ")
         let eventInt = Int(eventTokens[1])
@@ -364,6 +370,21 @@ class CampaignDetailViewModel: NSObject {
             } else {
                 myAssignedPartyTitle = "Unassign"
             }
+        }
+    }
+    func configureCharacterTypeSwipeButton(for type: String) {
+        var currentCharacterTypes = [String]()
+        for char in dataModel.characters {
+            if char.value.assignedTo == dataModel.currentParty.name {
+                currentCharacterTypes.append(char.value.type)
+            }
+        }
+        if type == "Brute" || type == "Cragheart" || type == "Mindthief" || type == "Scoundrel" || type == "Spellweaver" || type == "Tinkerer" {
+            myCharacterTypeSwipeButtonTitle = "Starting character"
+        } else if currentCharacterTypes.contains(type) {
+            myCharacterTypeSwipeButtonTitle = "Character type in use"
+        }else {
+            myCharacterTypeSwipeButtonTitle = "Lock"
         }
     }
     // Methods for CampaignProsperity cell
@@ -452,7 +473,7 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
                 }
             }
         } else if self.items[section].type == .availableTypes {
-            return self.charTypes.count
+            return dataModel.availableCharacterTypesAttributed.count
         } else if self.items[section].type == .events {
             switch selectedEventsSegmentIndex {
             case 0:
@@ -597,9 +618,9 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
                 return cell
             }
         case .availableTypes:
-            if let item = item as? CampaignDetailViewModelCharacterTypeItem, let cell = tableView.dequeueReusableCell(withIdentifier: CampaignDetailAvailableTypeCell.identifier, for: indexPath) as? CampaignDetailAvailableTypeCell {
-                //let type = charTypes[indexPath.row]
-                let type = item.availableTypes[indexPath.row]
+            if let _ = item as? CampaignDetailViewModelCharacterTypeItem, let cell = tableView.dequeueReusableCell(withIdentifier: CampaignDetailAvailableTypeCell.identifier, for: indexPath) as? CampaignDetailAvailableTypeCell {
+                let type = dataModel.availableCharacterTypesAttributed[indexPath.row]
+                //let type = item.availableTypes[indexPath.row]
                 cell.backgroundColor = UIColor.clear
                 cell.selectionStyle = .none
                 cell.item = type
@@ -654,7 +675,24 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let sectionNumber = indexPath.section
         var returnValue = [UITableViewRowAction]()
-        if sectionNumber == 6 {
+        if sectionNumber == 3 {
+            let type = dataModel.availableCharacterTypes[indexPath.row]
+            self.configureCharacterTypeSwipeButton(for: type)
+            let swipeToggleLocked = UITableViewRowAction(style: .normal, title: self.myCharacterTypeSwipeButtonTitle) { action, index in
+                if self.myCharacterTypeSwipeButtonTitle == "Lock" {
+                    self.dataModel.currentCampaign.availableCharacterTypes[type] = false
+                    self.updateAvailableCharTypes()
+                    self.toggleSection(section: 3)
+                    self.dataModel.saveCampaignsLocally()
+                } else if self.myCharacterTypeSwipeButtonTitle == "Starting character" {
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "showSwipeAlertStarting"), object: nil)
+                } else if self.myCharacterTypeSwipeButtonTitle == "Character type in use" {
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "showSwipeAlertUsed"), object: nil)
+                }
+            }
+            swipeToggleLocked.backgroundColor = colorDefinitions.scenarioSwipeBGColor
+            return [swipeToggleLocked]
+        } else if sectionNumber == 6 {
             var event = dataModel.currentCampaign.events[0] // Just to allocate an event for use below
             switch selectedEventsSegmentIndex {
             case 0:
@@ -890,7 +928,7 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
         dataModel.saveCampaignsLocally()
     }
     @objc func showCharacterTypePicker(_ button: UIButton) {
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "showCharacterTypePicker"), object: nil)
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "showCharacterAvailableTypePicker"), object: nil)
     }
 }
 
@@ -943,7 +981,24 @@ extension CampaignDetailViewModel: SelectCampaignViewControllerDelegate, Campaig
         self.dataModel.saveCampaignsLocally()
     }
     func setCharacterType() {
-        //
+        var charTypeString = String()
+        if characterTypePickerDidPick == false {
+            charTypeString = lockedCharTypes[0].rowString!.string.replacingOccurrences(of: " ", with: "")
+            let cleanedString = charTypeString.replacingOccurrences(of: "\u{fffc}", with: "")
+            dataModel.currentCampaign.availableCharacterTypes[cleanedString] = true
+            self.updateAvailableCharTypes()
+        } else {
+            charTypeString = selectedCharacterType.rowString!.string.replacingOccurrences(of: " ", with: "")
+            let cleanedString = charTypeString.replacingOccurrences(of: "\u{fffc}", with: "")
+            if dataModel.currentCampaign.availableCharacterTypes[cleanedString] != nil {
+                dataModel.currentCampaign.availableCharacterTypes[cleanedString] = true
+            } else {
+                print("Didn't find it!")
+            }
+            self.updateAvailableCharTypes()
+        }
+        toggleSection(section: 3)
+        self.dataModel.saveCampaignsLocally()
     }
 }
 // MARK: PickerView Delegate Methods
@@ -988,7 +1043,6 @@ extension CampaignDetailViewModel: UIPickerViewDelegate, UIPickerViewDataSource 
         } else if pickerView.tag == 20 {
             label?.attributedText = Array(dynamicLockedCharTypes.value)[row].rowString!
         }
-
         return label!
     }
     func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
@@ -1131,7 +1185,7 @@ class CampaignDetailViewModelCharacterTypeItem: CampaignDetailViewModelItem {
     }
     
     var sectionTitle: String {
-        return "Available character types"
+        return "Unlocked character types"
     }
     
     var rowCount: Int {

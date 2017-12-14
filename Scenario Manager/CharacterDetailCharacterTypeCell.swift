@@ -15,15 +15,16 @@ class CharacterDetailCharacterTypeCell: UITableViewCell {
     let colorDefinitions = ColorDefinitions()
     let fontDefinitions = FontDefinitions()
     
-    var item: CharacterDetailViewModelItem? {
+    var item: SeparatedAttributedStrings? {
         didSet {
-            guard let item = item as? CharacterDetailViewModelCharacterTypeItem else {
+            guard let item = item else {
                 return
             }
             characterDetailCharacterTypeLabel?.sizeToFit()
             characterDetailCharacterTypeLabel?.font = fontDefinitions.detailTableViewNonTitleFont
             characterDetailCharacterTypeLabel?.textColor = colorDefinitions.scenarioTitleFontColor
-            characterDetailCharacterTypeLabel.text = ("\(item.characterType)")
+//            characterDetailCharacterTypeLabel.text = ("\(item.characterType)")
+            characterDetailCharacterTypeLabel.attributedText = (item.rowString!)
         }
     }
     

@@ -17,7 +17,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9sG-Qa-3eS">
-                    <rect key="frame" x="16" y="25" width="42" height="20"/>
+                    <rect key="frame" x="16" y="17" width="42" height="36"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
@@ -25,7 +25,7 @@
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="9sG-Qa-3eS" secondAttribute="bottom" constant="25" id="8mb-ue-nze"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="9sG-Qa-3eS" secondAttribute="bottom" constant="17" id="8mb-ue-nze"/>
                 <constraint firstItem="9sG-Qa-3eS" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="eeS-AN-19i"/>
                 <constraint firstItem="9sG-Qa-3eS" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="jet-wQ-GxW"/>
             </constraints>

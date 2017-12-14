@@ -216,8 +216,10 @@ class DataModel {
     var availableCharacterTypesAttributed: [SeparatedAttributedStrings] {
         get {
             var tempTypes = [SeparatedAttributedStrings]()
-            for type in availableCharacterTypes {
-                if type == "Beast Tyrant" {
+            let tempVal = currentCampaign.availableCharacterTypes.filter({ $0.value == true })
+            for myType in tempVal.keys {
+                let type = myType.replacingOccurrences(of: "\u{fffc}", with: "")
+                if type == "BeastTyrant" {
                     tempTypes.append(SeparatedAttributedStrings(rowString: beastTyrantString))
                 } else if type == "Berserker" {
                     tempTypes.append(SeparatedAttributedStrings(rowString: berserkerString))
@@ -249,6 +251,8 @@ class DataModel {
                     tempTypes.append(SeparatedAttributedStrings(rowString: sunkeeperString))
                 } else if type == "Tinkerer" {
                     tempTypes.append(SeparatedAttributedStrings(rowString: tinkererString))
+                } else {
+                    print("Doesn't look like anything to me: \(myType)")
                 }
             }
             return tempTypes
@@ -257,7 +261,9 @@ class DataModel {
     var lockedCharacterTypesAttributed: [SeparatedAttributedStrings] {
         get {
             var tempTypes = [SeparatedAttributedStrings]()
-            for type in lockedCharacterTypes {
+            for type in currentCampaign.availableCharacterTypes.filter ({ $0.value == false }).keys {
+                
+                //let type = myType.replacingOccurrences(of: "\u{fffc}", with: "")
                 if type == "Beast Tyrant" {
                     tempTypes.append(SeparatedAttributedStrings(rowString: beastTyrantString))
                 } else if type == "Berserker" {
@@ -290,6 +296,8 @@ class DataModel {
                     tempTypes.append(SeparatedAttributedStrings(rowString: sunkeeperString))
                 } else if type == "Tinkerer" {
                     tempTypes.append(SeparatedAttributedStrings(rowString: tinkererString))
+                } else {
+                    print("Doesn't look like anything to me: \(type)")
                 }
             }
             return tempTypes
@@ -311,101 +319,103 @@ class DataModel {
     let defaultUnlocks = [ "13" : ["ONEOF", "15", "17", "20"] ]
     
     private init() {
-
+        let resizePercentage = CGFloat(0.7)
+        
         // Create characterType attributed strings
         beastTyrantString = NSMutableAttributedString(string: "  Beast Tyrant")
         let beastTyrantImageAttachment = NSTextAttachment()
-        beastTyrantImageAttachment.image = UIImage(named: "beastTyrantIcon.png")
+        //beastTyrantImageAttachment.image = UIImage(named: "beastTyrantIcon.png")
+        beastTyrantImageAttachment.image = UIImage(named: "beastTyrantIcon.png")?.resizeWith(percentage: resizePercentage)
         let beastTyrantImageString = NSAttributedString(attachment: beastTyrantImageAttachment)
         beastTyrantString.insert(beastTyrantImageString, at: 0)
         
         berserkerString = NSMutableAttributedString(string: "  Berserker")
         let berserkerImageAttachment = NSTextAttachment()
-        berserkerImageAttachment.image = UIImage(named: "berserkerIcon.png")
+        berserkerImageAttachment.image = UIImage(named: "berserkerIcon.png")?.resizeWith(percentage: resizePercentage)
         let berserkerImageString = NSAttributedString(attachment: berserkerImageAttachment)
         berserkerString.insert(berserkerImageString, at: 0)
         
         bruteString = NSMutableAttributedString(string: "  Brute")
         let bruteImageAttachment = NSTextAttachment()
-        bruteImageAttachment.image = UIImage(named: "bruteIcon.png")
+        bruteImageAttachment.image = UIImage(named: "bruteIcon.png")?.resizeWith(percentage: resizePercentage)
         let bruteImageString = NSAttributedString(attachment: bruteImageAttachment)
         bruteString.insert(bruteImageString, at: 0)
         
         cragheartString = NSMutableAttributedString(string: "  Cragheart")
         let cragheartImageAttachment = NSTextAttachment()
-        cragheartImageAttachment.image = UIImage(named: "cragheartIcon.png")
+        cragheartImageAttachment.image = UIImage(named: "cragheartIcon.png")?.resizeWith(percentage: resizePercentage)
         let cragheartImageString = NSAttributedString(attachment: cragheartImageAttachment)
         cragheartString.insert(cragheartImageString, at: 0)
         
         elementalistString = NSMutableAttributedString(string: "  Elementalist")
         let elementalistImageAttachment = NSTextAttachment()
-        elementalistImageAttachment.image = UIImage(named: "elementalistIcon.png")
-        let elementalistImageString = NSAttributedString(attachment: cragheartImageAttachment)
+        elementalistImageAttachment.image = UIImage(named: "elementalistIcon.png")?.resizeWith(percentage: resizePercentage)
+        let elementalistImageString = NSAttributedString(attachment: elementalistImageAttachment)
         elementalistString.insert(elementalistImageString, at: 0)
         
         mindthiefString = NSMutableAttributedString(string: "  Mindthief")
         let mindthiefImageAttachment = NSTextAttachment()
-        mindthiefImageAttachment.image = UIImage(named: "mindthiefIcon.png")
+        mindthiefImageAttachment.image = UIImage(named: "mindthiefIcon.png")?.resizeWith(percentage: resizePercentage)
         let mindthiefImageString = NSAttributedString(attachment: mindthiefImageAttachment)
         mindthiefString.insert(mindthiefImageString, at: 0)
         
         nightshroudString = NSMutableAttributedString(string: "  Nightshroud")
         let nightshroudImageAttachment = NSTextAttachment()
-        nightshroudImageAttachment.image = UIImage(named: "nightshroudIcon.png")
-        let nightshroudImageString = NSAttributedString(attachment: mindthiefImageAttachment)
+        nightshroudImageAttachment.image = UIImage(named: "nightshroudIcon.png")?.resizeWith(percentage: resizePercentage)
+        let nightshroudImageString = NSAttributedString(attachment: nightshroudImageAttachment)
         nightshroudString.insert(nightshroudImageString, at: 0)
         
         plagueheraldString = NSMutableAttributedString(string: "  Plagueherald")
         let plagueheraldImageAttachment = NSTextAttachment()
-        plagueheraldImageAttachment.image = UIImage(named: "plagueheraldIcon.png")
+        plagueheraldImageAttachment.image = UIImage(named: "plagueheraldIcon.png")?.resizeWith(percentage: resizePercentage)
         let plagueheraldImageString = NSAttributedString(attachment: plagueheraldImageAttachment)
         plagueheraldString.insert(plagueheraldImageString, at: 0)
         
         quartermasterString = NSMutableAttributedString(string: "  Quartermaster")
         let quartermasterImageAttachment = NSTextAttachment()
-        quartermasterImageAttachment.image = UIImage(named: "quartermasterIcon.png")
+        quartermasterImageAttachment.image = UIImage(named: "quartermasterIcon.png")?.resizeWith(percentage: resizePercentage)
         let quartermasterImageString = NSAttributedString(attachment: quartermasterImageAttachment)
         quartermasterString.insert(quartermasterImageString, at: 0)
         
         sawbonesString = NSMutableAttributedString(string: "  Sawbones")
         let sawbonesImageAttachment = NSTextAttachment()
-        sawbonesImageAttachment.image = UIImage(named: "sawbonesIcon.png")
+        sawbonesImageAttachment.image = UIImage(named: "sawbonesIcon.png")?.resizeWith(percentage: resizePercentage)
         let sawbonesImageString = NSAttributedString(attachment: sawbonesImageAttachment)
         sawbonesString.insert(sawbonesImageString, at: 0)
         
         scoundrelString = NSMutableAttributedString(string: "  Scoundrel")
         let scoundrelImageAttachment = NSTextAttachment()
-        scoundrelImageAttachment.image = UIImage(named: "scoundrelIcon.png")
+        scoundrelImageAttachment.image = UIImage(named: "scoundrelIcon.png")?.resizeWith(percentage: resizePercentage)
         let scoundrelImageString = NSAttributedString(attachment: scoundrelImageAttachment)
         scoundrelString.insert(scoundrelImageString, at: 0)
         
         soothsingerString = NSMutableAttributedString(string: "  Soothsinger")
         let soothsingerImageAttachment = NSTextAttachment()
-        soothsingerImageAttachment.image = UIImage(named: "soothsingerIcon.png")
+        soothsingerImageAttachment.image = UIImage(named: "soothsingerIcon.png")?.resizeWith(percentage: resizePercentage)
         let soothsingerImageString = NSAttributedString(attachment: soothsingerImageAttachment)
         soothsingerString.insert(soothsingerImageString, at: 0)
         
         spellweaverString = NSMutableAttributedString(string: "  Spellweaver")
         let spellweaverImageAttachment = NSTextAttachment()
-        spellweaverImageAttachment.image = UIImage(named: "spellweaverIcon.png")
+        spellweaverImageAttachment.image = UIImage(named: "spellweaverIcon.png")?.resizeWith(percentage: resizePercentage)
         let spellweaverImageString = NSAttributedString(attachment: spellweaverImageAttachment)
         spellweaverString.insert(spellweaverImageString, at: 0)
         
         summonerString = NSMutableAttributedString(string: "  Summoner")
         let summonerImageAttachment = NSTextAttachment()
-        summonerImageAttachment.image = UIImage(named: "summonerIcon.png")
+        summonerImageAttachment.image = UIImage(named: "summonerIcon.png")?.resizeWith(percentage: resizePercentage)
         let summonerImageString = NSAttributedString(attachment: summonerImageAttachment)
         summonerString.insert(summonerImageString, at: 0)
         
         sunkeeperString = NSMutableAttributedString(string: "  Sunkeeper")
         let sunkeeperImageAttachment = NSTextAttachment()
-        sunkeeperImageAttachment.image = UIImage(named: "sunkeeperIcon.png")
+        sunkeeperImageAttachment.image = UIImage(named: "sunkeeperIcon.png")?.resizeWith(percentage: resizePercentage)
         let sunkeeperImageString = NSAttributedString(attachment: sunkeeperImageAttachment)
         sunkeeperString.insert(sunkeeperImageString, at: 0)
         
         tinkererString = NSMutableAttributedString(string: "  Tinkerer")
         let tinkererImageAttachment = NSTextAttachment()
-        tinkererImageAttachment.image = UIImage(named: "tinkererIcon.png")
+        tinkererImageAttachment.image = UIImage(named: "tinkererIcon.png")?.resizeWith(percentage: resizePercentage)
         let tinkererImageString = NSAttributedString(attachment: tinkererImageAttachment)
         tinkererString.insert(tinkererImageString, at: 0)
         
@@ -2201,7 +2211,7 @@ class DataModel {
                 } else { // No cloud schema, no local plist -> create new default campaign
                     // Need to make sure it's not that we just can't contact the container (due to authentication issues, e.g.) If that's the case, we need to give user a way to try again before overwriting Cloud
                     print("Attempting to create CK Schema")
-                    //self.createCampaign(title: "MyCampaign", isCurrent: true, parties: [self.createDefaultParty()])
+                    self.createCampaign(title: "MyCampaign", isCurrent: true, parties: [self.createDefaultParty()])
                     //self.createDefaultCharacters()
                     self.saveCampaignsLocally()
                     //self.updateCampaignRecords()
@@ -2457,7 +2467,6 @@ class DataModel {
             "Summoner"                              : false,
             "Sunkeeper"                             : false,
             "Tinkerer"                              : true
-            
             ]
         return availableCharacterTypes
     }
@@ -4018,7 +4027,20 @@ class DataModel {
         }
     }
 }
-
+extension UIImage {
+    
+    func resizeWith(percentage: CGFloat) -> UIImage? {
+        let imageView = UIImageView(frame: CGRect(origin: .zero, size: CGSize(width: size.width * percentage, height: size.height * percentage)))
+        imageView.contentMode = .scaleAspectFit
+        imageView.image = self
+        UIGraphicsBeginImageContextWithOptions(imageView.bounds.size, false, scale)
+        guard let context = UIGraphicsGetCurrentContext() else { return nil }
+        imageView.layer.render(in: context)
+        guard let result = UIGraphicsGetImageFromCurrentImageContext() else { return nil }
+        UIGraphicsEndImageContext()
+        return result
+    }
+}
 
 class ScenarioNumberAndTitle {
     

@@ -85,7 +85,8 @@ class CharacterDetailViewModel: NSObject {
         let characterLevelItem = CharacterDetailViewModelCharacterLevelItem(level: String(character.level))
         items.append(characterLevelItem)
         // Append character type to items
-        let characterTypeItem = CharacterDetailViewModelCharacterTypeItem(characterType: character.type)
+//        let characterTypeItem = CharacterDetailViewModelCharacterTypeItem(characterType: character.type)
+        let characterTypeItem = CharacterDetailViewModelCharacterTypeItem(characterType: SeparatedAttributedStrings(rowString: NSMutableAttributedString(string: character.type)))
         items.append(characterTypeItem)
         // Append character goal to items
         let characterGoalItem = CharacterDetailViewModelCharacterGoalItem(characterGoal: character.goal)
@@ -188,10 +189,19 @@ extension CharacterDetailViewModel: UITableViewDataSource, UITableViewDelegate, 
             }
         case .characterType:
             if let item = item as? CharacterDetailViewModelCharacterTypeItem, let cell = tableView.dequeueReusableCell(withIdentifier: CharacterDetailCharacterTypeCell.identifier, for: indexPath) as? CharacterDetailCharacterTypeCell {
+                var fancyType = SeparatedAttributedStrings(rowString: NSMutableAttributedString(string: ""))
                 cell.backgroundColor = UIColor.clear
                 cell.selectionStyle = .none
-                item.characterType = character.type
-                cell.item = item
+                for type in dataModel.availableCharacterTypesAttributed {
+                    let cleanedType = type.rowString!.string.replacingOccurrences(of: " ", with: "")
+                    let ultraCleanedType = cleanedType.replacingOccurrences(of: "\u{fffc}", with: "")
+                    if ultraCleanedType == character.type {
+                        fancyType = type
+                    }
+                }
+                //item.characterType = character.type
+                item.characterType = fancyType
+                cell.item = fancyType
                 return cell
             }
         case .characterGoal:
@@ -400,9 +410,14 @@ class CharacterDetailViewModelCharacterTypeItem: CharacterDetailViewModelItem {
         return 1
     }
     
-    var characterType: String
+//    var characterType: String
+//
+//    init(characterType: String) {
+//        self.characterType = characterType
+//    }
+    var characterType: SeparatedAttributedStrings
     
-    init(characterType: String) {
+    init(characterType: SeparatedAttributedStrings) {
         self.characterType = characterType
     }
 }

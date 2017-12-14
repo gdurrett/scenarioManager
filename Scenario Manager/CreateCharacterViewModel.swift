@@ -169,17 +169,18 @@ extension CreateCharacterViewModel: UITableViewDelegate, UITableViewDataSource {
             cell.myStepperOutlet.isHidden = false
             tableViewCell = cell
         case 2:
-            var item = CharacterDetailViewModelCharacterTypeItem(characterType: "None")
+            //var item = CharacterDetailViewModelCharacterTypeItem(characterType: "None")
+            var item = CharacterDetailViewModelCharacterTypeItem(characterType: SeparatedAttributedStrings(rowString: NSMutableAttributedString(string: "None")))
             let cell = tableView.dequeueReusableCell(withIdentifier: CharacterDetailCharacterTypeCell.identifier, for: indexPath) as! CharacterDetailCharacterTypeCell
             cell.backgroundColor = UIColor.clear
             cell.selectionStyle = .none
             if newCharacter.type == "" {
-                item = CharacterDetailViewModelCharacterTypeItem(characterType: "Tap to select")
+                item = CharacterDetailViewModelCharacterTypeItem(characterType: SeparatedAttributedStrings(rowString: NSMutableAttributedString(string: "Tap to select")))
             } else {
-                item = CharacterDetailViewModelCharacterTypeItem(characterType: newCharacter.type)
+                item = CharacterDetailViewModelCharacterTypeItem(characterType: SeparatedAttributedStrings(rowString: NSMutableAttributedString(string: newCharacter.type)))
             }
             typeCell = cell
-            cell.item = item
+            cell.item = item.characterType
             tableViewCell = cell
         case 3:
             var item = CharacterDetailViewModelCharacterGoalItem(characterGoal: "None")

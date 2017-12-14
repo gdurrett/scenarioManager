@@ -55,6 +55,8 @@ class CampaignDetailViewController: UIViewController {
         viewModel.reloadSection = { [weak self] (section: Int) in
             if section == 1 {
                 self?.refreshProsperityLevel()
+            } else if section == 3 {
+                self?.refreshTypes()
             } else if section == 4 {
                 self?.refreshParties()
             } else if section == 6 {
@@ -69,7 +71,10 @@ class CampaignDetailViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.showEventOptionPicker), name: NSNotification.Name(rawValue: "showEventChoiceOptionPicker"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.showCharacterTypePicker), name: NSNotification.Name(rawValue: "showCharacterTypePicker"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.showCharacterTypePicker), name: NSNotification.Name(rawValue: "showCharacterAvailableTypePicker"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.showSwipeAlertStarting), name: NSNotification.Name(rawValue: "showSwipeAlertStarting"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.showSwipeAlertUsed), name: NSNotification.Name(rawValue: "showSwipeAlertUsed"), object: nil)
         
         campaignDetailTableView?.dataSource = viewModel
         campaignDetailTableView?.delegate = viewModel
@@ -218,7 +223,7 @@ extension CampaignDetailViewController: UITableViewDelegate {
     }
     func refreshAchievements() {
         DispatchQueue.main.async {
-            self.campaignDetailTableView.reloadSections([3], with: .none)
+            self.campaignDetailTableView.reloadSections([5], with: .none)
         }
     }
     func refreshCampaignTitle() {
@@ -238,12 +243,12 @@ extension CampaignDetailViewController: UITableViewDelegate {
     }
     func refreshParties() {
         DispatchQueue.main.async {
-            self.campaignDetailTableView.reloadSections([5], with: .none)
+            self.campaignDetailTableView.reloadSections([4], with: .none)
         }
     }
     func refreshTypes() {
         DispatchQueue.main.async {
-            self.campaignDetailTableView.reloadSections([4], with: .none)
+            self.campaignDetailTableView.reloadSections([3], with: .none)
         }
     }
     func refreshEvents() {
@@ -271,6 +276,30 @@ extension CampaignDetailViewController: UITableViewDelegate {
         alertController.addAction(OKAction)
         
         self.present(alertController, animated: true, completion:nil)
+    }
+    @objc func showSwipeAlertStarting() {
+        let alertTitle = "Cannot lock starting character type"
+        let alertView = UIAlertController(
+            title: alertTitle,
+            message: nil,
+            preferredStyle: .actionSheet)
+        
+        let action = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil)
+        alertView.view.tintColor = colorDefinitions.scenarioAlertViewTintColor
+        alertView.addAction(action)
+        present(alertView, animated: true, completion: nil)
+    }
+    @objc func showSwipeAlertUsed() {
+        let alertTitle = "Cannot lock used character type"
+        let alertView = UIAlertController(
+            title: alertTitle,
+            message: nil,
+            preferredStyle: .actionSheet)
+        
+        let action = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil)
+        alertView.view.tintColor = colorDefinitions.scenarioAlertViewTintColor
+        alertView.addAction(action)
+        present(alertView, animated: true, completion: nil)
     }
     // Action methods
     fileprivate func loadSelectCampaignViewController() {
