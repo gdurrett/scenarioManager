@@ -14,15 +14,7 @@ protocol CampaignDetailProsperityCellDelegate: class {
 
 class CampaignDetailProsperityCell: UITableViewCell {
 
-    @IBOutlet weak var campaignDetailProsperityLabel: UILabel! {
-        didSet {
-            guard let item = item as? CampaignDetailViewModelCampaignProsperityItem else {
-                return
-            }
-            let checksText = item.remainingChecksUntilNextLevel == 1 ? "check" : "checks"
-            campaignDetailProsperityLabel?.text = "\(item.level)        (\(item.remainingChecksUntilNextLevel) \(checksText) to next level)"
-        }
-    }
+    @IBOutlet weak var campaignDetailProsperityLabel: UILabel!
     
     @IBOutlet weak var myStepperOutlet: UIStepper!
     
@@ -46,7 +38,7 @@ class CampaignDetailProsperityCell: UITableViewCell {
             campaignDetailProsperityLabel?.font = fontDefinitions.detailTableViewNonTitleFont
             campaignDetailProsperityLabel?.textColor = colorDefinitions.scenarioTitleFontColor
             let checksText = item.remainingChecksUntilNextLevel == 1 ? "check" : "checks"
-            campaignDetailProsperityLabel?.text = "\(item.level)          \(item.remainingChecksUntilNextLevel) \(checksText) to next level"
+            campaignDetailProsperityLabel?.text = "\(item.level)      \(item.remainingChecksUntilNextLevel) \(checksText) to next level"
             
         }
     }

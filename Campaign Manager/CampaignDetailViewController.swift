@@ -83,7 +83,6 @@ class CampaignDetailViewController: UIViewController {
         characterTypePicker.delegate = self.viewModel
         characterTypePicker.dataSource = self.viewModel
         
-
         campaignDetailTableView.separatorInset = .zero // Get rid of offset to left for tableview!
         
         // Register Cells
@@ -143,7 +142,9 @@ extension CampaignDetailViewController: UITableViewDelegate {
         }
     }
     override func viewWillDisappear(_ animated: Bool) {
-        
+        viewModel.hideAllControls()
+        characterTypePickerDidTapCancel()
+        eventOptionPickerDidTapCancel()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)

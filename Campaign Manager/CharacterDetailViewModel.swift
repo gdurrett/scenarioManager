@@ -295,6 +295,11 @@ extension CharacterDetailViewModel: UITableViewDataSource, UITableViewDelegate, 
     @objc func showCharacterTypePicker(_ button: UIButton) {
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "showCharacterTypePicker"), object: nil)
     }
+    func hideAllControls() {
+        let myLevelCell = self.currentLevelCell as! CharacterDetailCharacterLevelCell
+        myLevelCell.myStepperOutlet.isHidden = true
+        myLevelCell.myStepperOutlet.isEnabled = false
+    }
     // Called from SelectCampaignVC DidSelect
     @objc func setNewCampaignCharacters() {
         self.updateCharactersForNewCampaign = true

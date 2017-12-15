@@ -223,7 +223,7 @@
 		FB2237D41F816B5500CAA684 /* SelectCampaignViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCampaignViewController.swift; sourceTree = "<group>"; };
 		FB2237D71F8190E600CAA684 /* SelectCampaignTitleCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelectCampaignTitleCell.xib; sourceTree = "<group>"; };
 		FB2237D91F81916B00CAA684 /* SelectCampaignTitleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCampaignTitleCell.swift; sourceTree = "<group>"; };
-		FB23B6E61F044CFC00CAA684 /* Scenario Manager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Scenario Manager.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FB23B6E61F044CFC00CAA684 /* Campaign Manager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Campaign Manager.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB23B6E91F044CFC00CAA684 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FB23B6F31F044CFC00CAA684 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FB23B6F51F044CFC00CAA684 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -385,7 +385,7 @@
 		FB23B6E71F044CFC00CAA684 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				FB23B6E61F044CFC00CAA684 /* Scenario Manager.app */,
+				FB23B6E61F044CFC00CAA684 /* Campaign Manager.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -688,7 +688,7 @@
 			);
 			name = "Scenario Manager";
 			productName = "Scenario Manager";
-			productReference = FB23B6E61F044CFC00CAA684 /* Scenario Manager.app */;
+			productReference = FB23B6E61F044CFC00CAA684 /* Campaign Manager.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -999,6 +999,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = BER336RBH2;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1056,6 +1057,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = BER336RBH2;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1081,6 +1083,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Campaign Manager/Campaign Manager.entitlements";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = BER336RBH2;
 				INFOPLIST_FILE = "Campaign Manager/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1097,6 +1100,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Campaign Manager/Campaign Manager.entitlements";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = BER336RBH2;
 				INFOPLIST_FILE = "Campaign Manager/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

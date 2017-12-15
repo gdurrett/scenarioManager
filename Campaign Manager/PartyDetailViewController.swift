@@ -75,7 +75,10 @@ class PartyDetailViewController: UIViewController {
         
         styleUI()
     }
-    
+    override func viewWillDisappear(_ animated: Bool) {
+        viewModel.hideAllControls()
+        eventAchievementsPickerDidTapCancel()
+    }
     // MARK: Helper methods
     func updateAllSections() {
         viewModel.updateCurrentPartyName()

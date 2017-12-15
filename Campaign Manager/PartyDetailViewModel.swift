@@ -412,6 +412,12 @@ extension PartyDetailViewModel: UITableViewDataSource, UITableViewDelegate, Part
     @objc func showEventAchievementsPicker(_ button: UIButton) {
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "showEventAchievementsPicker"), object: nil)
     }
+    func hideAllControls() {
+        let myReputationCell = self.currentReputationCell as! PartyDetailReputationCell
+        myReputationCell.myStepperOutlet.isHidden = true
+        myReputationCell.myStepperOutlet.isEnabled = false
+        myReputationCell.myStepperOutlet.tintColor = colorDefinitions.mainTextColor
+    }
     // Delegate methods for textField in cell
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()

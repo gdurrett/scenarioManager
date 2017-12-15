@@ -395,7 +395,7 @@ class CampaignDetailViewModel: NSObject {
         // Try updating to catch prosperityBonus increments
         self.updateChecksToNextLevel()
         if let cell = currentProsperityCell as? CampaignDetailProsperityCell {
-            cell.campaignDetailProsperityLabel.text = "\(level)          \(remainingChecks) \(checksText) to next level"
+            cell.campaignDetailProsperityLabel.text = "\(level)      \(remainingChecks) \(checksText) to next level"
         }
     }
     func updateProsperityCount(value: Int) -> (Int, Int) {
@@ -521,7 +521,6 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
             if let item = item as? CampaignDetailViewModelCampaignProsperityItem, let cell = tableView.dequeueReusableCell(withIdentifier: CampaignDetailProsperityCell.identifier, for: indexPath) as? CampaignDetailProsperityCell {
                 cell.backgroundColor = UIColor.clear
                 cell.selectionStyle = .none
-                // Give proper status to isActive button in this cell
                 self.updateChecksToNextLevel()
                 item.level = prosperityLevel.value //+ self.prosperityBonus
                 item.remainingChecksUntilNextLevel = checksToNextLevel.value
@@ -538,7 +537,7 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
                 if dataModel.currentCampaign.sanctuaryDonations < 100 {
                     item.prosperityBonusString = ""
                 } else {
-                    item.prosperityBonusString = "      prosperity bonus: +\(self.prosperityBonus)"
+                    item.prosperityBonusString = "     prosperity bonus: +\(self.prosperityBonus)"
                 }
                 cell.delegate = self
                 cell.isActive = (self.isActiveCampaign == true ? true : false)
@@ -929,6 +928,17 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
     }
     @objc func showCharacterTypePicker(_ button: UIButton) {
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "showCharacterAvailableTypePicker"), object: nil)
+    }
+    // Called from VC to hide any controls left visible
+    func hideAllControls() {
+        let myDonationsCell = self.currentDonationsCell as! CampaignDetailDonationsCell
+        myDonationsCell.myStepperOutlet.isHidden = true
+        myDonationsCell.myStepperOutlet.isEnabled = false
+        myDonationsCell.myStepperOutlet.tintColor = colorDefinitions.mainTextColor
+        let myProsperityCell = self.currentProsperityCell as! CampaignDetailProsperityCell
+        myProsperityCell.myStepperOutlet.isHidden = true
+        myProsperityCell.myStepperOutlet.isEnabled = false
+        myProsperityCell.myStepperOutlet.tintColor = colorDefinitions.mainTextColor
     }
 }
 

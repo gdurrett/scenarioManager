@@ -68,6 +68,9 @@ class CharacterDetailViewController: UIViewController {
         viewModel.updateAssignedParty()
         self.characterDetailTableView.reloadData()
     }
+    override func viewWillDisappear(_ animated: Bool) {
+        viewModel.hideAllControls()
+    }
     // Helper methods
     fileprivate func styleUI() {
         self.characterDetailTableView.estimatedRowHeight = 80
