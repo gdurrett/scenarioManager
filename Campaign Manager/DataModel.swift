@@ -433,8 +433,8 @@ class DataModel {
         let url = NSURL(fileURLWithPath: path)
         let filePath = url.appendingPathComponent("Scenarios.plist")?.path
         let fileManager = FileManager.default
+        
         if fileManager.fileExists(atPath: filePath!){
-            //loadScenarios()
             loadCampaignsFromLocal()
             for campaign in campaigns {
                 if campaign.value.isCurrent == true {
@@ -2210,23 +2210,23 @@ class DataModel {
             ]
             
             // Create iCloud private DB schema if no plist exists. Logic will change.
-            checkIfCampaignRecordExists() {
-                result in
-                if result != nil {
-                    print("No need to create CK Schema. Updating local values from Cloud")
-                    //DispatchQueue.main.async {
-                    self.updateCampaignsFromCloud() { campaigns in
-                        self.campaigns = campaigns
-                    }
-                } else { // No cloud schema, no local plist -> create new default campaign
-                    // Need to make sure it's not that we just can't contact the container (due to authentication issues, e.g.) If that's the case, we need to give user a way to try again before overwriting Cloud
-                    print("Attempting to create CK Schema")
-                    self.createCampaign(title: "MyCampaign", isCurrent: true, parties: [self.createDefaultParty()])
-                    //self.createDefaultCharacters()
-                    self.saveCampaignsLocally()
-                    //self.updateCampaignRecords()
-                }
-            }
+//            checkIfCampaignRecordExists() {
+//                result in
+//                if result != nil {
+//                    print("No need to create CK Schema. Updating local values from Cloud")
+//                    //DispatchQueue.main.async {
+//                    self.updateCampaignsFromCloud() { campaigns in
+//                        self.campaigns = campaigns
+//                    }
+//                } else { // No cloud schema, no local plist -> create new default campaign
+//                    // Need to make sure it's not that we just can't contact the container (due to authentication issues, e.g.) If that's the case, we need to give user a way to try again before overwriting Cloud
+//                    print("Attempting to create CK Schema")
+//                    self.createCampaign(title: "MyCampaign", isCurrent: true, parties: [self.createDefaultParty()])
+//                    //self.createDefaultCharacters()
+//                    self.saveCampaignsLocally()
+////                    self.updateCampaignRecords()
+//                }
+//            }
         }
         
         print("Documents folder is \(documentsDirectory())")
@@ -2252,7 +2252,6 @@ class DataModel {
         let data = NSMutableData()
         let archiver = NSKeyedArchiver(forWritingWith: data)
         archiver.encode(allScenarios, forKey: "Scenarios")
-//        archiver.encode(achievements, forKey: "Achievements")
         archiver.encode(campaigns, forKey: "Campaigns")
         archiver.encode(parties, forKey: "Parties")
         archiver.encode(characters, forKey: "Characters")
@@ -2264,7 +2263,6 @@ class DataModel {
         if let data = try? Data(contentsOf: path) {
             let unarchiver = NSKeyedUnarchiver(forReadingWith: data)
             allScenarios = unarchiver.decodeObject(forKey: "Scenarios") as! [Scenario]
-//            achievements = unarchiver.decodeObject(forKey: "Achievements") as! [ String : Bool ]
             campaigns = unarchiver.decodeObject(forKey: "Campaigns") as! [ String: Campaign ]
             parties = unarchiver.decodeObject(forKey: "Parties") as! [ String:Party ]
             characters = unarchiver.decodeObject(forKey: "Characters") as! [ String:Character ]
@@ -3884,12 +3882,20 @@ class DataModel {
         let campaignRecord = CKRecord(recordType: "CampaignStatus", recordID: campaignRecordID)
         //let campaignReference = CKReference(recordID: campaignRecordID, action: .deleteSelf)
         let campaignTitle = currentCampaign.title
+        let partyName = currentParty.name
         campaignRecord["title"] = campaignTitle as CKRecordValue
         let campaignIsCurrent = currentCampaign.isCurrent
         campaignRecord["isCurrent"] = campaignIsCurrent as CKRecordValue
-        
+
         records.append(campaignRecord)
         
+        for party in assignedParties! {
+            let partyRecordID = CKRecordID(recordName: party.name)
+            let partyRecord = CKRecord(recordType: "Party", recordID: partyRecordID)
+            let partyName = party.name
+            partyRecord["name"] = partyName as NSString
+            //let party
+        }
         for scenario in allScenarios {
             let scenarioStatusRecordID = CKRecordID(recordName: scenario.number + "_\(currentCampaign.title)")
             let scenarioStatusRecord = CKRecord(recordType: "ScenarioStatus", recordID: scenarioStatusRecordID)
@@ -3901,11 +3907,10 @@ class DataModel {
             let requirementsMetState = scenario.requirementsMet ? 1 : 0
             scenarioStatusRecord["requirementsMet"] = requirementsMetState as NSNumber
             scenarioStatusRecord["owningCampaign"] = campaignTitle as CKRecordValue
-                
+
             records.append(scenarioStatusRecord)
             
         }
-        // Needs to be in campaign.achievements
         for achievement in globalAchievements {
             let achievementStatusRecordID = CKRecordID(recordName: achievement.key + "_\(currentCampaign.title)")
             let achievementStatusRecord = CKRecord(recordType: "Achievement", recordID: achievementStatusRecordID)
@@ -3915,6 +3920,35 @@ class DataModel {
             
             records.append(achievementStatusRecord)
         }
+        for partyAchievement in partyAchievements {
+            let partyAchievementStatusRecordID = CKRecordID(recordName: partyAchievement.key + "_\(partyName)")
+            let partyAchievementStatusRecord = CKRecord(recordType: "PartyAchievement", recordID: partyAchievementStatusRecordID)
+            let partyAchievementState = partyAchievement.value ? 1 : 0
+            partyAchievementStatusRecord["isComplete"] = partyAchievementState as NSNumber
+            partyAchievementStatusRecord["owningParty"] = partyName as CKRecordValue
+            
+            records.append(partyAchievementStatusRecord)
+        }
+        for character in self.characters {
+            let characterRecordID = CKRecordID(recordName: character.key)
+            let characterRecord = CKRecord(recordType: "Character", recordID: characterRecordID)
+            characterRecord["name"] = character.value.name as NSString
+            characterRecord["goal"] = character.value.goal as NSString
+            characterRecord["type"] = character.value.type as NSString
+            characterRecord["level"] = character.value.level as NSNumber
+            let isActiveState = character.value.isActive ? 1 : 0
+            characterRecord["isActive"] = isActiveState as NSNumber
+            let isRetiredState = character.value.isRetired ? 1 : 0
+            characterRecord["isRetired"] = isRetiredState as NSNumber
+            characterRecord["assignedTo"] = character.value.assignedTo! as NSString
+            
+            for scenario in character.value.playedScenarios! {
+                characterRecord[scenario] = scenario as NSString
+            }
+            
+            records.append(characterRecord)
+        }
+
         let uploadOperation = CKModifyRecordsOperation(recordsToSave: records, recordIDsToDelete: nil)
         uploadOperation.savePolicy = .allKeys
         uploadOperation.modifyRecordsCompletionBlock = { savedRecords, deletedRecordsIDs, error in
@@ -3962,10 +3996,12 @@ class DataModel {
                 for record in records! {
                     campaignName = record.recordID.recordName
                     let current = record["isCurrent"] as! Bool == true ? true : false
+                    print("From cloud, campaignName is \(campaignName)")
                     self.createCampaign(title: campaignName, isCurrent: current, parties: [])
                     let newCampaign = self.campaigns[campaignName]!
                     newCampaign.isCurrent = record["isCurrent"] as! Bool
                     newCampaign.parties = record["parties"] as? [Party]
+                    print("From cloud, parties are: \(newCampaign.parties)")
                     self.getAchievementsStatusFromCloud(campaign: newCampaign.title) { achievements in
                         newCampaign.achievements = achievements
                     }

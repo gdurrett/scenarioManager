@@ -228,6 +228,7 @@ extension CreateCampaignViewModelFromModel: CreateCampaignViewControllerDelegate
                 if isFirstLoad == true {
                     dataModel.campaigns.removeValue(forKey: "MyCampaign")
                     dataModel.parties.removeValue(forKey: "MyParty")
+                    dataModel.updateCampaignRecords() // Test initial schema creation here
                     delegate?.performSegue(withIdentifier: "showTabBarVC", sender: self)
                 } else {
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "updateAfterNewCampaignSelected"), object: nil)

@@ -57,15 +57,11 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
         // Special case for when we've achieved Drake's Command and Drake's Treasure
         if dataModel.partyAchievements["The Drake's Command"] == true && dataModel.partyAchievements["The Drake's Treasure"] == true {
             dataModel.globalAchievements["The Drake Aided"] = true
-        } //else {
-//            dataModel.globalAchievements["The Drake Aided"] = false
-//        }
+        }
         // Special case for when we've achieved Artifact: Lost and The Rift: Neutralized
         if dataModel.globalAchievements["The Rift Neutralized"] == true && dataModel.globalAchievements["Artifact: Lost"] == true {
             dataModel.globalAchievements["Artifact: Recovered"] = true
-        }// else {
-//            dataModel.globalAchievements["Artifact: Recovered"] = false
-//        }
+        }
         setRequirementsMet()
         // Test notification to reload Campaign Detail data after changes are made in Scenario VC
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "reloadData"), object: nil)
