@@ -63,7 +63,6 @@
 		FB5DDF631F8BE5B600CAA684 /* CampaignDetailEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5DDF621F8BE5B600CAA684 /* CampaignDetailEventCell.swift */; };
 		FB5DDF661F8C35CF00CAA684 /* CampaignDetailEventsHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB5DDF651F8C35CF00CAA684 /* CampaignDetailEventsHeader.xib */; };
 		FB5DDF681F8C3A6200CAA684 /* CampaignDetailEventsHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5DDF671F8C3A6200CAA684 /* CampaignDetailEventsHeader.swift */; };
-		FB6D311E1FFD665E00CAA684 /* PartyDetailNotesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB6D311C1FFD5FB100CAA684 /* PartyDetailNotesCell.swift */; };
 		FB70AF001FCE230000CAA684 /* CreateCampaignCharacterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB70AEFF1FCE230000CAA684 /* CreateCampaignCharacterCell.swift */; };
 		FB70AF021FCE235600CAA684 /* CreateCampaignCharacterCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB70AF011FCE235600CAA684 /* CreateCampaignCharacterCell.xib */; };
 		FB7586BE1FD9CB8D00CAA684 /* CharacterDetailCharacterGoalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB7586BC1FD9CB8D00CAA684 /* CharacterDetailCharacterGoalCell.swift */; };
@@ -90,7 +89,6 @@
 		FBA014211F9EA4A200CAA684 /* PartyDetailAssignedCampaignHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA014201F9EA4A200CAA684 /* PartyDetailAssignedCampaignHeader.swift */; };
 		FBA014231F9EB05700CAA684 /* PartyDetailAssignedCampaignCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA014221F9EB05700CAA684 /* PartyDetailAssignedCampaignCell.swift */; };
 		FBA014251F9EB08D00CAA684 /* PartyDetailAssignedCampaignCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FBA014241F9EB08D00CAA684 /* PartyDetailAssignedCampaignCell.xib */; };
-		FBA7C5481FFD675E00CAA684 /* PartyDetailNotesCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FBA7C5471FFD675E00CAA684 /* PartyDetailNotesCell.xib */; };
 		FBB0BBA01FE32CF300CAA684 /* ScenarioViewController.swift in Resources */ = {isa = PBXBuildFile; fileRef = FBE3F1EA1F47C92C00CAA684 /* ScenarioViewController.swift */; };
 		FBB0BBA11FE32D8D00CAA684 /* ScenarioMainCell.swift in Resources */ = {isa = PBXBuildFile; fileRef = FB4665941F2FDCEE00CAA684 /* ScenarioMainCell.swift */; };
 		FBB0BBA21FE32DA200CAA684 /* CampaignDetailViewModel.swift in Resources */ = {isa = PBXBuildFile; fileRef = FB5729C11F6C74CD00CAA684 /* CampaignDetailViewModel.swift */; };
@@ -273,7 +271,6 @@
 		FB5DDF651F8C35CF00CAA684 /* CampaignDetailEventsHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CampaignDetailEventsHeader.xib; sourceTree = "<group>"; };
 		FB5DDF671F8C3A6200CAA684 /* CampaignDetailEventsHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignDetailEventsHeader.swift; sourceTree = "<group>"; };
 		FB65F5171F4F365800CAA684 /* Campaign Manager.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Campaign Manager.entitlements"; sourceTree = "<group>"; };
-		FB6D311C1FFD5FB100CAA684 /* PartyDetailNotesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartyDetailNotesCell.swift; sourceTree = "<group>"; };
 		FB70AEFF1FCE230000CAA684 /* CreateCampaignCharacterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCampaignCharacterCell.swift; sourceTree = "<group>"; };
 		FB70AF011FCE235600CAA684 /* CreateCampaignCharacterCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CreateCampaignCharacterCell.xib; sourceTree = "<group>"; };
 		FB7586BC1FD9CB8D00CAA684 /* CharacterDetailCharacterGoalCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterDetailCharacterGoalCell.swift; sourceTree = "<group>"; };
@@ -300,7 +297,6 @@
 		FBA014201F9EA4A200CAA684 /* PartyDetailAssignedCampaignHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartyDetailAssignedCampaignHeader.swift; sourceTree = "<group>"; };
 		FBA014221F9EB05700CAA684 /* PartyDetailAssignedCampaignCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartyDetailAssignedCampaignCell.swift; sourceTree = "<group>"; };
 		FBA014241F9EB08D00CAA684 /* PartyDetailAssignedCampaignCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PartyDetailAssignedCampaignCell.xib; sourceTree = "<group>"; };
-		FBA7C5471FFD675E00CAA684 /* PartyDetailNotesCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PartyDetailNotesCell.xib; sourceTree = "<group>"; };
 		FBB0BBF01FE334FA00CAA684 /* CampaignDetailPartiesHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CampaignDetailPartiesHeader.xib; sourceTree = "<group>"; };
 		FBC880BC1FA3B5F600CAA684 /* PartyDetailAchievementsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PartyDetailAchievementsCell.xib; sourceTree = "<group>"; };
 		FBC880BE1FA3B6C200CAA684 /* PartyDetailAchievementsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartyDetailAchievementsCell.swift; sourceTree = "<group>"; };
@@ -551,8 +547,6 @@
 				FBC880BE1FA3B6C200CAA684 /* PartyDetailAchievementsCell.swift */,
 				FB3929491FA79BAA00CAA684 /* PartyDetailAssignedCharactersCell.xib */,
 				FB39294B1FA79CD400CAA684 /* PartyDetailAssignedCharactersCell.swift */,
-				FB6D311C1FFD5FB100CAA684 /* PartyDetailNotesCell.swift */,
-				FBA7C5471FFD675E00CAA684 /* PartyDetailNotesCell.xib */,
 			);
 			name = PartyDetailTableViewCells;
 			sourceTree = "<group>";
@@ -831,7 +825,6 @@
 				FBE3F1ED1F4A5F6A00CAA684 /* Assets.xcassets in Resources */,
 				FBCE875D1F57F4C200CAA684 /* PirataOne-Regular.ttf in Resources */,
 				FBCFBC2D1FAA473100CAA684 /* SelectPartyTableViewCell.xib in Resources */,
-				FBA7C5481FFD675E00CAA684 /* PartyDetailNotesCell.xib in Resources */,
 				FBC880BD1FA3B5F600CAA684 /* PartyDetailAchievementsCell.xib in Resources */,
 				FBCE87611F58764300CAA684 /* HTOWERT.TTF in Resources */,
 				FB5729CE1F6F282400CAA684 /* CampaignDetailProsperityCell.xib in Resources */,
@@ -948,7 +941,6 @@
 				FBCE87641F59EBE400CAA684 /* CloudKitMgr.swift in Sources */,
 				FBD2DD211F6ADD8E00CAA684 /* Party.swift in Sources */,
 				FB23B7021F0AB5ED00CAA684 /* DataModel.swift in Sources */,
-				FB6D311E1FFD665E00CAA684 /* PartyDetailNotesCell.swift in Sources */,
 				FB5729C41F6C806800CAA684 /* CampaignDetailViewController.swift in Sources */,
 				FBD2DD061F625F6500CAA684 /* CampaignViewModel.swift in Sources */,
 				FBCFBC281FA92B6200CAA684 /* CreatePartyViewModel.swift in Sources */,
