@@ -12,12 +12,15 @@ class UnlockedByInfoCell: UITableViewCell, LockOrUnlockCellType {
 
     @IBOutlet weak var unlockedByInfoLabel: UILabel?
     
+    let fontDefinitions = FontDefinitions()
+    let colorDefinitsions = ColorDefinitions()
+    
     var item: ScenarioNumberAndTitle? {
         didSet {
             guard let item = item else {
                 return
             }
-            unlockedByInfoLabel?.font = UIFont(name: "Nyala", size: 22)
+            unlockedByInfoLabel?.font = fontDefinitions.detailTableViewNonTitleFont
             if (item.number?.contains("Event"))! || (item.number?.contains("Envelope"))!{ //Omit dash and title since it's an Event/Envelope
                 unlockedByInfoLabel?.text = "\(item.number!)"
             } else {

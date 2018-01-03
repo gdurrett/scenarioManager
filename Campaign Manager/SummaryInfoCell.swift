@@ -11,13 +11,16 @@ import UIKit
 class SummaryInfoCell: UITableViewCell {
 
     @IBOutlet weak var summaryInfoLabel: UILabel!
-        
+    
+    let fontDefinitions = FontDefinitions()
+    let colorDefinitsions = ColorDefinitions()
+    
     var item: ScenarioDetailViewModelItem? {
         didSet {
             guard let item = item as? ScenarioDetailViewModelScenarioSummaryItem else {
                 return
             }
-            summaryInfoLabel?.font = UIFont(name: "Nyala", size: 22)
+            summaryInfoLabel?.font = fontDefinitions.detailTableViewNonTitleFont
             summaryInfoLabel?.text = item.summary
         }
     }

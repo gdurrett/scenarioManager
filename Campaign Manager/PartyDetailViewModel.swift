@@ -374,7 +374,7 @@ extension PartyDetailViewModel: UITableViewDataSource, UITableViewDelegate, Part
             dataModel.saveCampaignsLocally() //Probably remove when implementing buttons
             cell.partyDetailReputationLabel.sizeToFit()
             let sign = reputation.value < -2 ? "+" : ""
-            cell.partyDetailReputationLabel.text = "\(reputation.value)      shop price modifier: \(sign)\(getShopPriceModifier(modifier: reputation.value))"
+            cell.partyDetailReputationLabel.text = "\(reputation.value)    shop price modifier: \(sign)\(getShopPriceModifier(modifier: reputation.value))"
         }
     }
     // MARK: selector methods

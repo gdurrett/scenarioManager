@@ -12,12 +12,16 @@ class RewardsInfoCell: UITableViewCell {
     
     @IBOutlet weak var rewardsInfoLabel: UILabel!
     
+    
+    let fontDefinitions = FontDefinitions()
+    let colorDefinitsions = ColorDefinitions()
+    
     var item: SeparatedAttributedStrings? {
         didSet {
             guard let item = item else {
                 return
             }
-            rewardsInfoLabel?.font = UIFont(name: "Nyala", size: 22)
+            rewardsInfoLabel?.font = fontDefinitions.detailTableViewNonTitleFont
             rewardsInfoLabel?.attributedText = (item.rowString!)
         }
     }

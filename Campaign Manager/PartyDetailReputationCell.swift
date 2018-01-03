@@ -42,7 +42,7 @@ class PartyDetailReputationCell: UITableViewCell {
             partyDetailReputationLabel?.sizeToFit()
             partyDetailReputationLabel?.font = fontDefinitions.detailTableViewNonTitleFont
             partyDetailReputationLabel?.textColor = colorDefinitions.scenarioTitleFontColor
-            partyDetailReputationLabel?.text = "\(item.reputation)      shop price modifier: \(item.modifier)"
+            partyDetailReputationLabel?.text = "\(item.reputation)    shop price modifier: \(item.modifier)"
         }
     }
     static var nib:UINib {

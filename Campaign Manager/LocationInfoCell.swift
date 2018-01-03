@@ -12,12 +12,15 @@ class LocationInfoCell: UITableViewCell {
     
     @IBOutlet weak var locationInfoLabel: UILabel!
     
+    let fontDefinitions = FontDefinitions()
+    let colorDefinitsions = ColorDefinitions()
+    
     var item: ScenarioDetailViewModelItem? {
         didSet {
             guard let item = item as? ScenarioDetailViewModelScenarioLocationItem else {
                 return
             }
-            locationInfoLabel?.font = UIFont(name: "Nyala", size: 22)
+            locationInfoLabel?.font = fontDefinitions.detailTableViewNonTitleFont
             locationInfoLabel?.text = item.location
         }
     }

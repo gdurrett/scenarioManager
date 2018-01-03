@@ -23,14 +23,11 @@ class Scenario: NSObject, NSCoding {
     var unlocks = [String]()
     var summary = String()
     var locationString = String()
+    var linksTo = [String]()
     var isManuallyUnlockable = false
     var mainCellBGImage = String()
- 
-//    override init() {
-//        super.init()
-//    }
 
-    init(number: String, title: String, isCompleted: Bool, requirementsMet: Bool, requirements: [String: Bool], isUnlocked: Bool, unlockedBy: [String], unlocks: [String], achieves: [String], rewards: [NSAttributedString], summary: String, locationString: String, isManuallyUnlockable: Bool, mainCellBGImage: String) {
+    init(number: String, title: String, isCompleted: Bool, requirementsMet: Bool, requirements: [String: Bool], isUnlocked: Bool, unlockedBy: [String], unlocks: [String], achieves: [String], rewards: [NSAttributedString], summary: String, locationString: String, linksTo: [String], isManuallyUnlockable: Bool, mainCellBGImage: String) {
         self.number = number
         self.title = title
         self.isCompleted = isCompleted
@@ -43,6 +40,7 @@ class Scenario: NSObject, NSCoding {
         self.rewards = rewards
         self.summary = summary
         self.locationString = locationString
+        self.linksTo = linksTo
         self.isManuallyUnlockable = isManuallyUnlockable
         self.mainCellBGImage = mainCellBGImage
     }
@@ -61,6 +59,7 @@ class Scenario: NSObject, NSCoding {
         rewards = aDecoder.decodeObject(forKey: "Rewards") as! [NSAttributedString]
         summary = aDecoder.decodeObject(forKey: "Summary") as! String
         locationString = aDecoder.decodeObject(forKey: "LocationString") as! String
+        linksTo = aDecoder.decodeObject(forKey: "LinksTo") as! [String]
         isManuallyUnlockable = aDecoder.decodeBool(forKey: "IsManuallyUnlockable")
         mainCellBGImage = aDecoder.decodeObject(forKey: "MainCellBGImage") as! String
         super.init()
@@ -81,6 +80,7 @@ class Scenario: NSObject, NSCoding {
         aCoder.encode(rewards, forKey: "Rewards")
         aCoder.encode(summary, forKey: "Summary")
         aCoder.encode(locationString, forKey: "LocationString")
+        aCoder.encode(linksTo, forKey: "LinksTo")
         aCoder.encode(isManuallyUnlockable, forKey: "IsManuallyUnlockable")
         aCoder.encode(mainCellBGImage, forKey: "MainCellBGImage")
     }

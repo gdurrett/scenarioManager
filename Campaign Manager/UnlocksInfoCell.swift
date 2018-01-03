@@ -12,12 +12,15 @@ class UnlocksInfoCell: UITableViewCell, LockOrUnlockCellType {
 
     @IBOutlet weak var unlocksInfoLabel: UILabel?
     
+    let fontDefinitions = FontDefinitions()
+    let colorDefinitsions = ColorDefinitions()
+    
     var item: ScenarioNumberAndTitle? {
         didSet {
             guard let item = item else {
                 return
             }
-            unlocksInfoLabel?.font = UIFont(name: "Nyala", size: 22)
+            unlocksInfoLabel?.font = fontDefinitions.detailTableViewNonTitleFont
             unlocksInfoLabel?.text = "\(item.number!) - \(item.title!)"
         }
     }
