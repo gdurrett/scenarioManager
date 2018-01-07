@@ -93,6 +93,7 @@ class CampaignDetailViewController: UIViewController {
         campaignDetailTableView?.register(CampaignDetailAchievementsCell.nib, forCellReuseIdentifier: CampaignDetailAchievementsCell.identifier)
         campaignDetailTableView?.register(CampaignDetailEventCell.nib, forCellReuseIdentifier: CampaignDetailEventCell.identifier)
         campaignDetailTableView?.register(CampaignDetailAvailableTypeCell.nib, forCellReuseIdentifier: CampaignDetailAvailableTypeCell.identifier)
+        campaignDetailTableView?.register(CampaignDetailNotesCell.nib, forCellReuseIdentifier: CampaignDetailNotesCell.identifier)
         
         // Register Custom header(s)
         campaignDetailTableView?.register(CampaignDetailEventsHeader.nib, forCellReuseIdentifier: CampaignDetailEventsHeader.identifier)
@@ -139,6 +140,8 @@ extension CampaignDetailViewController: UITableViewDelegate {
             break
         case .availableTypes:
             break
+        case .campaignNotes:
+            break
         }
     }
     override func viewWillDisappear(_ animated: Bool) {
@@ -158,6 +161,7 @@ extension CampaignDetailViewController: UITableViewDelegate {
         viewModel.updateAvailableParties()
         viewModel.updateAssignedParties()
         viewModel.updateEvents()
+        viewModel.updateCampaignNotes()
 
         self.campaignDetailTableView.reloadData()
         self.updateNavTitle()

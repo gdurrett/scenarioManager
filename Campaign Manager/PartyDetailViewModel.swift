@@ -15,6 +15,7 @@ enum PartyDetailViewModelItemType {
     case characters
     case achievements
     case assignedCampaign
+    case partyNotes
 }
 
 protocol PartyDetailViewModelItem {
@@ -44,9 +45,12 @@ class PartyDetailViewModel: NSObject {
     var allCharacters: Dynamic<[String]>
     var assignedParties: Dynamic<[Party]?>
     var currentParty: Dynamic<Party>
+    var partyNotes: Dynamic<String>
+    
     // Other
     var currentPartyCell = UITableViewCell()
     var currentReputationCell = UITableViewCell()
+    var currentNotesCell = UITableViewCell()
     var shopPriceModifier = 0
     var myAssignedPartyTitle = String()
     var selectedCampaignSegmentIndex = 0
@@ -100,6 +104,7 @@ class PartyDetailViewModel: NSObject {
         self.allCharacters = Dynamic(Array(dataModel.characters.keys)) // [String]
         self.assignedParties = Dynamic(dataModel.assignedParties)
         self.currentParty = Dynamic(dataModel.currentParty)
+        self.partyNotes = Dynamic(dataModel.currentPartyNotes)
         super.init()
         
         
@@ -131,6 +136,9 @@ class PartyDetailViewModel: NSObject {
         }
         let achievementsItem = PartyDetailViewModelPartyAchievementsItem(achievements: achievementNames)
         items.append(achievementsItem)
+        // Append party notes
+        let partyNotesItem = PartyDetailViewModelPartyNotesItem(notes: partyNotes.value)
+        items.append(partyNotesItem)
     }
     // Helper methods
     func toggleSection(section: Int) {
@@ -167,6 +175,9 @@ class PartyDetailViewModel: NSObject {
     }
     func updateCurrentParty() {
         self.currentParty.value = dataModel.currentParty
+    }
+    func updatePartyNotes() {
+        self.partyNotes.value = dataModel.currentPartyNotes
     }
     func getShopPriceModifier(modifier: Int) -> Int {
         var myModifier = 0
@@ -220,7 +231,7 @@ class PartyDetailViewModel: NSObject {
     }
 }
 // MARK: Table Delegate and Datasource extension. Other cell delegate methods.
-extension PartyDetailViewModel: UITableViewDataSource, UITableViewDelegate, PartyDetailReputationCellDelegate, UITextFieldDelegate {
+extension PartyDetailViewModel: UITableViewDataSource, UITableViewDelegate, PartyDetailReputationCellDelegate, UITextViewDelegate {
     // MARK: TableView DataSource methods
     func numberOfSections(in tableView: UITableView) -> Int {
         return self.items.count
@@ -310,8 +321,16 @@ extension PartyDetailViewModel: UITableViewDataSource, UITableViewDelegate, Part
                     achNames.append(SeparatedStrings(rowString: ach))
                 }
                 achievement = achNames[indexPath.row]
-                cell.selectionStyle = .none
                 cell.item = achievement
+                return cell
+            }
+        case .partyNotes:
+            if let item = item as? PartyDetailViewModelPartyNotesItem, let cell = tableView.dequeueReusableCell(withIdentifier: PartyDetailNotesCell.identifier, for: indexPath) as? PartyDetailNotesCell {
+                cell.backgroundColor = UIColor.clear
+                cell.selectionStyle = .none
+                item.notes = dataModel.currentPartyNotes
+                currentNotesCell = cell
+                cell.item = item
                 return cell
             }
         }
@@ -323,6 +342,13 @@ extension PartyDetailViewModel: UITableViewDataSource, UITableViewDelegate, Part
     }
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
             return 50
+    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.section == 5 {
+            return 600
+        } else {
+            return 60
+        }
     }
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = UIView(frame: CGRect(x:0, y:0, width: tableView.frame.size.width, height: tableView.frame.size.height))
@@ -362,6 +388,11 @@ extension PartyDetailViewModel: UITableViewDataSource, UITableViewDelegate, Part
             break //Temporary!
         case .characters:
             break
+        case .partyNotes:
+            button.setImage(UIImage(named: "quill-drawing-a-line_unselected"), for: .normal)
+            button.isEnabled = true
+            button.addTarget(self, action: #selector(self.enableNotesTextField(_:)), for: .touchUpInside)
+            header.addSubview(button)
         }
     }
     // MARK: PartyReputationCell Delegate methods
@@ -378,18 +409,24 @@ extension PartyDetailViewModel: UITableViewDataSource, UITableViewDelegate, Part
         }
     }
     // MARK: selector methods
-    @objc func enableTitleTextField(_ sender: UIButton) {
-        let myCell = self.currentPartyCell as! PartyDetailNameCell
-        let myTextField = myCell.partyDetailNameTextField!
+    @objc func enableNotesTextField(_ button: UIButton) {
+        button.setImage(UIImage(named: "quill-drawing-a-line_selected"), for: .normal)
+        let myCell = self.currentNotesCell as! PartyDetailNotesCell
+        let myTextField = myCell.NotesField!
+        myTextField.isUserInteractionEnabled = true
         myTextField.delegate = self
-        let oldText = myCell.partyDetailNameLabel.text
-        myTextField.text = oldText
-        myTextField.font = fontDefinitions.detailTableViewTitleFont
+        myTextField.font = UIFont(name: "Nyala", size: 20)
         myTextField.becomeFirstResponder()
-        myTextField.selectedTextRange = myCell.partyDetailNameTextField.textRange(from: myCell.partyDetailNameTextField.beginningOfDocument, to: myCell.partyDetailNameTextField.endOfDocument)
-        myCell.partyDetailNameLabel.isHidden = true
-        myTextField.isHidden = false
-        self.textFieldReturningCellType = .partyName
+        button.addTarget(self, action: #selector(self.disableNotesTextField(_:)), for: .touchUpInside)
+    }
+    @objc func disableNotesTextField(_ button: UIButton) {
+        button.setImage(UIImage(named: "quill-drawing-a-line_unselected"), for: .normal)
+        let myCell = self.currentNotesCell as! PartyDetailNotesCell
+        let myTextField = myCell.NotesField!
+        myTextField.isUserInteractionEnabled = false
+        setNotes(text: myTextField.text)
+        
+        button.addTarget(self, action: #selector(self.enableNotesTextField(_:)), for: .touchUpInside)
     }
     @objc func showUIStepperInPartyReputationCell(_ button: UIButton) {
         button.setImage(UIImage(named: "quill-drawing-a-line_selected"), for: .normal)
@@ -418,6 +455,11 @@ extension PartyDetailViewModel: UITableViewDataSource, UITableViewDelegate, Part
         myReputationCell.myStepperOutlet.isEnabled = false
         myReputationCell.myStepperOutlet.tintColor = colorDefinitions.mainTextColor
     }
+    func setNotes(text: String) {
+        dataModel.currentPartyNotes = text
+        //dataModel.currentParty.notes = text
+        dataModel.saveCampaignsLocally()
+    }
     // Delegate methods for textField in cell
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
@@ -444,9 +486,11 @@ extension PartyDetailViewModel: SelectPartyViewControllerDelegate {
         controller.dismiss(animated: true, completion: nil)
     }
     func selectPartyViewControllerDidFinishSelecting(_ controller: SelectPartyViewController) {
+        print("Before switch, notes is: \(dataModel.currentPartyNotes)")
         dataModel.currentParty = controller.selectedParty
         self.updateCurrentPartyName()
         self.updateAssignedParties()
+        print("After switch, notes is: \(dataModel.currentPartyNotes)")
         self.dataModel.saveCampaignsLocally()
         // Let CharacterDetailVC know that we've swapped characters
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "updateAfterNewCampaignSelected"), object: nil)
@@ -626,6 +670,26 @@ class PartyDetailViewModelPartyCampaignItem: PartyDetailViewModelItem {
     
     init(assignedCampaign: String) {
         self.assignedCampaign = assignedCampaign
+    }
+}
+class PartyDetailViewModelPartyNotesItem: PartyDetailViewModelItem {
+    
+    var type: PartyDetailViewModelItemType {
+        return .partyNotes
+    }
+    
+    var sectionTitle: String {
+        return "Party Notes"
+    }
+    
+    var rowCount: Int {
+        return 1
+    }
+    
+    var notes: String
+    
+    init(notes: String) {
+        self.notes = notes
     }
 }
 

@@ -42,7 +42,7 @@ struct CreateCampaignCreateCharacterCellViewModel {
 class CreateCampaignViewModelFromModel: NSObject {
     
     let dataModel: DataModel
-    var newCampaign = Campaign(title: "", parties: [], achievements: [:], prosperityCount: 0, sanctuaryDonations: 0, events: [], isUnlocked: [], requirementsMet: [], isCompleted: [], isCurrent: true, ancientTechCount: 0, availableCharacterTypes: [:])
+    var newCampaign = Campaign(title: "", parties: [], achievements: [:], prosperityCount: 0, sanctuaryDonations: 0, events: [], isUnlocked: [], requirementsMet: [], isCompleted: [], isCurrent: true, ancientTechCount: 0, availableCharacterTypes: [:], notes: "")
     var parties = [String:Party]()
     var titleCell: CreateCampaignTitleCell?
     var newCampaignTitle: String?
@@ -82,7 +82,7 @@ class CreateCampaignViewModelFromModel: NSObject {
         dataModel.saveCampaignsLocally()
     }
     fileprivate func createParty(name: String) {
-        dataModel.createParty(name: name, characters: newCharacters, location: "Gloomhaven", achievements: [:], reputation: 0, isCurrent: true, assignedTo: (newCampaignTitle!))
+        dataModel.createParty(name: name, characters: newCharacters, location: "Gloomhaven", achievements: [:], reputation: 0, isCurrent: true, assignedTo: (newCampaignTitle!), notes: "")
         dataModel.currentParty = dataModel.parties[name]
         dataModel.saveCampaignsLocally()
     }

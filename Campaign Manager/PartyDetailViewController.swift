@@ -60,6 +60,10 @@ class PartyDetailViewController: UIViewController {
         partyDetailTableView?.dataSource = viewModel
         partyDetailTableView?.delegate = viewModel
         
+        // Keyboard management
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        
         eventAchievementsPicker.dataSource = viewModel
         eventAchievementsPicker.delegate = viewModel
         
@@ -75,6 +79,20 @@ class PartyDetailViewController: UIViewController {
         partyDetailTableView?.register(PartyDetailAssignedCampaignHeader.nib, forCellReuseIdentifier: PartyDetailAssignedCampaignHeader.identifier)
         
         styleUI()
+    }
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y == 0{
+                self.view.frame.origin.y -= keyboardSize.height
+            }
+        }
+    }
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y != 0{
+                self.view.frame.origin.y += keyboardSize.height
+            }
+        }
     }
     override func viewWillDisappear(_ animated: Bool) {
         viewModel.hideAllControls()
@@ -154,6 +172,8 @@ extension PartyDetailViewController: UITableViewDelegate {
             break
         case .achievements:
             break
+        case .partyNotes:
+            break
         }
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -165,6 +185,7 @@ extension PartyDetailViewController: UITableViewDelegate {
         viewModel.updateAssignedCharacters()
         viewModel.updateAchievements()
         viewModel.updateCharacters()
+        viewModel.updatePartyNotes()
         viewModel.updateAssignedAndActiveCharacters() //Try here?
         
         self.partyDetailTableView.reloadData()

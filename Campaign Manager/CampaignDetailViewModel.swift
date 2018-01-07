@@ -17,6 +17,7 @@ enum CampaignDetailViewModelItemType {
     case donations
     case events
     case availableTypes
+    case campaignNotes
 }
 protocol CampaignDetailPartyUpdaterDelegate: class {
     func reloadTableAfterSetPartyCurrent()
@@ -139,6 +140,7 @@ class CampaignDetailViewModel: NSObject {
     var ancientTechCount: Dynamic<Int>
     var currentPartyName: Dynamic<String>
     var availableTypes: Dynamic<[String:Bool]>
+    var campaignNotes: Dynamic<String>
     // Convert to dynamic later
     var headersToUpdate = [Int:UITableViewHeaderFooterView]()
     var storedOffsets = [Int: CGFloat]()
@@ -147,6 +149,7 @@ class CampaignDetailViewModel: NSObject {
     var currentDonationsCell = UITableViewCell()
     var currentEventCell = CampaignDetailEventCell()
     var currentPartyCell = CampaignDetailPartyCell()
+    var currentNotesCell = CampaignDetailNotesCell()
     
     var myCompletedEventTitle = String()
     var myAssignedPartyTitle = String()
@@ -200,6 +203,7 @@ class CampaignDetailViewModel: NSObject {
         self.availableTypes = Dynamic(dataModel.currentCampaign.availableCharacterTypes)
         self.dynamicCharTypes = Dynamic(dataModel.availableCharacterTypesAttributed)
         self.dynamicLockedCharTypes = Dynamic(dataModel.lockedCharacterTypesAttributed)
+        self.campaignNotes = Dynamic(dataModel.currentCampaignNotes)
         super.init()
         
         self.prosperityLevel = Dynamic(getProsperityLevel(count: dataModel.currentCampaign.prosperityCount + self.prosperityBonus))
@@ -251,7 +255,8 @@ class CampaignDetailViewModel: NSObject {
         }
         let eventItem = CampaignDetailViewModelCampaignEventsItem(numbers: eventNumbers)
         items.append(eventItem)
-        
+        let campaignNotesItem = CampaignDetailViewModelCampaignNotesItem(notes: campaignNotes.value)
+        items.append(campaignNotesItem)
 
     }
     // Helper methods
@@ -346,6 +351,9 @@ class CampaignDetailViewModel: NSObject {
         self.availableTypes.value = dataModel.currentCampaign.availableCharacterTypes
         self.dynamicCharTypes.value = dataModel.availableCharacterTypesAttributed
         self.dynamicLockedCharTypes.value = dataModel.lockedCharacterTypesAttributed
+    }
+    func updateCampaignNotes() {
+        self.campaignNotes.value = dataModel.currentCampaignNotes
     }
     func configureEventSwipeButton(for event: Event) {
         let eventTokens = event.number.components(separatedBy: " ")
@@ -449,7 +457,7 @@ class CampaignDetailViewModel: NSObject {
         dataModel.saveCampaignsLocally()
     }
 }
-extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, CampaignDetailTitleCellDelegate, CampaignDetailProsperityCellDelegate, CampaignDetailDonationsCellDelegate {
+extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, UITextViewDelegate, CampaignDetailTitleCellDelegate, CampaignDetailProsperityCellDelegate, CampaignDetailDonationsCellDelegate {
     
     // TableView DataSource Methods
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -625,6 +633,15 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
                 cell.item = type
                 return cell
             }
+        case .campaignNotes:
+            if let item = item as? CampaignDetailViewModelCampaignNotesItem, let cell = tableView.dequeueReusableCell(withIdentifier: CampaignDetailNotesCell.identifier, for: indexPath) as? CampaignDetailNotesCell {
+                cell.backgroundColor = UIColor.clear
+                cell.selectionStyle = .none
+                item.notes = dataModel.currentCampaignNotes
+                currentNotesCell = cell
+                cell.item = item
+                return cell
+            }
         }
         return UITableViewCell()
     }
@@ -637,6 +654,13 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
             return 80
         } else {
             return 50
+        }
+    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.section == 7 {
+            return 600
+        } else {
+            return 60
         }
     }
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -829,6 +853,11 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
                 button.isEnabled = true
                 button.addTarget(self, action: #selector(self.showCharacterTypePicker(_:)), for: .touchUpInside)
                 header.addSubview(button)
+            case .campaignNotes:
+                button.setImage(UIImage(named: "quill-drawing-a-line_unselected"), for: .normal)
+                button.isEnabled = true
+                button.addTarget(self, action: #selector(self.enableNotesTextField(_:)), for: .touchUpInside)
+                header.addSubview(button)
             }
     }
     fileprivate func configureCheckmark(for cell: UITableViewCell, activeStatus: Bool) {
@@ -860,18 +889,24 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
         self.selectedPartiesSegmentIndex = sender.selectedSegmentIndex
         self.toggleSection(section: 5)
     }
-    @objc func enableTitleTextField(_ sender: UIButton) {
-        let myCell = self.currentTitleCell as! CampaignDetailTitleCell
-        let myTextField = myCell.campaignDetailTitleTextField!
+    @objc func enableNotesTextField(_ button: UIButton) {
+        button.setImage(UIImage(named: "quill-drawing-a-line_selected"), for: .normal)
+        let myCell = self.currentNotesCell
+        let myTextField = myCell.NotesField!
+        myTextField.isUserInteractionEnabled = true
         myTextField.delegate = self
-        let oldText = myCell.campaignDetailTitleLabel.text
-        myTextField.text = oldText
-        myTextField.font = fontDefinitions.detailTableViewTitleFont
+        myTextField.font = UIFont(name: "Nyala", size: 20)
         myTextField.becomeFirstResponder()
-        myTextField.selectedTextRange = myCell.campaignDetailTitleTextField.textRange(from: myCell.campaignDetailTitleTextField.beginningOfDocument, to: myCell.campaignDetailTitleTextField.endOfDocument)
-        myCell.campaignDetailTitleLabel.isHidden = true
-        myTextField.isHidden = false
-        self.textFieldReturningCellType = .campaignTitle
+        button.addTarget(self, action: #selector(self.disableNotesTextField(_:)), for: .touchUpInside)
+    }
+    @objc func disableNotesTextField(_ button: UIButton) {
+        button.setImage(UIImage(named: "quill-drawing-a-line_unselected"), for: .normal)
+        let myCell = self.currentNotesCell
+        let myTextField = myCell.NotesField!
+        myTextField.isUserInteractionEnabled = false
+        setNotes(text: myTextField.text)
+        
+        button.addTarget(self, action: #selector(self.enableNotesTextField(_:)), for: .touchUpInside)
     }
     @objc func showUIStepperInCampaignProsperityCell(_ button: UIButton) {
         button.setImage(UIImage(named: "quill-drawing-a-line_selected"), for: .normal)
@@ -939,6 +974,11 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
         myProsperityCell.myStepperOutlet.isHidden = true
         myProsperityCell.myStepperOutlet.isEnabled = false
         myProsperityCell.myStepperOutlet.tintColor = colorDefinitions.mainTextColor
+    }
+    // Set notes
+    func setNotes(text: String) {
+        dataModel.currentCampaignNotes = text
+        dataModel.saveCampaignsLocally()
     }
 }
 
@@ -1206,5 +1246,25 @@ class CampaignDetailViewModelCharacterTypeItem: CampaignDetailViewModelItem {
     
     init(availableTypes: [SeparatedAttributedStrings]) {
         self.availableTypes = availableTypes
+    }
+}
+class CampaignDetailViewModelCampaignNotesItem: CampaignDetailViewModelItem {
+    
+    var type: CampaignDetailViewModelItemType {
+        return .campaignNotes
+    }
+    
+    var sectionTitle: String {
+        return "Campaign Notes"
+    }
+    
+    var rowCount: Int {
+        return 1
+    }
+    
+    var notes: String
+    
+    init(notes: String) {
+        self.notes = notes
     }
 }

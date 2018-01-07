@@ -124,6 +124,14 @@ class DataModel {
             }
         }
     }
+    var currentCampaignNotes: String {
+        get {
+            return currentCampaign.notes
+        }
+        set {
+            currentCampaign.notes = newValue
+        }
+    }
     var assignedCampaign: String { // campaign assigned to currentParty
         get {
             return currentParty.assignedTo
@@ -162,7 +170,7 @@ class DataModel {
                 return myParty
             } else {
                 if self.parties["MyParty"] == nil {
-                    createParty(name: "MyParty", characters: [], location: "Gloomhaven", achievements: createPartyAchievements(), reputation: 0, isCurrent: true, assignedTo: "MyCampaign")
+                    createParty(name: "MyParty", characters: [], location: "Gloomhaven", achievements: createPartyAchievements(), reputation: 0, isCurrent: true, assignedTo: "MyCampaign", notes: "Notes Here")
                 }
                 return parties["MyParty"]
             }
@@ -175,7 +183,14 @@ class DataModel {
             loadParty(party: newValue.name)
         }
     }
-    
+    var currentPartyNotes: String {
+        get {
+            return currentParty.notes
+        }
+        set {
+            currentParty.notes = newValue
+        }
+    }
     var allScenarios = [Scenario]()
     //var achievements = [ String : Bool ]()
     var globalAchievements = [String:Bool]()
@@ -2388,7 +2403,7 @@ class DataModel {
     // Campaign functions
     func createCampaign(title: String, isCurrent: Bool, parties: [Party]) {
         if (campaigns[title] == nil) {
-            let newCampaign = Campaign(title: title, parties: parties, achievements:[:], prosperityCount: 0, sanctuaryDonations: 0, events: createEvents(), isUnlocked: [], requirementsMet: [], isCompleted: [], isCurrent: isCurrent, ancientTechCount: 0, availableCharacterTypes: createCharacterTypes())
+            let newCampaign = Campaign(title: title, parties: parties, achievements:[:], prosperityCount: 0, sanctuaryDonations: 0, events: createEvents(), isUnlocked: [], requirementsMet: [], isCompleted: [], isCurrent: isCurrent, ancientTechCount: 0, availableCharacterTypes: createCharacterTypes(), notes: "")
             for scenario in allScenarios {
                 if scenario.number == "1" {
                     newCampaign.isUnlocked.append(true)
@@ -2489,9 +2504,9 @@ class DataModel {
         self.myCloudKitMgr.privateDatabase.add(uploadOperation)
     }
     // Party functions
-    func createParty(name: String, characters: [Character], location: String, achievements: [String:Bool], reputation: Int, isCurrent: Bool, assignedTo: String) {
+    func createParty(name: String, characters: [Character], location: String, achievements: [String:Bool], reputation: Int, isCurrent: Bool, assignedTo: String, notes: String) {
         if (parties[name] == nil) {
-            let newParty = Party(name: name, characters: characters, location: location, achievements: createPartyAchievements(), reputation: reputation, isCurrent: isCurrent, assignedTo: assignedTo)
+            let newParty = Party(name: name, characters: characters, location: location, achievements: createPartyAchievements(), reputation: reputation, isCurrent: isCurrent, assignedTo: assignedTo, notes: notes)
             parties[name] = newParty
             if newParty.isCurrent == true {
                 loadParty(party: newParty.name)
@@ -2507,6 +2522,10 @@ class DataModel {
                 let newStatus = requestedParty.achievements[achievement]
                 self.partyAchievements[achievement] = newStatus
                 updateLocalPartyIsCurrent(party: party)
+            }
+            print("In Load, getting \(requestedParty.notes) for \(requestedParty.name)")
+            for party in parties {
+                print("Party \(party.key) has notes: \(party.value.notes)")
             }
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "loadParty"), object: nil) // Trigger setRequirementsMetForCurrentParty in Scenario VM
         } else {
@@ -3947,7 +3966,7 @@ class DataModel {
         createCampaign(title: "MyCampaign", isCurrent: true, parties: [createDefaultParty()])
     }
     func createDefaultParty() -> Party {
-        createParty(name: "MyParty", characters: [], location: "Gloomhaven", achievements: [:], reputation: 0, isCurrent: true, assignedTo: "MyCampaign")
+        createParty(name: "MyParty", characters: [], location: "Gloomhaven", achievements: [:], reputation: 0, isCurrent: true, assignedTo: "MyCampaign", notes: "Party Notes")
         return self.parties["MyParty"]!
     }
     func resetAll() {
@@ -4105,7 +4124,6 @@ class DataModel {
                     let newCampaign = self.campaigns[campaignName]!
                     newCampaign.isCurrent = record["isCurrent"] as! Bool
                     newCampaign.parties = record["parties"] as? [Party]
-                    print("From cloud, parties are: \(newCampaign.parties)")
                     self.getAchievementsStatusFromCloud(campaign: newCampaign.title) { achievements in
                         newCampaign.achievements = achievements
                     }

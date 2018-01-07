@@ -16,7 +16,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "FB23B6E51F044CFC00CAA684"
                BuildableName = "Campaign Manager.app"
-               BlueprintName = "Scenario Manager"
+               BlueprintName = "Campaign Manager"
                ReferencedContainer = "container:Campaign Manager.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -35,7 +35,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "FB23B6E51F044CFC00CAA684"
             BuildableName = "Campaign Manager.app"
-            BlueprintName = "Scenario Manager"
+            BlueprintName = "Campaign Manager"
             ReferencedContainer = "container:Campaign Manager.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -59,7 +59,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "FB23B6E51F044CFC00CAA684"
             BuildableName = "Campaign Manager.app"
-            BlueprintName = "Scenario Manager"
+            BlueprintName = "Campaign Manager"
             ReferencedContainer = "container:Campaign Manager.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -78,7 +78,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "FB23B6E51F044CFC00CAA684"
             BuildableName = "Campaign Manager.app"
-            BlueprintName = "Scenario Manager"
+            BlueprintName = "Campaign Manager"
             ReferencedContainer = "container:Campaign Manager.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

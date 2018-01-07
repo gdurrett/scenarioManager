@@ -37,7 +37,7 @@ class CreatePartyViewModel: NSObject {
     
     let dataModel: DataModel
     let currentCampaign: Campaign? // Need to assign when we load this from PartyDetailVM
-    var newParty = Party(name: "", characters: [], location: "Gloomhaven", achievements: [:], reputation: 0, isCurrent: true, assignedTo: "")
+    var newParty = Party(name: "", characters: [], location: "Gloomhaven", achievements: [:], reputation: 0, isCurrent: true, assignedTo: "", notes: "")
     var nameCell: CreatePartyPartyNameCell?
     var newPartyName: String?
     var selectedCharacterRow = 0
@@ -59,7 +59,7 @@ class CreatePartyViewModel: NSObject {
         return "Select Party"
     }
     fileprivate func createParty(name: String) {
-        dataModel.createParty(name: name, characters: newCharacters, location: "Gloomhaven", achievements: [:], reputation: 0, isCurrent: true, assignedTo: (dataModel.currentCampaign.title))
+        dataModel.createParty(name: name, characters: newCharacters, location: "Gloomhaven", achievements: [:], reputation: 0, isCurrent: true, assignedTo: (dataModel.currentCampaign.title), notes: "")
         dataModel.currentParty = dataModel.parties[name]
         dataModel.currentCampaign.parties!.append(dataModel.parties[name]!)
         dataModel.saveCampaignsLocally()

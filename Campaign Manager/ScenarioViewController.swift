@@ -68,7 +68,7 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+                
         //activeCharacters = viewModel!.activeCharacters
 
         scenarioTableView?.dataSource = self

@@ -17,6 +17,7 @@ class Party: NSObject, NSCoding {
     var reputation: Int
     var isCurrent: Bool
     var assignedTo: String
+    var notes: String
     
     var scenarioLevel: Int {
         get {
@@ -27,7 +28,7 @@ class Party: NSObject, NSCoding {
         }
     }
     
-    init(name: String, characters: [Character], location: String, achievements: [String:Bool], reputation: Int, isCurrent: Bool, assignedTo: String) {
+    init(name: String, characters: [Character], location: String, achievements: [String:Bool], reputation: Int, isCurrent: Bool, assignedTo: String, notes: String) {
         self.name = name
         self.characters = characters
         self.location = location
@@ -35,6 +36,7 @@ class Party: NSObject, NSCoding {
         self.reputation = reputation
         self.isCurrent = isCurrent
         self.assignedTo = assignedTo
+        self.notes = notes
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -45,6 +47,7 @@ class Party: NSObject, NSCoding {
         reputation = aDecoder.decodeInteger(forKey: "Reputation")
         isCurrent = aDecoder.decodeBool(forKey: "IsCurrent")
         assignedTo = aDecoder.decodeObject(forKey: "AssignedTo") as! String
+        notes = aDecoder.decodeObject(forKey: "Notes") as! String
     }
     
     func encode(with aCoder: NSCoder) {
@@ -55,5 +58,6 @@ class Party: NSObject, NSCoding {
         aCoder.encode(reputation, forKey: "Reputation")
         aCoder.encode(isCurrent, forKey: "IsCurrent")
         aCoder.encode(assignedTo, forKey: "AssignedTo")
+        aCoder.encode(notes, forKey: "Notes")
     }
 }
