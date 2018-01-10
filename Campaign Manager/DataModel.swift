@@ -497,8 +497,7 @@ class DataModel {
                 summary: "Goal: Kill All Enemies.\n\nYou’ve just arrived in town, and you’re hungry for action. And food. Retrieve some stolen documents for Jekserah, a Valrath merchant.",
                 locationString: "G-10, Corpsewood",
                 linksTo: ["2 - Barrow Lair"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap1"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row0Scenario)
             
@@ -515,8 +514,7 @@ class DataModel {
                 summary: "Goal: Kill Bandit Commander and all revealed enemies.\n\nPursue the Bandit Commander deeper into the Barrow.",
                 locationString: "G-11, Corpsewood",
                 linksTo: ["1 - Black Barrow"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap2"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row1Scenario)
 
@@ -534,8 +532,7 @@ class DataModel {
                 summary: "Goal: Kill a number of enemies equal to five times the number of characters.\n\nJekserah would like you to deal with a band of Inox that have been harassing her trade caravans.",
                 locationString: "G-3, Dagger Forest",
                 linksTo: ["None"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap3"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row2Scenario)
 
@@ -553,8 +550,7 @@ class DataModel {
                 summary: "Goal: Kill all enemies.\n\nBefore killing the Bandit Commander in the Barrow Lair, he mentioned something about the 'Gloom'. This might be a place we could learn more about it.",
                 locationString: "E-11, Still River",
                 linksTo: ["None"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap4"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row3Scenario)
 
@@ -572,8 +568,7 @@ class DataModel {
                 summary: "Goal: Kill all enemies.\n\nThe script you found in the Crypt of the Damned led you here, where it seems the Cultists are channeling Demons through an infernal portal. You can disrupt their plans by closing the rift.",
                 locationString: "D-6, Stone Road",
                 linksTo: ["10 - Plane of Elemental Power"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap5"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row4Scenario)
 
@@ -591,8 +586,7 @@ class DataModel {
                 summary: "Goal: Reveal the M tile and kill all revealed enemies.\n\nYou decide to lend the Cultists a hand and clear out some undead that have taken up residence at an important area of power.",
                 locationString: "F-10, Still River",
                 linksTo: ["None"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap6"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row5Scenario)
 
@@ -610,8 +604,7 @@ class DataModel {
                 summary: "Goal: Loot all treasure tiles.\n\nJekserah's gotten away, unfortunately, but the City Guard Argeise told you about an Aesther Enchanter named Hail who might be able to help. You'll have to fetch her some Biteroot first, however.",
                 locationString: "C-12, Copperneck Mountains",
                 linksTo: ["None"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap7"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row6Scenario)
 
@@ -629,8 +622,7 @@ class DataModel {
                 summary: "Goal: Kill both Inox bodyguards.\n\nA menacing figure has offered to exonerate your team of murder if you bring him Jekserah's head. She's hiding in the warehouse with more of her baddies, most likely.",
                 locationString: "C-18, Gloomhaven",
                 linksTo: ["Gloomhaven"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap8"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row7Scenario)
 
@@ -648,8 +640,7 @@ class DataModel {
                 summary: "Goal: Kill the Merciless Overseer and loot the treasure tile.\n\nBack at the Inox Encampment, Argeise warned you about this place, but you have dollar signs in your eyes. Take down the big guy and reap the rewards.",
                 locationString: "L-2, Watcher Mountains",
                 linksTo: ["None"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap9"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row8Scenario)
 
@@ -667,8 +658,7 @@ class DataModel {
                 summary: "Goal: Kill all enemies.\n\nYou step through the portal back in the Ruinous Crypt and end up here, wherever that is. You need to venture deeper, and to do that you'll have to kill a lot of bad guys.",
                 locationString: "C-7, Stone Road",
                 linksTo: ["5 - Ruinous Crypt", "21 - Infernal Throne"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap10"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row9Scenario)
 
@@ -686,8 +676,7 @@ class DataModel {
                 summary: "Goal: Kill the Captain of the Guard.\n\nYou decide to go in with Jekserah, and help her take down the City Guard, placing town rule into the Merchants' hands.",
                 locationString: "B-16, Gloomhaven",
                 linksTo: ["Gloomhaven"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap11"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row10Scenario)
 
@@ -705,8 +694,7 @@ class DataModel {
                 summary: "Goal: Kill Jekserah.\n\nYou throw in your lot with the City Guard and attempt to hold the square against Jekserah's armies of undead.",
                 locationString: "B-16, Gloomhaven",
                 linksTo: ["Gloomhaven"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap12"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row11Scenario)
 
@@ -724,8 +712,7 @@ class DataModel {
                 summary: "Goal: Kill all enemies.\n\nIn your quest to locate Jekserah, you decide to venture to a temple high in the mountains where it is said an oracle resides. Maybe they can divine the Valrath's whereabouts.",
                 locationString: "N-3, Watcher Mountains",
                 linksTo: ["None"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap13"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row12Scenario)
 
@@ -743,8 +730,7 @@ class DataModel {
                 summary: "Goal: Kill All Enemies.\n\nYou first meet Hail, the Aesther Enchanter, at her 'shop' in the Boiler District. You're hoping to have her divine Jekserah's whereabouts, but instead, you end up trudging out to the Coppernecks to retrieve an orb for her.",
                 locationString: "C-10, Copperneck Mountains",
                 linksTo: ["None"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap14"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row13Scenario)
 
@@ -762,8 +748,7 @@ class DataModel {
                 summary: "Goal: Loot the treasure tile.\n\nA wish granted to you by a disembodied voice at the temple, this shrine is purported to make those who conquer it stronger. Strength need not imply bulging muscles, of course.",
                 locationString: "B-11, Copperneck Mountains",
                 linksTo: ["None"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap15"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row14Scenario)
 
@@ -781,8 +766,7 @@ class DataModel {
                 summary: "Goal: Kill all enemies.\n\nThe Captain of the Guard was duly impressed with your performance at Gloomhaven Square, and thinks you're up to the task of dealing with the sudden appearance of 'Dragons' up near the northern pass.",
                 locationString: "B-6, Copperneck Mountains",
                 linksTo: ["24 - Echo Chamber"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap16"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row15Scenario)
             
@@ -800,8 +784,7 @@ class DataModel {
                 summary: "Goal: Kill all enemies.\n\nThe strange voice from the Temple of the Seer told you you would find riches here on this remote hunk of rock. Hopefully, said riches won't come at the expense of your lives.",
                 locationString: "K-17, Misty Sea",
                 linksTo: ["Gloomhaven"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap17"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row16Scenario)
             
@@ -819,8 +802,7 @@ class DataModel {
                 summary: "Goal: Kill all enemies.\n\nOur friend the Captain of the Guard offered us the distinct pleasure of spelunking the sewer system beneath town to put a stop to whatever's poisoning the wells in Sinking Market.",
                 locationString: "C-14, Gloomhaven",
                 linksTo: ["Gloomhaven"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap18"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row17Scenario)
             
@@ -838,8 +820,7 @@ class DataModel {
                 summary: "Goal: Protect Hail until she reaches the altar.\n\nYou once again seek Hail's help, this time in an attempt to close the Rift to the Plane of Power for good. Hail's going to need something called an \"Elemental Censer\" to get the job done, and she's the only one who can handle it. That means protecting Hail from whatever's crawling around the Crypt.",
                 locationString: "M-7, Lingering Swamp",
                 linksTo: ["None"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap19"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row18Scenario)
             
@@ -857,8 +838,7 @@ class DataModel {
                 summary: "Goal: Kill Jekserah.\n\nTime to put Jekserah out of your misery. Hail's information on Jekserah's whereabouts was hard to come by, and as you wend your way through the forest to the Valrath's hideout you intend to get your pain's worth.",
                 locationString: "H-13, Corpsewood",
                 linksTo: ["None"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap20"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row19Scenario)
             
@@ -876,8 +856,7 @@ class DataModel {
                 summary: "Goal: Kill the Prime Demon.\n\nToo late to turn back now. You have chosen to face the Prime Demon in his own throne room. Problem is, you need to kill the altar, not him. And the altar has a bad habit of not staying in one place.",
                 locationString: "C-7, Stone Road",
                 linksTo: ["10 - Plane of Elemental Power"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap21"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row20Scenario)
             
@@ -895,8 +874,7 @@ class DataModel {
                 summary: "Goal: Destroy all altars.\n\nYou decide to play along with the Prime Demon and make your way out to the Temple of the Elements to retrieve a powerful artifact for him.",
                 locationString: "K-8, Serpent's Kiss River",
                 linksTo: ["None"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap22"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row21Scenario)
             
@@ -914,8 +892,7 @@ class DataModel {
                 summary: "Goal: Occupy all pressure plates simultaneously.\n\nYou have to go further into the city sewers to find the source of the poison. Looks like you've stumbled upon some ancient tech that controls the doors here.",
                 locationString: "C-15, Gloomhaven",
                 linksTo: ["Gloomhaven"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap23"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row22Scenario)
             
@@ -933,8 +910,7 @@ class DataModel {
                 summary: "Goal: Open all doors (fog tiles).\n\nA voice calls out to you from deep within a cave near the Mountain Pass, where Demon and Inox were caught consorting. You feel powerfully compelled to enter the cave.",
                 locationString: "C-6, Copperneck Mountains",
                 linksTo: ["16 - Mountain Pass"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap24"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row23Scenario)
             
@@ -952,8 +928,7 @@ class DataModel {
                 summary: "Goal: All characters must escape through the exit.\n\nDragon-chasing has led you to the top of Mountain Pass, and you have decided to brave the ascent in pursuit of the beast.",
                 locationString: "A-5, Copperneck Mountains",
                 linksTo: ["34 - Scorched Summit"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap25"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row24Scenario)
             
@@ -971,8 +946,7 @@ class DataModel {
                 summary: "Goal: Cleanse all water pumps.\n\nYou reach the final room in the maze of sewers, where you see the tainted water pumps. Between you and them lies a lot of Ooze.",
                 locationString: "D-15, Gloomhaven",
                 linksTo: ["Gloomhaven"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap26"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row25Scenario)
             
@@ -990,8 +964,7 @@ class DataModel {
                 summary: "Goal: Protect Hail for ten rounds.\n\nNow that you've helped Hail retrieve the Elemental Censer, you venture to the nexus of the Rift hoping Hail's scheme will work. You'll have to protect her once again as she does her thing.",
                 locationString: "E-6, Stone Road",
                 linksTo: ["None"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap27"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row26Scenario)
             
@@ -1009,8 +982,7 @@ class DataModel {
                 summary: "Goal: Kill all enemies.\n\nJekserah's last words warned you of a grave threat that emanates from this chamber. Time to investigate and see if there's any truth to those words.",
                 locationString: "E-4, Dagger Forest",
                 linksTo: ["29 - Sanctuary of Gloom"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap28"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row27Scenario)
             
@@ -1028,8 +1000,7 @@ class DataModel {
                 summary: "Goal: Kill all enemies.\n\nA familiar voice beckons you to enter the rift you found in the Outer Ritual Chamber. You decide to see this through to the end, whatever that might be.",
                 locationString: "E-4, Dagger Forest",
                 linksTo: ["28 - Outer Ritual Chamber"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap29"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row28Scenario)
             
@@ -1047,8 +1018,7 @@ class DataModel {
                 summary: "Goal: Loot the treasure tile.\n\nAfter consulting with a bookish Quatryl, you discover that the Voice you've been hearing is a Demon of terrible power. You now understand it's been attempting to trick you into freeing it from its plane of imprisonment. The Quatryl points you to a sunken shrine which contains a scepter that could strengthen the binding of the Demon to its plane. Retrieve the scepter.",
                 locationString: "N-15, Misty Sea",
                 linksTo: ["None"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap30"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row29Scenario)
             
@@ -1066,8 +1036,7 @@ class DataModel {
                 summary: "Goal: Destroy the rock column.\n\nThe corrupted artifact you found back in the Temple of the Elements needs the attention of an Enchanter. Of course, Hail comes to mind. She knows what needs to be done to rebalance it, but that will involve the destruction of a towering column.",
                 locationString: "A-16, Gloomhaven",
                 linksTo: ["Gloomhaven"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap31"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row30Scenario)
             
@@ -1085,8 +1054,7 @@ class DataModel {
                 summary: "Goal: Reveal the G tile, kill all revealed enemies, and loot the treasure tile.\n\nThe voice has directed you to retrieve his so-called 'Vessel of Power' from some place deep in the Lingering Swamp. Get ready to face a horde of Militaristic Harrowers.",
                 locationString: "L-11, Lingering Swamp",
                 linksTo: ["None"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap32"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row31Scenario)
             
@@ -1104,8 +1072,7 @@ class DataModel {
                 summary: "Goal: Loot all treasure tiles, then all characters must escape through the exit (a).\n\nYou have chosen to cooperate with the Elder Drake you met atop Icecrag, who would like you to retrieve his stolen treasure from a Savvas clan.",
                 locationString: "A-7, Copperneck Mountains",
                 linksTo: ["None"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap33"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row32Scenario)
             
@@ -1123,8 +1090,7 @@ class DataModel {
                 summary: "Goal: Kill the Elder Drake.\n\nUnmoved by the Drake's predicament, you decide to slay him and rid the land of another menace.",
                 locationString: "A-4, Copperneck Mountains",
                 linksTo: ["25 - Icecrag Ascent"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap34"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row33Scenario)
             
@@ -1142,8 +1108,7 @@ class DataModel {
                 summary: "Goal: Destroy door 'l' and kill the Captain of the Guard.\n\nYou bring the corrupted artifact you retrieved from the Temple of the Elements to the Prime Demon. You will now help him eliminate the City Guard and help the Demon rise to power.",
                 locationString: "B-14, Gloomhaven",
                 linksTo: ["Gloomhaven"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap35"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row34Scenario)
             
@@ -1161,8 +1126,7 @@ class DataModel {
                 summary: "Goal: Kill the Prime Demon.\n\nRegretting your decision to retrieve the corrupted artifact for the Prime Demon, you turn tail and make for the City Battlements. You warn the City Guard and prepare to defend against the approaching hoard of Demons.",
                 locationString: "B-14, Gloomhaven",
                 linksTo: ["Gloomhaven"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap36"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row35Scenario)
             
@@ -1180,8 +1144,7 @@ class DataModel {
                 summary: "Goal: All characters must escape through the exit (a).\n\nHail claims that this murky trench beneath the Misty Sea is one of the places from which tendrils of dark power emanated when we destroyed the rock column back in the Plane of Night. Make sure you take your Water-Breathing Orb with you!",
                 locationString: "G-18, Misty Sea",
                 linksTo: ["Gloomhaven"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap37"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row36Scenario)
             
@@ -1199,8 +1162,7 @@ class DataModel {
                 summary: "Goal: Kill all enemies and protect the Orchid.\n\nThe second location identified by Hail as a source of corruption for the artifact is buried deep within the Dagger Forest. To get there, you'll need the help of an Orchid familiar with the area. Help the Orchid destroy its Inox enslavers and he'll show you how to get to the right location.",
                 locationString: "G-2, Dagger Forest",
                 linksTo: ["44 - Tribal Assault"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap38"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row37Scenario)
             
@@ -1218,8 +1180,7 @@ class DataModel {
                 summary: "Goal: Destroy the altar (a).\n\nThe third of the vessel-corrupting locations lies somewhere high in the Copperneck Mountains. Before you can get there, you are going to have to scale a summit and find a bridge that will connect you to your ultimate destination. Bring your thickest furs and sharpest swords.",
                 locationString: "B-11, Copperneck Mountains",
                 linksTo: ["46 - Nightmare Peak"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap39"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row38Scenario)
             
@@ -1237,8 +1198,7 @@ class DataModel {
                 summary: "Goal: Occupy both pressure plates (a) simultaneously.\n\nThe Voice has guided you to this treacherous, trap-filled tomb entrance. In order to progress to the Vessel's resting place, you must first survive a gauntlet of monsters, and then figure out how to unlock the tomb.",
                 locationString: "F-12, Copperneck Mountains",
                 linksTo: ["Timeworn Tomb"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap40"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row39Scenario)
             
@@ -1256,8 +1216,7 @@ class DataModel {
                 summary: "Goal: All characters must escape through the exit (a).\n\nNow that you've shut down the Defense Network, you can proceed to the tomb and retrieve the third Vessel for the Voice.",
                 locationString: "F-12, Copperneck Mountains",
                 linksTo: ["40 - Ancient Defense Network"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap41"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row40Scenario)
             
@@ -1275,8 +1234,7 @@ class DataModel {
                 summary: "Goal: Destroy all vocal chords.\n\nWith the scepter you retrieved from the Shrine of the Depths in your hand, you again enter the Echo Chamber hopeful that you can defeat the Voice once and for all. The Voice's last howl will likely be an ear-shattering trial.",
                 locationString: "C-5, Copperneck Mountains",
                 linksTo: ["None"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap42"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row41Scenario)
             
@@ -1294,8 +1252,7 @@ class DataModel {
                 summary: "Goal: Kill a number of drakes equal to four times the number of characters.\n\nYou want to be able to travel anywhere in the land, and that includes under water. Hail has a plan to help you achieve that ability, but you'll need to kill a bunch of scaly monsters first. ",
                 locationString: "D-4, Dagger Forest",
                 linksTo: ["None"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap43"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row42Scenario)
             
@@ -1313,8 +1270,7 @@ class DataModel {
                 summary: "Goal: Kill all enemies and protect all captive Orchids(a).\n\nAghast at Redthorn's story about the Inox raid on their village, you feel compelled to help him free his brethren from the Inox slavers a short distance from the Slave Pens.",
                 locationString: "F-3, Dagger Forest",
                 linksTo: ["38 - Slave Pens"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap44"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row43Scenario)
             
@@ -1332,8 +1288,7 @@ class DataModel {
                 summary: "Goal: Destroy all totems (a).\n\nThe Prime Demon has commanded you to remove all remaining pockets of resistance. Apparently, the swamps host one of the bigger pockets. Better investigate and root out any rebels that might remain.",
                 locationString: "M-9, Lingering Swamp",
                 linksTo: ["None"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap45"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row44Scenario)
             
@@ -1351,8 +1306,7 @@ class DataModel {
                 summary: "Goal: Kill the Winged Horror.\n\nWith the way to the peak now clear, you forge on to the summit only to encounter the likely source of vessel corruption. Unfortunately, it's a big, nasty Demon.",
                 locationString: "A-11, Copperneck Mountains",
                 linksTo: ["Treacherous Divide"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap46"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row45Scenario)
             
@@ -1370,8 +1324,7 @@ class DataModel {
                 summary: "Goal: Kill the Sightless Eye.\n\nYou've made it through the Deep Trench, and have found what you believe is one of the sources of corruption Hail was speaking of. Keep an eye out for this monster; he's like nothing you've encountered before.",
                 locationString: "H-18, Misty Sea",
                 linksTo: ["Gloomhaven"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap47"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row46Scenario)
             
@@ -1389,8 +1342,7 @@ class DataModel {
                 summary: "Goal: Kill the Dark Rider.\n\nRedthorn escorts you to this place deep within the Dagger Forest, where you hope to find another of the sources of corruption of the vessel you brought back to Hail. This Dark Rider fellow doesn't seem too friendly, alas.",
                 locationString: "E-1, Dagger Forest",
                 linksTo: ["None"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap48"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row47Scenario)
             
@@ -1408,8 +1360,7 @@ class DataModel {
                 summary: "Goal: Kill the Siege Cannon.\n\nGuided by the directions given by the gullible Guard in his last breath back in the Rebel Swamp, you find what remains of the resistance. As you fight your way through the camp, you notice a towering contraption that should not remain in rebel hands.",
                 locationString: "N-7, Lingering Swamp",
                 linksTo: ["None"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap49"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row48Scenario)
             
@@ -1427,8 +1378,7 @@ class DataModel {
                 summary: "Goal: Loot all treasure tiles.\n\nFollowing the dying Guard's directions, you come upon the rebel camp in the foothills of the Watcher Mountains. The rebels have a Siege Cannon ready to go, but they need to arm their men for the attack on Gloomhaven. Break into the Fortress and retrieve the weapons cache before the rebels can get to it.",
                 locationString: "C-17, Gloomhaven",
                 linksTo: ["Gloomhaven"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap50"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row49Scenario)
             
@@ -1446,8 +1396,7 @@ class DataModel {
                 summary: "Goal: Kill the Gloom.\n\nThe seriousness of Hail's tone gets your attention. Seems a fellow named Bastian - an Aesther gone bad - is occupying a realm called The Void. He's going to turn the world to ash unless you can get to him first.",
                 locationString: "A-15, Gloomhaven",
                 linksTo: ["Gloomhaven"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap51"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row50Scenario)
             
@@ -1465,8 +1414,7 @@ class DataModel {
                 summary: "Goal: All characters must loot one treasure tile.\n\nYour search for the remains of Xorn takes on renewed urgency as you come across a tome that points you to an old shack in the Sinking Market. Gather your team and investigate.",
                 locationString: "D-14, Gloomhaven",
                 linksTo: ["Gloomhaven"],
-                isManuallyUnlockable: true,
-                mainCellBGImage: "scenarioMgrMap52"
+                isManuallyUnlockable: true
             )
             allScenarios.append(row51Scenario)
             
@@ -1484,8 +1432,7 @@ class DataModel {
                 summary: "Goal: Survive for ten rounds.\n\nThe staff you found in the Noxious Cellar has yielded further clues in your search for Xorn: A map to a secret room in the Crypt of the Damned. The search will continue there.",
                 locationString: "F-11, Still River",
                 linksTo: ["None"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap53"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row52Scenario)
             
@@ -1503,8 +1450,7 @@ class DataModel {
                 summary: "Goal: Place the fully-charged Staff of Xorn on the altar.\n\nThe ethereal warden in the Crypt Basement prepared the staff for you, and told you to bring it to the Palace of Ice. Your job is to charge it and lay it upon the altar.",
                 locationString: "D-8, Copperneck mountains",
                 linksTo: ["None"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap54"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row53Scenario)
             
@@ -1522,8 +1468,7 @@ class DataModel {
                 summary: "Goal: Loot the treasure tile in the third room.\n\nYou have revenge on your mind as you return to the Dagger Forest to search for clues to the whereabouts of the bandits who destroyed your village.",
                 locationString: "G-5, Dagger Forest",
                 linksTo: ["56 - Bandit's Wood"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap55"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row54Scenario)
             
@@ -1541,8 +1486,7 @@ class DataModel {
                 summary: "Goal: Kill the Infiltrator.\n\nThe map you retrieved from the Foggy Thicket has led you to the Bandit camp. You need to finish these guys off, but take care to protect the captive Orchids.",
                 locationString: "G-4, Dagger Forest",
                 linksTo: ["55 - Foggy Thicket"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap56"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row55Scenario)
             
@@ -1560,8 +1504,7 @@ class DataModel {
                 summary: "Goal: Kill all enemies and protect at least one captive Orchid.\n\nYour information has led you to the West Barracks. The corrupt Lieutenant who was on duty the night your friend was murdered is stationed here, and you aim to get answers.",
                 locationString: "D-14, Gloomhaven",
                 linksTo: ["Gloomhaven"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap57"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row56Scenario)
             
@@ -1579,8 +1522,7 @@ class DataModel {
                 summary: "Goal: Kill the Harvester.\n\nLed to this run down shack by clues left on the Infiltrator's body, you gird yourself for what is likely to be a nasty battle. Your need for revenge has gotten you this far, but can it sustain you through what lies within?",
                 locationString: "E-15, Gloomhaven",
                 linksTo: ["Gloomhaven"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap58"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row57Scenario)
             
@@ -1598,8 +1540,7 @@ class DataModel {
                 summary: "Goal: Kill all enemies and loot the treasure tile.\n\nThe elder spoke of a plant that could provide a cure for the plague that's decimated your village. A helpful Quatryl has fashioned a compass which has led you to the supposed whereabouts of this magical plant. Nothing hard about harvesting a plant, right?",
                 locationString: "F-1, Dagger Forest",
                 linksTo: ["None"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap59"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row58Scenario)
             
@@ -1617,8 +1558,7 @@ class DataModel {
                 summary: "Goal: Loot all treasure tiles, then all characters must escape through the entrance.\n\nThe Quatryl double-crossed you back in the Forgotten Grove, and you don't take kindly to such behavior. You arrive at the University, only to find the Alchemy Lab on fire. The cure lies within the inferno somewhere, according to the sheepish Quatryl. Even a raging fire won't keep you from obtaining the cure.",
                 locationString: "B-15, Gloomhaven",
                 linksTo: ["Gloomhaven"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap60"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row59Scenario)
             
@@ -1636,8 +1576,7 @@ class DataModel {
                 summary: "Goal: Loot all treasure tiles.\n\nYou can't explain exactly why you think the evidence you're looking for is all the way down in the swamp, but you feel you are on the right track when you spy a lighthouse along the shore in the distance. Now here, now gone, you realize the lighthouse is constantly shifting between planes of existence. No matter, you need to get in there and glean whatever you can about those who came before.",
                 locationString: "N-11, Lingering Swamp",
                 linksTo: ["62 - Pit of Souls"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap61"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row60Scenario)
             
@@ -1655,8 +1594,7 @@ class DataModel {
                 summary: "Goal: Kill the Hungry Soul.\n\nYou're drawn ever deeper into the bowels of the lighthouse, and restless souls form dusty bones into sword-wielding skeletons. Forge onward and confront whatever malcontented beings remain trapped here.",
                 locationString: "N-11, Lingering Swamp",
                 linksTo: ["61 - Fading Lighthouse"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap62"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row61Scenario)
             
@@ -1674,8 +1612,7 @@ class DataModel {
                 summary: "Goal: Kill all enemies.\n\nIf the reports are true, there's gold to be found on this active volcano high in the Watcher Mountains. As always, come prepared for battle, as nothing in Gloomhaven comes easily.",
                 locationString: "M-1, Watcher Mountains",
                 linksTo: ["None"],
-                isManuallyUnlockable: true,
-                mainCellBGImage: "scenarioMgrMap63"
+                isManuallyUnlockable: true
             )
             allScenarios.append(row62Scenario)
             
@@ -1693,8 +1630,7 @@ class DataModel {
                 summary: "Goal: Kill all enemies.\n\nYou came by the map easily enough, so there must be a catch. Nevertheless, you're raring to take advantage of your water breathing capability and explore this mysterious lagoon way out in the Misty Sea. The hired boat's captain will only come so close to the shore of this place, so bring a dinghy with you.",
                 locationString: "R-16, Misty Sea",
                 linksTo: ["Gloomhaven"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap64"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row63Scenario)
             
@@ -1712,8 +1648,7 @@ class DataModel {
                 summary: "Goal: Kill all enemies and loot all treasure tiles.\n\nEveryone knows where this place is due to the overwhelming stench that emanates for miles in all directions. Not so well-known is the fact that ancient technology of some sort lies deep within the mine. You know a few folks who would love to get their hands on such tech - for the right price.",
                 locationString: "L-5, Watcher Mountains",
                 linksTo: ["None"],
-                isManuallyUnlockable: true,
-                mainCellBGImage: "scenarioMgrMap65"
+                isManuallyUnlockable: true
             )
             allScenarios.append(row64Scenario)
             
@@ -1731,8 +1666,7 @@ class DataModel {
                 summary: "Goal: Occupy pressure plate (e).\n\nEver on the lookout for lost technology, this cove up along the coast near town seems promising. Rumor has it that the place is chocked full of gears and levers (and traps, of course).",
                 locationString: "G-14, Copperneck Mountains",
                 linksTo: ["Gloomhaven"],
-                isManuallyUnlockable: true,
-                mainCellBGImage: "scenarioMgrMap66"
+                isManuallyUnlockable: true
             )
             allScenarios.append(row65Scenario)
             
@@ -1750,8 +1684,7 @@ class DataModel {
                 summary: "Goal: Kill the Arcane Golem.\n\nYou have discovered the location of the old mystic Morsbane's Tower. The place is long past its prime but still home to ancient treasure, if rumors are to be believed.",
                 locationString: "K-2, East Road",
                 linksTo: ["None"],
-                isManuallyUnlockable: true,
-                mainCellBGImage: "scenarioMgrMap67"
+                isManuallyUnlockable: true
             )
             allScenarios.append(row66Scenario)
             
@@ -1769,8 +1702,7 @@ class DataModel {
                 summary: "Goal: Kill all enemies and protect the Tree (a).\n\nYou've heard tell of a great tree that grows somewhere deep within the Lingering Swamp. It supposedly possesses great healing power, but is rumored to be the target of vile creatures bent on its destruction. Whether it be a soft spot for nature, or the hope of finding valuable potions, you need to get down there and defend the tree.",
                 locationString: "N-8, Lingering Swamp",
                 linksTo: ["None"],
-                isManuallyUnlockable: true,
-                mainCellBGImage: "scenarioMgrMap68"
+                isManuallyUnlockable: true
             )
             allScenarios.append(row67Scenario)
             
@@ -1788,8 +1720,7 @@ class DataModel {
                 summary: "Goal: Bring the doll to the well.\n\nThere's an old well up along the Stone Road that's supposed to grant wishes to those who throw items of value into its depths. Though you're not particularly superstitious, your curiosity drives you to go see for yourself.",
                 locationString: "F-8, Stone Road",
                 linksTo: ["None"],
-                isManuallyUnlockable: true,
-                mainCellBGImage: "scenarioMgrMap69"
+                isManuallyUnlockable: true
             )
             allScenarios.append(row68Scenario)
             
@@ -1807,8 +1738,7 @@ class DataModel {
                 summary: "Goal: Kill all demons.\n\nYou've heard enough about the haunted island to fill several story books. No one dares go near the remote hunk of rock deep in the Misty Sea for fear of the tormented souls haunting the shore. A recently-discovered journal details the existence of a cohort of demons somewhere on the island, which could be the source of the discomfited souls. Wipe out the demons, and maybe the Chained Isle will become a destination once again.",
                 locationString: "J-17, Misty Sea",
                 linksTo: ["Gloomhaven"],
-                isManuallyUnlockable: true,
-                mainCellBGImage: "scenarioMgrMap70"
+                isManuallyUnlockable: true
             )
             allScenarios.append(row69Scenario)
             
@@ -1826,8 +1756,7 @@ class DataModel {
                 summary: "Goal: Loot all treasure tiles, then all characters must escape through exit (a).\n\nYou've uncovered an alchemist's log book, wherein you read about a plant (jerry root) which can be used to formulate a powerful concoction. If you can retrieve this plant from the highlands along the Serpent's Kiss River, you might be able to fetch some decent coin for it.",
                 locationString: "K-5, Serpent's Kiss River",
                 linksTo: ["None"],
-                isManuallyUnlockable: true,
-                mainCellBGImage: "scenarioMgrMap71"
+                isManuallyUnlockable: true
             )
             allScenarios.append(row70Scenario)
             
@@ -1845,8 +1774,7 @@ class DataModel {
                 summary: "Goal: Destroy all trees and kill all Oozes.\n\nTown librarian Dominic fears the military will quash his attempts to chronicle Gloomhaven history. If you scratch Councilman Greymare's back, the councilman will do what he can to protect Dominic. In this case, the back-scratching involves clearing Greymare's Corpsewood estate of an Ooze infestation.",
                 locationString: "H-12, Corpsewood",
                 linksTo: ["None"],
-                isManuallyUnlockable: true,
-                mainCellBGImage: "scenarioMgrMap72"
+                isManuallyUnlockable: true
             )
             allScenarios.append(row71Scenario)
             
@@ -1864,8 +1792,7 @@ class DataModel {
                 summary: "Goal: Kill all enemies and loot all treasure tiles.\n\nDominic the librarian implores you to recover a Codex that contains vital information about Gloomhaven's ancient history. Problem is, it's purportedly in the hands of a band of Inox.",
                 locationString: "N-5, Watcher Mountains",
                 linksTo: ["None"],
-                isManuallyUnlockable: true,
-                mainCellBGImage: "scenarioMgrMap73"
+                isManuallyUnlockable: true
             )
             allScenarios.append(row72Scenario)
             
@@ -1883,8 +1810,7 @@ class DataModel {
                 summary: "Goal: Kill all enemies and keep the ship afloat.\n\nMerchant Gavin has hired you to put an end to the sea piracy that's destroying his business. Board one of his ships and let the pirates come to you, then finish them off for good.",
                 locationString: "I-14, Misty Sea",
                 linksTo: ["Gloomhaven"],
-                isManuallyUnlockable: true,
-                mainCellBGImage: "scenarioMgrMap74"
+                isManuallyUnlockable: true
             )
             allScenarios.append(row73Scenario)
             
@@ -1902,8 +1828,7 @@ class DataModel {
                 summary: "Goal: Dig up all graves and kill the Bloated Regent.\n\nNotorious fence Red Nick thinks you will make great grave robbers. Apparently there's much loot to be pilfered from a cemetary out on the east side of the Corpsewood, assuming the job isn't beneath you.",
                 locationString: "G-12, Corpsewood",
                 linksTo: ["None"],
-                isManuallyUnlockable: true,
-                mainCellBGImage: "scenarioMgrMap75"
+                isManuallyUnlockable: true
             )
             allScenarios.append(row74Scenario)
             
@@ -1921,8 +1846,7 @@ class DataModel {
                 summary: "Goal: Reveal all rooms and kill all enemies.\n\nThere's a group of Harrowers slaughtering people out along the East Road, and they need to be stopped. Problem is, no-one has stepped up to take on this extremely dangerous task. If you're up to it, head out to their hive in the Watcher Mountains and wipe them out.",
                 locationString: "L-3, Watcher Mountains",
                 linksTo: ["None"],
-                isManuallyUnlockable: true,
-                mainCellBGImage: "scenarioMgrMap76"
+                isManuallyUnlockable: true
             )
             allScenarios.append(row75Scenario)
             
@@ -1940,8 +1864,7 @@ class DataModel {
                 summary: "Goal: Loot all treasure tiles and kill all City Guards before the alarm is raised.\n\nLibrarian Dominic's beloved Codex was stolen from him by a mysterious group calling themselves The Vigil. He has directed you to sneak in to their Vault of Secrets and recover the Codex without raising an alarm.",
                 locationString: "B-17, Gloomhaven",
                 linksTo: ["Gloomhaven"],
-                isManuallyUnlockable: true,
-                mainCellBGImage: "scenarioMgrMap77"
+                isManuallyUnlockable: true
             )
             allScenarios.append(row76Scenario)
             
@@ -1959,8 +1882,7 @@ class DataModel {
                 summary: "Goal: Kill all enemies and stop the sacrifice.\n\nYou've followed a cloaked figure to what you believe could be the Ravens' hideout. This may be your chance cleanse the city of these vile cultists for good.",
                 locationString: "B-14, Gloomhaven",
                 linksTo: ["Gloomhaven"],
-                isManuallyUnlockable: true,
-                mainCellBGImage: "scenarioMgrMap78"
+                isManuallyUnlockable: true
             )
             allScenarios.append(row77Scenario)
             
@@ -1978,8 +1900,7 @@ class DataModel {
                 summary: "Goal: Kill the Betrayer.\n\nAn old bandit, Fish, tells you that the metal sphere and rod you are puzzling over is in fact a key to a temple that contains untold riches. You decide to take Fish at his word and follow him out to the swamps to scare up some gold.",
                 locationString: "K-12, Lingering Swamp",
                 linksTo: ["None"],
-                isManuallyUnlockable: true,
-                mainCellBGImage: "scenarioMgrMap79"
+                isManuallyUnlockable: true
             )
             allScenarios.append(row78Scenario)
             
@@ -1997,8 +1918,7 @@ class DataModel {
                 summary: "Goal: All characters must loot one treasure tile and then escape.\n\nYour investigations into the Vigil have landed you in a jail cell deep within their keep. A friend offers a bit of help, but you must still regain your weapons and items if you're going to escape this place.",
                 locationString: "K-1, Watcher Mountains",
                 linksTo: ["None"],
-                isManuallyUnlockable: true,
-                mainCellBGImage: "scenarioMgrMap80"
+                isManuallyUnlockable: true
             )
             allScenarios.append(row79Scenario)
             
@@ -2016,8 +1936,7 @@ class DataModel {
                 summary: "Goal: Kill the Colorless.\n\nJust when you thought that coin you bought off the strange Savvas merchant was a worthless bauble, an Aesther tells you its markings lead to a mysterious temple. This proves to be too enticing to ignore, so you head out to the Dagger Forest ready to explore.",
                 locationString: "D-2, Dagger Forest",
                 linksTo: ["None"],
-                isManuallyUnlockable: true,
-                mainCellBGImage: "scenarioMgrMap81"
+                isManuallyUnlockable: true
             )
             allScenarios.append(row80Scenario)
             
@@ -2035,8 +1954,7 @@ class DataModel {
                 summary: "Goal: Sacrifice one artifact or escape with all artifacts.\n\nThat band of Inox you passed on the road were fleeing what their Shaman called 'A Mountain Aflame'. After coming upon the scorched Inox village, you decide to brave the climb to the peak beyond and see just what's really going on.",
                 locationString: "M-6, Watcher Mountains",
                 linksTo: ["None"],
-                isManuallyUnlockable: true,
-                mainCellBGImage: "scenarioMgrMap82"
+                isManuallyUnlockable: true
             )
             allScenarios.append(row81Scenario)
             
@@ -2054,8 +1972,7 @@ class DataModel {
                 summary: "Goal: Kill all enemies.\n\nThe woman who approached you during a drunken night gambling at the Brown Door caught your attention with a parchment bearing the Raven insignia. She's appealing to you to rescue her kidnapped daughter from the nasty cultist group. You've got a lead on their whereabouts, so it's time to go knock some heads.",
                 locationString: "C-15, Gloomhaven",
                 linksTo: ["Gloomhaven"],
-                isManuallyUnlockable: true,
-                mainCellBGImage: "scenarioMgrMap83"
+                isManuallyUnlockable: true
             )
             allScenarios.append(row82Scenario)
             
@@ -2073,8 +1990,7 @@ class DataModel {
                 summary: "Goal: Kill all enemies and protect the crystal (a).\n\nThat crystal you found turns out to contain earth-shaking power - quite literally. After consulting with a Quatryl over what to do about it, you're off to restore the crystal to its proper place and hopefully quiet the rumblings.",
                 locationString: "D-12, Copperneck Mountains",
                 linksTo: ["None"],
-                isManuallyUnlockable: true,
-                mainCellBGImage: "scenarioMgrMap84"
+                isManuallyUnlockable: true
             )
             allScenarios.append(row83Scenario)
             
@@ -2092,8 +2008,7 @@ class DataModel {
                 summary: "Goal: Kill all enemies.\n\nSun Demons have sought your help in ridding their temple of Night Demons. You begrudgingly agree to assist them.",
                 locationString: "M-3, Watcher Mountains",
                 linksTo: ["None"],
-                isManuallyUnlockable: true,
-                mainCellBGImage: "scenarioMgrMap85"
+                isManuallyUnlockable: true
             )
             allScenarios.append(row84Scenario)
             
@@ -2111,8 +2026,7 @@ class DataModel {
                 summary: "Goal: Save seven villagers before five are killed.\n\nFind out what's poisoning the residents of Hook Coast and report back to the City Guard.",
                 locationString: "D-15, Gloomhaven",
                 linksTo: ["Gloomhaven"],
-                isManuallyUnlockable: true,
-                mainCellBGImage: "scenarioMgrMap86"
+                isManuallyUnlockable: true
             )
             allScenarios.append(row85Scenario)
 
@@ -2130,8 +2044,7 @@ class DataModel {
                 summary: "Goal: Kill the Giant Ooze.\n\nA resident of the Hook Coast points out the source of the poison ravaging his village. Travel to a cove just to the south to investigate further.",
                 locationString: "I-9, Gloomhaven",
                 linksTo: ["Gloomhaven"],
-                isManuallyUnlockable: true,
-                mainCellBGImage: "scenarioMgrMap87"
+                isManuallyUnlockable: true
             )
             allScenarios.append(row86Scenario)
             
@@ -2149,8 +2062,7 @@ class DataModel {
                 summary: "Goal: Bring the Lurker King's claw to the crystal (a).\n\nThat Summoner's Staff you found is gushing water all over your room at the Sleeping Lion, so you gamely try to figure out how to stop it. Suddenly a planar threshold appears before you, and you step through.",
                 locationString: "D-16, Gloomhaven",
                 linksTo: ["Gloomhaven"],
-                isManuallyUnlockable: true,
-                mainCellBGImage: "scenarioMgrMap88"
+                isManuallyUnlockable: true
             )
             allScenarios.append(row87Scenario)
             
@@ -2168,8 +2080,7 @@ class DataModel {
                 summary: "Goal: Kill all enemies.\n\nThe Sin-Ra Syndicate has a beef with your 'friend' the Nightshroud, so they have decided to strike at you. Find their hideout and make them regret it.",
                 locationString: "C-17, Gloomhaven",
                 linksTo: ["Gloomhaven"],
-                isManuallyUnlockable: true,
-                mainCellBGImage: "scenarioMgrMap89"
+                isManuallyUnlockable: true
             )
             allScenarios.append(row88Scenario)
             
@@ -2187,8 +2098,7 @@ class DataModel {
                 summary: "Goal: Close the rift.\n\nYour friend the Spellweaver showed up out of nowhere one night to help you fend off some Night Demons. She's asked for your help in destroying with the rift from whence they came.",
                 locationString: "J-7, Serpent's Kiss River",
                 linksTo: ["None"],
-                isManuallyUnlockable: true,
-                mainCellBGImage: "scenarioMgrMap90"
+                isManuallyUnlockable: true
             )
             allScenarios.append(row89Scenario)
             
@@ -2206,8 +2116,7 @@ class DataModel {
                 summary: "Goal: Kill all enemies.\n\nYou take the drunken logger's bar-table rant about a Vermling riding a bear seriously, and head out to the Dagger Forest to see what he was on about.",
                 locationString: "E-2, Dagger Forest",
                 linksTo: ["None"],
-                isManuallyUnlockable: true,
-                mainCellBGImage: "scenarioMgrMap91"
+                isManuallyUnlockable: true
             )
             allScenarios.append(row90Scenario)
             
@@ -2225,8 +2134,7 @@ class DataModel {
                 summary: "Goal: Kill all non-city enemies.\n\nSome Inox thought they could extort you for a debt owed by someone else. You would rather meet them in the alley outside the Sleeping Lion and show them your preferred form of payback.",
                 locationString: "C-14, Gloomhaven",
                 linksTo: ["Gloomhaven"],
-                isManuallyUnlockable: true,
-                mainCellBGImage: "scenarioMgrMap92"
+                isManuallyUnlockable: true
             )
             allScenarios.append(row91Scenario)
             
@@ -2244,8 +2152,7 @@ class DataModel {
                 summary: "Goal: Kill all enemies.\n\nYou decided to purchase a faded map from a Valrath merchant. It supposedly points to sunken treasure, so you rent a boat and sail to where X marks the spot.",
                 locationString: "N-17, Misty Sea",
                 linksTo: ["Gloomhaven"],
-                isManuallyUnlockable: true,
-                mainCellBGImage: "scenarioMgrMap93"
+                isManuallyUnlockable: true
             )
             allScenarios.append(row92Scenario)
             
@@ -2263,8 +2170,7 @@ class DataModel {
                 summary: "Goal: Kill all enemies and loot the treasure tile.\n\nThe old man who approached your table at the Sleeping Lion asked you to retrieve an artifact for him. He promised that there would be plenty of riches to be found once the Vermlings protecting it were dealt with.",
                 locationString: "F-12, Corpsewood",
                 linksTo: ["95 - Payment Due"],
-                isManuallyUnlockable: true,
-                mainCellBGImage: "scenarioMgrMap94"
+                isManuallyUnlockable: true
             )
             allScenarios.append(row93Scenario)
             
@@ -2282,8 +2188,7 @@ class DataModel {
                 summary: "Goal: Kill the Prime Lieutenant.\n\nAfter dealing with the Vermling nest, you were expecting to find a glittering trove. Instead, you've been thrust into a battle arena for the entertainment of the Prime Lieutenant.",
                 locationString: "G-12, Corpsewood",
                 linksTo: ["94 - Vermling Nest"],
-                isManuallyUnlockable: false,
-                mainCellBGImage: "scenarioMgrMap95"
+                isManuallyUnlockable: false
             )
             allScenarios.append(row94Scenario)
             

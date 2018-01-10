@@ -25,9 +25,8 @@ class Scenario: NSObject, NSCoding {
     var locationString = String()
     var linksTo = [String]()
     var isManuallyUnlockable = false
-    var mainCellBGImage = String()
 
-    init(number: String, title: String, isCompleted: Bool, requirementsMet: Bool, requirements: [String: Bool], isUnlocked: Bool, unlockedBy: [String], unlocks: [String], achieves: [String], rewards: [NSAttributedString], summary: String, locationString: String, linksTo: [String], isManuallyUnlockable: Bool, mainCellBGImage: String) {
+    init(number: String, title: String, isCompleted: Bool, requirementsMet: Bool, requirements: [String: Bool], isUnlocked: Bool, unlockedBy: [String], unlocks: [String], achieves: [String], rewards: [NSAttributedString], summary: String, locationString: String, linksTo: [String], isManuallyUnlockable: Bool) {
         self.number = number
         self.title = title
         self.isCompleted = isCompleted
@@ -42,7 +41,6 @@ class Scenario: NSObject, NSCoding {
         self.locationString = locationString
         self.linksTo = linksTo
         self.isManuallyUnlockable = isManuallyUnlockable
-        self.mainCellBGImage = mainCellBGImage
     }
     
     // Must implement in order to allow Scenarios to be loaded
@@ -61,7 +59,6 @@ class Scenario: NSObject, NSCoding {
         locationString = aDecoder.decodeObject(forKey: "LocationString") as! String
         linksTo = aDecoder.decodeObject(forKey: "LinksTo") as! [String]
         isManuallyUnlockable = aDecoder.decodeBool(forKey: "IsManuallyUnlockable")
-        mainCellBGImage = aDecoder.decodeObject(forKey: "MainCellBGImage") as! String
         super.init()
 
     }
@@ -82,6 +79,5 @@ class Scenario: NSObject, NSCoding {
         aCoder.encode(locationString, forKey: "LocationString")
         aCoder.encode(linksTo, forKey: "LinksTo")
         aCoder.encode(isManuallyUnlockable, forKey: "IsManuallyUnlockable")
-        aCoder.encode(mainCellBGImage, forKey: "MainCellBGImage")
     }
 }
