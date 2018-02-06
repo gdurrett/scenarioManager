@@ -22,12 +22,11 @@ enum CampaignDetailViewModelItemType {
 protocol CampaignDetailPartyUpdaterDelegate: class {
     func reloadTableAfterSetPartyCurrent()
 }
-protocol CampaignDetailViewModelItem {
+protocol CampaignDetailViewModelItem  {
     var type: CampaignDetailViewModelItemType { get }
     var sectionTitle: String { get }
     var rowCount: Int { get }
 }
-
 class CampaignDetailViewModel: NSObject {
     let colorDefinitions = ColorDefinitions()
     let fontDefinitions = FontDefinitions()
