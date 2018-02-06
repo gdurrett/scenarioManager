@@ -446,23 +446,24 @@ class DataModel {
         
         let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
         let url = NSURL(fileURLWithPath: path)
-        let filePath = url.appendingPathComponent("Scenarios.plist")?.path
+        let filePath = url.appendingPathComponent("Campaigns.plist")?.path
         let fileManager = FileManager.default
         
         if fileManager.fileExists(atPath: filePath!){
             loadCampaignsFromLocal()
-            for campaign in campaigns {
-                if campaign.value.isCurrent == true {
-                    loadCampaign(campaign: campaign.key)
-                    break
-                }
-            }
-            for party in parties {
-                if party.value.isCurrent == true {
-                    loadParty(party: party.key)
-                    break
-                }
-            }
+            setCampaignsAndParties()
+//            for campaign in campaigns {
+//                if campaign.value.isCurrent == true {
+//                    loadCampaign(campaign: campaign.key)
+//                    break
+//                }
+//            }
+//            for party in parties {
+//                if party.value.isCurrent == true {
+//                    loadParty(party: party.key)
+//                    break
+//                }
+//            }
         } else {
             
             let scenario44String = NSMutableAttributedString(string: "Open envelope ")
@@ -2255,7 +2256,6 @@ class DataModel {
         
         print("Documents folder is \(documentsDirectory())")
         print("Data file path is \(dataFilePath())")
-        //print(NotificationCenter.default.debugDescription)
     }
     func setCurrentParty(party: Party) {
         for thisParty in self.parties.values {
@@ -2270,7 +2270,7 @@ class DataModel {
         return paths[0]
     }
     func dataFilePath() -> URL {
-        return documentsDirectory().appendingPathComponent("Scenarios.plist")
+        return documentsDirectory().appendingPathComponent("Campaigns.plist")
     }
     func saveCampaignsLocally() {
         let data = NSMutableData()
@@ -2292,7 +2292,20 @@ class DataModel {
             characters = unarchiver.decodeObject(forKey: "Characters") as! [ String:Character ]
             unarchiver.finishDecoding()
         }
-
+    }
+    func setCampaignsAndParties() {
+        for campaign in campaigns {
+            if campaign.value.isCurrent == true {
+                loadCampaign(campaign: campaign.key)
+                break
+            }
+        }
+        for party in parties {
+            if party.value.isCurrent == true {
+                loadParty(party: party.key)
+                break
+            }
+        }
     }
     func getScenario(scenarioNumber: String) -> Scenario? {
         

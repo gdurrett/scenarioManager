@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftyDropbox
 
 protocol CampaignDetailViewControllerDelegate: class {
     func campaignDetailVCDidTapDelete(_ controller: CampaignDetailViewController)
@@ -19,6 +20,37 @@ protocol CampaignDetailViewControllerDelegate: class {
 
 class CampaignDetailViewController: UIViewController {
     @IBOutlet var campaignDetailView: UIView!
+    
+    @IBAction func exportCampaignAction(_ sender: Any) {
+        authenticateToDropBox()
+        loadAuthenticationViewController()
+//        if let client = DropboxClientsManager.authorizedClient {
+//            let alertController = UIAlertController(title: "Load/Save campaign state", message: "Choose an option", preferredStyle: .actionSheet)
+//            let saveButton = UIAlertAction(title: "Save campaign to Dropbox", style: .default, handler: {
+//                (action) -> () in
+//                print("would be saving")
+//            })
+//            let loadButton = UIAlertAction(title: "Load campaign from Dropbox", style: .default, handler: {
+//                (action) -> () in
+//                self.downloadCampaignsFile()
+//                self.viewModel.dataModel.loadCampaignsFromLocal()
+//                self.viewModel.dataModel.setCampaignsAndParties()
+//                self.campaignDetailTableView.reloadData()
+//            })
+//            let cancelButton = UIAlertAction(title: "Cancel", style: .default, handler: {
+//                (action) -> () in
+//                print("fuggeddaboudit")
+//            })
+//
+//            alertController.addAction(loadButton)
+//            alertController.addAction(saveButton)
+//            alertController.addAction(cancelButton)
+//            self.present(alertController, animated: true, completion: nil)
+//        } else {
+//            authenticateToDropBox()
+//        }
+        
+    }
     
     @IBOutlet weak var campaignDetailTableView: UITableView!
 
@@ -50,8 +82,9 @@ class CampaignDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Test
-        
+        // Test dropbox setup
+        //authenticateToDropBox()
+
         viewModel.reloadSection = { [weak self] (section: Int) in
             if section == 1 {
                 self?.refreshProsperityLevel()
@@ -334,6 +367,63 @@ extension CampaignDetailViewController: UITableViewDelegate {
         createCampaignVC.hidesBottomBarWhenPushed = true
         //self.navigationController!.pushViewController(createCampaignVC, animated: true)
         self.present(navCon, animated: true, completion: nil)
+    }
+    fileprivate func loadAuthenticationViewController() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let authenticationControllerVC = storyboard.instantiateViewController(withIdentifier: "AuthenticationController") as! AuthenticationController
+        authenticationControllerVC.firstLoad = false
+        let navCon = UINavigationController(rootViewController: authenticationControllerVC)
+        self.present(navCon, animated: true, completion: nil)
+    }
+    // Dropbox stuff
+    fileprivate func authenticateToDropBox() {
+        if DropboxClientsManager.authorizedClient == nil {
+            DropboxClientsManager.authorizeFromController(UIApplication.shared,
+                                                          controller: self,
+                                                          openURL: { (url: URL) -> Void in
+                                                            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            })
+        }
+    }
+    func downloadCampaignsFile() {
+        if let client = DropboxClientsManager.authorizedClient {
+            client.files.listFolder(path: "").response {
+                response, error in
+                if let result = response {
+                    print("Folder Contents:")
+                    for entry in result.entries {
+                        if entry.name == "Campaigns.plist" {
+                            let destination: (URL, HTTPURLResponse) -> URL = { tempURL, response in
+                                return self.viewModel.dataFilePath
+                            }
+                            client.files.download(path: "/Campaigns.plist", overwrite: true, destination: destination)
+                                .response { response, error in
+                                    if let _ = response {
+//                                        self.campaignDetailTableView.reloadData()
+                                    } else if let _ = error {
+                                        self.showNoCampaignsFileAlert()
+                                    }
+                            }
+                        }
+                    }
+                } else if let error = error {
+                    print(error)
+                }
+            }
+            print("Did get a client though.")
+        }
+    }
+    func showNoCampaignsFileAlert() {
+        let alertTitle = "Did not find a save file!"
+        let alertView = UIAlertController(
+            title: alertTitle,
+            message: "You must first save your progress to Dropbox.",
+            preferredStyle: .alert)
+        
+        let action = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil)
+        alertView.view.tintColor = colorDefinitions.scenarioAlertViewTintColor
+        alertView.addAction(action)
+        present(alertView, animated: true, completion: nil)
     }
     // Called by CampaignDetailViewModel
     func showDisallowDeletionAlert() {

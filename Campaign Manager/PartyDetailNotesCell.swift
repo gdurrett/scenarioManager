@@ -9,7 +9,7 @@
 import UIKit
 
 class PartyDetailNotesCell: UITableViewCell {
-
+    
     @IBOutlet weak var NotesField: UITextView!
     
     
@@ -47,5 +47,5 @@ class PartyDetailNotesCell: UITableViewCell {
         
         // Configure the view for the selected state
     }
-
+    
 }

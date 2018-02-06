@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B5B7CC2F596F85C475424C2C /* Pods_Campaign_Manager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A441EE3DD4D64E578C806810 /* Pods_Campaign_Manager.framework */; };
 		FB10A4471FB389B900CAA684 /* SelectCharacterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB10A4461FB389B900CAA684 /* SelectCharacterViewController.swift */; };
 		FB10A4491FB3CF2700CAA684 /* CharacterDetailPlayedScenarioCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB10A4481FB3CF2700CAA684 /* CharacterDetailPlayedScenarioCell.xib */; };
 		FB10A44B1FB3CF7A00CAA684 /* CharacterDetailPlayedScenarioCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB10A44A1FB3CF7A00CAA684 /* CharacterDetailPlayedScenarioCell.swift */; };
@@ -17,7 +18,6 @@
 		FB2237D51F816B5500CAA684 /* SelectCampaignViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2237D41F816B5500CAA684 /* SelectCampaignViewController.swift */; };
 		FB2237D81F8190E600CAA684 /* SelectCampaignTitleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB2237D71F8190E600CAA684 /* SelectCampaignTitleCell.xib */; };
 		FB2237DA1F81916B00CAA684 /* SelectCampaignTitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2237D91F81916B00CAA684 /* SelectCampaignTitleCell.swift */; };
-		FB23B6EA1F044CFC00CAA684 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB23B6E91F044CFC00CAA684 /* AppDelegate.swift */; };
 		FB23B6F41F044CFC00CAA684 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB23B6F21F044CFC00CAA684 /* LaunchScreen.storyboard */; };
 		FB23B6FC1F04C40D00CAA684 /* Scenario.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB23B6FB1F04C40D00CAA684 /* Scenario.swift */; };
 		FB23B7021F0AB5ED00CAA684 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB23B7011F0AB5EC00CAA684 /* DataModel.swift */; };
@@ -49,8 +49,6 @@
 		FB482DAC1F293C9500CAA684 /* AchievesInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB482DAB1F293C9500CAA684 /* AchievesInfoCell.swift */; };
 		FB5729BE1F6C732600CAA684 /* CampaignDetailTitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5729BD1F6C732600CAA684 /* CampaignDetailTitleCell.swift */; };
 		FB5729C01F6C73B900CAA684 /* CampaignDetailTitleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB5729BF1F6C73B900CAA684 /* CampaignDetailTitleCell.xib */; };
-		FB5729C21F6C74CD00CAA684 /* CampaignDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5729C11F6C74CD00CAA684 /* CampaignDetailViewModel.swift */; };
-		FB5729C41F6C806800CAA684 /* CampaignDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5729C31F6C806800CAA684 /* CampaignDetailViewController.swift */; };
 		FB5729C61F6F015D00CAA684 /* CampaignDetailPartyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB5729C51F6F015D00CAA684 /* CampaignDetailPartyCell.xib */; };
 		FB5729C81F6F022500CAA684 /* CampaignDetailPartyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5729C71F6F022500CAA684 /* CampaignDetailPartyCell.swift */; };
 		FB5729CA1F6F1B5F00CAA684 /* CampaignDetailAchievementsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB5729C91F6F1B5F00CAA684 /* CampaignDetailAchievementsCell.xib */; };
@@ -64,12 +62,53 @@
 		FB5DDF661F8C35CF00CAA684 /* CampaignDetailEventsHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB5DDF651F8C35CF00CAA684 /* CampaignDetailEventsHeader.xib */; };
 		FB5DDF681F8C3A6200CAA684 /* CampaignDetailEventsHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5DDF671F8C3A6200CAA684 /* CampaignDetailEventsHeader.swift */; };
 		FB5EA7731FFD864D00CAA684 /* PartyDetailNotesCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB5EA7721FFD864D00CAA684 /* PartyDetailNotesCell.xib */; };
-		FB5EA7751FFD867B00CAA684 /* PartyDetailNotesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5EA7741FFD867B00CAA684 /* PartyDetailNotesCell.swift */; };
-		FB5EA7761FFD8B9A00CAA684 /* PartyDetailNotesCell.swift in Resources */ = {isa = PBXBuildFile; fileRef = FB5EA7741FFD867B00CAA684 /* PartyDetailNotesCell.swift */; };
 		FB5EA7781FFEDFBC00CAA684 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB5EA7771FFEDFBC00CAA684 /* CloudKit.framework */; };
-		FB5EA77A2002CD5400CAA684 /* CampaignDetailNotesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5EA7792002CD5400CAA684 /* CampaignDetailNotesCell.swift */; };
 		FB5EA77C2002CD7400CAA684 /* CampaignDetailNotesCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB5EA77B2002CD7400CAA684 /* CampaignDetailNotesCell.xib */; };
-		FB5EA77D2002D03A00CAA684 /* CampaignDetailNotesCell.swift in Resources */ = {isa = PBXBuildFile; fileRef = FB5EA7792002CD5400CAA684 /* CampaignDetailNotesCell.swift */; };
+		FB5EA77E200697DD00CAA684 /* Pods_Campaign_Manager.framework in Resources */ = {isa = PBXBuildFile; fileRef = A441EE3DD4D64E578C806810 /* Pods_Campaign_Manager.framework */; };
+		FB60128A202A592600CAA684 /* CampaignDetailAchievementsCell.xib in Sources */ = {isa = PBXBuildFile; fileRef = FB5729C91F6F1B5F00CAA684 /* CampaignDetailAchievementsCell.xib */; };
+		FB60128B202A592600CAA684 /* CampaignDetailAvailableTypeCell.xib in Sources */ = {isa = PBXBuildFile; fileRef = FB8DF12A1FDF02CB00CAA684 /* CampaignDetailAvailableTypeCell.xib */; };
+		FB60128C202A592600CAA684 /* CampaignDetailDonationsCell.xib in Sources */ = {isa = PBXBuildFile; fileRef = FB5729D11F6F8F1E00CAA684 /* CampaignDetailDonationsCell.xib */; };
+		FB60128D202A592600CAA684 /* CampaignDetailPartyCell.xib in Sources */ = {isa = PBXBuildFile; fileRef = FB5729C51F6F015D00CAA684 /* CampaignDetailPartyCell.xib */; };
+		FB60128E202A592600CAA684 /* CampaignDetailProsperityCell.xib in Sources */ = {isa = PBXBuildFile; fileRef = FB5729CD1F6F282400CAA684 /* CampaignDetailProsperityCell.xib */; };
+		FB60128F202A592600CAA684 /* CampaignDetailTitleCell.xib in Sources */ = {isa = PBXBuildFile; fileRef = FB5729BF1F6C73B900CAA684 /* CampaignDetailTitleCell.xib */; };
+		FB601290202A592600CAA684 /* CampaignDetailEventCell.xib in Sources */ = {isa = PBXBuildFile; fileRef = FB5DDF601F8BE3AC00CAA684 /* CampaignDetailEventCell.xib */; };
+		FB601291202A592600CAA684 /* CampaignDetailNotesCell.xib in Sources */ = {isa = PBXBuildFile; fileRef = FB5EA77B2002CD7400CAA684 /* CampaignDetailNotesCell.xib */; };
+		FB601292202A593100CAA684 /* CharacterDetailCharacterNameCell.xib in Sources */ = {isa = PBXBuildFile; fileRef = FB8F10D21FAFDA1F00CAA684 /* CharacterDetailCharacterNameCell.xib */; };
+		FB601293202A593100CAA684 /* CharacterDetailCharacterTypeCell.xib in Sources */ = {isa = PBXBuildFile; fileRef = FB8F10D61FAFDF1900CAA684 /* CharacterDetailCharacterTypeCell.xib */; };
+		FB601294202A593100CAA684 /* CharacterDetailCharacterLevelCell.xib in Sources */ = {isa = PBXBuildFile; fileRef = FB8D4F5B1FB0DD9000CAA684 /* CharacterDetailCharacterLevelCell.xib */; };
+		FB601295202A593100CAA684 /* CharacterDetailAssignedPartyCell.xib in Sources */ = {isa = PBXBuildFile; fileRef = FB8D4F611FB11CCF00CAA684 /* CharacterDetailAssignedPartyCell.xib */; };
+		FB601296202A593100CAA684 /* CharacterDetailPlayedScenarioCell.xib in Sources */ = {isa = PBXBuildFile; fileRef = FB10A4481FB3CF2700CAA684 /* CharacterDetailPlayedScenarioCell.xib */; };
+		FB601297202A593100CAA684 /* CharacterDetailCharacterGoalCell.xib in Sources */ = {isa = PBXBuildFile; fileRef = FB7586C01FD9F2B100CAA684 /* CharacterDetailCharacterGoalCell.xib */; };
+		FB601298202A594100CAA684 /* PartyDetailNameCell.xib in Sources */ = {isa = PBXBuildFile; fileRef = FB884F851F9E4D9300CAA684 /* PartyDetailNameCell.xib */; };
+		FB601299202A594100CAA684 /* PartyDetailReputationCell.xib in Sources */ = {isa = PBXBuildFile; fileRef = FBA014181F9E80D900CAA684 /* PartyDetailReputationCell.xib */; };
+		FB60129A202A594100CAA684 /* PartyDetailAssignedCampaignCell.xib in Sources */ = {isa = PBXBuildFile; fileRef = FBA014241F9EB08D00CAA684 /* PartyDetailAssignedCampaignCell.xib */; };
+		FB60129B202A594100CAA684 /* PartyDetailAchievementsCell.xib in Sources */ = {isa = PBXBuildFile; fileRef = FBC880BC1FA3B5F600CAA684 /* PartyDetailAchievementsCell.xib */; };
+		FB60129C202A594100CAA684 /* PartyDetailAssignedCharactersCell.xib in Sources */ = {isa = PBXBuildFile; fileRef = FB3929491FA79BAA00CAA684 /* PartyDetailAssignedCharactersCell.xib */; };
+		FB60129D202A594100CAA684 /* PartyDetailNotesCell.xib in Sources */ = {isa = PBXBuildFile; fileRef = FB5EA7721FFD864D00CAA684 /* PartyDetailNotesCell.xib */; };
+		FB60129E202A594E00CAA684 /* CampaignDetailEventsHeader.xib in Sources */ = {isa = PBXBuildFile; fileRef = FB5DDF651F8C35CF00CAA684 /* CampaignDetailEventsHeader.xib */; };
+		FB60129F202A594E00CAA684 /* CampaignDetailPartiesHeader.xib in Sources */ = {isa = PBXBuildFile; fileRef = FBB0BBF01FE334FA00CAA684 /* CampaignDetailPartiesHeader.xib */; };
+		FB6012A0202A595700CAA684 /* ScenarioTitleCell.xib in Sources */ = {isa = PBXBuildFile; fileRef = FB482D9C1F2934B900CAA684 /* ScenarioTitleCell.xib */; };
+		FB6012A1202A595700CAA684 /* UnlocksInfoCell.xib in Sources */ = {isa = PBXBuildFile; fileRef = FB482DA01F2937B200CAA684 /* UnlocksInfoCell.xib */; };
+		FB6012A2202A595700CAA684 /* UnlockedByInfoCell.xib in Sources */ = {isa = PBXBuildFile; fileRef = FB482DA51F293ABA00CAA684 /* UnlockedByInfoCell.xib */; };
+		FB6012A3202A595700CAA684 /* AchievesInfoCell.xib in Sources */ = {isa = PBXBuildFile; fileRef = FB482DA91F293C6600CAA684 /* AchievesInfoCell.xib */; };
+		FB6012A4202A595700CAA684 /* RewardsInfoCell.xib in Sources */ = {isa = PBXBuildFile; fileRef = FB4665861F2E5C5900CAA684 /* RewardsInfoCell.xib */; };
+		FB6012A5202A595700CAA684 /* RequirementsInfoCell.xib in Sources */ = {isa = PBXBuildFile; fileRef = FB46658A1F2E66C000CAA684 /* RequirementsInfoCell.xib */; };
+		FB6012A6202A595700CAA684 /* SummaryInfoCell.xib in Sources */ = {isa = PBXBuildFile; fileRef = FB46658C1F2F964C00CAA684 /* SummaryInfoCell.xib */; };
+		FB6012A7202A595700CAA684 /* LocationInfoCell.xib in Sources */ = {isa = PBXBuildFile; fileRef = FB4665921F2FA9FA00CAA684 /* LocationInfoCell.xib */; };
+		FB6012A8202A596500CAA684 /* CreateCharacterCharacterNameCell.xib in Sources */ = {isa = PBXBuildFile; fileRef = FB10A4511FB4F9FC00CAA684 /* CreateCharacterCharacterNameCell.xib */; };
+		FB6012A9202A596500CAA684 /* CreatePartyPartyNameCell.xib in Sources */ = {isa = PBXBuildFile; fileRef = FBCFBC231FA9298E00CAA684 /* CreatePartyPartyNameCell.xib */; };
+		FB6012AA202A596500CAA684 /* CreateCampaignTitleCell.xib in Sources */ = {isa = PBXBuildFile; fileRef = FBD2DD0A1F634C0100CAA684 /* CreateCampaignTitleCell.xib */; };
+		FB6012AB202A596500CAA684 /* CreateCampaignPartyCell.xib in Sources */ = {isa = PBXBuildFile; fileRef = FB7A89B91F83FF5600CAA684 /* CreateCampaignPartyCell.xib */; };
+		FB6012AC202A596500CAA684 /* CreateCampaignCharacterCell.xib in Sources */ = {isa = PBXBuildFile; fileRef = FB70AF011FCE235600CAA684 /* CreateCampaignCharacterCell.xib */; };
+		FB6012AD202A596500CAA684 /* SelectCampaignTitleCell.xib in Sources */ = {isa = PBXBuildFile; fileRef = FB2237D71F8190E600CAA684 /* SelectCampaignTitleCell.xib */; };
+		FB6012AE202A596500CAA684 /* SelectCharacterTitleCell.xib in Sources */ = {isa = PBXBuildFile; fileRef = FBC880C51FA3E9D300CAA684 /* SelectCharacterTitleCell.xib */; };
+		FB6012AF202A596500CAA684 /* SelectPartyTableViewCell.xib in Sources */ = {isa = PBXBuildFile; fileRef = FBCFBC2C1FAA473100CAA684 /* SelectPartyTableViewCell.xib */; };
+		FB69C8DE202A5D0400CAA684 /* CampaignDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5729C11F6C74CD00CAA684 /* CampaignDetailViewModel.swift */; };
+		FB69C8E0202A641D00CAA684 /* CampaignDetailNotesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5EA7792002CD5400CAA684 /* CampaignDetailNotesCell.swift */; };
+		FB69C8E1202A643B00CAA684 /* CampaignDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5729C31F6C806800CAA684 /* CampaignDetailViewController.swift */; };
+		FB69C8E2202A646000CAA684 /* PartyDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBEB4B651F9D4E7F00CAA684 /* PartyDetailViewController.swift */; };
+		FB69C8E3202A64A400CAA684 /* PartyDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBEB4B671F9D4FEA00CAA684 /* PartyDetailViewModel.swift */; };
+		FB69C8E4202A64B900CAA684 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB23B6E91F044CFC00CAA684 /* AppDelegate.swift */; };
 		FB70AF001FCE230000CAA684 /* CreateCampaignCharacterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB70AEFF1FCE230000CAA684 /* CreateCampaignCharacterCell.swift */; };
 		FB70AF021FCE235600CAA684 /* CreateCampaignCharacterCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB70AF011FCE235600CAA684 /* CreateCampaignCharacterCell.xib */; };
 		FB7586BE1FD9CB8D00CAA684 /* CharacterDetailCharacterGoalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB7586BC1FD9CB8D00CAA684 /* CharacterDetailCharacterGoalCell.swift */; };
@@ -96,9 +135,9 @@
 		FBA014211F9EA4A200CAA684 /* PartyDetailAssignedCampaignHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA014201F9EA4A200CAA684 /* PartyDetailAssignedCampaignHeader.swift */; };
 		FBA014231F9EB05700CAA684 /* PartyDetailAssignedCampaignCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA014221F9EB05700CAA684 /* PartyDetailAssignedCampaignCell.swift */; };
 		FBA014251F9EB08D00CAA684 /* PartyDetailAssignedCampaignCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FBA014241F9EB08D00CAA684 /* PartyDetailAssignedCampaignCell.xib */; };
+		FBA673F02016A74D00CAA684 /* AuthenticationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA673EF2016A74D00CAA684 /* AuthenticationController.swift */; };
 		FBB0BBA01FE32CF300CAA684 /* ScenarioViewController.swift in Resources */ = {isa = PBXBuildFile; fileRef = FBE3F1EA1F47C92C00CAA684 /* ScenarioViewController.swift */; };
 		FBB0BBA11FE32D8D00CAA684 /* ScenarioMainCell.swift in Resources */ = {isa = PBXBuildFile; fileRef = FB4665941F2FDCEE00CAA684 /* ScenarioMainCell.swift */; };
-		FBB0BBA21FE32DA200CAA684 /* CampaignDetailViewModel.swift in Resources */ = {isa = PBXBuildFile; fileRef = FB5729C11F6C74CD00CAA684 /* CampaignDetailViewModel.swift */; };
 		FBB0BBA31FE32DA200CAA684 /* CampaignViewModel.swift in Resources */ = {isa = PBXBuildFile; fileRef = FBD2DD051F625F6500CAA684 /* CampaignViewModel.swift */; };
 		FBB0BBA41FE32DA200CAA684 /* CampaignViewModelFromModel.swift in Resources */ = {isa = PBXBuildFile; fileRef = FBD2DD1B1F69A10200CAA684 /* CampaignViewModelFromModel.swift */; };
 		FBB0BBA51FE32DA200CAA684 /* CreateCamaignViewModel.swift in Resources */ = {isa = PBXBuildFile; fileRef = FBD2DD131F67517000CAA684 /* CreateCamaignViewModel.swift */; };
@@ -110,7 +149,6 @@
 		FBB0BBAB1FE32DA200CAA684 /* CreatePartyViewModel.swift in Resources */ = {isa = PBXBuildFile; fileRef = FBCFBC271FA92B6200CAA684 /* CreatePartyViewModel.swift */; };
 		FBB0BBAC1FE32DA200CAA684 /* DeleteCampaignViewModelFromModel.swift in Resources */ = {isa = PBXBuildFile; fileRef = FBD2DD151F6863E900CAA684 /* DeleteCampaignViewModelFromModel.swift */; };
 		FBB0BBAD1FE32DA200CAA684 /* Dynamic.swift in Resources */ = {isa = PBXBuildFile; fileRef = FB40EA181F45552B00CAA684 /* Dynamic.swift */; };
-		FBB0BBAE1FE32DA200CAA684 /* PartyDetailViewModel.swift in Resources */ = {isa = PBXBuildFile; fileRef = FBEB4B671F9D4FEA00CAA684 /* PartyDetailViewModel.swift */; };
 		FBB0BBAF1FE32DA200CAA684 /* ScenarioDetailViewModel.swift in Resources */ = {isa = PBXBuildFile; fileRef = FB482D9A1F27DBA400CAA684 /* ScenarioDetailViewModel.swift */; };
 		FBB0BBB01FE32DA200CAA684 /* ScenarioViewModel.swift in Resources */ = {isa = PBXBuildFile; fileRef = FB40EA131F4419CA00CAA684 /* ScenarioViewModel.swift */; };
 		FBB0BBB11FE32DA200CAA684 /* ScenarioViewModelFromModel.swift in Resources */ = {isa = PBXBuildFile; fileRef = FB40EA091F43967C00CAA684 /* ScenarioViewModelFromModel.swift */; };
@@ -123,7 +161,6 @@
 		FBB0BBB81FE32DC400CAA684 /* Party.swift in Resources */ = {isa = PBXBuildFile; fileRef = FBD2DD201F6ADD8E00CAA684 /* Party.swift */; };
 		FBB0BBB91FE32DC400CAA684 /* Scenario.swift in Resources */ = {isa = PBXBuildFile; fileRef = FB23B6FB1F04C40D00CAA684 /* Scenario.swift */; };
 		FBB0BBBA1FE32E5100CAA684 /* FontDefinitions.swift in Resources */ = {isa = PBXBuildFile; fileRef = FBD2DCFD1F61E7D900CAA684 /* FontDefinitions.swift */; };
-		FBB0BBBB1FE32E7C00CAA684 /* PartyDetailViewController.swift in Resources */ = {isa = PBXBuildFile; fileRef = FBEB4B651F9D4E7F00CAA684 /* PartyDetailViewController.swift */; };
 		FBB0BBBC1FE32F0700CAA684 /* PartyDetailNameCell.swift in Resources */ = {isa = PBXBuildFile; fileRef = FB884F871F9E4F0500CAA684 /* PartyDetailNameCell.swift */; };
 		FBB0BBBD1FE32F0700CAA684 /* PartyDetailReputationCell.swift in Resources */ = {isa = PBXBuildFile; fileRef = FBA0141A1F9E821800CAA684 /* PartyDetailReputationCell.swift */; };
 		FBB0BBBE1FE32F0700CAA684 /* PartyDetailAssignedCampaignCell.swift in Resources */ = {isa = PBXBuildFile; fileRef = FBA014221F9EB05700CAA684 /* PartyDetailAssignedCampaignCell.swift */; };
@@ -170,12 +207,12 @@
 		FBB0BBE81FE334A100CAA684 /* CampaignDetailPartiesHeader.swift in Resources */ = {isa = PBXBuildFile; fileRef = FB3D4F7D1F94374200CAA684 /* CampaignDetailPartiesHeader.swift */; };
 		FBB0BBE91FE334A100CAA684 /* PartyDetailAssignedCampaignHeader.swift in Resources */ = {isa = PBXBuildFile; fileRef = FBA014201F9EA4A200CAA684 /* PartyDetailAssignedCampaignHeader.swift */; };
 		FBB0BBEA1FE334A100CAA684 /* ProgressHUD.swift in Resources */ = {isa = PBXBuildFile; fileRef = FBD2DD001F6203F800CAA684 /* ProgressHUD.swift */; };
-		FBB0BBEB1FE334A100CAA684 /* CampaignDetailViewController.swift in Resources */ = {isa = PBXBuildFile; fileRef = FB5729C31F6C806800CAA684 /* CampaignDetailViewController.swift */; };
 		FBB0BBEC1FE334A100CAA684 /* CampaignManagerTabBarController.swift in Resources */ = {isa = PBXBuildFile; fileRef = FBCE87691F5A066F00CAA684 /* CampaignManagerTabBarController.swift */; };
 		FBB0BBED1FE334A100CAA684 /* CharacterDetailViewController.swift in Resources */ = {isa = PBXBuildFile; fileRef = FB8F10CF1FAFD6B800CAA684 /* CharacterDetailViewController.swift */; };
 		FBB0BBEE1FE334A100CAA684 /* ScenarioDetailViewController.swift in Resources */ = {isa = PBXBuildFile; fileRef = FB482D981F27C51C00CAA684 /* ScenarioDetailViewController.swift */; };
 		FBB0BBEF1FE334A100CAA684 /* SelectCharacterViewController.swift in Resources */ = {isa = PBXBuildFile; fileRef = FB10A4461FB389B900CAA684 /* SelectCharacterViewController.swift */; };
 		FBB0BBF11FE334FA00CAA684 /* CampaignDetailPartiesHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = FBB0BBF01FE334FA00CAA684 /* CampaignDetailPartiesHeader.xib */; };
+		FBBDF6DB202A65C900CAA684 /* PartyDetailNotesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5EA7741FFD867B00CAA684 /* PartyDetailNotesCell.swift */; };
 		FBC880BD1FA3B5F600CAA684 /* PartyDetailAchievementsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FBC880BC1FA3B5F600CAA684 /* PartyDetailAchievementsCell.xib */; };
 		FBC880BF1FA3B6C200CAA684 /* PartyDetailAchievementsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBC880BE1FA3B6C200CAA684 /* PartyDetailAchievementsCell.swift */; };
 		FBC880C61FA3E9D300CAA684 /* SelectCharacterTitleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FBC880C51FA3E9D300CAA684 /* SelectCharacterTitleCell.xib */; };
@@ -213,12 +250,13 @@
 		FBE3F1E91F47C91100CAA684 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FBE3F1E81F47C91100CAA684 /* Main.storyboard */; };
 		FBE3F1EB1F47C92C00CAA684 /* ScenarioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE3F1EA1F47C92C00CAA684 /* ScenarioViewController.swift */; };
 		FBE3F1ED1F4A5F6A00CAA684 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FBE3F1EC1F4A5F6A00CAA684 /* Assets.xcassets */; };
-		FBEB4B661F9D4E7F00CAA684 /* PartyDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBEB4B651F9D4E7F00CAA684 /* PartyDetailViewController.swift */; };
-		FBEB4B681F9D4FEA00CAA684 /* PartyDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBEB4B671F9D4FEA00CAA684 /* PartyDetailViewModel.swift */; };
 		FBEE182B1FE326DC00CAA684 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FBEE182A1FE326DC00CAA684 /* Default-568h@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		089AA4472E593C3001105353 /* Pods-Campaign Manager.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Campaign Manager.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Campaign Manager/Pods-Campaign Manager.debug.xcconfig"; sourceTree = "<group>"; };
+		1E7DE55C6D2F6E67CC130E54 /* Pods-Campaign Manager.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Campaign Manager.release.xcconfig"; path = "Pods/Target Support Files/Pods-Campaign Manager/Pods-Campaign Manager.release.xcconfig"; sourceTree = "<group>"; };
+		A441EE3DD4D64E578C806810 /* Pods_Campaign_Manager.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Campaign_Manager.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB10A4461FB389B900CAA684 /* SelectCharacterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCharacterViewController.swift; sourceTree = "<group>"; };
 		FB10A4481FB3CF2700CAA684 /* CharacterDetailPlayedScenarioCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CharacterDetailPlayedScenarioCell.xib; sourceTree = "<group>"; };
 		FB10A44A1FB3CF7A00CAA684 /* CharacterDetailPlayedScenarioCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterDetailPlayedScenarioCell.swift; sourceTree = "<group>"; };
@@ -309,6 +347,7 @@
 		FBA014201F9EA4A200CAA684 /* PartyDetailAssignedCampaignHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartyDetailAssignedCampaignHeader.swift; sourceTree = "<group>"; };
 		FBA014221F9EB05700CAA684 /* PartyDetailAssignedCampaignCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartyDetailAssignedCampaignCell.swift; sourceTree = "<group>"; };
 		FBA014241F9EB08D00CAA684 /* PartyDetailAssignedCampaignCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PartyDetailAssignedCampaignCell.xib; sourceTree = "<group>"; };
+		FBA673EF2016A74D00CAA684 /* AuthenticationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationController.swift; sourceTree = "<group>"; };
 		FBB0BBF01FE334FA00CAA684 /* CampaignDetailPartiesHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CampaignDetailPartiesHeader.xib; sourceTree = "<group>"; };
 		FBC880BC1FA3B5F600CAA684 /* PartyDetailAchievementsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PartyDetailAchievementsCell.xib; sourceTree = "<group>"; };
 		FBC880BE1FA3B6C200CAA684 /* PartyDetailAchievementsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartyDetailAchievementsCell.swift; sourceTree = "<group>"; };
@@ -358,12 +397,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				FB5EA7781FFEDFBC00CAA684 /* CloudKit.framework in Frameworks */,
+				B5B7CC2F596F85C475424C2C /* Pods_Campaign_Manager.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		80A58A9AB49204DC6EF37E15 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				089AA4472E593C3001105353 /* Pods-Campaign Manager.debug.xcconfig */,
+				1E7DE55C6D2F6E67CC130E54 /* Pods-Campaign Manager.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		FB10A4501FB4F7F300CAA684 /* CreateCharacterTableViewCells */ = {
 			isa = PBXGroup;
 			children = (
@@ -389,6 +438,7 @@
 				FB23B6E81F044CFC00CAA684 /* Campaign Manager */,
 				FB23B6E71F044CFC00CAA684 /* Products */,
 				FBD42F161F4F388C00CAA684 /* Frameworks */,
+				80A58A9AB49204DC6EF37E15 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -448,6 +498,7 @@
 		FB40EA151F45543300CAA684 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				FBA673EF2016A74D00CAA684 /* AuthenticationController.swift */,
 				FB5729C31F6C806800CAA684 /* CampaignDetailViewController.swift */,
 				FBCE87691F5A066F00CAA684 /* CampaignManagerTabBarController.swift */,
 				FB8F10CF1FAFD6B800CAA684 /* CharacterDetailViewController.swift */,
@@ -681,6 +732,7 @@
 			isa = PBXGroup;
 			children = (
 				FB5EA7771FFEDFBC00CAA684 /* CloudKit.framework */,
+				A441EE3DD4D64E578C806810 /* Pods_Campaign_Manager.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -692,9 +744,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = FB23B6F81F044CFC00CAA684 /* Build configuration list for PBXNativeTarget "Campaign Manager" */;
 			buildPhases = (
+				8D3A0BE8A0C70E8DFA7BBC53 /* [CP] Check Pods Manifest.lock */,
 				FB23B6E21F044CFC00CAA684 /* Sources */,
 				FB23B6E31F044CFC00CAA684 /* Frameworks */,
 				FB23B6E41F044CFC00CAA684 /* Resources */,
+				E2B22E0E0A668ADB20DEA699 /* [CP] Embed Pods Frameworks */,
+				AB2E8E692BF1F2159C1FE61B /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -720,6 +775,9 @@
 						DevelopmentTeam = BER336RBH2;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
 							com.apple.Push = {
 								enabled = 0;
 							};
@@ -753,8 +811,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FB5EA77D2002D03A00CAA684 /* CampaignDetailNotesCell.swift in Resources */,
-				FB5EA7761FFD8B9A00CAA684 /* PartyDetailNotesCell.swift in Resources */,
+				FB5EA77E200697DD00CAA684 /* Pods_Campaign_Manager.framework in Resources */,
 				FBB0BBF11FE334FA00CAA684 /* CampaignDetailPartiesHeader.xib in Resources */,
 				FBB0BBE21FE334A100CAA684 /* CharacterDetailAssignedPartyCell.swift in Resources */,
 				FBB0BBE31FE334A100CAA684 /* CharacterDetailPlayedScenarioCell.swift in Resources */,
@@ -764,7 +821,6 @@
 				FBB0BBE81FE334A100CAA684 /* CampaignDetailPartiesHeader.swift in Resources */,
 				FBB0BBE91FE334A100CAA684 /* PartyDetailAssignedCampaignHeader.swift in Resources */,
 				FBB0BBEA1FE334A100CAA684 /* ProgressHUD.swift in Resources */,
-				FBB0BBEB1FE334A100CAA684 /* CampaignDetailViewController.swift in Resources */,
 				FBB0BBEC1FE334A100CAA684 /* CampaignManagerTabBarController.swift in Resources */,
 				FBB0BBED1FE334A100CAA684 /* CharacterDetailViewController.swift in Resources */,
 				FBB0BBEE1FE334A100CAA684 /* ScenarioDetailViewController.swift in Resources */,
@@ -807,7 +863,6 @@
 				FBB0BBBE1FE32F0700CAA684 /* PartyDetailAssignedCampaignCell.swift in Resources */,
 				FBB0BBBF1FE32F0700CAA684 /* PartyDetailAchievementsCell.swift in Resources */,
 				FBB0BBC01FE32F0700CAA684 /* PartyDetailAssignedCharactersCell.swift in Resources */,
-				FBB0BBBB1FE32E7C00CAA684 /* PartyDetailViewController.swift in Resources */,
 				FBB0BBBA1FE32E5100CAA684 /* FontDefinitions.swift in Resources */,
 				FBB0BBB31FE32DC400CAA684 /* CloudKitMgr.swift in Resources */,
 				FBB0BBB41FE32DC400CAA684 /* Campaign.swift in Resources */,
@@ -818,7 +873,6 @@
 				FBB0BBB81FE32DC400CAA684 /* Party.swift in Resources */,
 				FBB0BBB91FE32DC400CAA684 /* Scenario.swift in Resources */,
 				FBB0BBB21FE32DB700CAA684 /* ColorDefinitions.swift in Resources */,
-				FBB0BBA21FE32DA200CAA684 /* CampaignDetailViewModel.swift in Resources */,
 				FBB0BBA31FE32DA200CAA684 /* CampaignViewModel.swift in Resources */,
 				FBB0BBA41FE32DA200CAA684 /* CampaignViewModelFromModel.swift in Resources */,
 				FBB0BBA51FE32DA200CAA684 /* CreateCamaignViewModel.swift in Resources */,
@@ -830,7 +884,6 @@
 				FBB0BBAB1FE32DA200CAA684 /* CreatePartyViewModel.swift in Resources */,
 				FBB0BBAC1FE32DA200CAA684 /* DeleteCampaignViewModelFromModel.swift in Resources */,
 				FBB0BBAD1FE32DA200CAA684 /* Dynamic.swift in Resources */,
-				FBB0BBAE1FE32DA200CAA684 /* PartyDetailViewModel.swift in Resources */,
 				FBB0BBAF1FE32DA200CAA684 /* ScenarioDetailViewModel.swift in Resources */,
 				FBB0BBB01FE32DA200CAA684 /* ScenarioViewModel.swift in Resources */,
 				FBB0BBB11FE32DA200CAA684 /* ScenarioViewModelFromModel.swift in Resources */,
@@ -884,20 +937,117 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		8D3A0BE8A0C70E8DFA7BBC53 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Campaign Manager-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AB2E8E692BF1F2159C1FE61B /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Campaign Manager/Pods-Campaign Manager-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E2B22E0E0A668ADB20DEA699 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Campaign Manager/Pods-Campaign Manager-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyDropbox/SwiftyDropbox.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyDropbox.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Campaign Manager/Pods-Campaign Manager-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		FB23B6E21F044CFC00CAA684 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FB6012A8202A596500CAA684 /* CreateCharacterCharacterNameCell.xib in Sources */,
+				FB6012A9202A596500CAA684 /* CreatePartyPartyNameCell.xib in Sources */,
+				FB6012AA202A596500CAA684 /* CreateCampaignTitleCell.xib in Sources */,
+				FB6012AB202A596500CAA684 /* CreateCampaignPartyCell.xib in Sources */,
+				FB6012AC202A596500CAA684 /* CreateCampaignCharacterCell.xib in Sources */,
+				FB6012AD202A596500CAA684 /* SelectCampaignTitleCell.xib in Sources */,
+				FB6012AE202A596500CAA684 /* SelectCharacterTitleCell.xib in Sources */,
+				FB6012AF202A596500CAA684 /* SelectPartyTableViewCell.xib in Sources */,
+				FB6012A0202A595700CAA684 /* ScenarioTitleCell.xib in Sources */,
+				FB6012A1202A595700CAA684 /* UnlocksInfoCell.xib in Sources */,
+				FB6012A2202A595700CAA684 /* UnlockedByInfoCell.xib in Sources */,
+				FB6012A3202A595700CAA684 /* AchievesInfoCell.xib in Sources */,
+				FB6012A4202A595700CAA684 /* RewardsInfoCell.xib in Sources */,
+				FB6012A5202A595700CAA684 /* RequirementsInfoCell.xib in Sources */,
+				FB6012A6202A595700CAA684 /* SummaryInfoCell.xib in Sources */,
+				FB6012A7202A595700CAA684 /* LocationInfoCell.xib in Sources */,
+				FB60129E202A594E00CAA684 /* CampaignDetailEventsHeader.xib in Sources */,
+				FB60129F202A594E00CAA684 /* CampaignDetailPartiesHeader.xib in Sources */,
+				FB601298202A594100CAA684 /* PartyDetailNameCell.xib in Sources */,
+				FB69C8E3202A64A400CAA684 /* PartyDetailViewModel.swift in Sources */,
+				FB601299202A594100CAA684 /* PartyDetailReputationCell.xib in Sources */,
+				FB60129A202A594100CAA684 /* PartyDetailAssignedCampaignCell.xib in Sources */,
+				FB60129B202A594100CAA684 /* PartyDetailAchievementsCell.xib in Sources */,
+				FB60129C202A594100CAA684 /* PartyDetailAssignedCharactersCell.xib in Sources */,
+				FB60129D202A594100CAA684 /* PartyDetailNotesCell.xib in Sources */,
+				FB601292202A593100CAA684 /* CharacterDetailCharacterNameCell.xib in Sources */,
+				FB601293202A593100CAA684 /* CharacterDetailCharacterTypeCell.xib in Sources */,
+				FB601294202A593100CAA684 /* CharacterDetailCharacterLevelCell.xib in Sources */,
+				FB601295202A593100CAA684 /* CharacterDetailAssignedPartyCell.xib in Sources */,
+				FB69C8E1202A643B00CAA684 /* CampaignDetailViewController.swift in Sources */,
+				FB601296202A593100CAA684 /* CharacterDetailPlayedScenarioCell.xib in Sources */,
+				FB601297202A593100CAA684 /* CharacterDetailCharacterGoalCell.xib in Sources */,
+				FB60128A202A592600CAA684 /* CampaignDetailAchievementsCell.xib in Sources */,
+				FB60128B202A592600CAA684 /* CampaignDetailAvailableTypeCell.xib in Sources */,
+				FB60128C202A592600CAA684 /* CampaignDetailDonationsCell.xib in Sources */,
+				FB60128D202A592600CAA684 /* CampaignDetailPartyCell.xib in Sources */,
+				FB60128E202A592600CAA684 /* CampaignDetailProsperityCell.xib in Sources */,
+				FB60128F202A592600CAA684 /* CampaignDetailTitleCell.xib in Sources */,
+				FB69C8E0202A641D00CAA684 /* CampaignDetailNotesCell.swift in Sources */,
+				FB601290202A592600CAA684 /* CampaignDetailEventCell.xib in Sources */,
+				FB601291202A592600CAA684 /* CampaignDetailNotesCell.xib in Sources */,
 				FBD2DCFC1F61E28B00CAA684 /* ColorDefinitions.swift in Sources */,
 				FB5729BE1F6C732600CAA684 /* CampaignDetailTitleCell.swift in Sources */,
 				FB482DA41F29385B00CAA684 /* UnlocksInfoCell.swift in Sources */,
+				FB69C8E4202A64B900CAA684 /* AppDelegate.swift in Sources */,
 				FBD2DD011F6203F800CAA684 /* ProgressHUD.swift in Sources */,
 				FB40EA0A1F43967C00CAA684 /* ScenarioViewModelFromModel.swift in Sources */,
 				FBA014211F9EA4A200CAA684 /* PartyDetailAssignedCampaignHeader.swift in Sources */,
 				FBCFBC261FA929E900CAA684 /* CreatePartyPartyNameCell.swift in Sources */,
 				FB4665891F2E667F00CAA684 /* RequirementsInfoCell.swift in Sources */,
-				FB5EA77A2002CD5400CAA684 /* CampaignDetailNotesCell.swift in Sources */,
 				FB482D9F1F29359000CAA684 /* ScenarioTitleCell.swift in Sources */,
 				FB23B6FC1F04C40D00CAA684 /* Scenario.swift in Sources */,
 				FB5DDF631F8BE5B600CAA684 /* CampaignDetailEventCell.swift in Sources */,
@@ -910,18 +1060,21 @@
 				FBD2DCFE1F61E7D900CAA684 /* FontDefinitions.swift in Sources */,
 				FBA014231F9EB05700CAA684 /* PartyDetailAssignedCampaignCell.swift in Sources */,
 				FB7A89BC1F83FF8F00CAA684 /* CreateCampaignPartyCell.swift in Sources */,
-				FB5729C21F6C74CD00CAA684 /* CampaignDetailViewModel.swift in Sources */,
 				FB8D4F601FB11CAF00CAA684 /* CharacterDetailAssignedPartyCell.swift in Sources */,
 				FBCFBC2F1FAA47B000CAA684 /* SelectPartyTableViewCell.swift in Sources */,
 				FB40EA191F45552B00CAA684 /* Dynamic.swift in Sources */,
 				FB10A4541FB4FB6400CAA684 /* CreateCharacterCharacterNameCell.swift in Sources */,
 				FB5729C81F6F022500CAA684 /* CampaignDetailPartyCell.swift in Sources */,
+				FBA673F02016A74D00CAA684 /* AuthenticationController.swift in Sources */,
+				FB69C8DE202A5D0400CAA684 /* CampaignDetailViewModel.swift in Sources */,
 				FBCFBC311FAA4BF600CAA684 /* SelectPartyViewController.swift in Sources */,
 				FBE25F881FD0D30200CAA684 /* CreateCharacterViewController.swift in Sources */,
 				FB5729CC1F6F1BB800CAA684 /* CampaignDetailAchievementsCell.swift in Sources */,
+				FB69C8E2202A646000CAA684 /* PartyDetailViewController.swift in Sources */,
 				FB10A44D1FB4E60700CAA684 /* CreateCampaignCharacterViewController.swift in Sources */,
 				FB8F10D91FAFDFAA00CAA684 /* CharacterDetailCharacterTypeCell.swift in Sources */,
 				FB10A44F1FB4EDFE00CAA684 /* CreateCampaignCharacterViewModel.swift in Sources */,
+				FBBDF6DB202A65C900CAA684 /* PartyDetailNotesCell.swift in Sources */,
 				FB5729D01F6F287700CAA684 /* CampaignDetailProsperityCell.swift in Sources */,
 				FB8D4F5A1FB0DD0B00CAA684 /* CharacterDetailCharacterLevelCell.swift in Sources */,
 				FB36438D1F8AAF9300CAA684 /* Event.swift in Sources */,
@@ -932,7 +1085,6 @@
 				FBE3F1EB1F47C92C00CAA684 /* ScenarioViewController.swift in Sources */,
 				FBCE876A1F5A066F00CAA684 /* CampaignManagerTabBarController.swift in Sources */,
 				FB5729D41F6F8F9500CAA684 /* CampaignDetailDonationsCell.swift in Sources */,
-				FBEB4B681F9D4FEA00CAA684 /* PartyDetailViewModel.swift in Sources */,
 				FB482D9B1F27DBA400CAA684 /* ScenarioDetailViewModel.swift in Sources */,
 				FBCD028F1FD356A800CAA684 /* CreatePartyCharacterViewModel.swift in Sources */,
 				FBD2DD0E1F634D0600CAA684 /* CreateCampaignTitleCell.swift in Sources */,
@@ -947,13 +1099,11 @@
 				FB10A4471FB389B900CAA684 /* SelectCharacterViewController.swift in Sources */,
 				FB4665951F2FDCEE00CAA684 /* ScenarioMainCell.swift in Sources */,
 				FBC880C81FA3EA4F00CAA684 /* SelectCharacterTitleCell.swift in Sources */,
-				FBEB4B661F9D4E7F00CAA684 /* PartyDetailViewController.swift in Sources */,
 				FB4665851F2E5C0700CAA684 /* RewardsInfoCell.swift in Sources */,
 				FB2237DA1F81916B00CAA684 /* SelectCampaignTitleCell.swift in Sources */,
 				FB8D4F5E1FB0E09E00CAA684 /* CharacterDetailViewModel.swift in Sources */,
 				FB7586BE1FD9CB8D00CAA684 /* CharacterDetailCharacterGoalCell.swift in Sources */,
 				FB884F881F9E4F0500CAA684 /* PartyDetailNameCell.swift in Sources */,
-				FB23B6EA1F044CFC00CAA684 /* AppDelegate.swift in Sources */,
 				FB2237D51F816B5500CAA684 /* SelectCampaignViewController.swift in Sources */,
 				FB8F10D01FAFD6B800CAA684 /* CharacterDetailViewController.swift in Sources */,
 				FB10A44B1FB3CF7A00CAA684 /* CharacterDetailPlayedScenarioCell.swift in Sources */,
@@ -964,8 +1114,6 @@
 				FBCE87641F59EBE400CAA684 /* CloudKitMgr.swift in Sources */,
 				FBD2DD211F6ADD8E00CAA684 /* Party.swift in Sources */,
 				FB23B7021F0AB5ED00CAA684 /* DataModel.swift in Sources */,
-				FB5EA7751FFD867B00CAA684 /* PartyDetailNotesCell.swift in Sources */,
-				FB5729C41F6C806800CAA684 /* CampaignDetailViewController.swift in Sources */,
 				FBD2DD061F625F6500CAA684 /* CampaignViewModel.swift in Sources */,
 				FBCFBC281FA92B6200CAA684 /* CreatePartyViewModel.swift in Sources */,
 				FBD2DCF81F5C935B00CAA684 /* Campaign.swift in Sources */,
@@ -1099,6 +1247,7 @@
 		};
 		FB23B6F91F044CFC00CAA684 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 089AA4472E593C3001105353 /* Pods-Campaign Manager.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Campaign Manager/Campaign Manager.entitlements";
@@ -1116,6 +1265,7 @@
 		};
 		FB23B6FA1F044CFC00CAA684 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1E7DE55C6D2F6E67CC130E54 /* Pods-Campaign Manager.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Campaign Manager/Campaign Manager.entitlements";

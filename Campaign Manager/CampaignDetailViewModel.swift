@@ -187,6 +187,8 @@ class CampaignDetailViewModel: NSObject {
     
     var selectedCharacterType = SeparatedAttributedStrings(rowString: NSAttributedString(attributedString: NSAttributedString(string: "")))
     
+    var dataFilePath: URL
+
     init(withCampaign campaign: Campaign) {
         self.completedGlobalAchievements = Dynamic(dataModel.completedGlobalAchievements)
         self.campaignTitle = Dynamic(dataModel.currentCampaign.title)
@@ -204,6 +206,7 @@ class CampaignDetailViewModel: NSObject {
         self.dynamicCharTypes = Dynamic(dataModel.availableCharacterTypesAttributed)
         self.dynamicLockedCharTypes = Dynamic(dataModel.lockedCharacterTypesAttributed)
         self.campaignNotes = Dynamic(dataModel.currentCampaignNotes)
+        self.dataFilePath = dataModel.dataFilePath()
         super.init()
         
         self.prosperityLevel = Dynamic(getProsperityLevel(count: dataModel.currentCampaign.prosperityCount + self.prosperityBonus))

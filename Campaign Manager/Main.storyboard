@@ -181,14 +181,14 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView tag="2000" contentMode="scaleAspectFit" horizontalHuggingPriority="1000" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="jtW-wB-YNS">
-                                                    <rect key="frame" x="565" y="17" width="20" height="15.5"/>
+                                                    <rect key="frame" x="285" y="17" width="20" height="15.5"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="20" id="ssE-5M-Aln"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1100" contentMode="TopLeft" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" text="Goal" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hzt-Ex-Q8R">
-                                                    <rect key="frame" x="20" y="51" width="541" height="17"/>
+                                                    <rect key="frame" x="20" y="51" width="261" height="17"/>
                                                     <fontDescription key="fontDescription" name="Nyala-Regular" family="Nyala" pointSize="18"/>
                                                     <color key="textColor" red="0.30019531249999998" green="0.23115039062499998" blue="0.16210546875000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                     <nil key="highlightedColor"/>
@@ -257,12 +257,20 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="h2a-cr-93D">
-                        <barButtonItem key="leftBarButtonItem" image="icons8-Menu-40" id="yaI-7O-8ok">
-                            <color key="tintColor" red="0.24919084820000001" green="0.1929752334" blue="0.1351535955" alpha="1" colorSpace="calibratedRGB"/>
-                            <connections>
-                                <action selector="selectCampaignAction:" destination="DHT-Ja-bDV" id="LA0-Iy-ugY"/>
-                            </connections>
-                        </barButtonItem>
+                        <leftBarButtonItems>
+                            <barButtonItem image="icons8-Menu-40" id="yaI-7O-8ok">
+                                <color key="tintColor" red="0.24919084820000001" green="0.1929752334" blue="0.1351535955" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <action selector="selectCampaignAction:" destination="DHT-Ja-bDV" id="LA0-Iy-ugY"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem systemItem="action" id="fea-9Z-b5t">
+                                <color key="tintColor" red="0.40769001840000002" green="0.34999006989999998" blue="0.27851516009999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <connections>
+                                    <action selector="exportCampaignAction:" destination="DHT-Ja-bDV" id="gmR-yH-opC"/>
+                                </connections>
+                            </barButtonItem>
+                        </leftBarButtonItems>
                         <rightBarButtonItems>
                             <barButtonItem systemItem="add" id="InL-M7-vzu">
                                 <color key="tintColor" red="0.2452870207" green="0.18995208050000001" blue="0.13303627730000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -638,12 +646,19 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="gG0-ah-gf6">
-                        <barButtonItem key="leftBarButtonItem" image="icons8-Menu-40" id="JyC-cX-WuY">
-                            <color key="tintColor" red="0.24919084820000001" green="0.1929752334" blue="0.1351535955" alpha="1" colorSpace="calibratedRGB"/>
-                            <connections>
-                                <action selector="selectPartyAction:" destination="IAJ-u5-TpM" id="ZRb-7S-Jd0"/>
-                            </connections>
-                        </barButtonItem>
+                        <leftBarButtonItems>
+                            <barButtonItem image="icons8-Menu-40" id="JyC-cX-WuY">
+                                <color key="tintColor" red="0.24919084820000001" green="0.1929752334" blue="0.1351535955" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <action selector="selectPartyAction:" destination="IAJ-u5-TpM" id="ZRb-7S-Jd0"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem systemItem="action" id="i5X-8h-9YQ">
+                                <connections>
+                                    <action selector="unlinkDropbox:" destination="IAJ-u5-TpM" id="aBh-c0-8dg"/>
+                                </connections>
+                            </barButtonItem>
+                        </leftBarButtonItems>
                         <rightBarButtonItems>
                             <barButtonItem systemItem="add" id="btb-bf-4Xz">
                                 <color key="tintColor" red="0.2452870207" green="0.18995208050000001" blue="0.13303627730000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -839,6 +854,27 @@
             </objects>
             <point key="canvasLocation" x="4624" y="-1008"/>
         </scene>
+        <!--Authentication Controller-->
+        <scene sceneID="ceU-Ku-JwZ">
+            <objects>
+                <viewController storyboardIdentifier="AuthenticationController" id="d23-Zh-aFj" customClass="AuthenticationController" customModule="Campaign_Manager" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="xgK-0L-MEq"/>
+                        <viewControllerLayoutGuide type="bottom" id="qBW-CJ-g1F"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="AC8-T7-HUY">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
+                    <connections>
+                        <segue destination="E4s-lW-bdS" kind="show" identifier="showTabBarVC" id="eKg-3M-m6c"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="60J-el-R6S" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="849" y="854"/>
+        </scene>
         <!--Item-->
         <scene sceneID="mku-Pl-CxL">
             <objects>
@@ -880,4 +916,7 @@
     <resources>
         <image name="icons8-Menu-40" width="20" height="20"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="eKg-3M-m6c"/>
+    </inferredMetricsTieBreakers>
 </document>

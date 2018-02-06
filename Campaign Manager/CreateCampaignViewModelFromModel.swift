@@ -51,7 +51,8 @@ class CreateCampaignViewModelFromModel: NSObject {
     var newCharacterNames = [String]()
     var newCharacters = [Character]()
     var selectedCharacterRow = 0
-    
+    var dataFilePath: URL
+
     let colorDefinitions = ColorDefinitions()
     let fontDefinitions = FontDefinitions()
     var selectedRows = [Int]()
@@ -65,6 +66,7 @@ class CreateCampaignViewModelFromModel: NSObject {
     
     init(withDataModel dataModel: DataModel) {
         self.dataModel = dataModel
+        self.dataFilePath = dataModel.dataFilePath()
         super.init()
         resetForNewCampaignCreation()
     }

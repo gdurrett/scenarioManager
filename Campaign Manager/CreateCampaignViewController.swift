@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftyDropbox
 
 protocol CreateCampaignViewControllerDelegate: class {
     func createCampaignViewControllerDidCancel(_ controller: CreateCampaignViewController)
@@ -65,6 +66,9 @@ class CreateCampaignViewController: UIViewController, CreateCampaignViewModelDel
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Test Dropbox auth right out of the gate
+        //authenticateToDropBox()
+        
         viewModel!.reloadSection = { [weak self] (section: Int) in
             self?.createCampaignTableView.reloadData()
         }
@@ -86,6 +90,47 @@ class CreateCampaignViewController: UIViewController, CreateCampaignViewModelDel
     }
 
 
+    // Dropbox test
+    fileprivate func authenticateToDropBox() {
+        if DropboxClientsManager.authorizedClient == nil {
+            DropboxClientsManager.authorizeFromController(UIApplication.shared,
+                                                          controller: self,
+                                                          openURL: { (url: URL) -> Void in
+                                                            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            })
+        } else {
+            if let client = DropboxClientsManager.authorizedClient {
+                client.files.listFolder(path: "").response {
+                    response, error in
+                    if let result = response {
+                        print("Folder Contents:")
+                        for entry in result.entries {
+                            if entry.name == "Campaigns.plist" {
+                                print("Found a save file!")
+                                let destination: (URL, HTTPURLResponse) -> URL = { tempURL, response in
+                                    return self.viewModel!.dataFilePath
+                                }
+                                client.files.download(path: "/Campaigns.plist", overwrite: true, destination: destination)
+                                    .response { response, error in
+                                        if let response = response {
+                                            print(response)
+                                            self.performSegue(withIdentifier: "showTabBarVC", sender: self)
+                                        } else if let error = error {
+                                            print(error)
+                                        }
+                                }
+                            }
+                        }
+                    } else if let error = error {
+                        print(error)
+                    }
+                }
+                print("Did get a client though.")
+            }
+            print("Client isn't nil?")
+        }
+    }
+    
     // Helper methods
     fileprivate func styleUI() {
         let backgroundImage = UIImageView(frame: UIScreen.main.bounds)

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftyDropbox
 
 protocol PartyDetailViewControllerDelegate: class {
     func partyDetailVCDidTapDelete(_ controller: PartyDetailViewController)
@@ -17,6 +18,9 @@ protocol EventAchievementsPickerDelegate: class {
 }
 class PartyDetailViewController: UIViewController {
 
+    @IBAction func unlinkDropbox(_ sender: Any) {
+        DropboxClientsManager.unlinkClients()
+    }
     @IBOutlet weak var partyDetailTableView: UITableView!
     
     @IBAction func selectPartyAction(_ sender: Any) {
@@ -113,6 +117,7 @@ class PartyDetailViewController: UIViewController {
     func refreshAllSections() {
         self.partyDetailTableView.reloadData()
     }
+
     //MARK: Action Methods
     fileprivate func loadSelectPartyViewController() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
