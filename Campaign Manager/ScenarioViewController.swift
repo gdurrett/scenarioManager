@@ -22,11 +22,14 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate {
     @IBAction func scenarioFilterAction(_ sender: Any) {
         switch scenarioFilterOutlet.selectedSegmentIndex {
         case 0:
-            self.navigationItem.title = "\(selectedCampaign!.title) - \(self.viewModel!.party.value.name)"
+            //self.navigationItem.title = "\(selectedCampaign!.title) - \(self.viewModel!.party.value.name)"
+            self.navigationItem.title = "Scenarios"
         case 1:
-            self.navigationItem.title = "\(selectedCampaign!.title) - \(self.viewModel!.party.value.name)"
+            //self.navigationItem.title = "\(selectedCampaign!.title) - \(self.viewModel!.party.value.name)"
+            self.navigationItem.title = "Scenarios"
         case 2:
-            self.navigationItem.title = "\(selectedCampaign!.title) - \(self.viewModel!.party.value.name)"
+            //self.navigationItem.title = "\(selectedCampaign!.title) - \(self.viewModel!.party.value.name)"
+            self.navigationItem.title = "Scenarios"
         default:
             break
         }
@@ -95,7 +98,8 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationItem.title = ("\(self.selectedCampaign!.title) - \(self.viewModel!.party.value.name)")
+        //self.navigationItem.title = ("\(self.selectedCampaign!.title) - \(self.viewModel!.party.value.name)")
+        self.navigationItem.title = "Scenarios"
         viewModel?.updateLoadedCampaign()
         viewModel?.updateAvailableScenarios()
         self.setSegmentTitles()
@@ -333,7 +337,8 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate {
         scenarioFilterOutlet.setTitle("Completed (\(viewModel!.completedScenarios.value.count))", forSegmentAt: 2)
         scenarioFilterOutlet.setTitleTextAttributes([NSAttributedStringKey.font: UIFont(name: "Nyala", size: 20.0)!, NSAttributedStringKey.foregroundColor: colorDefinitions.mainTextColor], for: .normal)
         scenarioFilterOutlet.backgroundColor = colorDefinitions.scenarioSegmentedControlBGColor
-        self.navigationItem.title = "\(selectedCampaign!.title) - \(self.viewModel!.party.value.name)"
+        //self.navigationItem.title = "\(selectedCampaign!.title) - \(self.viewModel!.party.value.name)"
+        self.navigationItem.title = "Scenarios"
         scenarioTableView.reloadData()
     }
     func showSelectionAlert(status: String) {

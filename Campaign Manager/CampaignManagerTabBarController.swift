@@ -22,19 +22,19 @@ class CampaignManagerTabBarController: UITabBarController {
         let charactersItem = allTabBarItems?[2]
         let scenariosItem = allTabBarItems?[3]
         
-        campaignsItem?.image = UIImage(named: "bruteIcon.png")
+        campaignsItem?.image = UIImage(named: "icons8-parchment-filled-40.png")
         campaignsItem?.setTitleTextAttributes([.font: UIFont(name: "Nyala", size: 10.0)!, .foregroundColor: colorDefinitions.tabBarTitleTextColor], for: .selected)
-        campaignsItem?.title = "Campaigns"
+        campaignsItem?.title = "Campaign"
         
-        partiesItem?.image = UIImage(named: "tinkererIcon.png")
+        partiesItem?.image = UIImage(named: "icons8-people-40.png")
         partiesItem?.setTitleTextAttributes([.font: UIFont(name: "Nyala", size: 10.0)!, .foregroundColor: colorDefinitions.tabBarTitleTextColor], for: .selected)
-        partiesItem?.title = "Parties"
+        partiesItem?.title = "Party"
         
-        charactersItem?.image = UIImage(named: "scoundrelIcon.png")
+        charactersItem?.image = UIImage(named: "icons8-footman-filled-40.png")
         charactersItem?.setTitleTextAttributes([.font: UIFont(name: "Nyala", size: 10.0)!, .foregroundColor: colorDefinitions.tabBarTitleTextColor], for: .selected)
         charactersItem?.title = "Characters"
         
-        scenariosItem?.image = UIImage(named: "mindthiefIcon.png")
+        scenariosItem?.image = UIImage(named: "icons8-adventure-filled-40.png")
         scenariosItem?.setTitleTextAttributes([.font: UIFont(name: "Nyala", size: 10.0)!, .foregroundColor: colorDefinitions.tabBarTitleTextColor], for: .selected)
         scenariosItem?.title = "Scenarios"
 

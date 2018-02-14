@@ -99,6 +99,7 @@ class SelectCharacterViewController: UIViewController {
         selectCharacterFilterOutlet.setTitleTextAttributes([NSAttributedStringKey.font: UIFont(name: "Nyala", size: 20.0)!, NSAttributedStringKey.foregroundColor: colorDefinitions.mainTextColor], for: .normal)
         selectCharacterFilterOutlet.backgroundColor = colorDefinitions.scenarioSegmentedControlBGColor
         self.navigationItem.title = "\(viewModel!.currentParty.value)"
+        self.navigationItem.title = "Characters"
         selectCharacterTableView.reloadData()
     }
     fileprivate func makeCell(for tableView: UITableView) -> UITableViewCell {

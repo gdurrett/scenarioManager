@@ -264,7 +264,7 @@
                                     <action selector="selectCampaignAction:" destination="DHT-Ja-bDV" id="LA0-Iy-ugY"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem systemItem="action" id="fea-9Z-b5t">
+                            <barButtonItem image="icons8-dropbox-filled-40" id="fea-9Z-b5t">
                                 <color key="tintColor" red="0.40769001840000002" green="0.34999006989999998" blue="0.27851516009999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <connections>
                                     <action selector="exportCampaignAction:" destination="DHT-Ja-bDV" id="gmR-yH-opC"/>
@@ -653,7 +653,7 @@
                                     <action selector="selectPartyAction:" destination="IAJ-u5-TpM" id="ZRb-7S-Jd0"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem systemItem="action" id="i5X-8h-9YQ">
+                            <barButtonItem image="icons8-dropbox-filled-40" id="i5X-8h-9YQ">
                                 <connections>
                                     <action selector="unlinkDropbox:" destination="IAJ-u5-TpM" id="aBh-c0-8dg"/>
                                 </connections>
@@ -915,6 +915,7 @@
     </scenes>
     <resources>
         <image name="icons8-Menu-40" width="20" height="20"/>
+        <image name="icons8-dropbox-filled-40" width="20" height="20"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="eKg-3M-m6c"/>
