@@ -278,7 +278,7 @@ class AuthenticationController: UIViewController {
                 (action) -> () in
                 self.dismiss(animated: true, completion: nil)
             })
-
+            alertController.view.tintColor = colorDefinitions.scenarioAlertViewTintColor
             alertController.addAction(loadButton)
             alertController.addAction(saveButton)
             alertController.addAction(cancelButton)
