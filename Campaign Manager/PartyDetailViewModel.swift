@@ -33,6 +33,9 @@ class PartyDetailViewModel: NSObject {
     var characterNames = [SeparatedStrings]()
     var achievementNames = [SeparatedStrings]()
     var newAchievementNames = [SeparatedStrings]()
+    
+    //var headerView = UIView()
+    
     // Dynamics
     var assignedCampaign: Dynamic<String>
     var availableCampaigns: Dynamic<[String]>
@@ -352,6 +355,7 @@ extension PartyDetailViewModel: UITableViewDataSource, UITableViewDelegate, Part
     }
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = UIView(frame: CGRect(x:0, y:0, width: tableView.frame.size.width, height: tableView.frame.size.height))
+        headerView.frame = CGRect(x:0, y:0, width: tableView.frame.size.width, height: tableView.frame.size.height) // Test
         let headerTitleLabel = UILabel(frame: CGRect(x:16, y:15, width: 42, height: 21))
         headerTitleLabel.text = self.items[section].sectionTitle
         headerTitleLabel.font = fontDefinitions.detailTableViewHeaderFont
@@ -365,7 +369,10 @@ extension PartyDetailViewModel: UITableViewDataSource, UITableViewDelegate, Part
     // Create section buttons
     func createSectionButton(forSection section: Int, inHeader header: UIView) {
         
-        let button = UIButton(frame: CGRect(x: 330, y: 14, width: 25, height: 25))  // create button
+        //let button = UIButton(frame: CGRect(x: 330, y: 14, width: 25, height: 25))  // create button
+
+        let button = UIButton(type: .custom)
+        button.translatesAutoresizingMaskIntoConstraints = false
         
         let itemType = self.items[section].type
         
@@ -378,12 +385,16 @@ extension PartyDetailViewModel: UITableViewDataSource, UITableViewDelegate, Part
             button.isEnabled = true
             button.addTarget(self, action: #selector(self.showUIStepperInPartyReputationCell(_:)), for: .touchUpInside)
             header.addSubview(button)
+            header.addConstraint(NSLayoutConstraint(item: button, attribute: .trailingMargin, relatedBy: .equal, toItem: header, attribute: .trailingMargin, multiplier: 0.99, constant: 0))
+            header.addConstraint(NSLayoutConstraint(item: button, attribute: .top, relatedBy: .equal, toItem: header, attribute: .centerY, multiplier: 0.5, constant: 0))
             break //Temporary!
         case .achievements:
             button.setImage(UIImage(named: "quill-drawing-a-line_unselected"), for: .normal)
             button.isEnabled = true
             button.addTarget(self, action: #selector(self.showEventAchievementsPicker(_:)), for: .touchUpInside)
             header.addSubview(button)
+            header.addConstraint(NSLayoutConstraint(item: button, attribute: .trailingMargin, relatedBy: .equal, toItem: header, attribute: .trailingMargin, multiplier: 0.99, constant: 0))
+            header.addConstraint(NSLayoutConstraint(item: button, attribute: .top, relatedBy: .equal, toItem: header, attribute: .centerY, multiplier: 0.5, constant: 0))
         case .assignedCampaign:
             break //Temporary!
         case .characters:
@@ -393,6 +404,8 @@ extension PartyDetailViewModel: UITableViewDataSource, UITableViewDelegate, Part
             button.isEnabled = true
             button.addTarget(self, action: #selector(self.enableNotesTextField(_:)), for: .touchUpInside)
             header.addSubview(button)
+            header.addConstraint(NSLayoutConstraint(item: button, attribute: .trailingMargin, relatedBy: .equal, toItem: header, attribute: .trailingMargin, multiplier: 0.99, constant: 0))
+            header.addConstraint(NSLayoutConstraint(item: button, attribute: .top, relatedBy: .equal, toItem: header, attribute: .centerY, multiplier: 0.5, constant: 0))
         }
     }
     // MARK: PartyReputationCell Delegate methods
