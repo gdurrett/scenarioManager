@@ -21,24 +21,6 @@ class AuthenticationController: UIViewController {
         //self.campaignsFilePresent = false
         super.viewDidLoad()
 
-//        if checkDropboxAuthStatus() {
-//            checkForCampaignsFile()
-//        } else if firstLoad == true {
-//            loadCreateCampaignController()
-//            firstLoad = false
-//        } else {
-//            print("Which here?")
-//            authenticateToDropBox()
-////            checkForCampaignsFile()
-////            if campaignsFilePresent {
-////                // show download/upload alert?
-////                showDownloadAlert()
-////                launchTabBarController()
-////            } else {
-////
-////            }
-//        }
-
         if firstLoad == true {
             print("FirstLoad?")
             checkForCampaignsFile()
@@ -59,23 +41,12 @@ class AuthenticationController: UIViewController {
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (action: UIAlertAction!) in
             self.dismiss(animated: true, completion: nil)
         }
-//        let createCampaignAction = UIAlertAction(title: "Create New Campaign", style: .cancel) { (action:UIAlertAction!) in
-//            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//            let createCampaignVC = storyboard.instantiateViewController(withIdentifier: "CreateCampaignViewController") as! CreateCampaignViewController
-//            let navCon = UINavigationController(rootViewController: createCampaignVC)
-//            let viewModel = CampaignDetailViewModel(withCampaign: self.dataModel.currentCampaign)
-//            let createCampaignVCViewModel = CreateCampaignViewModelFromModel(withDataModel: viewModel.dataModel)
-//            createCampaignVC.viewModel = createCampaignVCViewModel
-//            createCampaignVC.delegate = createCampaignVCViewModel
-//            createCampaignVC.isFirstLoad = true
-//            createCampaignVCViewModel.isFirstLoad = true
-//            //self.present(navCon, animated: true, completion: nil)
-//            self.show(navCon, sender: self)
-//        }
         alertController.view.tintColor = colorDefinitions.scenarioAlertViewTintColor
         alertController.addAction(uploadAction)
         alertController.addAction(cancelAction)
         
+        alertController.popoverPresentationController?.sourceView = self.view
+
         self.present(alertController, animated: true, completion:nil)
     }
     fileprivate func showAuthenticationAlert () {
@@ -101,6 +72,8 @@ class AuthenticationController: UIViewController {
         alertController.addAction(cancelAction)
         alertController.addAction(OKAction)
 
+        alertController.popoverPresentationController?.sourceView = self.view
+        
         self.present(alertController, animated: true, completion:nil)
     }
     fileprivate func authenticateToDropBox() {
@@ -282,6 +255,9 @@ class AuthenticationController: UIViewController {
             alertController.addAction(loadButton)
             alertController.addAction(saveButton)
             alertController.addAction(cancelButton)
+            
+            alertController.popoverPresentationController?.sourceView = self.view
+
             self.present(alertController, animated: true, completion: nil)
         } else {
             authenticateToDropBox()
@@ -310,6 +286,8 @@ class AuthenticationController: UIViewController {
         alertController.addAction(cancelAction)
         alertController.addAction(OKAction)
         
+        alertController.popoverPresentationController?.sourceView = self.view
+
         self.present(alertController, animated: true, completion:nil)
     }
 }

@@ -21,6 +21,7 @@
 		FB23B6F41F044CFC00CAA684 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB23B6F21F044CFC00CAA684 /* LaunchScreen.storyboard */; };
 		FB23B6FC1F04C40D00CAA684 /* Scenario.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB23B6FB1F04C40D00CAA684 /* Scenario.swift */; };
 		FB23B7021F0AB5ED00CAA684 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB23B7011F0AB5EC00CAA684 /* DataModel.swift */; };
+		FB34DF3F2044975C00CAA684 /* SRCopyableLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB34DF3E2044975C00CAA684 /* SRCopyableLabel.swift */; };
 		FB36438D1F8AAF9300CAA684 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB36438C1F8AAF9300CAA684 /* Event.swift */; };
 		FB39294A1FA79BAA00CAA684 /* PartyDetailAssignedCharactersCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB3929491FA79BAA00CAA684 /* PartyDetailAssignedCharactersCell.xib */; };
 		FB39294C1FA79CD400CAA684 /* PartyDetailAssignedCharactersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB39294B1FA79CD400CAA684 /* PartyDetailAssignedCharactersCell.swift */; };
@@ -198,6 +199,7 @@
 		FB23B6F51F044CFC00CAA684 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FB23B6FB1F04C40D00CAA684 /* Scenario.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scenario.swift; sourceTree = "<group>"; };
 		FB23B7011F0AB5EC00CAA684 /* DataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = DataModel.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		FB34DF3E2044975C00CAA684 /* SRCopyableLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SRCopyableLabel.swift; sourceTree = "<group>"; };
 		FB36438C1F8AAF9300CAA684 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		FB3929491FA79BAA00CAA684 /* PartyDetailAssignedCharactersCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PartyDetailAssignedCharactersCell.xib; sourceTree = "<group>"; };
 		FB39294B1FA79CD400CAA684 /* PartyDetailAssignedCharactersCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartyDetailAssignedCharactersCell.swift; sourceTree = "<group>"; };
@@ -393,6 +395,7 @@
 		FB40EA0D1F43AEB200CAA684 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				FB34DF3E2044975C00CAA684 /* SRCopyableLabel.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -876,6 +879,7 @@
 				FB60129B202A594100CAA684 /* PartyDetailAchievementsCell.xib in Sources */,
 				FB60129C202A594100CAA684 /* PartyDetailAssignedCharactersCell.xib in Sources */,
 				FB60129D202A594100CAA684 /* PartyDetailNotesCell.xib in Sources */,
+				FB34DF3F2044975C00CAA684 /* SRCopyableLabel.swift in Sources */,
 				FB601292202A593100CAA684 /* CharacterDetailCharacterNameCell.xib in Sources */,
 				FB601293202A593100CAA684 /* CharacterDetailCharacterTypeCell.xib in Sources */,
 				FB601294202A593100CAA684 /* CharacterDetailCharacterLevelCell.xib in Sources */,

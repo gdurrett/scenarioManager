@@ -205,6 +205,8 @@ class CreateCampaignCharacterViewController: UIViewController, CreateCampaignCha
         let action = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil)
         alertView.view.tintColor = colorDefinitions.scenarioAlertViewTintColor
         alertView.addAction(action)
+        alertView.popoverPresentationController?.sourceView = self.view
+
         present(alertView, animated: true, completion: nil)
     }
     // For CreateCampaignCharacterViewModelDelegate

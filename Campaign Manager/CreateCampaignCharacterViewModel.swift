@@ -80,11 +80,7 @@ class CreateCampaignCharacterViewModel: NSObject {
             }
         }
     }
-    var characterTypePickerDataDefaults: [String] {
-        get {
-            return dataModel.availableCharacterTypes
-        }
-    }
+    var characterTypePickerDataDefaults = ["Brute", "Cragheart", "Mindthief", "Scoundrel", "Spellweaver", "Tinkerer"]
     
     var selectedCharacterType = String()
     

@@ -24,32 +24,6 @@ class CampaignDetailViewController: UIViewController {
     @IBAction func exportCampaignAction(_ sender: Any) {
         authenticateToDropBox()
         loadAuthenticationViewController()
-//        if let client = DropboxClientsManager.authorizedClient {
-//            let alertController = UIAlertController(title: "Load/Save campaign state", message: "Choose an option", preferredStyle: .actionSheet)
-//            let saveButton = UIAlertAction(title: "Save campaign to Dropbox", style: .default, handler: {
-//                (action) -> () in
-//                print("would be saving")
-//            })
-//            let loadButton = UIAlertAction(title: "Load campaign from Dropbox", style: .default, handler: {
-//                (action) -> () in
-//                self.downloadCampaignsFile()
-//                self.viewModel.dataModel.loadCampaignsFromLocal()
-//                self.viewModel.dataModel.setCampaignsAndParties()
-//                self.campaignDetailTableView.reloadData()
-//            })
-//            let cancelButton = UIAlertAction(title: "Cancel", style: .default, handler: {
-//                (action) -> () in
-//                print("fuggeddaboudit")
-//            })
-//
-//            alertController.addAction(loadButton)
-//            alertController.addAction(saveButton)
-//            alertController.addAction(cancelButton)
-//            self.present(alertController, animated: true, completion: nil)
-//        } else {
-//            authenticateToDropBox()
-//        }
-        
     }
     
     @IBOutlet weak var campaignDetailTableView: UITableView!
@@ -312,7 +286,9 @@ extension CampaignDetailViewController: UITableViewDelegate {
         alertController.view.tintColor = colorDefinitions.scenarioAlertViewTintColor
         alertController.addAction(cancelAction)
         alertController.addAction(OKAction)
-        
+
+        alertController.popoverPresentationController?.sourceView = self.view
+
         self.present(alertController, animated: true, completion:nil)
     }
     @objc func showSwipeAlertStarting() {
@@ -325,6 +301,9 @@ extension CampaignDetailViewController: UITableViewDelegate {
         let action = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil)
         alertView.view.tintColor = colorDefinitions.scenarioAlertViewTintColor
         alertView.addAction(action)
+        
+        alertView.popoverPresentationController?.sourceView = self.view
+
         present(alertView, animated: true, completion: nil)
     }
     @objc func showSwipeAlertUsed() {
@@ -337,6 +316,9 @@ extension CampaignDetailViewController: UITableViewDelegate {
         let action = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil)
         alertView.view.tintColor = colorDefinitions.scenarioAlertViewTintColor
         alertView.addAction(action)
+        
+        alertView.popoverPresentationController?.sourceView = self.view
+
         present(alertView, animated: true, completion: nil)
     }
     // Action methods
@@ -423,6 +405,9 @@ extension CampaignDetailViewController: UITableViewDelegate {
         let action = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil)
         alertView.view.tintColor = colorDefinitions.scenarioAlertViewTintColor
         alertView.addAction(action)
+        
+        alertView.popoverPresentationController?.sourceView = self.view
+
         present(alertView, animated: true, completion: nil)
     }
     // Called by CampaignDetailViewModel
@@ -436,6 +421,9 @@ extension CampaignDetailViewController: UITableViewDelegate {
         let action = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil)
         alertView.view.tintColor = colorDefinitions.scenarioAlertViewTintColor
         alertView.addAction(action)
+        
+        alertView.popoverPresentationController?.sourceView = self.view
+
         present(alertView, animated: true, completion: nil)
     }
     @objc func showEventOptionPicker() {

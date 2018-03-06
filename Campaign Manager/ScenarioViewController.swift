@@ -360,6 +360,10 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate {
         let action = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil)
         alertView.view.tintColor = colorDefinitions.scenarioAlertViewTintColor
         alertView.addAction(action)
+        
+        alertView.popoverPresentationController?.sourceView = self.view
+        alertView.popoverPresentationController?.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+        
         present(alertView, animated: true, completion: nil)
     }
     // Search helper functions
@@ -495,6 +499,8 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate {
             let action = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil)
             
             alertView.addAction(action)
+            alertView.popoverPresentationController?.sourceView = self.view
+            alertView.popoverPresentationController?.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
             present(alertView, animated: true, completion: nil)
         }
     }

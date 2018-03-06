@@ -173,6 +173,8 @@ class SelectCharacterViewController: UIViewController {
         let action = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil)
         alertView.view.tintColor = colorDefinitions.scenarioAlertViewTintColor
         alertView.addAction(action)
+        alertView.popoverPresentationController?.sourceView = self.view
+
         present(alertView, animated: true, completion: nil)
     }
     func showDisallowDeletionAlert() {
@@ -185,6 +187,8 @@ class SelectCharacterViewController: UIViewController {
         let action = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil)
         alertView.view.tintColor = colorDefinitions.scenarioAlertViewTintColor
         alertView.addAction(action)
+        alertView.popoverPresentationController?.sourceView = self.view
+
         present(alertView, animated: true, completion: nil)
     }
     fileprivate func showConfirmDeletionAlert () {
@@ -204,6 +208,8 @@ class SelectCharacterViewController: UIViewController {
         alertController.addAction(cancelAction)
         alertController.addAction(OKAction)
         
+        alertController.popoverPresentationController?.sourceView = self.view
+
         self.present(alertController, animated: true, completion:nil)
     }
     // Action Methods
