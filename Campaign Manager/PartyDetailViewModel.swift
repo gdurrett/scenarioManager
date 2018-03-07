@@ -356,7 +356,7 @@ extension PartyDetailViewModel: UITableViewDataSource, UITableViewDelegate, Part
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = UIView(frame: CGRect(x:0, y:0, width: tableView.frame.size.width, height: tableView.frame.size.height))
         headerView.frame = CGRect(x:0, y:0, width: tableView.frame.size.width, height: tableView.frame.size.height) // Test
-        let headerTitleLabel = UILabel(frame: CGRect(x:16, y:15, width: 42, height: 21))
+        let headerTitleLabel = UILabel(frame: CGRect(x:16, y:14, width: 42, height: tableView.frame.size.height))
         headerTitleLabel.text = self.items[section].sectionTitle
         headerTitleLabel.font = fontDefinitions.detailTableViewHeaderFont
         headerTitleLabel.textColor = colorDefinitions.mainTextColor
