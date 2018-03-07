@@ -230,8 +230,9 @@ extension PartyDetailViewController: UITableViewDelegate {
         self.navigationController?.navigationBar.barTintColor = UIColor(hue: 46/360, saturation: 8/100, brightness: 100/100, alpha: 1.0)
         self.navigationController?.navigationBar.titleTextAttributes = [.font: UIFont(name: "Nyala", size: 26.0)!, .foregroundColor: colorDefinitions.mainTextColor]
         self.navigationItem.title = "Party"
-        self.partyDetailTableView.backgroundView = UIImageView(image: UIImage(named: "campaignDetailTableViewBG"))
-        self.partyDetailTableView.backgroundView?.alpha = 0.25
+        self.partyDetailTableView.backgroundColor = colorDefinitions.mainBGColor
+//        self.partyDetailTableView.backgroundView = UIImageView(image: UIImage(named: "campaignDetailTableViewBG"))
+//        self.partyDetailTableView.backgroundView?.alpha = 0.25
         self.partyDetailTableView.separatorInset = .zero
     }
     // MARK: Action Methods

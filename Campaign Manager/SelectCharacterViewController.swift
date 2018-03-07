@@ -87,9 +87,9 @@ class SelectCharacterViewController: UIViewController {
         self.navigationController?.navigationBar.tintColor = colorDefinitions.mainTextColor
         self.navigationController?.navigationBar.barTintColor = colorDefinitions.scenarioTableViewNavBarBarTintColor
         self.navigationController?.navigationBar.titleTextAttributes = [.font: UIFont(name: "Nyala", size: 26.0)!, .foregroundColor: colorDefinitions.mainTextColor]
-        self.selectCharacterView.backgroundColor = colorDefinitions.scenarioTableViewNavBarBarTintColor
-        self.selectCharacterTableView.backgroundView = UIImageView(image: UIImage(named: "campaignDetailTableViewBG"))
-        self.selectCharacterTableView.backgroundView?.alpha = 0.25
+        self.selectCharacterTableView.backgroundColor = colorDefinitions.mainBGColor
+//        self.selectCharacterTableView.backgroundView = UIImageView(image: UIImage(named: "campaignDetailTableViewBG"))
+//        self.selectCharacterTableView.backgroundView?.alpha = 0.25
         self.selectCharacterTableView.separatorInset = .zero
     }
     fileprivate func setSegmentTitles() {
@@ -281,6 +281,7 @@ extension SelectCharacterViewController: UITableViewDataSource, UITableViewDeleg
         }
         configureTitle(for: cell, with: character)
         configureCharacterInfo(for: cell, with: character)
+        cell.backgroundColor = UIColor.clear
         cell.selectionStyle = .none
         
         return cell

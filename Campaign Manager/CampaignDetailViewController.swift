@@ -186,7 +186,9 @@ extension CampaignDetailViewController: UITableViewDelegate {
         self.navigationController?.navigationBar.titleTextAttributes = [.font: UIFont(name: "Nyala", size: 26.0)!, .foregroundColor: colorDefinitions.mainTextColor]
         //self.navigationItem.title = ("\(self.viewModel.campaignTitle.value) Detail")
         self.navigationItem.title = "Campaign"
-        self.campaignDetailTableView.backgroundView = UIImageView(image: UIImage(named: "campaignDetailTableViewBG"))
+        //self.campaignDetailTableView.backgroundView = UIImageView(image: UIImage(named: "campaignDetailTableViewBG"))
+        self.campaignDetailTableView.backgroundColor = colorDefinitions.mainBGColor
+        
         self.campaignDetailTableView.backgroundView?.alpha = 0.25
     }
 

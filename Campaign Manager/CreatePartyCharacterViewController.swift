@@ -82,9 +82,9 @@ class CreatePartyCharacterViewController: UIViewController, CreatePartyCharacter
     
     // Helper methods
     fileprivate func styleUI() {
-        self.createPartyCharacterTableView.backgroundColor = colorDefinitions.scenarioTableViewNavBarBarTintColor
-        self.createPartyCharacterTableView.backgroundView = UIImageView(image: UIImage(named: "campaignDetailTableViewBG"))
-        self.createPartyCharacterTableView.backgroundView?.alpha = 0.25
+        self.createPartyCharacterTableView.backgroundColor = colorDefinitions.mainBGColor
+//        self.createPartyCharacterTableView.backgroundView = UIImageView(image: UIImage(named: "campaignDetailTableViewBG"))
+//        self.createPartyCharacterTableView.backgroundView?.alpha = 0.25
         self.createPartyCharacterTableView.separatorStyle = .none
         let rightBarButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(self.save(_:)))
         self.navigationItem.rightBarButtonItem = rightBarButton

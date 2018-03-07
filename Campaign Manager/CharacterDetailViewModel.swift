@@ -236,8 +236,9 @@ extension CharacterDetailViewModel: UITableViewDataSource, UITableViewDelegate, 
     }
     func createSectionButton(forSection section: Int, inHeader header: UIView) {
         
-        let button = UIButton(frame: CGRect(x: 330, y: 14, width: 25, height: 25))  // create button
-        
+        //let button = UIButton(frame: CGRect(x: 330, y: 14, width: 25, height: 25))  // create button
+        let button = UIButton(type: .custom)
+        button.translatesAutoresizingMaskIntoConstraints = false
         let itemType = self.items[section].type
         
         switch itemType {
@@ -249,6 +250,8 @@ extension CharacterDetailViewModel: UITableViewDataSource, UITableViewDelegate, 
             button.isEnabled = true
             button.addTarget(self, action: #selector(self.showUIStepperInCharacterLevelCell(_:)), for: .touchUpInside)
             header.addSubview(button)
+            header.addConstraint(NSLayoutConstraint(item: button, attribute: .trailingMargin, relatedBy: .equal, toItem: header, attribute: .trailingMargin, multiplier: 0.99, constant: 0))
+            header.addConstraint(NSLayoutConstraint(item: button, attribute: .top, relatedBy: .equal, toItem: header, attribute: .centerY, multiplier: 0.5, constant: 0))
         case .characterType:
             break
         case .characterGoal:

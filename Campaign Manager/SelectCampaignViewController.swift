@@ -71,9 +71,9 @@ class SelectCampaignViewController: UIViewController {
         viewModel.campaigns.bindAndFire { [unowned self] in self.campaigns = $0 }
     }
     fileprivate func styleUI() {
-        self.selectCampaignView.backgroundColor = colorDefinitions.scenarioTableViewNavBarBarTintColor
-        self.selectCampaignTableView.backgroundView = UIImageView(image: UIImage(named: "campaignDetailTableViewBG"))
-        self.selectCampaignTableView.backgroundView?.alpha = 0.25
+        self.selectCampaignTableView.backgroundColor = colorDefinitions.mainBGColor
+//        self.selectCampaignTableView.backgroundView = UIImageView(image: UIImage(named: "campaignDetailTableViewBG"))
+//        self.selectCampaignTableView.backgroundView?.alpha = 0.25
         self.selectCampaignTableView.separatorInset = .zero
     }
     fileprivate func makeCell(for tableView: UITableView) -> UITableViewCell {

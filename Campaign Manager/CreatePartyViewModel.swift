@@ -110,6 +110,7 @@ extension CreatePartyViewModel: UITableViewDataSource, UITableViewDelegate {
             }
             characterCell = cell
             cell.accessoryType = .disclosureIndicator
+            cell.backgroundColor = UIColor.clear
             tableViewCell = cell
         default:
             break

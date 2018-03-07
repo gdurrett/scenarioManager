@@ -33,9 +33,9 @@ class ScenarioDetailViewController: UIViewController {
         tableView?.register(RequirementsInfoCell.nib, forCellReuseIdentifier: RequirementsInfoCell.identifier)
         tableView?.register(RewardsInfoCell.nib, forCellReuseIdentifier: RewardsInfoCell.identifier)
         tableView?.register(AchievesInfoCell.nib, forCellReuseIdentifier: AchievesInfoCell.identifier)
-        
+        tableView?.backgroundColor = colorDefinitions.mainBGColor
         //tableView?.separatorInset = .zero
-        setTableViewBGImage()
+        //setTableViewBGImage()
 
     }
 

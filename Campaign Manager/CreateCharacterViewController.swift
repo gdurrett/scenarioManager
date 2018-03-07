@@ -92,9 +92,9 @@ class CreateCharacterViewController: UIViewController, CreateCharacterViewModelD
 
     // Helper methods
     fileprivate func styleUI() {
-        self.createCharacterTableView.backgroundColor = colorDefinitions.scenarioTableViewNavBarBarTintColor
-        self.createCharacterTableView.backgroundView = UIImageView(image: UIImage(named: "campaignDetailTableViewBG"))
-        self.createCharacterTableView.backgroundView?.alpha = 0.25
+        self.createCharacterTableView.backgroundColor = colorDefinitions.mainBGColor
+//        self.createCharacterTableView.backgroundView = UIImageView(image: UIImage(named: "campaignDetailTableViewBG"))
+//        self.createCharacterTableView.backgroundView?.alpha = 0.25
         //self.createPartyTableView.separatorInset = .zero // Get rid of offset to left for tableview!
         self.createCharacterTableView.separatorStyle = .none
     }

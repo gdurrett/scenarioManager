@@ -133,13 +133,14 @@ class CreateCampaignViewController: UIViewController, CreateCampaignViewModelDel
     
     // Helper methods
     fileprivate func styleUI() {
-        let backgroundImage = UIImageView(frame: UIScreen.main.bounds)
-        backgroundImage.image = UIImage(named: "campaignDetailTableViewBG")
-        backgroundImage.alpha = 0.25
+        //let backgroundImage = UIImageView(frame: UIScreen.main.bounds)
+        //backgroundImage.image = UIImage(named: "campaignDetailTableViewBG")
+        
+        //backgroundImage.alpha = 0.25
         self.navigationItem.title = "Create Campaign"
         self.navigationController?.navigationBar.titleTextAttributes = [.font: UIFont(name: "Nyala", size: 26.0)!, .foregroundColor: colorDefinitions.mainTextColor]
-        self.createCampaignTableView.insertSubview(backgroundImage, at: 0)
-        self.createCampaignTableView.backgroundColor = colorDefinitions.scenarioTableViewNavBarBarTintColor
+        //self.createCampaignTableView.insertSubview(backgroundImage, at: 0)
+        self.createCampaignTableView.backgroundColor = colorDefinitions.mainBGColor
         self.createCampaignTableView.backgroundView?.alpha = 0.25
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

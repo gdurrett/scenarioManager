@@ -150,6 +150,7 @@ extension CreateCampaignViewModelFromModel: UITableViewDataSource, UITableViewDe
             }
 
             cell.accessoryType = .disclosureIndicator
+            cell.backgroundColor = UIColor.clear
             tableViewCell = cell
         default:
             break

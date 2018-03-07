@@ -87,9 +87,9 @@ class CreateCampaignCharacterViewController: UIViewController, CreateCampaignCha
     
     // Helper methods
     fileprivate func styleUI() {
-        self.createCampaignCharacterTableView.backgroundColor = colorDefinitions.scenarioTableViewNavBarBarTintColor
-        self.createCampaignCharacterTableView.backgroundView = UIImageView(image: UIImage(named: "campaignDetailTableViewBG"))
-        self.createCampaignCharacterTableView.backgroundView?.alpha = 0.25
+        self.createCampaignCharacterTableView.backgroundColor = colorDefinitions.mainBGColor
+//        self.createCampaignCharacterTableView.backgroundView = UIImageView(image: UIImage(named: "campaignDetailTableViewBG"))
+//        self.createCampaignCharacterTableView.backgroundView?.alpha = 0.25
         //self.createPartyTableView.separatorInset = .zero // Get rid of offset to left for tableview!
         self.createCampaignCharacterTableView.separatorStyle = .none
     }

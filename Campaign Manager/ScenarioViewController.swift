@@ -418,8 +418,9 @@ class ScenarioViewController: UIViewController, UISearchBarDelegate {
         self.scenarioFilterOutlet.selectedSegmentIndex = 1
         self.scenarioTableView.estimatedRowHeight = 85
         self.scenarioTableView.rowHeight = UITableViewAutomaticDimension
-        self.scenarioTableView.backgroundView = UIImageView(image: UIImage(named: "campaignDetailTableViewBG"))
-        self.scenarioTableView.backgroundView?.alpha = 0.25
+//        self.scenarioTableView.backgroundView = UIImageView(image: UIImage(named: "campaignDetailTableViewBG"))
+//        self.scenarioTableView.backgroundView?.alpha = 0.25
+        self.scenarioTableView.backgroundColor = colorDefinitions.mainBGColor
         self.navigationController?.navigationBar.tintColor = colorDefinitions.mainTextColor
         self.navigationController?.navigationBar.barTintColor = colorDefinitions.scenarioTableViewNavBarBarTintColor
         self.navigationController?.navigationBar.titleTextAttributes = [.font: UIFont(name: "Nyala", size: 26.0)!, .foregroundColor: colorDefinitions.mainTextColor]

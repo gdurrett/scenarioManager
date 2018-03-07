@@ -79,7 +79,7 @@ class CharacterDetailViewController: UIViewController {
         self.navigationController?.navigationBar.barTintColor = UIColor(hue: 46/360, saturation: 8/100, brightness: 100/100, alpha: 1.0)
         self.navigationController?.navigationBar.titleTextAttributes = [.font: UIFont(name: "Nyala", size: 26.0)!, .foregroundColor: colorDefinitions.mainTextColor]
         self.navigationItem.title = "Character Detail"
-        self.characterDetailTableView.backgroundView = UIImageView(image: UIImage(named: "campaignDetailTableViewBG"))
+        self.characterDetailTableView.backgroundColor = colorDefinitions.mainBGColor
         self.characterDetailTableView.backgroundView?.alpha = 0.25
     }
     func refreshCharacterStatus() {

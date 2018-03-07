@@ -80,4 +80,10 @@ class ColorDefinitions {
             return UIColor(hue: 30/360, saturation: 45/100, brightness: 25/100, alpha: 1.0)
         }
     }
+    var mainBGColor: UIColor {
+        get {
+            //return UIColor(hue: 43/360, saturation: 13/100, brightness: 95/100, alpha: 1.0)
+            return UIColor(hue: 45/360, saturation: 16/100, brightness: 93/100, alpha: 1.0)
+        }
+    }
 }

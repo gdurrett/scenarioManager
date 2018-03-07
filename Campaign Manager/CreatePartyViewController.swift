@@ -68,11 +68,11 @@ class CreatePartyViewController: UIViewController, CreatePartyViewModelDelegate 
     
     // Helper methods
     fileprivate func styleUI() {
-        let backgroundImage = UIImageView(frame: UIScreen.main.bounds)
-        backgroundImage.image = UIImage(named: "campaignDetailTableViewBG")
-        backgroundImage.alpha = 0.25
-        self.createPartyTableView.insertSubview(backgroundImage, at: 0)
-        self.createPartyTableView.backgroundColor = colorDefinitions.scenarioTableViewNavBarBarTintColor
+//        let backgroundImage = UIImageView(frame: UIScreen.main.bounds)
+//        backgroundImage.image = UIImage(named: "campaignDetailTableViewBG")
+//        backgroundImage.alpha = 0.25
+//        self.createPartyTableView.insertSubview(backgroundImage, at: 0)
+        self.createPartyTableView.backgroundColor = colorDefinitions.mainBGColor
         let leftBarButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(self.cancel(_:)))
         self.navigationItem.title = "Create Party"
         self.navigationController?.navigationBar.titleTextAttributes = [.font: UIFont(name: "Nyala", size: 26.0)!, .foregroundColor: colorDefinitions.mainTextColor]
