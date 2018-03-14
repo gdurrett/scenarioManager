@@ -63,7 +63,10 @@ class CreateCharacterViewModel: NSObject {
             var tempTypes = [String]()
             if dataModel.assignedCharacters.isEmpty != true {
                 for char in dataModel.assignedCharacters {
-                    tempTypes.append(char.type)
+                    if char.isRetired != true { // Test 18/03/13 !!
+                        tempTypes.append(char.type)
+                    }
+                    //tempTypes.append(char.type)
                 }
                 return tempTypes
             } else {

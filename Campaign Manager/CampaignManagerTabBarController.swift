@@ -38,6 +38,7 @@ class CampaignManagerTabBarController: UITabBarController {
         scenariosItem?.setTitleTextAttributes([.font: UIFont(name: "Nyala", size: 10.0)!, .foregroundColor: colorDefinitions.tabBarTitleTextColor], for: .selected)
         scenariosItem?.title = "Scenarios"
 
+        //tabBar.unselectedItemTintColor = colorDefinitions.tabBarUnselectedItemTintColor
         tabBar.unselectedItemTintColor = colorDefinitions.tabBarUnselectedItemTintColor
         tabBar.tintColor = colorDefinitions.tabBarTintColor
         tabBar.barTintColor = colorDefinitions.tabBarBarTintColor

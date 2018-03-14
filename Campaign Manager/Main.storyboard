@@ -145,7 +145,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="iqv-ZH-Kxh">
-                                <rect key="frame" x="0.0" y="64" width="320" height="45"/>
+                                <rect key="frame" x="-4" y="64" width="328" height="45"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="0bi-oU-UZG"/>
                                 </constraints>
@@ -215,8 +215,8 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="iqv-ZH-Kxh" firstAttribute="top" secondItem="fB6-hx-rWI" secondAttribute="bottom" id="D36-4V-mvL"/>
-                            <constraint firstItem="iqv-ZH-Kxh" firstAttribute="leading" secondItem="pUV-5e-E3a" secondAttribute="leadingMargin" constant="-16" id="jp8-mM-8Sj"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="iqv-ZH-Kxh" secondAttribute="trailing" constant="-16" id="nkJ-xQ-wsL"/>
+                            <constraint firstItem="iqv-ZH-Kxh" firstAttribute="leading" secondItem="pUV-5e-E3a" secondAttribute="leadingMargin" constant="-20" id="jp8-mM-8Sj"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="iqv-ZH-Kxh" secondAttribute="trailing" constant="-20" id="nkJ-xQ-wsL"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" top="YES"/>

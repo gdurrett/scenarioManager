@@ -51,7 +51,7 @@ class CampaignDetailEventsHeader: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
 
-        campaignDetailEventsHeaderBG.backgroundColor = colorDefinitions.scenarioTableViewNavBarBarTintColor
+        campaignDetailEventsHeaderBG.backgroundColor = colorDefinitions.detailTableViewHeaderTintColor
         campaignDetailEventsHeaderTitle.font = fontDefinitions.detailTableViewHeaderFont
         campaignDetailEventsHeaderTitle.textColor = colorDefinitions.scenarioTitleFontColor
         

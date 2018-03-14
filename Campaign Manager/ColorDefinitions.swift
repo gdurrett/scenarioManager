@@ -37,7 +37,8 @@ class ColorDefinitions {
     }
     var scenarioTableViewNavBarBarTintColor: UIColor {
         get {
-            return UIColor(hue: 40/360, saturation: 6/100, brightness: 100/100, alpha: 1.0)
+            //return UIColor(hue: 40/360, saturation: 6/100, brightness: 100/100, alpha: 1.0)
+            return UIColor(hue: 45/360, saturation: 16/100, brightness: 93/100, alpha: 1.0)
         }
     }
     var scenarioTableViewSearchBarBarTintColor: UIColor {
@@ -58,11 +59,13 @@ class ColorDefinitions {
     var tabBarTintColor: UIColor {
         get {
             return UIColor(hue: 40/360, saturation: 6/100, brightness: 40/100, alpha: 1.0)
+            //return UIColor(hue: 45/360, saturation: 16/100, brightness: 93/100, alpha: 1.0)
         }
     }
     var tabBarBarTintColor: UIColor {
         get {
             return UIColor(hue: 40/360, saturation: 6/100, brightness: 100/100, alpha: 1.0)
+            //return UIColor(hue: 45/360, saturation: 16/100, brightness: 93/100, alpha: 1.0)
         }
     }
     var mainTextColor: UIColor {

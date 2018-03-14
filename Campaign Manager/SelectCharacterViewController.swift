@@ -352,6 +352,7 @@ extension SelectCharacterViewController: UITableViewDataSource, UITableViewDeleg
             } else if self.myCharacterRetirement == "Set retired" {
                 self.character.isActive = false
                 self.character.isRetired = true
+                //self.character.assignedTo = "None" // Test 18/03/13
                 self.viewModel!.updateCharacters()
                 self.viewModel!.updateActiveStatus()
                 self.setSegmentTitles()

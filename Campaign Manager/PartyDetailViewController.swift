@@ -227,7 +227,8 @@ extension PartyDetailViewController: UITableViewDelegate {
         self.partyDetailTableView.estimatedRowHeight = 80
         self.partyDetailTableView.rowHeight = UITableViewAutomaticDimension
         self.navigationController?.navigationBar.tintColor = colorDefinitions.mainTextColor
-        self.navigationController?.navigationBar.barTintColor = UIColor(hue: 46/360, saturation: 8/100, brightness: 100/100, alpha: 1.0)
+        //self.navigationController?.navigationBar.barTintColor = UIColor(hue: 46/360, saturation: 8/100, brightness: 100/100, alpha: 1.0)
+        self.navigationController?.navigationBar.barTintColor = colorDefinitions.mainBGColor
         self.navigationController?.navigationBar.titleTextAttributes = [.font: UIFont(name: "Nyala", size: 26.0)!, .foregroundColor: colorDefinitions.mainTextColor]
         self.navigationItem.title = "Party"
         self.partyDetailTableView.backgroundColor = colorDefinitions.mainBGColor

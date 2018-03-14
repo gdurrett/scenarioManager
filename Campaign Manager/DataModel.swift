@@ -93,6 +93,17 @@ class DataModel {
             return tempCharacters
         }
     }
+//    var retiredCharacters: [Character] {
+//        get {
+//            var tempCharacters = [Character]()
+//            for character in characters.values {
+//                if character.assignedTo == "None" && character.isRetired == true {
+//                    tempCharacters.append(character)
+//                }
+//            }
+//            return tempCharacters
+//        }
+//    }
     var availableCharacters: [Character] {
         get {
             var tempCharacters = [Character]()

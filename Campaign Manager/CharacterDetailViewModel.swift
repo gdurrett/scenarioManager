@@ -74,6 +74,7 @@ class CharacterDetailViewModel: NSObject {
         self.inactiveCharacters = Dynamic(dataModel.assignedCharacters.filter { $0.isActive == false })
         self.activeCharacters = Dynamic(dataModel.assignedCharacters.filter { $0.isActive == true })
         self.retiredCharacters = Dynamic(dataModel.assignedCharacters.filter { $0.isRetired == true })
+        //self.retiredCharacters = Dynamic(dataModel.retiredCharacters) // Test 18/03/13
         self.currentParty = Dynamic(dataModel.currentParty.name)
         super.init()
         
@@ -127,6 +128,7 @@ class CharacterDetailViewModel: NSObject {
         self.activeCharacters.value = dataModel.assignedCharacters.filter { $0.isActive == true }
         self.inactiveCharacters.value = dataModel.assignedCharacters.filter { $0.isActive == false && $0.isRetired == false }
         self.retiredCharacters.value = dataModel.assignedCharacters.filter { $0.isRetired == true && $0.isActive == false}
+        //self.retiredCharacters.value = dataModel.retiredCharacters
     }
     func triggerSave() {
         dataModel.saveCampaignsLocally()

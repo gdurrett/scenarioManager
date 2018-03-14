@@ -182,7 +182,9 @@ extension CampaignDetailViewController: UITableViewDelegate {
         self.campaignDetailTableView.estimatedRowHeight = 80
         self.campaignDetailTableView.rowHeight = UITableViewAutomaticDimension
         self.navigationController?.navigationBar.tintColor = colorDefinitions.mainTextColor
-        self.navigationController?.navigationBar.barTintColor = UIColor(hue: 46/360, saturation: 8/100, brightness: 100/100, alpha: 1.0)
+//        self.navigationController?.navigationBar.barTintColor = UIColor(hue: 46/360, saturation: 8/100, brightness: 100/100, alpha: 1.0)
+        self.navigationController?.navigationBar.barTintColor = colorDefinitions.mainBGColor
+        //self.campaignDetailTableView.backgroundColor = colorDefinitions.mainBGColor
         self.navigationController?.navigationBar.titleTextAttributes = [.font: UIFont(name: "Nyala", size: 26.0)!, .foregroundColor: colorDefinitions.mainTextColor]
         //self.navigationItem.title = ("\(self.viewModel.campaignTitle.value) Detail")
         self.navigationItem.title = "Campaign"
@@ -290,7 +292,7 @@ extension CampaignDetailViewController: UITableViewDelegate {
         alertController.addAction(OKAction)
 
         alertController.popoverPresentationController?.sourceView = self.view
-
+        alertController.popoverPresentationController?.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
         self.present(alertController, animated: true, completion:nil)
     }
     @objc func showSwipeAlertStarting() {
@@ -305,7 +307,7 @@ extension CampaignDetailViewController: UITableViewDelegate {
         alertView.addAction(action)
         
         alertView.popoverPresentationController?.sourceView = self.view
-
+        alertView.popoverPresentationController?.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
         present(alertView, animated: true, completion: nil)
     }
     @objc func showSwipeAlertUsed() {
