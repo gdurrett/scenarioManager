@@ -16,6 +16,8 @@ class CampaignDetailProsperityCell: UITableViewCell {
 
     @IBOutlet weak var campaignDetailProsperityLabel: UILabel!
     
+    @IBOutlet weak var campaignDetailProsperityTextLabel: UILabel!
+    
     @IBOutlet weak var myStepperOutlet: UIStepper!
     
     @IBAction func modifyProsperityCountAction(_ sender: Any) {
@@ -38,8 +40,12 @@ class CampaignDetailProsperityCell: UITableViewCell {
             campaignDetailProsperityLabel?.font = fontDefinitions.detailTableViewNonTitleFont
             campaignDetailProsperityLabel?.textColor = colorDefinitions.scenarioTitleFontColor
             let checksText = item.remainingChecksUntilNextLevel == 1 ? "check" : "checks"
-            campaignDetailProsperityLabel?.text = "\(item.level)      \(item.remainingChecksUntilNextLevel) \(checksText) to next level"
-            
+            // campaignDetailProsperityLabel?.text = "\(item.level)      \(item.remainingChecksUntilNextLevel) \(checksText) to next level"
+            campaignDetailProsperityLabel?.text = "\(item.level)"
+            campaignDetailProsperityTextLabel?.sizeToFit()
+            campaignDetailProsperityTextLabel?.font = fontDefinitions.detailTableViewNonTitleFont
+            campaignDetailProsperityTextLabel?.textColor = colorDefinitions.scenarioTitleFontColor
+            campaignDetailProsperityTextLabel?.text = "\(item.remainingChecksUntilNextLevel) \(checksText) to next level"
         }
     }
     static var nib:UINib {

@@ -22,6 +22,7 @@ class CampaignDetailDonationsCell: UITableViewCell {
             campaignDetailDonationsLabel?.text = "\(item.amount)\(item.prosperityBonusString)"
         }
     }
+    @IBOutlet weak var campaignDetailDonationsTextLabel: UILabel!
     
     @IBOutlet weak var myStepperOutlet: UIStepper!
     
@@ -43,7 +44,11 @@ class CampaignDetailDonationsCell: UITableViewCell {
             campaignDetailDonationsLabel?.sizeToFit()
             campaignDetailDonationsLabel?.font = fontDefinitions.detailTableViewNonTitleFont
             campaignDetailDonationsLabel?.textColor = colorDefinitions.scenarioTitleFontColor
-            campaignDetailDonationsLabel?.text = "\(item.amount)\(item.prosperityBonusString)"
+            campaignDetailDonationsLabel?.text = "\(item.amount)"
+            campaignDetailDonationsTextLabel?.sizeToFit()
+            campaignDetailDonationsTextLabel?.font = fontDefinitions.detailTableViewNonTitleFont
+            campaignDetailDonationsTextLabel?.textColor = colorDefinitions.scenarioTitleFontColor
+            campaignDetailDonationsTextLabel?.text = "\(item.prosperityBonusString)"
         }
     }
     var isActive: Bool? {

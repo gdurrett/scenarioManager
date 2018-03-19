@@ -21,6 +21,7 @@ class PartyDetailReputationCell: UITableViewCell {
 //            partyDetailReputationLabel?.text = "\(item.reputation)"
         }
     }
+    @IBOutlet weak var partyDetailReputationTextLabel: UILabel!
     
     @IBOutlet weak var myStepperOutlet: UIStepper!
     
@@ -42,7 +43,11 @@ class PartyDetailReputationCell: UITableViewCell {
             partyDetailReputationLabel?.sizeToFit()
             partyDetailReputationLabel?.font = fontDefinitions.detailTableViewNonTitleFont
             partyDetailReputationLabel?.textColor = colorDefinitions.scenarioTitleFontColor
-            partyDetailReputationLabel?.text = "\(item.reputation)    shop price modifier: \(item.modifier)"
+            partyDetailReputationLabel?.text = "\(item.reputation)"
+            partyDetailReputationTextLabel?.sizeToFit()
+            partyDetailReputationTextLabel?.font = fontDefinitions.detailTableViewNonTitleFont
+            partyDetailReputationTextLabel?.textColor = colorDefinitions.scenarioTitleFontColor
+            partyDetailReputationTextLabel?.text = "shop price modifier: \(item.modifier)"
         }
     }
     static var nib:UINib {

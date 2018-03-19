@@ -23,7 +23,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" tag="3700" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Aua-Y7-1CN">
-                    <rect key="frame" x="200" y="22" width="42" height="47"/>
+                    <rect key="frame" x="293" y="22" width="42" height="47"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
@@ -33,11 +33,11 @@
             <accessibility key="accessibilityConfiguration" identifier="PartyDetailAssignedCharactersCell"/>
             <constraints>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="Qad-9k-ILi" secondAttribute="bottom" constant="17" id="MwO-3M-gHg"/>
-                <constraint firstItem="Aua-Y7-1CN" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="200" id="Pve-Ot-id1"/>
                 <constraint firstItem="Qad-9k-ILi" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="Swd-B6-hgm"/>
                 <constraint firstItem="Aua-Y7-1CN" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="22" id="V9z-q7-sEZ"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="Aua-Y7-1CN" secondAttribute="bottom" constant="17" id="YSU-Va-Yig"/>
                 <constraint firstItem="Qad-9k-ILi" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="22" id="hqG-4v-uXx"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="Aua-Y7-1CN" secondAttribute="trailing" constant="40" id="nFl-aS-DwX"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
