@@ -23,7 +23,8 @@ class SelectCharacterViewController: UIViewController {
     @IBOutlet weak var selectCharacterTableView: UITableView!
     
     @IBAction func selectCharacterFilterAction(_ sender: Any) {
-        self.navigationItem.title = "\(viewModel!.assignedParty.value)"
+        //self.navigationItem.title = "\(viewModel!.assignedParty.value)"
+        self.navigationItem.title = "Characters"
         selectCharacterTableView.reloadData()
     }
     
@@ -212,6 +213,29 @@ class SelectCharacterViewController: UIViewController {
 
         self.present(alertController, animated: true, completion:nil)
     }
+    fileprivate func showConfirmRetirementAlert () {
+        let alertController = UIAlertController(title: "Retire this character?", message: "Clicking OK will retire the current character.", preferredStyle: .alert)
+        let OKAction = UIAlertAction(title: "Retire", style: .default) { (action:UIAlertAction!) in
+            self.character.isActive = false
+            self.character.isRetired = true
+            //self.character.assignedTo = "None" // Test 18/03/13
+            self.viewModel!.updateCharacters()
+            self.viewModel!.updateActiveStatus()
+            self.setSegmentTitles()
+            self.viewModel!.triggerSave()
+            self.selectCharacterTableView.reloadData()
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (action:UIAlertAction!) in
+        }
+        alertController.view.tintColor = colorDefinitions.scenarioAlertViewTintColor
+        alertController.addAction(cancelAction)
+        alertController.addAction(OKAction)
+        
+        alertController.popoverPresentationController?.sourceView = self.view
+        
+        self.present(alertController, animated: true, completion:nil)
+    }
     // Action Methods
     fileprivate func loadCreateCharacterViewController() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -350,14 +374,7 @@ extension SelectCharacterViewController: UITableViewDataSource, UITableViewDeleg
             if self.myCharacterRetirement == "Cannot set retired" {
                 self.showSelectionAlert(status: "disallowSetRetired")
             } else if self.myCharacterRetirement == "Set retired" {
-                self.character.isActive = false
-                self.character.isRetired = true
-                //self.character.assignedTo = "None" // Test 18/03/13
-                self.viewModel!.updateCharacters()
-                self.viewModel!.updateActiveStatus()
-                self.setSegmentTitles()
-                self.viewModel!.triggerSave()
-                tableView.reloadData()
+                self.showConfirmRetirementAlert()
             } else if self.myCharacterRetirement == "Delete" {
                 self.showConfirmDeletionAlert()
             }

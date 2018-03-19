@@ -244,16 +244,16 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Xj2-Xd-lwa">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
+                                <rect key="frame" x="-4" y="0.0" width="328" height="519"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="Xj2-Xd-lwa" firstAttribute="leading" secondItem="N6P-2G-Vo4" secondAttribute="leadingMargin" constant="-16" id="Yys-wd-GkO"/>
+                            <constraint firstItem="Xj2-Xd-lwa" firstAttribute="leading" secondItem="N6P-2G-Vo4" secondAttribute="leadingMargin" constant="-20" id="Yys-wd-GkO"/>
                             <constraint firstItem="i6B-RV-fjx" firstAttribute="top" secondItem="Xj2-Xd-lwa" secondAttribute="bottom" id="dZn-a1-jRf"/>
                             <constraint firstItem="Xj2-Xd-lwa" firstAttribute="top" secondItem="wna-fB-l0E" secondAttribute="bottom" constant="-64" id="mJY-KC-uXs"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="Xj2-Xd-lwa" secondAttribute="trailing" constant="-16" id="tgc-vC-Obe"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Xj2-Xd-lwa" secondAttribute="trailing" constant="-20" id="tgc-vC-Obe"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="h2a-cr-93D">
@@ -633,14 +633,14 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Qqs-d3-qT2">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
+                                <rect key="frame" x="-4" y="0.0" width="328" height="519"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="Qqs-d3-qT2" firstAttribute="leading" secondItem="0sn-rN-bKl" secondAttribute="leadingMargin" constant="-16" id="026-e9-Of7"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="Qqs-d3-qT2" secondAttribute="trailing" constant="-16" id="42E-oZ-dp8"/>
+                            <constraint firstItem="Qqs-d3-qT2" firstAttribute="leading" secondItem="0sn-rN-bKl" secondAttribute="leadingMargin" constant="-20" id="026-e9-Of7"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Qqs-d3-qT2" secondAttribute="trailing" constant="-20" id="42E-oZ-dp8"/>
                             <constraint firstItem="FBf-et-16Q" firstAttribute="top" secondItem="Qqs-d3-qT2" secondAttribute="bottom" id="B3w-gp-JGe"/>
                             <constraint firstItem="Qqs-d3-qT2" firstAttribute="top" secondItem="c0q-67-uTb" secondAttribute="bottom" constant="-64" id="dgG-RG-Luh"/>
                         </constraints>
@@ -918,6 +918,6 @@
         <image name="icons8-dropbox-filled-40" width="20" height="20"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="eKg-3M-m6c"/>
+        <segue reference="RR0-Yy-zrm"/>
     </inferredMetricsTieBreakers>
 </document>

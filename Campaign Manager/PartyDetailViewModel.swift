@@ -522,7 +522,10 @@ extension PartyDetailViewModel: PartyDetailViewControllerDelegate {
             }
             dataModel.parties.removeValue(forKey: currentParty)
             dataModel.currentCampaign.parties = dataModel.currentCampaign.parties!.filter { $0.name != currentParty }
-            let myParties = Array(dataModel.parties)
+            var myParties = Array(dataModel.parties)
+            if myParties[0].value.name == "MyParty" {
+                myParties.remove(at: 0)
+            }
             myParties[0].value.isCurrent = true
             setPartyActive(party: myParties[0].value.name)
             self.updateAssignedAndActiveCharacters() // See if this works
