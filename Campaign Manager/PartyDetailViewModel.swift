@@ -592,7 +592,7 @@ class PartyDetailViewModelPartyNameItem: PartyDetailViewModelItem {
     }
     
     var sectionTitle: String {
-        return "Party Name"
+        return "Name"
     }
     
     var rowCount: Int {

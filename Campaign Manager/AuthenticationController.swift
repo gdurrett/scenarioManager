@@ -50,11 +50,15 @@ class AuthenticationController: UIViewController {
         self.present(alertController, animated: true, completion:nil)
     }
     fileprivate func showAuthenticationAlert () {
-        let alertController = UIAlertController(title: "Found a save file in dropbox", message: "If you would like to load your save file from Dropbox, click 'Load Save File'. Otherwise, click 'Create New Campaign' to start a new campaign.", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Found a save file in dropbox", message: "If you would like to load your save file from Dropbox, click 'Load Save File'. Otherwise, click 'Create New Campaign' to start a new campaign.", preferredStyle: .actionSheet)
         let OKAction = UIAlertAction(title: "Load Save File", style: .default) { (action:UIAlertAction!) in
             self.authenticateToDropBox()
         }
-
+        let saveAction = UIAlertAction(title: "Save Campaign", style: .default)
+        {
+            (action:UIAlertAction!) in
+            self.uploadCampaignsFile()
+        }
         let cancelAction = UIAlertAction(title: "Create New Campaign", style: .cancel) { (action:UIAlertAction!) in
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let createCampaignVC = storyboard.instantiateViewController(withIdentifier: "CreateCampaignViewController") as! CreateCampaignViewController
@@ -71,7 +75,9 @@ class AuthenticationController: UIViewController {
         alertController.view.tintColor = colorDefinitions.scenarioAlertViewTintColor
         alertController.addAction(cancelAction)
         alertController.addAction(OKAction)
-
+        if dataModel.campaigns.isEmpty != true || dataModel.campaigns["MyCampaign"]?.isCurrent != true {
+            alertController.addAction(saveAction)
+        }
         alertController.popoverPresentationController?.sourceView = self.view
         
         self.present(alertController, animated: true, completion:nil)
@@ -218,7 +224,7 @@ class AuthenticationController: UIViewController {
     func uploadCampaignsFile() {
         dataModel.saveCampaignsLocally()
         if let client = DropboxClientsManager.authorizedClient {
-            let request = client.files.upload(path: "/Campaigns.plist", mode: .overwrite, input: self.dataModel.dataFilePath())
+            let _ = client.files.upload(path: "/Campaigns.plist", mode: .overwrite, input: self.dataModel.dataFilePath())
             //let request = client.files.upload(path: "/Campaigns.plist", input: self.dataModel.dataFilePath())
                 .response { response, error in
                     if let response = response {
@@ -234,8 +240,8 @@ class AuthenticationController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     func showDownloadUploadActionSheet() {
-        if let client = DropboxClientsManager.authorizedClient {
-            let alertController = UIAlertController(title: "Campaign Manager is authenticated to Dropbox and has found a save file!", message: "Choose an option", preferredStyle: .actionSheet)
+        if let _ = DropboxClientsManager.authorizedClient {
+            let alertController = UIAlertController(title: "Campaign Manager is authenticated to Dropbox and has found a save file!", message: "Choose an option", preferredStyle: .alert)
             let saveButton = UIAlertAction(title: "Save campaign to Dropbox", style: .default, handler: {
                 (action) -> () in
                 self.uploadCampaignsFile()
@@ -268,7 +274,11 @@ class AuthenticationController: UIViewController {
         let OKAction = UIAlertAction(title: "Load Save File", style: .default) { (action:UIAlertAction!) in
             self.authenticateToDropBox()
         }
-        
+        let _ = UIAlertAction(title: "Save Campaign", style: .default)
+        {
+            (action:UIAlertAction!) in
+            self.uploadCampaignsFile()
+        }
         let cancelAction = UIAlertAction(title: "Create New Campaign", style: .cancel) { (action:UIAlertAction!) in
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let createCampaignVC = storyboard.instantiateViewController(withIdentifier: "CreateCampaignViewController") as! CreateCampaignViewController
@@ -285,7 +295,7 @@ class AuthenticationController: UIViewController {
         alertController.view.tintColor = colorDefinitions.scenarioAlertViewTintColor
         alertController.addAction(cancelAction)
         alertController.addAction(OKAction)
-        
+
         alertController.popoverPresentationController?.sourceView = self.view
 
         self.present(alertController, animated: true, completion:nil)

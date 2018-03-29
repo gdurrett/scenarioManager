@@ -686,7 +686,7 @@ extension CampaignDetailViewModel: UITableViewDataSource, UITableViewDelegate, U
             return headerView.contentView
         } else {
             let headerView = UIView(frame: CGRect(x:0, y:0, width: tableView.frame.size.width, height: tableView.frame.size.height))
-            let headerTitleLabel = UILabel(frame: CGRect(x:16, y:15, width: 42, height: 21))
+            let headerTitleLabel = UILabel(frame: CGRect(x:16, y:15, width: 42, height: 24))
             headerTitleLabel.text = self.items[section].sectionTitle
             headerTitleLabel.font = fontDefinitions.detailTableViewHeaderFont
             headerTitleLabel.textColor = colorDefinitions.mainTextColor
@@ -1123,7 +1123,7 @@ class CampaignDetailViewModelCampaignTitleItem: CampaignDetailViewModelItem {
     }
     
     var sectionTitle: String {
-        return "Campaign Title"
+        return "Title"
     }
     
     var rowCount: Int {
@@ -1247,7 +1247,7 @@ class CampaignDetailViewModelCharacterTypeItem: CampaignDetailViewModelItem {
     }
     
     var sectionTitle: String {
-        return "Unlocked character types"
+        return "Unlocked Character Types"
     }
     
     var rowCount: Int {
