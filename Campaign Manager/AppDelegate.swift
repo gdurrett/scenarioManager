@@ -42,6 +42,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 if isAppAlreadyLaunchedOnce() {
                     print("User cancelled Dropbox authentication.")
                     loadCurrentCampaign()
+                    //launchCampaignCreation()
                 } else {
                     launchCampaignCreation()
                 }
