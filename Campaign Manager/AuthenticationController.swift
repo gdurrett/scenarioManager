@@ -16,11 +16,13 @@ class AuthenticationController: UIViewController {
     let window = UIWindow()
     var firstLoad: Bool?
     var campaignsFilePresent: Bool?
+    var dropBoxFileDate: NSDate?
+    var localFileDate: NSDate?
     
     override func viewDidLoad() {
         //self.campaignsFilePresent = false
         super.viewDidLoad()
-
+        
         if firstLoad == true {
             print("FirstLoad?")
             checkForCampaignsFile()
@@ -28,6 +30,8 @@ class AuthenticationController: UIViewController {
             //showAuthenticationAlert()
         } else {
             checkForCampaignsFile()
+            getDropboxFileDate()
+            getPlistDate()
         }
         //showAuthenticationAlert()
         // Do any additional setup after loading the view.
@@ -185,6 +189,7 @@ class AuthenticationController: UIViewController {
                                 self.showDownloadUploadActionSheet()
                             }
                         } else {
+                            //self.getFileDate()
                             if self.firstLoad == true {
                                 self.firstLoad = false
                                 self.loadCreateCampaignController()
@@ -207,19 +212,57 @@ class AuthenticationController: UIViewController {
             client.files.listFolder(path: "").response {
                 response, error in
                 if let result = response {
-                    print("Folder Contents:")
                     for entry in result.entries {
                         if entry.name == "Campaigns.plist" {
                             let destination: (URL, HTTPURLResponse) -> URL = { tempURL, response in
                                 return self.dataModel.dataFilePath()
                             }
-                            client.files.download(path: "/Campaigns.plist", overwrite: true, destination: destination)
-                                .response { response, error in
-                                    if let _ = response {
-                                        self.launchTabBarController()
-                                    } else if let _ = error {
-                                        print("Didn't find a save file - continuing to campaign creation.")
+                            if self.checkForPlist() == false {
+                                client.files.download(path: "/Campaigns.plist", overwrite: true, destination: destination)
+                                    .response { response, error in
+                                        if let _ = response {
+                                            self.launchTabBarController()
+                                        } else if let _ = error {
+                                            print("Didn't find a save file - continuing to campaign creation.")
+                                        }
+                                }
+                            } else {
+                                if self.dropBoxFileDate!.compare(self.localFileDate! as Date) == ComparisonResult.orderedDescending {
+                                    client.files.download(path: "/Campaigns.plist", overwrite: true, destination: destination)
+                                        .response { response, error in
+                                            if let _ = response {
+                                                self.launchTabBarController()
+                                            } else if let _ = error {
+                                                print("Didn't find a save file - continuing to campaign creation.")
+                                            }
                                     }
+                                } else if self.dropBoxFileDate!.compare(self.localFileDate! as Date) == ComparisonResult.orderedAscending {
+                                    let alertController = UIAlertController(title: "Local campaign file is newer than Dropbox save file!", message: "The local campaign save file is newer than the Dropbox save file. If you would still like to download the Dropbox campaign state to your device, click OK. Otherwise, click Cancel.", preferredStyle: .alert)
+                                    let downloadAction = UIAlertAction(title: "OK", style: .default)
+                                    {
+                                        (action:UIAlertAction!) in
+                                        client.files.download(path: "/Campaigns.plist", overwrite: true, destination: destination)
+                                            .response { response, error in
+                                                if let _ = response {
+                                                    self.launchTabBarController()
+                                                } else if let _ = error {
+                                                    print("Didn't find a save file - continuing to campaign creation.")
+                                                }
+                                        }
+                                    }
+                                    let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) {
+                                        (action:UIAlertAction!) in self.dismiss(animated: true, completion: nil)
+                                    }
+                                    
+                                    alertController.view.tintColor = self.colorDefinitions.scenarioAlertViewTintColor
+                                    alertController.addAction(downloadAction)
+                                    alertController.addAction(cancelAction)
+                                    
+                                    alertController.popoverPresentationController?.sourceView = self.view
+                                    
+                                    self.present(alertController, animated: true, completion:nil)
+                                    
+                                }
                             }
                         }
                     }
@@ -233,20 +276,53 @@ class AuthenticationController: UIViewController {
     func uploadCampaignsFile() {
         dataModel.saveCampaignsLocally()
         if let client = DropboxClientsManager.authorizedClient {
-            let _ = client.files.upload(path: "/Campaigns.plist", mode: .overwrite, input: self.dataModel.dataFilePath())
-            //let request = client.files.upload(path: "/Campaigns.plist", input: self.dataModel.dataFilePath())
-                .response { response, error in
-                    if let response = response {
-                        print(response)
-                    } else if let error = error {
-                        print(error)
+            /// Start
+            if self.dropBoxFileDate!.compare(self.localFileDate! as Date) == ComparisonResult.orderedAscending {
+                let _ = client.files.upload(path: "/Campaigns.plist", mode: .overwrite, input: self.dataModel.dataFilePath())
+                    .response { response, error in
+                        if let response = response {
+                            print(response)
+                        } else if let error = error {
+                            print(error)
+                        }
                     }
+                    .progress { progressData in
+                        print(progressData)
                 }
-                .progress { progressData in
-                    print(progressData)
+            } else if self.dropBoxFileDate!.compare(self.localFileDate! as Date) == ComparisonResult.orderedDescending {
+                let alertController = UIAlertController(title: "Dropbox save file is newer than local save file!", message: "The Dropbox save file is newer than the local save file. If you still wish to upload the local save file, click OK, otherwise click Cancel", preferredStyle: .alert)
+                let uploadAction = UIAlertAction(title: "OK", style: .default)
+                {
+                    (action:UIAlertAction!) in
+                    let _ = client.files.upload(path: "/Campaigns.plist", mode: .overwrite, input: self.dataModel.dataFilePath())
+                        .response { response, error in
+                            if let response = response {
+                                print(response)
+                            } else if let error = error {
+                                print(error)
+                            }
+                        }
+                        .progress { progressData in
+                            print(progressData)
+                    }
+                    self.dismiss(animated: true, completion: nil)
+                }
+                let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) {
+                    (action:UIAlertAction!) in self.dismiss(animated: true, completion: nil)
+                }
+                
+                alertController.view.tintColor = self.colorDefinitions.scenarioAlertViewTintColor
+                alertController.addAction(uploadAction)
+                alertController.addAction(cancelAction)
+                
+                alertController.popoverPresentationController?.sourceView = self.view
+                
+                self.present(alertController, animated: true, completion:nil)
             }
+            self.dismiss(animated: true, completion: nil)
+            /// End
         }
-        self.dismiss(animated: true, completion: nil)
+        //self.dismiss(animated: true, completion: nil)
     }
     func showDownloadUploadActionSheet() {
         if let _ = DropboxClientsManager.authorizedClient {
@@ -254,7 +330,7 @@ class AuthenticationController: UIViewController {
             let saveButton = UIAlertAction(title: "Save campaign to Dropbox", style: .default, handler: {
                 (action) -> () in
                 self.uploadCampaignsFile()
-                self.dismiss(animated: true, completion: nil)
+                //self.dismiss(animated: true, completion: nil)
             })
             let loadButton = UIAlertAction(title: "Load campaign from Dropbox", style: .default, handler: {
                 (action) -> () in
@@ -308,5 +384,40 @@ class AuthenticationController: UIViewController {
         alertController.popoverPresentationController?.sourceView = self.view
 
         self.present(alertController, animated: true, completion:nil)
+    }
+    fileprivate func getDropboxFileDate() {
+        if let client = DropboxClientsManager.authorizedClient {
+            client.files.getMetadata(path: "/Campaigns.plist", includeMediaInfo: true).response { response, error in
+                if let result = response as? Files.FileMetadata {
+                    self.dropBoxFileDate = result.serverModified as NSDate
+                }
+            }
+        }
+    }
+    fileprivate func getPlistDate() {
+        let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
+        let url = NSURL(fileURLWithPath: path)
+        let fileManager = FileManager.default
+        let filePath = url.appendingPathComponent("Campaigns.plist")?.path
+        
+        do {
+            let attributes = try fileManager.attributesOfItem(atPath: filePath!)
+            //print(attributes[FileAttributeKey.modificationDate] as! NSDate)
+            self.localFileDate = attributes[FileAttributeKey.modificationDate] as? NSDate
+        }
+        catch let error as NSError {
+            print("There was a problem accessing the plist file: \(error)")
+        }
+    }
+    fileprivate func checkForPlist() -> Bool {
+        let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
+        let url = NSURL(fileURLWithPath: path)
+        let fileManager = FileManager.default
+        let filePath = url.appendingPathComponent("Campaigns.plist")?.path
+        if fileManager.fileExists(atPath: filePath!) {
+            return true
+        } else {
+            return false
+        }
     }
 }
