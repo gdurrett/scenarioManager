@@ -54,7 +54,7 @@ class AuthenticationController: UIViewController {
         self.present(alertController, animated: true, completion:nil)
     }
     fileprivate func showAuthenticationAlert () {
-        let alertController = UIAlertController(title: "Found a save file in dropbox", message: "If you would like to load your save file from Dropbox, click 'Load Save File'. Otherwise, click 'Create New Campaign' to start a new campaign.", preferredStyle: .actionSheet)
+        let alertController = UIAlertController(title: "Found a save file in dropbox", message: "If you would like to load your save file from Dropbox, click 'Load Save File'. Otherwise, click 'Create New Campaign' to start a new campaign.", preferredStyle: .alert)
         let loadAction = UIAlertAction(title: "Load Save File", style: .default) { (action:UIAlertAction!) in
             self.authenticateToDropBox()
         }
@@ -274,7 +274,7 @@ class AuthenticationController: UIViewController {
         }
     }
     func uploadCampaignsFile() {
-        dataModel.saveCampaignsLocally()
+        //dataModel.saveCampaignsLocally()
         if let client = DropboxClientsManager.authorizedClient {
             /// Start
             if self.dropBoxFileDate!.compare(self.localFileDate! as Date) == ComparisonResult.orderedAscending {
@@ -282,6 +282,7 @@ class AuthenticationController: UIViewController {
                     .response { response, error in
                         if let response = response {
                             print(response)
+                            self.dismiss(animated: true, completion: nil)
                         } else if let error = error {
                             print(error)
                         }
@@ -289,6 +290,7 @@ class AuthenticationController: UIViewController {
                     .progress { progressData in
                         print(progressData)
                 }
+                self.dismiss(animated: true, completion: nil)
             } else if self.dropBoxFileDate!.compare(self.localFileDate! as Date) == ComparisonResult.orderedDescending {
                 let alertController = UIAlertController(title: "Dropbox save file is newer than local save file!", message: "The Dropbox save file is newer than the local save file. If you still wish to upload the local save file, click OK, otherwise click Cancel", preferredStyle: .alert)
                 let uploadAction = UIAlertAction(title: "OK", style: .default)
@@ -298,6 +300,8 @@ class AuthenticationController: UIViewController {
                         .response { response, error in
                             if let response = response {
                                 print(response)
+                                self.dataModel.saveCampaignsLocally() // Same timestamp
+                                self.dismiss(animated: true, completion: nil)
                             } else if let error = error {
                                 print(error)
                             }
@@ -305,7 +309,7 @@ class AuthenticationController: UIViewController {
                         .progress { progressData in
                             print(progressData)
                     }
-                    self.dismiss(animated: true, completion: nil)
+                    //self.dismiss(animated: true, completion: nil)
                 }
                 let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) {
                     (action:UIAlertAction!) in self.dismiss(animated: true, completion: nil)
@@ -319,7 +323,7 @@ class AuthenticationController: UIViewController {
                 
                 self.present(alertController, animated: true, completion:nil)
             }
-            self.dismiss(animated: true, completion: nil)
+             //self.dismiss(animated: true, completion: nil)
             /// End
         }
         //self.dismiss(animated: true, completion: nil)
@@ -389,7 +393,7 @@ class AuthenticationController: UIViewController {
         if let client = DropboxClientsManager.authorizedClient {
             client.files.getMetadata(path: "/Campaigns.plist", includeMediaInfo: true).response { response, error in
                 if let result = response as? Files.FileMetadata {
-                    self.dropBoxFileDate = result.serverModified as NSDate
+                    self.dropBoxFileDate = result.clientModified as NSDate
                 }
             }
         }

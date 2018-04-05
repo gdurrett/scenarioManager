@@ -653,7 +653,7 @@
                                     <action selector="selectPartyAction:" destination="IAJ-u5-TpM" id="ZRb-7S-Jd0"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem enabled="NO" image="icons8-dropbox-filled-40" id="i5X-8h-9YQ">
+                            <barButtonItem image="icons8-dropbox-filled-40" id="i5X-8h-9YQ">
                                 <connections>
                                     <action selector="unlinkDropbox:" destination="IAJ-u5-TpM" id="aBh-c0-8dg"/>
                                 </connections>

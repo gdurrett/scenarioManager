@@ -19,7 +19,11 @@ protocol EventAchievementsPickerDelegate: class {
 class PartyDetailViewController: UIViewController {
 
     @IBAction func unlinkDropbox(_ sender: Any) {
-        DropboxClientsManager.unlinkClients()
+        //DropboxClientsManager.unlinkClients()
+        getPlistDate()
+        print("Plist date: \(self.localFileDate!)")
+        getDropboxFileDate()
+        print("Dropbox date: \(self.dropBoxFileDate!)")
     }
     @IBOutlet weak var partyDetailTableView: UITableView!
     
@@ -48,6 +52,10 @@ class PartyDetailViewController: UIViewController {
     var eventAchievementsPickerInputView = UIView()
     var eventAchievementsPickerDummyTextField = UITextField()
     var selectedAchievement: String?
+    
+    // Temporary, most likely
+    var dropBoxFileDate: NSDate?
+    var localFileDate: NSDate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -83,6 +91,9 @@ class PartyDetailViewController: UIViewController {
         partyDetailTableView?.register(PartyDetailAssignedCampaignHeader.nib, forCellReuseIdentifier: PartyDetailAssignedCampaignHeader.identifier)
         
         styleUI()
+        
+        getPlistDate()
+        getDropboxFileDate()
     }
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
@@ -323,6 +334,32 @@ extension PartyDetailViewController: UITableViewDelegate {
             alertView.popoverPresentationController?.sourceView = self.view
 
             present(alertView, animated: true, completion: nil)
+        }
+    }
+    fileprivate func getDropboxFileDate() {
+        if let client = DropboxClientsManager.authorizedClient {
+            client.files.getMetadata(path: "/Campaigns.plist", includeMediaInfo: true).response { response, error in
+                if let result = response as? Files.FileMetadata {
+                    self.dropBoxFileDate = result.clientModified as NSDate
+                }
+            }
+        } else {
+            print("Can't get a client")
+        }
+    }
+    fileprivate func getPlistDate() {
+        let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
+        let url = NSURL(fileURLWithPath: path)
+        let fileManager = FileManager.default
+        let filePath = url.appendingPathComponent("Campaigns.plist")?.path
+        
+        do {
+            let attributes = try fileManager.attributesOfItem(atPath: filePath!)
+            //print(attributes[FileAttributeKey.modificationDate] as! NSDate)
+            self.localFileDate = attributes[FileAttributeKey.modificationDate] as? NSDate
+        }
+        catch let error as NSError {
+            print("There was a problem accessing the plist file: \(error)")
         }
     }
 }
