@@ -1077,7 +1077,7 @@ class DataModel {
                 requirementsMet: false,
                 requirements: ["OR" : true, "The Voice's Command" : true, "The Drake's Command" : true],
                 isUnlocked: false,
-                unlockedBy: ["25"],
+                unlockedBy: ["25", "32"],
                 unlocks: ["None"],
                 achieves: ["The Voice's Treasure", "The Drake's Treasure"],
                 rewards: [NSAttributedString(string: "None")],
@@ -1462,7 +1462,7 @@ class DataModel {
                 summary: "Goal: Place the fully-charged Staff of Xorn on the altar.\n\nThe ethereal warden in the Crypt Basement prepared the staff for you, and told you to bring it to the Palace of Ice. Your job is to charge it and lay it upon the altar.",
                 locationString: "D-8, Copperneck mountains",
                 linksTo: ["None"],
-                isManuallyUnlockable: false
+                isManuallyUnlockable: true
             )
             allScenarios.append(row53Scenario)
             

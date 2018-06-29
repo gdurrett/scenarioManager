@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="E4s-lW-bdS">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="E4s-lW-bdS">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -646,19 +646,12 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="gG0-ah-gf6">
-                        <leftBarButtonItems>
-                            <barButtonItem image="icons8-Menu-40" id="JyC-cX-WuY">
-                                <color key="tintColor" red="0.24919084820000001" green="0.1929752334" blue="0.1351535955" alpha="1" colorSpace="calibratedRGB"/>
-                                <connections>
-                                    <action selector="selectPartyAction:" destination="IAJ-u5-TpM" id="ZRb-7S-Jd0"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem image="icons8-dropbox-filled-40" id="i5X-8h-9YQ">
-                                <connections>
-                                    <action selector="unlinkDropbox:" destination="IAJ-u5-TpM" id="aBh-c0-8dg"/>
-                                </connections>
-                            </barButtonItem>
-                        </leftBarButtonItems>
+                        <barButtonItem key="leftBarButtonItem" image="icons8-Menu-40" id="JyC-cX-WuY">
+                            <color key="tintColor" red="0.24919084820000001" green="0.1929752334" blue="0.1351535955" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="selectPartyAction:" destination="IAJ-u5-TpM" id="ZRb-7S-Jd0"/>
+                            </connections>
+                        </barButtonItem>
                         <rightBarButtonItems>
                             <barButtonItem systemItem="add" id="btb-bf-4Xz">
                                 <color key="tintColor" red="0.2452870207" green="0.18995208050000001" blue="0.13303627730000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
