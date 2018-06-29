@@ -44,6 +44,10 @@ class CharacterDetailViewModel: NSObject {
     var currentNameCell = UITableViewCell()
     var currentLevelCell = UITableViewCell()
     var textFieldReturningCellType: CharacterDetailViewModelItemType?
+
+    // For swipe to complete goal
+    var myCompletedGoalTitle = String()
+    var currentPartyAchievements: Dynamic<[String:Bool]>
     
     // Calls back to VC to refresh
     var reloadSection: ((_ section: Int) -> Void)?
@@ -65,6 +69,8 @@ class CharacterDetailViewModel: NSObject {
     var activeCharacters: Dynamic<[Character]>
     var retiredCharacters: Dynamic<[Character]>
     
+    var statusIcon = UIImage()
+    
     init(withCharacter character: Character) {
         self.character = character
         self.assignedParty = Dynamic(dataModel.characters[character.name]!.assignedTo!) // "None" is valid assignee
@@ -76,8 +82,10 @@ class CharacterDetailViewModel: NSObject {
         self.retiredCharacters = Dynamic(dataModel.assignedCharacters.filter { $0.isRetired == true })
         //self.retiredCharacters = Dynamic(dataModel.retiredCharacters) // Test 18/03/13
         self.currentParty = Dynamic(dataModel.currentParty.name)
+        self.currentPartyAchievements = Dynamic(dataModel.currentParty.achievements)
         super.init()
         
+        statusIcon = getStatusIcon(goal: character.goal)
         
         // Append character name to items
         let characterNameItem = CharacterDetailViewModelCharacterNameItem(name: character.name, status: characterStatus)
@@ -90,7 +98,7 @@ class CharacterDetailViewModel: NSObject {
         let characterTypeItem = CharacterDetailViewModelCharacterTypeItem(characterType: SeparatedAttributedStrings(rowString: NSMutableAttributedString(string: character.type)))
         items.append(characterTypeItem)
         // Append character goal to items
-        let characterGoalItem = CharacterDetailViewModelCharacterGoalItem(characterGoal: character.goal)
+        let characterGoalItem = CharacterDetailViewModelCharacterGoalItem(characterGoal: character.goal, statusIcon: statusIcon)
         items.append(characterGoalItem)
         // Append assigned party to items
         let assignedParty = CharacterDetailViewModelAssignedPartyItem(partyName: character.assignedTo!)
@@ -130,8 +138,34 @@ class CharacterDetailViewModel: NSObject {
         self.retiredCharacters.value = dataModel.assignedCharacters.filter { $0.isRetired == true && $0.isActive == false}
         //self.retiredCharacters.value = dataModel.retiredCharacters
     }
+    func updatePartyAchievements() {
+        self.currentPartyAchievements.value = dataModel.currentParty.achievements
+    }
     func triggerSave() {
         dataModel.saveCampaignsLocally()
+    }
+    func toggleSection(section: Int) {
+        reloadSection?(section)
+    }
+    func configureGoalSwipeButton(for goal: String) {
+        let myGoal = goal+" personal quest"
+        if currentPartyAchievements.value[myGoal] == false {
+            myCompletedGoalTitle = "Set Completed"
+        } else if currentPartyAchievements.value[myGoal] == true {
+            myCompletedGoalTitle = "Set Uncompleted"
+        } else {
+            myCompletedGoalTitle = "Not Applicable"
+        }
+    }
+    func getStatusIcon(goal: String) -> UIImage {
+        let myGoal = goal+" personal quest"
+        if currentPartyAchievements.value[myGoal] == true {
+            statusIcon = #imageLiteral(resourceName: "scenarioCompletedIcon")
+        } else {
+            //
+            statusIcon = #imageLiteral(resourceName: "scenarioBlankIcon")
+        }
+        return statusIcon
     }
 }
 extension CharacterDetailViewModel: UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, CharacterDetailCharacterLevelCellDelegate {
@@ -164,6 +198,34 @@ extension CharacterDetailViewModel: UITableViewDataSource, UITableViewDelegate, 
         createSectionButton(forSection: section, inHeader: headerView)
         headerView.addSubview(headerTitleLabel)
         return headerView
+    }
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let sectionNumber = indexPath.section
+        var returnValue = [UITableViewRowAction]()
+        let goal = character.goal
+        let myGoal = goal+" personal quest"
+        self.configureGoalSwipeButton(for: goal)
+        if sectionNumber == 3 {
+            let swipeToggleComplete = UITableViewRowAction(style: .normal, title: self.myCompletedGoalTitle) { action, index
+                in
+                if self.myCompletedGoalTitle == "Set Completed" {
+                    self.dataModel.currentParty.achievements[myGoal] = true
+                    self.currentPartyAchievements.value[myGoal] = true
+                    self.toggleSection(section: 3)
+                } else if self.myCompletedGoalTitle == "Set Uncompleted" {
+                    self.dataModel.currentParty.achievements[myGoal] = false
+                    self.currentPartyAchievements.value[myGoal] = false
+                    self.toggleSection(section: 3)
+                }
+                self.updatePartyAchievements()
+                self.dataModel.saveCampaignsLocally()
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "loadParty"), object: nil) // Trigger setRequirementsMetForCurrentParty in Scenario VM
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "updateUnlocks"), object: nil) // Trigger unlock for scenario in question
+            }
+            swipeToggleComplete.backgroundColor = colorDefinitions.scenarioSwipeBGColor
+            returnValue = [swipeToggleComplete]
+        }
+        return returnValue
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let item = self.items[indexPath.section]
@@ -264,6 +326,7 @@ extension CharacterDetailViewModel: UITableViewDataSource, UITableViewDelegate, 
             break
         }
     }
+
     // Called by edit button in Character Name header
     @objc func enableNameTextField(_ sender: UIButton) {
         let myCell = self.currentNameCell as! CharacterDetailCharacterNameCell
@@ -446,9 +509,11 @@ class CharacterDetailViewModelCharacterGoalItem: CharacterDetailViewModelItem {
     }
     
     var characterGoal: String
+    var statusIcon: UIImage
     
-    init(characterGoal: String) {
+    init(characterGoal: String, statusIcon: UIImage) {
         self.characterGoal = characterGoal
+        self.statusIcon = statusIcon
     }
 }
 class CharacterDetailViewModelAssignedPartyItem: CharacterDetailViewModelItem {

@@ -47,6 +47,7 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
         super.init()
         // Listener for when we load a different party
         NotificationCenter.default.addObserver(self, selector: #selector(setRequirementsMetForCurrentParty), name: NSNotification.Name(rawValue: "loadParty"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(toggleUnlocksForPQ), name: NSNotification.Name(rawValue: "updateUnlocks"), object: nil)
     }
     // MARK: Helper functions
     @objc func updateAvailableScenarios(scenario: Scenario, isCompleted: Bool) {
@@ -245,6 +246,27 @@ class ScenarioViewModelFromModel: NSObject, ScenarioViewControllerViewModel {
                 let scenarioToUpdate = getScenario(scenarioNumber: scen)!
                 scenarioToUpdate.isUnlocked = true
                 campaign.value.isUnlocked[Int(scenarioToUpdate.number)! - 1] = true
+            }
+        }
+    }
+    @objc func toggleUnlocksForPQ() {
+        let scenarios = allScenarios.filter { $0.requirements.contains { $0.key.contains("personal quest") } }
+        let aches = party.value.achievements.filter { $0.key.contains("personal quest") }
+        for scenario in scenarios {
+            let requirement = scenario.requirements.first
+            for ach in aches {
+                if ach.key == requirement?.key {
+                    if scenario.requirementsMet == true && scenario.unlockedBy == ["None"] {
+                        scenario.isUnlocked = true
+                        scenario.isAvailable = true
+                        campaign.value.isUnlocked[Int(scenario.number)! - 1] = true
+                        //updateAvailableScenarios()
+                    } else if scenario.requirementsMet == false && scenario.unlockedBy == ["None"] {
+                        scenario.isUnlocked = false
+                        scenario.isAvailable = false
+                        campaign.value.isUnlocked[Int(scenario.number)! - 1] = false
+                    }
+                }
             }
         }
     }

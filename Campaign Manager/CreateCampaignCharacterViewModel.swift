@@ -184,14 +184,14 @@ extension CreateCampaignCharacterViewModel: UITableViewDelegate, UITableViewData
             cell.item = item.characterType
             tableViewCell = cell
         case 3:
-            var item = CharacterDetailViewModelCharacterGoalItem(characterGoal: "None")
+            var item = CharacterDetailViewModelCharacterGoalItem(characterGoal: "None", statusIcon: #imageLiteral(resourceName: "scenarioBlankIcon"))
             let cell = tableView.dequeueReusableCell(withIdentifier: CharacterDetailCharacterGoalCell.identifier, for: indexPath) as! CharacterDetailCharacterGoalCell
             cell.backgroundColor = UIColor.clear
             cell.selectionStyle = .none
             if newCharacter.goal == "" {
-                item = CharacterDetailViewModelCharacterGoalItem(characterGoal: "Tap to select")
+                item = CharacterDetailViewModelCharacterGoalItem(characterGoal: "Tap to select", statusIcon: #imageLiteral(resourceName: "scenarioBlankIcon"))
             } else {
-                item = CharacterDetailViewModelCharacterGoalItem(characterGoal: newCharacter.goal)
+                item = CharacterDetailViewModelCharacterGoalItem(characterGoal: newCharacter.goal, statusIcon: #imageLiteral(resourceName: "scenarioBlankIcon"))
             }
             goalCell = cell
             cell.item = item

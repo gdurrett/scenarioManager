@@ -12,6 +12,8 @@ class CharacterDetailCharacterGoalCell: UITableViewCell {
 
     @IBOutlet weak var characterDetailCharacterGoalLabel: UILabel!
     
+    @IBOutlet weak var characterDetailCharacterGoalStatusImage: UIImageView!
+    
     let colorDefinitions = ColorDefinitions()
     let fontDefinitions = FontDefinitions()
     
@@ -24,6 +26,7 @@ class CharacterDetailCharacterGoalCell: UITableViewCell {
             characterDetailCharacterGoalLabel?.font = fontDefinitions.detailTableViewNonTitleFont
             characterDetailCharacterGoalLabel?.textColor = colorDefinitions.scenarioTitleFontColor
             characterDetailCharacterGoalLabel.text = ("\(item.characterGoal)")
+            characterDetailCharacterGoalStatusImage.image = item.statusIcon
         }
     }
     
